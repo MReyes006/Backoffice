@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes – Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/dashboard.css">
+  
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    /* Opción A: Si usas el atributo disabled en el HTML */
+    .nav-sub-item[disabled] {
+        color: #999 !important;
+        opacity: 0.6;
+        cursor: default !important;    /* ← Cursor normal (flecha), no mano */
+        pointer-events: none !important; /* ← Bloquea clics */
+        text-decoration: none !important;
+    }
+    
+    /* Evitar que el hover cambie el estilo */
+    .nav-sub-item[disabled]:hover {
+        color: #999 !important;
+        text-decoration: none !important;
+    }
+
+    /* Opción B: Si prefieres usar la clase "disabled" (más compatible) */
+    .nav-sub-item.disabled {
+        color: #999 !important;
+        opacity: 0.6;
+        cursor: default !important;
+        pointer-events: none !important;
+        text-decoration: none !important;
+    }
+    .nav-sub-item.disabled:hover {
+        color: #999 !important;
+        text-decoration: none !important;
+    }
+</style>
+
+<script>
+    var brand = AsideNav.getSelectedBrand();
+console.log("Marca actual:", brand);
+</script>
+</head>
+<body>
+
+<!-- ══════════ ASIDE ══════════ -->
+<aside class="aside">
+    <div class="aside-logo">
+        <div class="logo-mark">
+            <img src="img/logo.png" alt="Niche Logo" style="width:180px;max-width:100%;">
+        </div>
+    </div>
+
+    <div class="aside-user">
+        <!-- <div class="user-avatar" id="sidebarAvatar">FS</div> -->
+        <div class="user-name" id="sidebarName">Francis Santana</div>
+        <div class="user-status">
+            <div class="status-dot inactive"></div>
+            <span>Inactive</span>
+        </div>
+        <div class="user-since">Member since: <span id="sidebarDate">Mar 11, 2026</span></div>
+    </div>
+
+    <nav class="aside-nav">
+        <a href="#" class="nav-item-standalone active" onclick="showView('overview',this)">
+               </i> Overview
+            </a>
+        <div class="nav-group open" id="grp-dashboard">
+            <div class="nav-group-header" onclick="toggleGroup('grp-dashboard')">
+                <span class="nav-group-label">Dashboard</span>
+                <i class="fas fa-chevron-down nav-group-arrow"></i>
+            </div>
+            <div class="nav-group-body">
+                <!-- <a href="#" class="nav-sub-item active" onclick="showView('overview',this)">Overview</a> -->
+
+                <!-- Sales group -->
+                <div class="nav-sub-group">
+                    <div class="nav-sub-group-header" onclick="toggleSubGroup('grp-sales')">
+                        <span>Sales</span>
+                        <i class="fas fa-chevron-right nav-sub-arrow" id="arrow-grp-sales"></i>
+                    </div>
+                    <div class="nav-sub-group-body" id="grp-sales" style="display:none;">
+                       <a href="../../page/dashboard/sales-by-country.html" class="nav-sub-sub-item">By Country</a>
+                        <a href="../../page/dashboard/sales-by-state.html" class="nav-sub-sub-item">By State</a>
+                        <a href="../../page/dashboard/sales-by-city.html" class="nav-sub-sub-item">By City</a>
+                        <a href="../../page/dashboard/sales-by-collection.html" class="nav-sub-sub-item">By Collection</a>
+                        <a href="../../page/dashboard/sales-by-store.html" class="nav-sub-sub-item">By Store</a>
+                        <a href="../../page/dashboard/sales-by-perfume.html" class="nav-sub-sub-item">By Product</a>
+                        <a href="../../page/dashboard/sales-by-season.html" class="nav-sub-sub-item">By Season</a>
+                        <a href="./page/brand/brand-socila-netwook.html" class="nav-sub-item" style="margin-left: 5px;">By social network</a>
+                    </div>
+                    <div class="nav-sub-group-header" onclick="toggleSubGroup('grp-brand-reports')">
+                        <span>Brand penetration reports</span>
+                        <i class="fas fa-chevron-right nav-sub-arrow" id="arrow-grp-brand-reports"></i>
+                    </div>
+                    <div class="nav-sub-group-body" id="grp-brand-reports" style="display:none;">
+                            <a href="#"  class="nav-sub-item disabled">Social media reach</a>
+                                <a href="#" class="nav-sub-item disabled">Mentions</a>
+                                <!-- <a href="./page/brand/brand-socila-netwook.html" class="nav-sub-item">By social network</a> -->
+                                <a href="#" class="nav-sub-item disabled">Affiliates promoting it</a>
+                                <a href="#" class="nav-sub-item disabled">Perfume stores carrying their products by type</a>
+                                <a href="#" class="nav-sub-item disabled">Price policy control</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-group" id="grp-orders">
+            <div class="nav-group-header" onclick="toggleGroup('grp-orders')">
+                <span class="nav-group-label">Orders</span>
+                <i class="fas fa-chevron-down nav-group-arrow"></i>
+            </div>
+            <div class="nav-group-body">
+                <div class="nav-sub-group">
+                    <div class="nav-sub-group-header" onclick="toggleSubGroup('grp-view')">
+                        <span>Order by</span>
+                        <i class="fas fa-chevron-right nav-sub-arrow" id="arrow-grp-view"></i>
+                    </div>
+                    <div class="nav-sub-group-body" id="grp-view" style="display:none;">
+                        
+                       <a href="./page/orders/orders-by-collection.html" class="nav-sub-item">Collection</a>
+                        <a href="./page/orders/orders-by-perfumery.html" class="nav-sub-item">Perfume</a>
+                        <a href="./page/orders/orders-by-season.html" class="nav-sub-item">Season</a>
+                    </div>
+                    
+                    <a href="./page/orders/order-history.html" class="nav-sub-item">Order History</a>
+                </div>
+            </div>
+           
+        </div>
+        
+
+        <div class="nav-group" id="grp-brand-assets">
+            <div class="nav-group-header" onclick="toggleGroup('grp-brand-assets')">
+                <span class="nav-group-label">Brand Assets</span>
+                <i class="fas fa-chevron-down nav-group-arrow"></i>
+            </div>
+            <div class="nav-group-body">
+                <a href="/page/brand-assets/brand-asset.html" class="nav-sub-item">Assets</a>
+                 <div class="nav-sub-group">
+                    <div class="nav-sub-group-header" onclick="toggleSubGroup('grp-assets-view')">
+                        <span>Views</span>
+                        <i class="fas fa-chevron-right nav-sub-arrow" id="arrow-grp-assets-view"></i>
+                    </div>
+                    <div class="nav-sub-group-body" id="grp-assets-view" style="display:none;">
+
+                       <a href="./page/brand-Assets/brand-document.html" class="nav-sub-sub-item">Document</a>
+                        <a href="./page/brand-Assets/brand-video.html" class="nav-sub-sub-item">Video</a>
+                        <a href="./page/brand-Assets/brand-images.html" class="nav-sub-sub-item">Images</a>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+
+          <div class="nav-group" id="grp-brand">
+            <div class="nav-group-header" onclick="toggleGroup('grp-brand')">
+                <span class="nav-group-label">Brand</span>
+                <i class="fas fa-chevron-down nav-group-arrow"></i>
+            </div>
+            <div class="nav-group-body">
+              <a href="./page/brand/brand-product.html"  class="nav-sub-item">Products</a>
+              <a href="./page/brand/Legal-documentation.html" class="nav-sub-item">Legal documentation</a>
+              <a href="./page/brand/upcoming.html" class="nav-sub-item">Upcoming</a>
+                       
+            </div>
+         
+        </div>
+
+        <div class="nav-group" id="grp-profile">
+            <div class="nav-group-header" onclick="toggleGroup('grp-profile')">
+                <span class="nav-group-label">Profile</span>
+                <i class="fas fa-chevron-down nav-group-arrow"></i>
+            </div>
+            <div class="nav-group-body">
+                <a href="./page/profile/companyinfo.html" class="nav-sub-item">Company Info</a>
+                <a href="./page/profile/users.html" class="nav-sub-item">Users</a>
+                <a href="#" class="nav-sub-item">Security</a>
+                <a href="./page/profile/paymentmethod.html" class="nav-sub-item">Payment method</a>
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="aside-footer">
+        <a href="#" class="nav-item" onclick="return false;">
+            <div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div>
+            <span class="nav-text">Log out</span>
+        </a>
+        <div style="text-align:center;margin-top:8px;font-size:9px;color:rgba(255,255,255,.15);letter-spacing:.5px;">Niche3DS Partner Portal</div>
+    </div>
+</aside>
+
+<!-- ══════════ MAIN ══════════ -->
+<div class="main-wrap">
+    <header class="topbar">
+        <div class="topbar-title" id="topbarTitle"> <span></span></div>
+        <div class="topbar-actions">
+            <button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+            <button class="topbar-btn" title="Search"><i class="fas fa-search"></i></button>
+            <div class="topbar-avatar">FS</div>
+        </div>
+    </header>
+
+    <main class="content">
+
+        <!-- ══ OVERVIEW ══ -->
+        <div id="view-overview">
+            <div class="welcome-bar">
+                <div>
+                    <h2>Welcome back, <span id="welcomeName">Francis</span></h2>
+                    <p>Member since: <span id="welcomeDate">Mar 11, 2026</span></p>
+                </div>
+            </div>
+
+            <!-- KPI Row 1 -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Total Revenue</div>
+                    <div class="kpi-value">$248,900</div>
+                    <div class="kpi-sub">Year to Date (YTD)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Units Sold</div>
+                    <div class="kpi-value">6,420</div>
+                    <div class="kpi-sub">Year to Date (YTD)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Active States</div>
+                    <div class="kpi-value">18</div>
+                    <div class="kpi-sub">States with registered sales</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Active Perfumery Accounts</div>
+                    <div class="kpi-value">74</div>
+                    <div class="kpi-sub">Retailers purchasing this year</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Best-Selling Product</div>
+                    <div class="kpi-value" style="font-size:1.05rem;line-height:1.3;">Supreme Oudh 100ml</div>
+                    <div class="kpi-sub">Top SKU by units sold</div>
+                </div>
+            </div>
+
+            <!-- KPI Row 2 -->
+            <div class="kpi-grid" style="margin-bottom:18px;">
+                <div class="kpi-card">
+                    <div class="kpi-label">Best-Selling Collection</div>
+                    <div class="kpi-value" style="font-size:1.1rem;">Modern Oudh</div>
+                    <div class="kpi-sub">Highest revenue contribution</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Average Order Value</div>
+                    <div class="kpi-value">$6,550</div>
+                    <div class="kpi-sub">Based on fulfilled orders</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Average Order Quantity</div>
+                    <div class="kpi-value">50</div>
+                    <div class="kpi-sub">units per order</div>
+                </div>
+                <div class="kpi-card"> 
+                    <div class="kpi-label">Repeat Order Rate</div>
+                    <div class="kpi-value">67%</div>
+                    <div class="kpi-sub">Partners who reordered</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Top Performing City</div>
+                    <div style="display:inline-block;background:var(--navy);color:#fff;font-size:8.5px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;">Top Performing City</div>
+                    <div class="kpi-value" style="color:var(--navy);">Miami</div>
+                    <div class="kpi-sub">Highest monthly revenue</div>
+                </div>
+            </div>
+
+            <!-- Executive Snapshot + Quick Insights -->
+            <div class="overview-bottom">
+                <div class="snapshot-card">
+                    <div class="snapshot-header">
+                        <h3>Executive Snapshot</h3>
+                        <span class="snapshot-badge">Updated this month</span>
+                    </div>
+                    <div class="snapshot-grid">
+                        <div class="snapshot-item">
+                            <div class="snap-label">Geographic Footprint</div>
+                            <div class="snap-value">60 Cities</div>
+                            <div class="snap-sub">Sales presence across the current period</div>
+                        </div>
+                        <div class="snapshot-item">
+                            <div class="snap-label">Geographic Footprint</div>
+                            <div class="snap-value">18 States</div>
+                            <div class="snap-sub">Sales presence across the current period.</div>
+                        </div>
+                        <div class="snapshot-item">
+                            <div class="snap-label">Comercial Score</div>
+                            <div class="snap-value" style="font-size:1.2rem;">88</div>
+                            <div class="snap-sub"></div>
+                        </div>
+                        <div class="snapshot-item">
+                            <div class="snap-label">Combined Score</div>
+                            <div class="snap-value" style="font-size:1.2rem;">75</div>
+                            <div class="snap-sub"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insights-card">
+                    <h3>Quick Insights</h3>
+                    <div class="insight-item">Florida is the strongest state by revenue and order count.</div>
+                    <div class="insight-item">Supreme Oudh 100ml is currently the highest-volume SKU.</div>
+                    <div class="insight-item">Modern Oudh leads all collections in total sales contribution.</div>
+                    <div class="insight-item">Repeat orders are strong, indicating healthy brand traction.</div>
+                </div>
+            </div>
+        </div><!-- /view-overview -->
+
+        <!-- ══ COMMISSIONS VIEW ══ -->
+        <div id="view-commissions" style="display:none;">
+            <div class="welcome-bar" style="margin-bottom:16px;">
+                <div><h2>Commissions <span style="color:var(--gold);">/ Summary</span></h2></div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="stat-value" id="pendingAmount">$0.00</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-value" id="approvedAmount">$0.00</div>
+                    <div class="stat-label">Approved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="stat-value" id="paidAmount">$0.00</div>
+                    <div class="stat-label">Paid</div>
+                </div>
+            </div>
+
+            <div class="tabs-container">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="clients" onclick="switchTab('clients')"><i class="fas fa-users" style="margin-right:5px;"></i>Clients</button>
+                    <button class="tab-btn" data-tab="commission" onclick="switchTab('commission')"><i class="fas fa-coins" style="margin-right:5px;"></i>Commissions</button>
+                    <button class="tab-btn" data-tab="payments" onclick="switchTab('payments')"><i class="fas fa-credit-card" style="margin-right:5px;"></i>Payments</button>
+                </div>
+
+                <!-- Clients -->
+                <div id="clients" class="tab-content active">
+                    <div class="filter-container" id="clientFilters">
+                        <button class="filter-btn" data-filter="yearly" onclick="applyFilter('yearly','clients')">Yearly</button>
+                        <button class="filter-btn active" data-filter="lastYear" onclick="applyFilter('lastYear','clients')">Last 13 months</button>
+                        <button class="filter-btn" data-filter="previousMonth" onclick="applyFilter('previousMonth','clients')">Previous Month</button>
+                        <button class="filter-btn" data-filter="currentMonth" onclick="applyFilter('currentMonth','clients')">Current Month</button>
+                    </div>
+                    <div class="section-header">
+                        <div class="section-title"><i class="fas fa-table"></i>Sales by Client Type</div>
+                        <div style="display:flex;align-items:center;gap:9px;">
+                            <span style="font-size:11px;color:var(--text-muted);">View as</span>
+                            <select id="tableViewSelector" onchange="changeTableView()" class="view-selector">
+                                <option value="clients">Number of Clients</option>
+                                <option value="sales">Sales Amount</option>
+                            </select>
+                            <button onclick="exportMonthlyReferralsToPDF()" class="export-btn"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                        </div>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="responsive-table"><thead id="clientTableHead"></thead><tbody id="clientTableBody"></tbody></table>
+                    </div>
+                    <div class="section-header" style="margin-top:22px;">
+                        <div class="section-title"><i class="fas fa-chart-bar"></i>Sales Chart</div>
+                        <div class="chart-filters">
+                            <label><input type="checkbox" id="chartTotal" onchange="updateGroupedChart()" checked><span style="color:var(--gold-light);">Total</span></label>
+                            <label><input type="checkbox" id="chartNewClients" onchange="updateGroupedChart()"><span style="color:var(--purple);">New Clients</span></label>
+                            <label><input type="checkbox" id="chartRecurringClients" onchange="updateGroupedChart()"><span style="color:var(--navy);">Recurring</span></label>
+                        </div>
+                    </div>
+                    <div class="chart-card"><canvas id="clientChart"></canvas></div>
+                </div>
+
+                <!-- Commission -->
+                <div id="commission" class="tab-content">
+                    <div class="filter-container" id="commissionFilters">
+                        <button class="filter-btn" data-filter="yearly" onclick="applyFilter('yearly','commission')">Yearly</button>
+                        <button class="filter-btn active" data-filter="lastYear" onclick="applyFilter('lastYear','commission')">Last 13 months</button>
+                        <button class="filter-btn" data-filter="previousMonth" onclick="applyFilter('previousMonth','commission')">Previous Month</button>
+                        <button class="filter-btn" data-filter="currentMonth" onclick="applyFilter('currentMonth','commission')">Current Month</button>
+                    </div>
+                    <div class="section-header">
+                        <div class="section-title"><i class="fas fa-chart-bar"></i>Commission Chart</div>
+                        <div class="chart-filters">
+                            <label><input type="checkbox" id="chartCommissionTotal" onchange="updateCommissionChart()" checked><span style="color:var(--gold-light);font-size:11px;">Total</span></label>
+                            <label><input type="checkbox" id="chartCommissionApproved" onchange="updateCommissionChart()"><span style="color:var(--navy);font-size:11px;">Approved</span></label>
+                            <label><input type="checkbox" id="chartCommissionPaid" onchange="updateCommissionChart()"><span style="color:#16a34a;font-size:11px;">Paid</span></label>
+                            <label><input type="checkbox" id="chartCommissionCancelled" onchange="updateCommissionChart()"><span style="color:var(--crimson);font-size:11px;">Reversals</span></label>
+                        </div>
+                    </div>
+                    <div class="chart-card"><canvas id="commissionChart"></canvas></div>
+                </div>
+
+                <!-- Payments -->
+                <div id="payments" class="tab-content">
+                    <div class="filter-container" id="paymentHistoryFilters">
+                        <button class="filter-btn" data-filter="yearly" onclick="applyPaymentFilter('yearly')">Yearly</button>
+                        <button class="filter-btn active" data-filter="lastYear" onclick="applyPaymentFilter('lastYear')">Last 13 months</button>
+                    </div>
+                    <div class="section-header">
+                        <div class="section-title"><i class="fas fa-money-check-alt"></i>Payment History</div>
+                        <button onclick="exportPaymentHistoryToPDF()" class="export-btn"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="responsive-table"><thead id="paymentHistoryHead"></thead><tbody id="paymentHistoryBody"></tbody></table>
+                    </div>
+                    <div class="section-header" style="margin-top:22px;">
+                        <div class="section-title"><i class="fas fa-chart-bar"></i>Payment Chart</div>
+                        <div class="chart-filters">
+                            <label><input type="checkbox" id="chartPaymentTotal" onchange="updatePaymentChart()" checked><span style="color:var(--gold-light);font-size:11px;">Total</span></label>
+                            <label><input type="checkbox" id="chartPaymentPaid" onchange="updatePaymentChart()"><span style="color:var(--navy);font-size:11px;">Success Paid</span></label>
+                            <label><input type="checkbox" id="chartPaymentDeclined" onchange="updatePaymentChart()"><span style="color:var(--crimson);font-size:11px;">Declined</span></label>
+                        </div>
+                    </div>
+                    <div class="chart-card"><canvas id="paymentGroupedChart"></canvas></div>
+                </div>
+            </div>
+        </div><!-- /view-commissions -->
+
+        <!-- Placeholder -->
+        <div id="view-placeholder" style="display:none;">
+            <div class="welcome-bar"><div><h2 id="placeholderTitle">Section</h2><p>Content coming soon.</p></div></div>
+            <div class="empty-state" style="background:var(--card-bg);border-radius:var(--radius);border:1px solid var(--border);">
+                <i class="fas fa-tools"></i><p>This section is under construction.</p>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closePaymentModal()">&times;</button>
+        <h2 id="modalTitle" class="modal-title">Paid Commissions</h2>
+        <div class="modal-divider"></div>
+        <div style="overflow-x:auto;">
+            <table class="responsive-table modal-table">
+                <thead><tr>
+                    <th>Date</th><th>Order #</th>
+                    <th class="tooltip-header">Sales<span class="tooltip-badge"><i class="fas fa-info-circle"></i></span></th>
+                    <th>Commission Rate</th><th>Commission</th><th>Status</th>
+                </tr></thead>
+                <tbody id="modalTableBody"></tbody>
+                <tfoot><tr class="modal-total-row">
+                    <td><strong>TOTAL</strong></td><td></td>
+                    <td id="modalTotalSales"><strong>$0.00</strong></td><td></td>
+                    <td id="modalTotalCommission"><strong>$0.00</strong></td><td></td>
+                </tr></tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function toggleSubGroup(id) {
+    var body = document.getElementById(id);
+    var arrow = document.getElementById('arrow-' + id);
+    var isOpen = body.style.display !== 'none';
+
+    // Solo cerrar si no tiene item activo dentro
+    if (isOpen && !body.querySelector('.active')) {
+        body.style.display = 'none';
+        if (arrow) arrow.classList.remove('open');
+    } else {
+        body.style.display = 'block';
+        if (arrow) arrow.classList.add('open');
+    }
+}
+    /* Accordion */
+  // REEMPLAZA toggleGroup:
+function toggleGroup(id) {
+    var grp = document.getElementById(id);
+    var wasOpen = grp.classList.contains('open');
+
+    // Cerrar otros grupos solo si no tienen item activo
+    document.querySelectorAll('.nav-group').forEach(function(g) {
+        if (g.id !== id && !g.querySelector('.active')) {
+            g.classList.remove('open');
+        }
+    });
+
+    // Toggle el grupo clickeado
+    if (wasOpen && !grp.querySelector('.active')) {
+        grp.classList.remove('open');
+    } else {
+        grp.classList.add('open');
+    }
+}
+
+    /* View router */
+    const VIEWS = {
+        overview:          { el:'view-overview',    title:'Dashboard <span>/ Overview</span>' },
+        salesByPerfumery:  { el:'view-placeholder', title:'Dashboard <span>/ Sales by Perfumery</span>',  ph:'Sales by Perfumery' },
+        salesByState:      { el:'view-placeholder', title:'Dashboard <span>/ Sales by State</span>',      ph:'Sales by State' },
+        salesByCity:       { el:'view-placeholder', title:'Dashboard <span>/ Sales by City</span>',       ph:'Sales by City' },
+        salesByCollection: { el:'view-placeholder', title:'Dashboard <span>/ Sales by Collection</span>', ph:'Sales by Collection' },
+        salesByMonth:      { el:'view-placeholder', title:'Dashboard <span>/ Sales by Month</span>',      ph:'Sales by Month' },
+        commissions:       { el:'view-commissions', title:'Dashboard <span>/ Clients</span>' },
+    };
+
+   // REEMPLAZA la función showView completa:
+function showView(key, linkEl) {
+    // Quitar active de todos
+    document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone')
+        .forEach(function(i) { i.classList.remove('active'); });
+
+    // Poner active en el clickeado
+    if (linkEl) {
+        linkEl.classList.add('active');
+
+        // Mantener abierto el nav-group padre
+        var grp = linkEl.closest('.nav-group');
+        if (grp) grp.classList.add('open');
+
+        // Mantener abierto el nav-sub-group padre
+        var subBody = linkEl.closest('.nav-sub-group-body');
+        if (subBody) {
+            subBody.style.display = 'block';
+            var header = subBody.previousElementSibling;
+            if (header) {
+                var arrow = header.querySelector('.nav-sub-arrow');
+                if (arrow) arrow.classList.add('open');
+            }
+        }
+    }
+
+    const v = VIEWS[key] || VIEWS.overview;
+    ['view-overview','view-commissions','view-placeholder'].forEach(function(id) {
+        document.getElementById(id).style.display = 'none';
+    });
+    document.getElementById(v.el).style.display = 'block';
+    document.getElementById('topbarTitle').innerHTML = v.title;
+    if (v.ph) document.getElementById('placeholderTitle').textContent = v.ph;
+    return false;
+}
+    /* Tabs */
+    const TAB_TITLES = {
+        clients:    'Dashboard <span>/ Clients</span>',
+        commission: 'Dashboard <span>/ Commissions</span>',
+        payments:   'Dashboard <span>/ Payments</span>',
+    };
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === tab));
+        const title = TAB_TITLES[tab];
+        if (title) document.getElementById('topbarTitle').innerHTML = title;
+    }
+    function applyFilter(f, section) {
+        const id = section === 'commission' ? 'commissionFilters' : 'clientFilters';
+        document.getElementById(id)?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    }
+    function applyPaymentFilter(f) {
+        document.getElementById('paymentHistoryFilters')?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    }
+    function changeTableView() {}
+    function exportMonthlyReferralsToPDF() { alert('Connect js/dashboard.js'); }
+    function exportPaymentHistoryToPDF()   { alert('Connect js/dashboard.js'); }
+    function updateGroupedChart()    {}
+    function updateCommissionChart() {}
+    function updatePaymentChart()    {}
+    function closePaymentModal(e) {
+        if (!e || e.target === document.getElementById('paymentDetailModal'))
+            document.getElementById('paymentDetailModal').classList.remove('active');
+    }
+</script>
+
+<!-- <script src="js/api.js"></script> -->
+<!-- <script src="js/dashboard.js"></script> -->
+
+</body>
+</html>

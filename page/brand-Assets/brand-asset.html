@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes – Brand Assets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+<style>
+:root{
+  --gold:rgb(171,160,110);
+  --gold-dark:rgb(141,130,80);
+  --gold-light:rgba(171,160,110,0.12);
+  --gold-border:rgba(171,160,110,0.3);
+}
+
+nav-group-label {
+    flex: 1;
+    font-size: 17px !important;
+    font-weight: 600;
+   
+}
+
+/* ── PAGE HEADER ── */
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.page-title-section h2{font-size:1.4rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.page-title-section h2 i{color:var(--gold);}
+.page-title-section p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+.btn-add{display:flex;align-items:center;gap:8px;padding:10px 22px;background:var(--gold);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;box-shadow:0 2px 8px rgba(171,160,110,.35);}
+.btn-add:hover{background:var(--gold-dark);transform:translateY(-1px);}
+
+/* ── FILTERS ── */
+.filters-bar{display:flex;gap:10px;align-items:center;margin-bottom:20px;flex-wrap:wrap;}
+.filter-select{padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:13px;color:var(--text);cursor:pointer;outline:none;transition:border-color .2s;}
+.filter-select:focus{border-color:var(--gold);}
+.search-input{padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:#fff;font-size:13px;color:var(--text);outline:none;min-width:220px;transition:border-color .2s;}
+.search-input:focus{border-color:var(--gold);}
+.search-input::placeholder{color:var(--text-muted);}
+
+/* ── TABLE ── */
+.table-card{background:var(--card-bg);border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.07);overflow:hidden;border:1px solid var(--border);}
+.table-card-header{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.table-card-header-left{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--text);}
+.table-card-header-left i{color:var(--gold);}
+.assets-count{font-size:12px;color:var(--text-muted);background:#f5f5f5;padding:3px 10px;border-radius:20px;}
+.assets-table{width:100%;border-collapse:collapse;}
+.assets-table thead th{background:var(--gold);color:#fff;padding:12px 16px;text-align:left;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;}
+.assets-table tbody td{padding:13px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);vertical-align:middle;}
+.assets-table tbody tr:last-child td{border-bottom:none;}
+.assets-table tbody tr:hover{background:#fafafa;}
+
+/* Badges */
+.type-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.type-video{background:#e8f0fe;color:#1a73e8;}
+.type-pdf{background:#fce8e8;color:#d93025;}
+.type-image{background:#e6f4ea;color:#1e8e3e;}
+.for-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;background:var(--gold-light);color:var(--gold);margin:2px;}
+.status-active{color:#1e8e3e;font-weight:600;font-size:12px;}
+.status-inactive{color:#d93025;font-weight:600;font-size:12px;}
+.status-pending{color:#f9ab00;font-weight:600;font-size:12px;}
+
+/* Action buttons */
+.action-btns{display:flex;gap:6px;align-items:center;}
+.action-btn{width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .18s;}
+.btn-view{background:#e8f0fe;color:#1a73e8;}
+.btn-view:hover{background:#1a73e8;color:#fff;}
+.btn-download{background:#e6f4ea;color:#1e8e3e;}
+.btn-download:hover{background:#1e8e3e;color:#fff;}
+.btn-edit{background:var(--gold-light);color:var(--gold);}
+.btn-edit:hover{background:var(--gold);color:#fff;}
+.btn-delete-row{background:#fce8e8;color:#d93025;}
+.btn-delete-row:hover{background:#d93025;color:#fff;}
+
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted);}
+.empty-state i{font-size:48px;color:#ddd;margin-bottom:16px;display:block;}
+.empty-state p{font-size:14px;}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.modal-sm{max-width:420px;}
+.modal-header{background:var(--gold);color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;}
+.modal-header h3{font-size:15px;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;}
+.modal-close{width:32px;height:32px;border:none;background:rgba(255,255,255,.2);border-radius:50%;color:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.modal-close:hover{background:rgba(255,255,255,.35);}
+.modal-body{padding:24px;overflow-y:auto;flex:1;}
+.modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
+
+/* Form */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;}
+.form-input,.form-select,.form-textarea{padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);outline:none;transition:border-color .2s;font-family:inherit;background:#fff;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
+.form-textarea{resize:vertical;min-height:72px;}
+
+/* File upload */
+.file-upload-area{border:2px dashed var(--gold-border);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--gold-light);}
+.file-upload-area:hover{border-color:var(--gold);background:rgba(171,160,110,.18);}
+.file-upload-area i{font-size:26px;color:var(--gold);margin-bottom:6px;display:block;}
+.file-upload-area p{font-size:12px;color:var(--text-muted);margin:0 0 4px;}
+.file-upload-area .file-name-display{font-size:12px;color:var(--gold);font-weight:600;word-break:break-all;}
+.file-upload-area.has-file{border-color:var(--gold);background:rgba(171,160,110,.15);}
+.file-upload-area.has-file i{color:var(--gold-dark);}
+
+.checkbox-group{display:flex;flex-wrap:wrap;gap:10px;}
+.checkbox-item{display:flex;align-items:center;gap:6px;cursor:pointer;}
+.checkbox-item input{accent-color:var(--gold);width:14px;height:14px;cursor:pointer;}
+.checkbox-item label{font-size:13px;color:var(--text);cursor:pointer;}
+
+.btn-cancel{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-muted);transition:all .2s;}
+.btn-cancel:hover{border-color:var(--gold);color:var(--gold);}
+.btn-save{padding:9px 22px;background:var(--gold);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;}
+.btn-save:hover{background:var(--gold-dark);}
+.btn-delete-confirm{padding:9px 22px;background:#d93025;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;}
+.btn-delete-confirm:hover{background:#b71c1c;}
+
+/* View modal */
+.view-asset-icon{font-size:52px;text-align:center;margin-bottom:14px;display:block;}
+.view-asset-name{font-size:18px;font-weight:700;text-align:center;margin-bottom:6px;}
+.view-asset-desc{font-size:13px;color:var(--text-muted);text-align:center;margin-bottom:20px;}
+.view-meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.meta-item{background:#f9f9f9;border-radius:8px;padding:11px 14px;}
+.meta-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+.meta-value{font-size:13px;font-weight:600;color:var(--text);}
+.meta-full{grid-column:1/-1;}
+
+/* Confirm delete */
+.confirm-icon{font-size:44px;color:#d93025;text-align:center;margin-bottom:12px;display:block;}
+.confirm-text{text-align:center;font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.confirm-sub{text-align:center;font-size:12px;color:var(--text-muted);}
+.modal-header-danger{background:#d93025 !important;}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;right:28px;z-index:2000;background:#1E2227;color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.25);transform:translateY(80px);opacity:0;transition:all .3s ease;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast i{color:var(--gold);}
+</style>
+<script src="../../js/aside.js"></script>
+
+<script>
+   // ── Escucha el cambio de marca ────────────────────────────────
+                document.addEventListener('niche3ds:brandChanged', function(e) {
+                const brand = e.detail.brand;
+                document.getElementById('brandTitle').textContent = brand;
+                localStorage.setItem('selectedBrand', brand);
+                applyImgBrand(brand);
+                });
+
+                // ── Función principal ─────────────────────────────────────────
+                    // function applyImgBrand(brand) {
+                    // if (BRAND_IMG_ITEMS[brand]) {
+                    //     imgItems = BRAND_IMG_ITEMS[brand];
+                    //     imgRender(); // ← nombre correcto
+                    // }
+                    // }
+
+                    // ── Un solo DOMContentLoaded ──────────────────────────────────
+                    document.addEventListener('DOMContentLoaded', function() {
+                    const savedBrand = localStorage.getItem('selectedBrand');
+                    if (savedBrand) {
+                        document.getElementById('brandTitle').textContent = savedBrand;
+                        applyImgBrand(savedBrand);
+                    } else {
+                        imgItems = BRAND_IMG_ITEMS['Parfum De Mahzen'];
+                        imgRender(); // ← nombre correcto
+                    }
+                    });
+</script>
+
+</head>
+<body>
+
+<!-- ══════════ ASIDE ══════════ -->
+<!-- ASIDE -->
+<div id="aside-root"></div>
+
+<!-- ══════════ MAIN ══════════ -->
+<div class="main-wrap">
+    <header class="topbar">
+        <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+        <div class="topbar-actions">
+            <button class="topbar-btn"><i class="fas fa-bell"></i></button>
+            <button class="topbar-btn"><i class="fas fa-search"></i></button>
+            <div class="topbar-avatar">FS</div>
+        </div>
+    </header>
+
+    <main class="content">
+
+        <div class="page-header">
+            <div class="page-title-section">
+                <h2><i class="fas fa-folder-open"></i> Brand Assets</h2>
+                <p>Manage and share brand files with your partners</p>
+            </div>
+            <button class="btn-add" onclick="openAddModal()">
+                <i class="fas fa-plus"></i> Add Asset
+            </button>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search by file name..." oninput="renderTable()">
+            <select class="filter-select" id="filterType" onchange="renderTable()">
+                <option value="">All Types</option>
+                <option value="Video">Video</option>
+                <option value="Pdf">PDF</option>
+                <option value="Image">Image</option>
+            </select>
+            <select class="filter-select" id="filterFor" onchange="renderTable()">
+                <option value="">All Categories</option>
+                <option value="Brand">Brand</option>
+                <option value="Product">Product</option>
+                <option value="Collection">Collection</option>
+                <option value="Perfumer histories">Perfumer histories</option>
+                <option value="Notes">Notes</option>
+                <option value="Ingredients">Ingredients</option>
+            </select>
+            <select class="filter-select" id="filterStatus" onchange="renderTable()">
+                <option value="">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="Pending">Pending</option>
+            </select>
+        </div>
+
+        <!-- Table -->
+        <div class="table-card">
+            <div class="table-card-header">
+                <div class="table-card-header-left">
+                    <i class="fas fa-history"></i> Assets History
+                    <span class="assets-count" id="assetsCount">0 assets</span>
+                </div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="assets-table">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>For</th>
+                            <th>Value / URL</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assetsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- ══ ADD / EDIT MODAL ══ -->
+<div class="modal-overlay" id="formModal" onclick="closeFormModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3 id="formModalTitle"><i class="fas fa-plus-circle"></i> Add New Asset</h3>
+            <button class="modal-close" onclick="closeFormModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-grid">
+
+                <!-- FILE UPLOAD (replaces File Name input) -->
+                <div class="form-group full">
+                    <label class="form-label">Upload File *</label>
+                    <div class="file-upload-area" id="mainUploadArea" onclick="document.getElementById('mainFileInput').click()">
+                        <i class="fas fa-cloud-upload-alt" id="uploadIcon"></i>
+                        <p id="uploadPrompt">Click to upload or drag and drop</p>
+                        <span class="file-name-display" id="mainFileSelectedName">No file selected</span>
+                    </div>
+                    <input type="file" id="mainFileInput" style="display:none;" onchange="handleMainFileSelect(this)">
+                </div>
+
+                <!-- DISPLAY NAME (auto-filled from file, editable) -->
+                <div class="form-group full">
+                    <label class="form-label">Display Name *</label>
+                    <input type="text" class="form-input" id="fieldName" placeholder="e.g. Brand Video 2026">
+                </div>
+
+                <div class="form-group full">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-textarea" id="fieldDesc" placeholder="Brief description of this asset..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Type *</label>
+                    <select class="form-select" id="fieldType">
+                        <option value="">Select type...</option>
+                        <option value="Video">Video</option>
+                        <option value="Pdf">PDF</option>
+                        <option value="Image">Image</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="fieldStatus">
+                        <option value="Active">Active</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-group full">
+                    <label class="form-label">For (select all that apply)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" id="forBrand" value="Brand"><label for="forBrand">Brand</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="forProduct" value="Product"><label for="forProduct">Product</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="forCollection" value="Collection"><label for="forCollection">Collection</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="forHistories" value="Perfumer histories"><label for="forHistories">Perfumer histories</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="forNotes" value="Notes"><label for="forNotes">Notes</label></div>
+                        <div class="checkbox-item"><input type="checkbox" id="forIngredients" value="Ingredients"><label for="forIngredients">Ingredients</label></div>
+                    </div>
+                </div>
+
+                <div class="form-group full">
+                    <label class="form-label">URL / Link (optional)</label>
+                    <input type="text" class="form-input" id="fieldUrl" placeholder="https://... (leave empty if uploading a file)">
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeFormModal()">Cancel</button>
+            <button class="btn-save" onclick="saveAsset()"><i class="fas fa-save" style="margin-right:6px;"></i>Save Asset</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ VIEW MODAL ══ -->
+<div class="modal-overlay" id="viewModal" onclick="closeViewModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3><i class="fas fa-eye"></i> Asset Details</h3>
+            <button class="modal-close" onclick="closeViewModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="view-asset-icon" id="viewIcon"></div>
+            <div class="view-asset-name" id="viewName"></div>
+            <div class="view-asset-desc" id="viewDesc"></div>
+            <div class="view-meta-grid" id="viewMeta"></div>
+            <button class="btn-save" onclick="downloadAsset()" style="width:100%;">
+                <i class="fas fa-download" style="margin-right:8px;"></i>Download / Open
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ DELETE CONFIRM MODAL ══ -->
+<div class="modal-overlay" id="deleteModal" onclick="closeDeleteModal(event)">
+    <div class="modal modal-sm" onclick="event.stopPropagation()">
+        <div class="modal-header modal-header-danger">
+            <h3><i class="fas fa-trash-alt"></i> Delete Asset</h3>
+            <button class="modal-close" onclick="closeDeleteModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <i class="fas fa-exclamation-triangle confirm-icon"></i>
+            <p class="confirm-text">Are you sure you want to delete this asset?</p>
+            <p class="confirm-sub" id="deleteAssetName" style="margin-top:6px;font-weight:600;color:var(--text);font-size:13px;"></p>
+            <p class="confirm-sub" style="margin-top:8px;">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+            <button class="btn-delete-confirm" onclick="confirmDelete()"><i class="fas fa-trash-alt" style="margin-right:6px;"></i>Delete</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<script>
+/* ════════ DATA ════════ */
+var assets = [
+  { id:1, name:"Brand Video 2026", fileName:"brand-video-2026.mp4", description:"Official brand presentation video", type:"Video", forCategories:["Brand"], url:"https://example.com/brand-video.mp4", status:"Active", createdAt:"2026-03-01" },
+  { id:2, name:"Product Catalog", fileName:"catalog-2026.pdf", description:"Full product catalog with pricing", type:"Pdf", forCategories:["Product","Collection"], url:"https://example.com/catalog.pdf", status:"Active", createdAt:"2026-02-15" },
+  { id:3, name:"Velvet Amber Campaign", fileName:"velvet-amber.jpg", description:"Campaign images for Velvet Amber", type:"Image", forCategories:["Product","Brand"], url:"https://example.com/velvet-amber.jpg", status:"Pending", createdAt:"2026-03-10" }
+];
+var nextId = 4;
+var editingId = null;
+var deletingId = null;
+var viewingAsset = null;
+var selectedFile = null;
+
+/* ════════ RENDER TABLE ════════ */
+function renderTable() {
+  var tbody = document.getElementById('assetsTableBody');
+  var search = document.getElementById('searchInput').value.toLowerCase();
+  var fType = document.getElementById('filterType').value;
+  var fFor = document.getElementById('filterFor').value;
+  var fStatus = document.getElementById('filterStatus').value;
+
+  var filtered = assets.filter(function(a) {
+    return (a.name.toLowerCase().includes(search) || (a.description||'').toLowerCase().includes(search))
+      && (!fType || a.type === fType)
+      && (!fFor || a.forCategories.includes(fFor))
+      && (!fStatus || a.status === fStatus);
+  });
+
+  document.getElementById('assetsCount').textContent = filtered.length + ' asset' + (filtered.length !== 1 ? 's' : '');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><i class="fas fa-folder-open"></i><p>No assets found. Click "Add Asset" to get started.</p></div></td></tr>';
+    return;
+  }
+
+  var typeIcons = { Video:'fas fa-video', Pdf:'fas fa-file-pdf', Image:'fas fa-image' };
+  var typeClasses = { Video:'type-video', Pdf:'type-pdf', Image:'type-image' };
+  var statusClasses = { Active:'status-active', Inactive:'status-inactive', Pending:'status-pending' };
+  var statusIcons = { Active:'<i class="fas fa-check-circle"></i>', Inactive:'<i class="fas fa-times-circle"></i>', Pending:'<i class="fas fa-clock"></i>' };
+
+  tbody.innerHTML = filtered.map(function(a) {
+    var forBadges = a.forCategories.map(function(f){ return '<span class="for-badge">'+f+'</span>'; }).join('');
+    var displayUrl = a.fileName || (a.url && a.url.length > 30 ? a.url.substring(0,30)+'…' : (a.url||'—'));
+    return '<tr>' +
+      '<td>' +
+        '<div style="display:flex;align-items:center;gap:8px;">' +
+          '<div style="width:32px;height:32px;border-radius:7px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">' +
+            '<i class="'+typeIcons[a.type]+'" style="color:var(--gold);font-size:13px;"></i>' +
+          '</div>' +
+          '<div>' +
+            '<div style="font-weight:600;font-size:13px;">'+a.name+'</div>' +
+            '<div style="font-size:11px;color:var(--text-muted);">'+(a.fileName||'')+'</div>' +
+          '</div>' +
+        '</div>' +
+      '</td>' +
+      '<td style="max-width:150px;color:var(--text-muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+(a.description||'')+'">'+(a.description||'—')+'</td>' +
+      '<td><span class="type-badge '+typeClasses[a.type]+'"><i class="'+typeIcons[a.type]+'"></i> '+a.type+'</span></td>' +
+      '<td>'+forBadges+'</td>' +
+      '<td style="font-size:11px;color:var(--text-muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+(a.url||'')+'">'+displayUrl+'</td>' +
+      '<td><span class="'+statusClasses[a.status]+'">'+statusIcons[a.status]+' '+a.status+'</span></td>' +
+      '<td style="font-size:12px;color:var(--text-muted);white-space:nowrap;">'+formatDate(a.createdAt)+'</td>' +
+      '<td><div class="action-btns">' +
+        '<button class="action-btn btn-view" title="View" onclick="openViewModal('+a.id+')"><i class="fas fa-eye"></i></button>' +
+        '<button class="action-btn btn-download" title="Download" onclick="downloadById('+a.id+')"><i class="fas fa-download"></i></button>' +
+        '<button class="action-btn btn-edit" title="Edit" onclick="openEditModal('+a.id+')"><i class="fas fa-pen"></i></button>' +
+        '<button class="action-btn btn-delete-row" title="Delete" onclick="openDeleteModal('+a.id+')"><i class="fas fa-trash"></i></button>' +
+      '</div></td>' +
+    '</tr>';
+  }).join('');
+}
+
+function formatDate(d) {
+  if (!d) return '—';
+  var p = d.split('-');
+  var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return m[parseInt(p[1])-1]+' '+parseInt(p[2])+', '+p[0];
+}
+
+/* ════════ FILE UPLOAD HANDLER ════════ */
+function handleMainFileSelect(input) {
+  if (!input.files || !input.files[0]) return;
+  selectedFile = input.files[0];
+  var fileName = selectedFile.name;
+
+  // Update upload area UI
+  var area = document.getElementById('mainUploadArea');
+  area.classList.add('has-file');
+  document.getElementById('uploadIcon').className = 'fas fa-check-circle';
+  document.getElementById('uploadPrompt').textContent = 'File selected — click to change';
+  document.getElementById('mainFileSelectedName').textContent = fileName;
+
+  // Auto-fill Display Name (without extension)
+  var nameWithoutExt = fileName.replace(/\.[^/.]+$/, '').replace(/[-_]/g,' ');
+  document.getElementById('fieldName').value = nameWithoutExt;
+
+  // Auto-detect Type from extension
+  var ext = fileName.split('.').pop().toLowerCase();
+  var typeSelect = document.getElementById('fieldType');
+  if (['mp4','mov','avi','webm','mkv'].includes(ext)) {
+    typeSelect.value = 'Video';
+  } else if (ext === 'pdf') {
+    typeSelect.value = 'Pdf';
+  } else if (['jpg','jpeg','png','gif','webp','svg','bmp'].includes(ext)) {
+    typeSelect.value = 'Image';
+  }
+}
+
+/* ════════ FORM MODAL ════════ */
+function openAddModal() {
+  editingId = null;
+  selectedFile = null;
+  document.getElementById('formModalTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add New Asset';
+  clearForm();
+  openModal('formModal');
+}
+
+function openEditModal(id) {
+  editingId = id;
+  selectedFile = null;
+  var a = assets.find(function(x){ return x.id===id; });
+  if (!a) return;
+
+  document.getElementById('formModalTitle').innerHTML = '<i class="fas fa-pen"></i> Edit Asset';
+
+  // Restore upload area to show existing file name
+  var area = document.getElementById('mainUploadArea');
+  if (a.fileName) {
+    area.classList.add('has-file');
+    document.getElementById('uploadIcon').className = 'fas fa-check-circle';
+    document.getElementById('uploadPrompt').textContent = 'File attached — click to replace';
+    document.getElementById('mainFileSelectedName').textContent = a.fileName;
+  } else {
+    resetUploadArea();
+  }
+
+  document.getElementById('fieldName').value = a.name;
+  document.getElementById('fieldDesc').value = a.description||'';
+  document.getElementById('fieldType').value = a.type;
+  document.getElementById('fieldStatus').value = a.status;
+  document.getElementById('fieldUrl').value = a.url||'';
+
+  var map = {'Brand':'forBrand','Product':'forProduct','Collection':'forCollection','Perfumer histories':'forHistories','Notes':'forNotes','Ingredients':'forIngredients'};
+  Object.keys(map).forEach(function(k){
+    var el = document.getElementById(map[k]);
+    if (el) el.checked = a.forCategories.includes(k);
+  });
+
+  openModal('formModal');
+}
+
+function closeFormModal(e) {
+  if (e && e.target !== document.getElementById('formModal')) return;
+  closeModal('formModal');
+}
+
+function clearForm() {
+  resetUploadArea();
+  document.getElementById('mainFileInput').value = '';
+  document.getElementById('fieldName').value = '';
+  document.getElementById('fieldDesc').value = '';
+  document.getElementById('fieldType').value = '';
+  document.getElementById('fieldStatus').value = 'Active';
+  document.getElementById('fieldUrl').value = '';
+  ['forBrand','forProduct','forCollection','forHistories','forNotes','forIngredients'].forEach(function(id){
+    document.getElementById(id).checked = false;
+  });
+}
+
+function resetUploadArea() {
+  var area = document.getElementById('mainUploadArea');
+  area.classList.remove('has-file');
+  document.getElementById('uploadIcon').className = 'fas fa-cloud-upload-alt';
+  document.getElementById('uploadPrompt').textContent = 'Click to upload or drag and drop';
+  document.getElementById('mainFileSelectedName').textContent = 'No file selected';
+}
+
+function saveAsset() {
+  var name = document.getElementById('fieldName').value.trim();
+  var type = document.getElementById('fieldType').value;
+
+  // On add, require either a file or a name
+  if (!name) { showToast('Please enter a display name.', true); return; }
+  if (!type) { showToast('Please select a type.', true); return; }
+
+  var forCats = ['forBrand','forProduct','forCollection','forHistories','forNotes','forIngredients']
+    .map(function(id){ var el=document.getElementById(id); return el&&el.checked?el.value:null; })
+    .filter(Boolean);
+
+  var asset = {
+    name: name,
+    fileName: selectedFile ? selectedFile.name : (editingId ? (assets.find(function(x){return x.id===editingId;})||{}).fileName || '' : ''),
+    description: document.getElementById('fieldDesc').value.trim(),
+    type: type,
+    forCategories: forCats.length ? forCats : ['Brand'],
+    url: document.getElementById('fieldUrl').value.trim() || (selectedFile ? URL.createObjectURL(selectedFile) : '#'),
+    status: document.getElementById('fieldStatus').value,
+    createdAt: new Date().toISOString().split('T')[0]
+  };
+
+  if (editingId) {
+    var idx = assets.findIndex(function(x){ return x.id===editingId; });
+    if (idx > -1) { asset.id = editingId; asset.createdAt = assets[idx].createdAt; assets[idx] = asset; }
+    showToast('Asset updated successfully!');
+  } else {
+    asset.id = nextId++;
+    assets.push(asset);
+    showToast('Asset added successfully!');
+  }
+
+  closeModal('formModal');
+  renderTable();
+}
+
+/* ════════ VIEW MODAL ════════ */
+function openViewModal(id) {
+  viewingAsset = assets.find(function(x){ return x.id===id; });
+  if (!viewingAsset) return;
+  var icons = {Video:'fas fa-video',Pdf:'fas fa-file-pdf',Image:'fas fa-image'};
+  var colors = {Video:'#1a73e8',Pdf:'#d93025',Image:'#1e8e3e'};
+  document.getElementById('viewIcon').innerHTML = '<i class="'+icons[viewingAsset.type]+'" style="font-size:52px;color:'+colors[viewingAsset.type]+'"></i>';
+  document.getElementById('viewName').textContent = viewingAsset.name;
+  document.getElementById('viewDesc').textContent = viewingAsset.description||'No description';
+  document.getElementById('viewMeta').innerHTML =
+    '<div class="meta-item"><div class="meta-label">Type</div><div class="meta-value">'+viewingAsset.type+'</div></div>' +
+    '<div class="meta-item"><div class="meta-label">Status</div><div class="meta-value">'+viewingAsset.status+'</div></div>' +
+    '<div class="meta-item"><div class="meta-label">For</div><div class="meta-value">'+viewingAsset.forCategories.join(', ')+'</div></div>' +
+    '<div class="meta-item"><div class="meta-label">Created</div><div class="meta-value">'+formatDate(viewingAsset.createdAt)+'</div></div>' +
+    (viewingAsset.fileName ? '<div class="meta-item meta-full"><div class="meta-label">File Name</div><div class="meta-value" style="font-size:12px;">'+viewingAsset.fileName+'</div></div>' : '') +
+    '<div class="meta-item meta-full"><div class="meta-label">URL / File</div><div class="meta-value" style="word-break:break-all;font-size:12px;">'+viewingAsset.url+'</div></div>';
+  openModal('viewModal');
+}
+
+function closeViewModal(e) {
+  if (e && e.target !== document.getElementById('viewModal')) return;
+  closeModal('viewModal');
+}
+
+function downloadAsset() {
+  if (viewingAsset && viewingAsset.url && viewingAsset.url !== '#') window.open(viewingAsset.url,'_blank');
+  else showToast('No file available for download.');
+}
+
+function downloadById(id) {
+  var a = assets.find(function(x){ return x.id===id; });
+  if (a && a.url && a.url !== '#') window.open(a.url,'_blank');
+  else showToast('No file available for download.');
+}
+
+/* ════════ DELETE MODAL ════════ */
+function openDeleteModal(id) {
+  deletingId = id;
+  var a = assets.find(function(x){ return x.id===id; });
+  document.getElementById('deleteAssetName').textContent = a ? '"'+a.name+'"' : '';
+  openModal('deleteModal');
+}
+
+function closeDeleteModal(e) {
+  if (e && e.target !== document.getElementById('deleteModal')) return;
+  closeModal('deleteModal');
+  deletingId = null;
+}
+
+function confirmDelete() {
+  if (!deletingId) return;
+  assets = assets.filter(function(x){ return x.id!==deletingId; });
+  showToast('Asset deleted successfully!');
+  closeModal('deleteModal');
+  deletingId = null;
+  renderTable();
+}
+
+/* ════════ HELPERS ════════ */
+function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+
+function showToast(msg, isError) {
+  var toast = document.getElementById('toast');
+  var icon = toast.querySelector('i');
+  document.getElementById('toastMsg').textContent = msg;
+  icon.className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+  icon.style.color = isError ? '#ff6b6b' : 'var(--gold)';
+  toast.classList.add('show');
+  setTimeout(function(){ toast.classList.remove('show'); }, 3000);
+}
+
+/* ════════ NAV ════════ */
+function toggleGroup(id) {
+  var grp = document.getElementById(id);
+  var wasOpen = grp.classList.contains('open');
+  document.querySelectorAll('.nav-group').forEach(function(g){
+    if (g.id!==id && !g.querySelector('.active')) g.classList.remove('open');
+  });
+  if (wasOpen && !grp.querySelector('.active')) grp.classList.remove('open');
+  else grp.classList.add('open');
+}
+
+function toggleSubGroup(id) {
+  var body = document.getElementById(id);
+  var arrow = document.getElementById('arrow-'+id);
+  var isOpen = body.style.display !== 'none';
+  if (isOpen && !body.querySelector('.active')) {
+    body.style.display='none';
+    if(arrow) arrow.classList.remove('open');
+  } else {
+    body.style.display='block';
+    if(arrow) arrow.classList.add('open');
+  }
+}
+
+/* ════════ DRAG & DROP ════════ */
+var uploadArea = document.getElementById('mainUploadArea');
+uploadArea.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  uploadArea.style.borderColor = 'var(--gold)';
+  uploadArea.style.background = 'rgba(171,160,110,.2)';
+});
+uploadArea.addEventListener('dragleave', function() {
+  uploadArea.style.borderColor = '';
+  uploadArea.style.background = '';
+});
+uploadArea.addEventListener('drop', function(e) {
+  e.preventDefault();
+  uploadArea.style.borderColor = '';
+  uploadArea.style.background = '';
+  var files = e.dataTransfer.files;
+  if (files && files[0]) {
+    document.getElementById('mainFileInput').files = files;
+    handleMainFileSelect(document.getElementById('mainFileInput'));
+  }
+});
+
+/* ════════ ESC ════════ */
+document.addEventListener('keydown', function(e) {
+  if (e.key==='Escape') ['formModal','viewModal','deleteModal'].forEach(function(id){ closeModal(id); });
+});
+
+/* ════════ INIT ════════ */
+document.addEventListener('DOMContentLoaded', function() {
+  var currentPage = window.location.pathname.split('/').pop();
+  var activeLink = document.querySelector('a[href*="'+currentPage+'"]');
+  if (activeLink) {
+    document.querySelectorAll('.nav-sub-item,.nav-sub-sub-item,.nav-item-standalone').forEach(function(i){ i.classList.remove('active'); });
+    activeLink.classList.add('active');
+    var grp = activeLink.closest('.nav-group');
+    if (grp) grp.classList.add('open');
+    var subBody = activeLink.closest('.nav-sub-group-body');
+    if (subBody) {
+      subBody.style.display = 'block';
+      var arrow = subBody.previousElementSibling && subBody.previousElementSibling.querySelector('.nav-sub-arrow');
+      if (arrow) arrow.classList.add('open');
+    }
+  }
+  renderTable();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Users – Motiv Perfumes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../../css/dashboard.css">
+<style>
+/* ── RESET & BASE ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
+
+/* ── CSS VARIABLES ── */
+:root{
+--gold:rgb(171,160,110);
+--gold-dark:rgb(141,130,80);
+--gold-light:rgba(171,160,110,0.12);
+--sidebar-bg:#1E2227;
+--sidebar-text:rgba(255,255,255,0.75);
+--card-bg:#fff;
+--border:#E8E9E9;
+--text:#1E2227;
+--text-muted:#888;
+--radius:10px;
+--shadow:0 2px 8px rgba(0,0,0,0.07);
+}
+
+/* ── ASIDE ── */
+/* .aside{width:240px;min-height:100vh;background:var(--sidebar-bg);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;}
+.aside-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.07);}
+.aside-logo img{width:140px;max-width:100%;}
+.aside-user{padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.07);}
+.user-name{color:#fff;font-weight:600;font-size:14px;margin-bottom:6px;} */
+.user-status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--sidebar-text);margin-bottom:4px;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#888;}
+.status-dot.active{background:#4CAF50;}
+.status-dot.inactive{background:#888;}
+.user-since{font-size:11px;color:rgba(255,255,255,.35);}
+/* .aside-nav{flex:1;overflow-y:auto;padding:12px 0;} */
+/* .nav-group-header{display:flex;justify-content:space-between;align-items:center;padding:11px 20px;cursor:pointer;color:rgba(255,255,255,.55);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
+.nav-group-header:hover{color:#fff;}
+.nav-group-arrow{font-size:10px;transition:transform .25s;}
+.nav-group.open .nav-group-arrow{transform:rotate(180deg);}
+.nav-group-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.nav-group.open .nav-group-body{max-height:500px;}
+.nav-sub-item,.nav-sub-sub-item{display:flex;align-items:center;gap:10px;padding:10px 20px 10px 50px;color:rgba(255,255,255,.65);font-size:13px;text-decoration:none;transition:all .2s;}
+.nav-sub-item:hover,.nav-sub-sub-item:hover{background:rgba(255,255,255,.05);color:#fff;}
+.nav-sub-item.active,.nav-sub-sub-item.active{background:var(--gold-light);color:var(--gold);border-left:3px solid var(--gold);} */
+/* .nav-sub-group-header{display:flex;justify-content:space-between;align-items:center;padding:10px 50px 10px 50px;cursor:pointer;color:rgba(255,255,255,.5);font-size:12px;transition:color .2s;}
+.nav-sub-group-header:hover{color:#fff;} */
+/* .nav-sub-arrow{font-size:9px;transition:transform .25s;}
+.nav-sub-arrow.open{transform:rotate(90deg);}
+.nav-sub-group-body{display:none;padding-left:20px;} */
+/* .aside-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07);}
+.aside-footer a{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:color .2s;}
+.aside-footer a:hover{color:#fff;} */
+
+/* ── MAIN ── */
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+/* .topbar-title{font-size:15px;font-weight:600;color:var(--text);}
+.topbar-title span{color:var(--text-muted);font-weight:400;} */
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.content{padding:28px;flex:1;}
+
+/* ── WELCOME BAR ── */
+.welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
+.welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+.welcome-bar h2 span{color:var(--gold);}
+.welcome-bar p{color:var(--text-muted);font-size:13px;}
+
+/* ── USERS PAGE STYLES ── */
+/* .users-container{max-width:1400px;margin:0 auto;} */
+
+/* Stats Cards */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;}
+.stat-card{background:var(--card-bg);border-radius:var(--radius);padding:20px 24px;border:1px solid var(--border);display:flex;align-items:center;gap:16px;}
+.stat-icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.stat-icon.blue{background:rgba(52,152,219,0.12);color:#3498db;}
+.stat-icon.green{background:rgba(76,175,80,0.12);color:#4CAF50;}
+.stat-icon.gold{background:var(--gold-light);color:var(--gold);}
+.stat-icon.red{background:rgba(231,76,60,0.12);color:#e74c3c;}
+.stat-info h3{font-size:24px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.stat-info p{font-size:13px;color:var(--text-muted);}
+
+/* Users List */
+.users-section{background:var(--card-bg);border-radius:var(--radius);border:1px solid var(--border);margin-bottom:24px;}
+.section-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.section-title{font-size:16px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.section-title i{color:var(--gold);font-size:18px;}
+.section-actions{display:flex;gap:12px;align-items:center;}
+
+/* Search & Filter */
+.search-box{position:relative;}
+.search-input{width:280px;padding:10px 14px 10px 40px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--text);background:#fff;transition:all .25s;}
+.search-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:14px;}
+.filter-select{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--text);background:#fff;cursor:pointer;min-width:150px;}
+.filter-select:focus{outline:none;border-color:var(--gold);}
+
+/* Add User Button */
+.add-user-btn{background:var(--gold);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .25s;}
+.add-user-btn:hover{background:var(--gold-dark);transform:translateY(-1px);}
+
+/* Users Table */
+.table-responsive{overflow-x:auto;}
+.users-table{width:100%;border-collapse:collapse;}
+.users-table thead th{background:#fafafa;padding:14px 16px;text-align:left;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border);}
+.users-table tbody td{padding:16px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text);}
+.users-table tbody tr:hover{background:#fafafa;}
+.users-table tbody tr:last-child td{border-bottom:none;}
+
+/* User Info Cell */
+.user-info{display:flex;align-items:center;gap:12px;}
+.user-avatar{width:40px;height:40px;border-radius:50%;background:var(--gold-light);color:var(--gold);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.user-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+.user-details{display:flex;flex-direction:column;gap:2px;}
+.user-name-cell{font-weight:600;color:var(--text);}
+.user-email{font-size:13px;color:var(--text-muted);}
+
+/* Role Badge */
+.role-badge{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;display:inline-block;}
+.role-admin{background:rgba(231,76,60,0.12);color:#e74c3c;}
+.role-manager{background:rgba(52,152,219,0.12);color:#3498db;}
+.role-employee{background:var(--gold-light);color:var(--gold);}
+.role-viewer{background:rgba(155,155,155,0.12);color:#888;}
+
+/* Status Badge */
+.status-badge{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;display:inline-block;}
+.status-active{background:rgba(76,175,80,0.12);color:#4CAF50;}
+.status-inactive{background:rgba(155,155,155,0.12);color:#888;}
+.status-pending{background:rgba(241,196,15,0.12);color:#f1c40f;}
+
+/* Password Badge */
+.password-badge{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:6px;}
+.password-set{background:rgba(76,175,80,0.12);color:#4CAF50;}
+.password-not-set{background:rgba(241,196,15,0.12);color:#f1c40f;}
+.password-badge i{font-size:10px;}
+
+/* Action Buttons */
+.action-btns{display:flex;gap:8px;}
+.action-btn{width:32px;height:32px;border:none;background:transparent;cursor:pointer;border-radius:6px;color:var(--text-muted);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.action-btn:hover{background:#f0f0f0;color:var(--text);}
+.action-btn.edit:hover{color:var(--gold);}
+.action-btn.delete:hover{color:#e74c3c;background:rgba(231,76,60,0.1);}
+.action-btn.password:hover{color:#3498db;background:rgba(52,152,219,0.1);}
+
+/* Empty State */
+.empty-state{text-align:center;padding:60px 20px;}
+.empty-state i{font-size:56px;color:#ddd;margin-bottom:16px;display:block;}
+.empty-state h3{font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.empty-state p{color:var(--text-muted);font-size:14px;margin-bottom:20px;}
+
+/* Modal */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(30,34,39,0.6);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px);}
+.modal-overlay.active{display:flex;}
+.modal-container{background:#fff;border-radius:var(--radius);width:90%;max-width:650px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:modalSlideIn .3s ease;}
+@keyframes modalSlideIn{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+.modal-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.modal-header h2{font-size:18px;font-weight:700;color:var(--text);}
+.modal-close{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.modal-close:hover{background:#f0f0f0;color:var(--text);}
+.modal-body{padding:28px;}
+.modal-footer{padding:20px 28px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:12px;}
+
+/* Form Styles */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.form-group{margin-bottom:20px;}
+.form-group.full-width{grid-column:1/-1;}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.form-label .required{color:#e74c3c;margin-left:2px;}
+.form-label .hint{font-size:11px;color:var(--text-muted);font-weight:400;margin-left:4px;}
+.form-control{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--text);background:#fff;transition:all .25s;}
+.form-control:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light);}
+.form-control::placeholder{color:var(--text-muted);}
+select.form-control{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 9L1 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;}
+
+/* Password Input with Toggle */
+.password-wrapper{position:relative;}
+.password-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:13px;padding:4px;}
+.password-toggle:hover{color:var(--gold);}
+
+/* Password Strength */
+.password-strength{margin-top:8px;}
+.strength-bar{height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden;margin-bottom:4px;}
+.strength-fill{height:100%;width:0%;transition:width .3s,background .3s;border-radius:2px;}
+.strength-fill.weak{background:#e74c3c;width:33%;}
+.strength-fill.medium{background:#f1c40f;width:66%;}
+.strength-fill.strong{background:#4CAF50;width:100%;}
+.strength-text{font-size:11px;color:var(--text-muted);}
+
+/* Buttons */
+.btn{padding:11px 24px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .25s;}
+.btn-primary{background:var(--gold);color:#fff;box-shadow:0 2px 4px rgba(171,160,110,0.3);}
+.btn-primary:hover{background:var(--gold-dark);transform:translateY(-1px);box-shadow:0 4px 8px rgba(171,160,110,0.4);}
+.btn-secondary{background:#fff;color:var(--text);border:1px solid var(--border);}
+.btn-secondary:hover{background:#f5f5f5;border-color:var(--text-muted);}
+.btn-danger{background:#e74c3c;color:#fff;}
+.btn-danger:hover{background:#c0392b;}
+
+/* Notification */
+.notification{position:fixed;top:20px;right:20px;background:var(--gold);color:#fff;padding:14px 24px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:9999;font-weight:600;display:none;animation:slideIn .3s ease;}
+.notification.show{display:block;}
+.notification.success{background:#4CAF50;}
+.notification.error{background:#e74c3c;}
+@keyframes slideIn{from{opacity:0;transform:translateX(400px);}to{opacity:1;transform:translateX(0);}}
+
+/* Responsive */
+@media(max-width:968px){
+.form-grid{grid-template-columns:1fr;}
+.search-input{width:200px;}
+}
+@media(max-width:768px){
+.aside{transform:translateX(-100%);}
+.main-wrap{margin-left:0;}
+.content{padding:16px;}
+.modal-container{width:95%;}
+.form-grid{grid-template-columns:1fr;}
+.stats-grid{grid-template-columns:1fr 1fr;}
+.section-header{flex-direction:column;align-items:flex-start;}
+.search-input{width:100%;}
+.users-table thead th:nth-child(5),
+.users-table tbody td:nth-child(5){display:none;}
+}
+</style>
+<script src="../../js/aside.js"></script>
+
+<script>
+
+    document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyScoreBrand(brand);
+});
+
+// ── Al cargar, aplica la marca guardada ───────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  const savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand;
+    applyScoreBrand(savedBrand);
+  } else {
+    perfumeryData = BRAND_PERFUMERY_DATA['Parfum De Mahzen'];
+    renderTable(); // ← verifica el nombre real de tu función
+  }
+});
+</script>
+
+</head>
+<body>
+
+<!-- ASIDE -->
+<div id="aside-root"></div>
+
+<!-- MAIN WRAP -->
+<div class="main-wrap">
+<!-- TOPBAR -->
+<div class="topbar">
+<div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+<div class="topbar-avatar">FS</div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+<div class="welcome-bar">
+<h2>User <span>Management</span></h2>
+<p>Manage team members, assign roles and passwords within your company</p>
+</div>
+
+<div class="users-container">
+<!-- Stats Cards -->
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-icon blue">
+<i class="fas fa-users"></i>
+</div>
+<div class="stat-info">
+<h3 id="totalUsers">0</h3>
+<p>Total Users</p>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon green">
+<i class="fas fa-user-check"></i>
+</div>
+<div class="stat-info">
+<h3 id="activeUsers">0</h3>
+<p>Active</p>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon gold">
+<i class="fas fa-user-shield"></i>
+</div>
+<div class="stat-info">
+<h3 id="adminUsers">0</h3>
+<p>Administrators</p>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon red">
+<i class="fas fa-user-clock"></i>
+</div>
+<div class="stat-info">
+<h3 id="pendingUsers">0</h3>
+<p>Pending</p>
+</div>
+</div>
+</div>
+
+<!-- Users Section -->
+<div class="users-section">
+<div class="section-header">
+<div class="section-title">
+<i class="fas fa-user-friends"></i>
+Team Members
+</div>
+<div class="section-actions">
+<div class="search-box">
+<i class="fas fa-search search-icon"></i>
+<input type="text" class="search-input" id="searchUsers" placeholder="Search users..." onkeyup="filterUsers()">
+</div>
+<select class="filter-select" id="filterRole" onchange="filterUsers()">
+<option value="">All Roles</option>
+<option value="admin">Administrator</option>
+<option value="manager">Manager</option>
+<option value="employee">Employee</option>
+<option value="viewer">Viewer</option>
+</select>
+<select class="filter-select" id="filterStatus" onchange="filterUsers()">
+<option value="">All Status</option>
+<option value="active">Active</option>
+<option value="inactive">Inactive</option>
+<option value="pending">Pending</option>
+</select>
+<button class="add-user-btn" onclick="openModal()">
+<i class="fas fa-user-plus"></i>
+Add User
+</button>
+</div>
+</div>
+
+<div class="table-responsive">
+<table class="users-table">
+<thead>
+<tr>
+<th>User</th>
+<th>Role</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Password</th>
+<th>Status</th>
+<th>Joined</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="usersTableBody">
+<!-- Users will be dynamically inserted here -->
+</tbody>
+</table>
+</div>
+
+<div id="emptyState" class="empty-state" style="display:none;">
+<i class="fas fa-users"></i>
+<h3>No Users Found</h3>
+<p>You haven't added any team members yet. Click "Add User" to get started.</p>
+<button class="add-user-btn" onclick="openModal()">
+<i class="fas fa-user-plus"></i>
+Add User
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="userModal">
+<div class="modal-container">
+<div class="modal-header">
+<h2 id="modalTitle">Add New User</h2>
+<button class="modal-close" onclick="closeModal()">
+<i class="fas fa-times"></i>
+</button>
+</div>
+<div class="modal-body">
+<form id="userForm">
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label">First Name <span class="required">*</span></label>
+<input type="text" class="form-control" id="firstName" required>
+</div>
+<div class="form-group">
+<label class="form-label">Last Name <span class="required">*</span></label>
+<input type="text" class="form-control" id="lastName" required>
+</div>
+<div class="form-group full-width">
+<label class="form-label">Email <span class="required">*</span></label>
+<input type="email" class="form-control" id="email" required>
+</div>
+<div class="form-group">
+<label class="form-label">Phone Number</label>
+<input type="tel" class="form-control" id="phone">
+</div>
+<div class="form-group">
+<label class="form-label">Role <span class="required">*</span></label>
+<select class="form-control" id="role" required>
+<option value="">Select role</option>
+<option value="admin">Administrator</option>
+<option value="manager">Manager</option>
+<option value="employee">Employee</option>
+<option value="viewer">Viewer</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">Status</label>
+<select class="form-control" id="status">
+<option value="active">Active</option>
+<option value="inactive">Inactive</option>
+<option value="pending">Pending</option>
+</select>
+</div>
+<div class="form-group full-width">
+<label class="form-label">Department</label>
+<input type="text" class="form-control" id="department" placeholder="e.g., Sales, Marketing, Operations">
+</div>
+<!-- Password Field - NEW -->
+<div class="form-group">
+<label class="form-label">Password <span class="required">*</span> <span class="hint">(min. 8 characters)</span></label>
+<div class="password-wrapper">
+<input type="password" class="form-control" id="password" placeholder="Enter password" minlength="8" required>
+<button type="button" class="password-toggle" onclick="togglePassword('password')">
+<i class="fas fa-eye"></i>
+</button>
+</div>
+<div class="password-strength">
+<div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+<span class="strength-text" id="strengthText">Password strength</span>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label">Confirm Password <span class="required">*</span></label>
+<div class="password-wrapper">
+<input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password" minlength="8" required>
+<button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+<i class="fas fa-eye"></i>
+</button>
+</div>
+</div>
+<!-- <div class="form-group full-width">
+<label class="form-label">Permissions</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+<label style="display:flex;align-items:center;gap:8px;font-size:13px;">
+<input type="checkbox" id="permDashboard"> Dashboard Access
+</label>
+<label style="display:flex;align-items:center;gap:8px;font-size:13px;">
+<input type="checkbox" id="permOrders"> Orders Management
+</label>
+<label style="display:flex;align-items:center;gap:8px;font-size:13px;">
+<input type="checkbox" id="permReports"> Reports Access
+</label>
+<label style="display:flex;align-items:center;gap:8px;font-size:13px;">
+<input type="checkbox" id="permUsers"> User Management
+</label>
+<label style="display:flex;align-items:center;gap:8px;font-size:13px;">
+<input type="checkbox" id="permSettings"> Settings Access
+</label>
+<label style="display:flex;align-items:center;gap:8px;font-size:13px;">
+<input type="checkbox" id="permBilling"> Billing Access
+</label>
+</div>
+</div> -->
+<div class="form-group full-width">
+<label class="form-label">Notes</label>
+<textarea class="form-control" id="notes" rows="3" placeholder="Additional notes about this user..."></textarea>
+</div>
+</div>
+</form>
+</div>
+<div class="modal-footer">
+<button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+<button class="btn btn-primary" onclick="saveUser()">
+<i class="fas fa-save"></i>
+Save User
+</button>
+</div>
+</div>
+</div>
+
+<!-- Notification -->
+<div class="notification" id="notification"></div>
+
+<script>
+// Sample users data - passwords are stored as hashed in production
+let users = [
+{
+id: 1,
+firstName: 'Francis',
+lastName: 'Santana',
+email: 'frsantana@atlantica.do',
+phone: '84928294447',
+role: 'admin',
+status: 'active',
+department: 'Administration',
+joined: '2026-03-11',
+hasPassword: true,
+permissions: ['dashboard', 'orders', 'reports', 'users', 'settings', 'billing']
+},
+{
+id: 2,
+firstName: 'Maria',
+lastName: 'Rodriguez',
+email: 'maria@motivperfumes.com',
+phone: '8095551234',
+role: 'manager',
+status: 'active',
+department: 'Sales',
+joined: '2026-03-15',
+hasPassword: true,
+permissions: ['dashboard', 'orders', 'reports']
+},
+{
+id: 3,
+firstName: 'Carlos',
+lastName: 'Perez',
+email: 'carlos@motivperfumes.com',
+phone: '8295555678',
+role: 'employee',
+status: 'active',
+department: 'Operations',
+joined: '2026-03-20',
+hasPassword: false,
+permissions: ['dashboard', 'orders']
+},
+{
+id: 4,
+firstName: 'Ana',
+lastName: 'Garcia',
+email: 'ana@motivperfumes.com',
+phone: '8495559012',
+role: 'viewer',
+status: 'pending',
+department: 'Marketing',
+joined: '2026-03-25',
+hasPassword: false,
+permissions: ['dashboard']
+}
+];
+
+let editingId = null;
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function(){
+renderUsers();
+updateStats();
+setupPasswordStrength();
+});
+
+// Toggle Navigation
+function toggleGroup(id){
+const grp = document.getElementById(id);
+const wasOpen = grp.classList.contains('open');
+document.querySelectorAll('.nav-group').forEach(g=>g.classList.remove('open'));
+if(!wasOpen) grp.classList.add('open');
+}
+
+function toggleSubGroup(id){
+const body = document.getElementById(id);
+const arrow = document.getElementById('arrow-'+id);
+const isOpen = body.style.display !== 'none';
+body.style.display = isOpen ? 'none' : 'block';
+arrow.classList.toggle('open',!isOpen);
+}
+
+// Toggle Password Visibility
+function togglePassword(inputId){
+const input = document.getElementById(inputId);
+const icon = input.nextElementSibling.querySelector('i');
+if(input.type === 'password'){
+input.type = 'text';
+icon.classList.remove('fa-eye');
+icon.classList.add('fa-eye-slash');
+}else{
+input.type = 'password';
+icon.classList.remove('fa-eye-slash');
+icon.classList.add('fa-eye');
+}
+}
+
+// Password Strength Calculator
+function setupPasswordStrength(){
+const passwordInput = document.getElementById('password');
+if(passwordInput){
+passwordInput.addEventListener('input', function(){
+const password = this.value;
+const strength = calculatePasswordStrength(password);
+updateStrengthIndicator(strength);
+});
+}
+}
+
+function calculatePasswordStrength(password){
+let strength = 0;
+if(password.length >= 8) strength++;
+if(password.length >= 12) strength++;
+if(/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+if(/\d/.test(password)) strength++;
+if(/[^a-zA-Z0-9]/.test(password)) strength++;
+return Math.min(strength, 5);
+}
+
+function updateStrengthIndicator(strength){
+const fill = document.getElementById('strengthFill');
+const text = document.getElementById('strengthText');
+fill.className = 'strength-fill';
+if(strength <= 2){
+fill.classList.add('weak');
+text.textContent = 'Weak password';
+text.style.color = '#e74c3c';
+}else if(strength <= 4){
+fill.classList.add('medium');
+text.textContent = 'Medium strength';
+text.style.color = '#f1c40f';
+}else{
+fill.classList.add('strong');
+text.textContent = 'Strong password';
+text.style.color = '#4CAF50';
+}
+}
+
+// Get Role Badge Class
+function getRoleClass(role){
+const classes = {
+'admin': 'role-admin',
+'manager': 'role-manager',
+'employee': 'role-employee',
+'viewer': 'role-viewer'
+};
+return classes[role] || 'role-viewer';
+}
+
+// Get Role Label
+function getRoleLabel(role){
+const labels = {
+'admin': 'Administrator',
+'manager': 'Manager',
+'employee': 'Employee',
+'viewer': 'Viewer'
+};
+return labels[role] || role;
+}
+
+// Get Status Badge Class
+function getStatusClass(status){
+const classes = {
+'active': 'status-active',
+'inactive': 'status-inactive',
+'pending': 'status-pending'
+};
+return classes[status] || 'status-inactive';
+}
+
+// Get User Initials
+function getInitials(firstName, lastName){
+return (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+}
+
+// Render Users Table
+function renderUsers(filterText = '', filterRole = '', filterStatus = ''){
+const tbody = document.getElementById('usersTableBody');
+const emptyState = document.getElementById('emptyState');
+
+let filteredUsers = users.filter(user => {
+const matchesText = (user.firstName + ' ' + user.lastName + ' ' + user.email).toLowerCase().includes(filterText.toLowerCase());
+const matchesRole = filterRole ? user.role === filterRole : true;
+const matchesStatus = filterStatus ? user.status === filterStatus : true;
+return matchesText && matchesRole && matchesStatus;
+});
+
+if(filteredUsers.length === 0){
+tbody.innerHTML = '';
+emptyState.style.display = 'block';
+return;
+}
+
+emptyState.style.display = 'none';
+tbody.innerHTML = filteredUsers.map(user => `
+<tr>
+<td>
+<div class="user-info">
+<div class="user-avatar">${getInitials(user.firstName, user.lastName)}</div>
+<div class="user-details">
+<div class="user-name-cell">${user.firstName} ${user.lastName}</div>
+<div class="user-email">${user.department || 'No department'}</div>
+</div>
+</div>
+</td>
+<td>
+<span class="role-badge ${getRoleClass(user.role)}">${getRoleLabel(user.role)}</span>
+</td>
+<td>${user.email}</td>
+<td>${user.phone || '-'}</td>
+<td>
+<span class="password-badge ${user.hasPassword ? 'password-set' : 'password-not-set'}">
+<i class="fas fa-${user.hasPassword ? 'lock' : 'unlock'}"></i>
+${user.hasPassword ? '••••••••' : 'Not set'}
+</span>
+</td>
+<td>
+<span class="status-badge ${getStatusClass(user.status)}">${user.status}</span>
+</td>
+<td>${formatDate(user.joined)}</td>
+<td>
+<div class="action-btns">
+<button class="action-btn edit" onclick="editUser(${user.id})" title="Edit">
+<i class="fas fa-pen"></i>
+</button>
+<button class="action-btn delete" onclick="deleteUser(${user.id})" title="Delete">
+<i class="fas fa-trash"></i>
+</button>
+</div>
+</td>
+</tr>
+`).join('');
+}
+
+// Filter Users
+function filterUsers(){
+const search = document.getElementById('searchUsers').value;
+const role = document.getElementById('filterRole').value;
+const status = document.getElementById('filterStatus').value;
+renderUsers(search, role, status);
+}
+
+// Update Stats
+function updateStats(){
+document.getElementById('totalUsers').textContent = users.length;
+document.getElementById('activeUsers').textContent = users.filter(u => u.status === 'active').length;
+document.getElementById('adminUsers').textContent = users.filter(u => u.role === 'admin').length;
+document.getElementById('pendingUsers').textContent = users.filter(u => u.status === 'pending').length;
+}
+
+// Format Date
+function formatDate(dateStr){
+const date = new Date(dateStr);
+return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// Modal Functions
+function openModal(){
+editingId = null;
+document.getElementById('modalTitle').textContent = 'Add New User';
+document.getElementById('userForm').reset();
+document.getElementById('password').required = true;
+document.getElementById('confirmPassword').required = true;
+document.getElementById('strengthFill').className = 'strength-fill';
+document.getElementById('strengthText').textContent = 'Password strength';
+document.getElementById('userModal').classList.add('active');
+setupPasswordStrength();
+}
+
+function closeModal(){
+document.getElementById('userModal').classList.remove('active');
+editingId = null;
+}
+
+function editUser(id){
+const user = users.find(u => u.id === id);
+if(!user) return;
+
+editingId = id;
+document.getElementById('modalTitle').textContent = 'Edit User';
+document.getElementById('firstName').value = user.firstName;
+document.getElementById('lastName').value = user.lastName;
+document.getElementById('email').value = user.email;
+document.getElementById('phone').value = user.phone || '';
+document.getElementById('role').value = user.role;
+document.getElementById('status').value = user.status;
+document.getElementById('department').value = user.department || '';
+document.getElementById('notes').value = user.notes || '';
+
+// Password fields are optional when editing (leave empty to keep current)
+document.getElementById('password').required = false;
+document.getElementById('confirmPassword').required = false;
+document.getElementById('password').placeholder = 'Leave empty to keep current';
+document.getElementById('confirmPassword').placeholder = 'Leave empty to keep current';
+
+// Set permissions
+document.getElementById('permDashboard').checked = user.permissions.includes('dashboard');
+document.getElementById('permOrders').checked = user.permissions.includes('orders');
+document.getElementById('permReports').checked = user.permissions.includes('reports');
+document.getElementById('permUsers').checked = user.permissions.includes('users');
+document.getElementById('permSettings').checked = user.permissions.includes('settings');
+document.getElementById('permBilling').checked = user.permissions.includes('billing');
+
+document.getElementById('userModal').classList.add('active');
+setupPasswordStrength();
+}
+
+function saveUser(){
+// Validate form
+const form = document.getElementById('userForm');
+if(!form.checkValidity()){
+form.reportValidity();
+return;
+}
+
+// Validate password match if provided
+const password = document.getElementById('password').value;
+const confirmPassword = document.getElementById('confirmPassword').value;
+if(password && password !== confirmPassword){
+showNotification('Passwords do not match', 'error');
+document.getElementById('confirmPassword').focus();
+return;
+}
+
+// Validate password strength for new users or when setting new password
+if((!editingId || password) && password && password.length < 8){
+showNotification('Password must be at least 8 characters', 'error');
+document.getElementById('password').focus();
+return;
+}
+
+// Get form values
+const firstName = document.getElementById('firstName').value.trim();
+const lastName = document.getElementById('lastName').value.trim();
+const email = document.getElementById('email').value.trim();
+const phone = document.getElementById('phone').value.trim();
+const role = document.getElementById('role').value;
+const status = document.getElementById('status').value;
+const department = document.getElementById('department').value.trim();
+const notes = document.getElementById('notes').value.trim();
+
+// Get permissions
+const permissions = [];
+if(document.getElementById('permDashboard').checked) permissions.push('dashboard');
+if(document.getElementById('permOrders').checked) permissions.push('orders');
+if(document.getElementById('permReports').checked) permissions.push('reports');
+if(document.getElementById('permUsers').checked) permissions.push('users');
+if(document.getElementById('permSettings').checked) permissions.push('settings');
+if(document.getElementById('permBilling').checked) permissions.push('billing');
+
+const userData = {
+firstName,
+lastName,
+email,
+phone,
+role,
+status,
+department,
+notes,
+permissions,
+// Only update hasPassword if a new password is provided
+hasPassword: password ? true : (editingId ? users.find(u => u.id === editingId)?.hasPassword : false)
+};
+
+if(editingId){
+// Update existing user
+const index = users.findIndex(u => u.id === editingId);
+if(index > -1){
+users[index] = { ...users[index], ...userData };
+}
+}else{
+// Add new user
+userData.id = Date.now();
+userData.joined = new Date().toISOString().split('T')[0];
+users.push(userData);
+}
+
+renderUsers();
+updateStats();
+closeModal();
+showNotification(editingId ? 'User updated successfully!' : 'User added successfully!', 'success');
+}
+
+// Reset/Change Password Function
+function resetPassword(id){
+const user = users.find(u => u.id === id);
+if(!user) return;
+
+editingId = id;
+document.getElementById('modalTitle').textContent = user.hasPassword ? 'Change Password' : 'Set Password';
+document.getElementById('userForm').reset();
+
+// Pre-fill user info (read-only style)
+document.getElementById('firstName').value = user.firstName;
+document.getElementById('lastName').value = user.lastName;
+document.getElementById('email').value = user.email;
+
+// Disable name/email fields for password change
+['firstName', 'lastName', 'email', 'phone', 'role', 'status', 'department'].forEach(fieldId => {
+document.getElementById(fieldId).disabled = true;
+});
+
+// Password fields required for this action
+document.getElementById('password').required = true;
+document.getElementById('confirmPassword').required = true;
+document.getElementById('password').placeholder = 'Enter new password';
+document.getElementById('confirmPassword').placeholder = 'Confirm new password';
+
+// Clear permissions section visually
+document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+
+document.getElementById('userModal').classList.add('active');
+setupPasswordStrength();
+
+// Re-enable fields on modal close
+const originalClose = closeModal;
+closeModal = function(){
+['firstName', 'lastName', 'email', 'phone', 'role', 'status', 'department'].forEach(fieldId => {
+document.getElementById(fieldId).disabled = false;
+});
+originalClose();
+};
+}
+
+function deleteUser(id){
+const user = users.find(u => u.id === id);
+if(!user) return;
+
+if(confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}? This action cannot be undone.`)){
+users = users.filter(u => u.id !== id);
+renderUsers();
+updateStats();
+showNotification('User deleted successfully', 'success');
+}
+}
+
+// Show Notification
+function showNotification(message, type = 'success'){
+const notification = document.getElementById('notification');
+notification.textContent = message;
+notification.className = 'notification show ' + type;
+
+setTimeout(() => {
+notification.classList.remove('show');
+}, 3000);
+}
+
+// Close modal on outside click
+document.getElementById('userModal').addEventListener('click', function(e){
+if(e.target === this) closeModal();
+});
+</script>
+
+</body>
+</html>

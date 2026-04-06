@@ -1,0 +1,332 @@
+
+
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes – Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/dashboard.css">
+  
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- ══════════ ASIDE ══════════ -->
+<aside class="aside">
+    <div class="aside-logo">
+        <div class="logo-mark">
+            <img src="img/logo.png" alt="Niche Logo" style="width:180px;max-width:100%;">
+        </div>
+    </div>
+
+    <div class="aside-user">
+        <!-- <div class="user-avatar" id="sidebarAvatar">FS</div> -->
+        <div class="user-name" id="sidebarName">Francis Santana</div>
+        <div class="user-status">
+            <div class="status-dot inactive"></div>
+            <span>Inactive</span>
+        </div>
+        <div class="user-since">Member since: <span id="sidebarDate">Mar 11, 2026</span></div>
+    </div>
+
+    <nav class="aside-nav">
+        <a href="#" class="nav-item-standalone active" onclick="showView('overview',this)">
+               </i> Overview
+            </a>
+        <div class="nav-group open" id="grp-dashboard">
+            <div class="nav-group-header" onclick="toggleGroup('grp-dashboard')">
+                <span class="nav-group-label">Dashboard</span>
+                <i class="fas fa-chevron-down nav-group-arrow"></i>
+            </div>
+            <div class="nav-group-body">
+                <!-- <a href="#" class="nav-sub-item active" onclick="showView('overview',this)">Overview</a> -->
+
+                <!-- Sales group -->
+                <div class="nav-sub-group">
+                    <div class="nav-sub-group-header" onclick="toggleSubGroup('grp-sales')">
+                        <span>Sales</span>
+                        <i class="fas fa-chevron-right nav-sub-arrow" id="arrow-grp-sales"></i>
+                    </div>
+                    <div class="nav-sub-group-body" id="grp-sales" style="display:none;">
+                       <a href="../../page/dashboard/sales-by-country.html" class="nav-sub-sub-item">By Country</a>
+                        <a href="../../page/dashboard/sales-by-state.html" class="nav-sub-sub-item">By State</a>
+                        <a href="../../page/dashboard/sales-by-city.html" class="nav-sub-sub-item">By City</a>
+                        <a href="../../page/dashboard/sales-by-collection.html" class="nav-sub-sub-item">By Collection</a>
+                        <a href="../../page/dashboard/sales-by-store.html" class="nav-sub-sub-item">By Store</a>
+                        <a href="../../page/dashboard/sales-by-perfume.html" class="nav-sub-sub-item">By Product</a>
+                        <a href="../../page/dashboard/sales-by-season.html" class="nav-sub-sub-item">By Season</a>
+                        <a href="./page/brand/brand-socila-netwook.html" class="nav-sub-item" style="margin-left: 5px;">By social network</a>
+                    </div>
+                    <div class="nav-sub-group-header" onclick="toggleSubGroup('grp-brand-reports')">
+                        <span>Brand penetration reports</span>
+                        <i class="fas fa-chevron-right nav-sub-arrow" id="arrow-grp-brand-reports"></i>
+                    </div>
+                    <div class="nav-sub-group-body" id="grp-brand-reports" style="display:none;">
+                            <a href="#"  class="nav-sub-item">Social media reach</a>
+                                <a href="#" class="nav-sub-item">Mentions</a>
+                                <!-- <a href="./page/brand/brand-socila-netwook.html" class="nav-sub-item">By social network</a> -->
+                                <a href="pending.html" disabled class="nav-sub-item">Affiliates promoting it</a>
+                                <a href="pending.html" disabled class="nav-sub-item">Perfume stores carrying their products by type</a>
+                                <a href="pending.html" disabled class="nav-sub-item">Price policy control</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-group" id="grp-orders">
+            <div class="nav-group-header" onclick="toggleGroup('grp-orders')">
+                <span class="nav-group-label">Orders</span>
+                <i class="fas fa-chevron-down nav-group-arrow"></i>
+            </div>
+            <div class="nav-group-body">
+                <div class="nav-sub-group">
+                    <div class="nav-sub-group-header" onclick="toggleSubGroup('grp-view')">
+                        <span>Order by</span>
+                        <i class="fas fa-chevron-right nav-sub-arrow" id="arrow-grp-view"></i>
+                    </div>
+                    <div class="nav-sub-group-body" id="grp-view" style="display:none;">
+                        
+                       <a href="./page/orders/orders-by-collection.html" class="nav-sub-item">Collection</a>
+                <a href="./page/orders/orders-by-perfumery.html" class="nav-sub-item">Perfume</a>
+                <a href="./page/orders/orders-by-season.html" class="nav-sub-item">Season</a>
+                    </div>
+                    
+                    <a href="/page/brand-Assets/brand-document.html" class="nav-sub-item">Order History</a>
+                </div>
+            </div>
+           
+        </div>
+        
+
+        <div class="nav-group" id="grp-brand-assets">
+            <div class="nav-group-header" onclick="toggleGroup('grp-brand-assets')">
+                <span class="nav-group-label">Brand Assets</span>
+                <i class="fas fa-chevron-down nav-group-arrow"></i>
+            </div>
+            <div class="nav-group-body">
+                <a href="/page/brand-Assets/brand-document.html" class="nav-sub-item">Assets</a>
+                 <div class="nav-sub-group">
+                    <div class="nav-sub-group-header" onclick="toggleSubGroup('grp-assets-view')">
+                        <span>Views</span>
+                        <i class="fas fa-chevron-right nav-sub-arrow" id="arrow-grp-assets-view"></i>
+                    </div>
+                    <div class="nav-sub-group-body" id="grp-assets-view" style="display:none;">
+
+                       <a href="#" class="nav-sub-sub-item">Document</a>
+                        <a href="#" class="nav-sub-sub-item">Video</a>
+                        <a href="#" class="nav-sub-sub-item">Images</a>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+
+          <div class="nav-group" id="grp-brand">
+            <div class="nav-group-header" onclick="toggleGroup('grp-brand')">
+                <span class="nav-group-label">Brand</span>
+                <i class="fas fa-chevron-down nav-group-arrow"></i>
+            </div>
+            <div class="nav-group-body">
+              <a href="./page/brand/brand-product.html"  class="nav-sub-item">Products</a>
+              <a href="./page/brand/Legal-documentation.html" class="nav-sub-item">Legal documentation</a>
+              <a href="#" class="nav-sub-item">Upcoming</a>
+                       
+            </div>
+         
+        </div>
+
+        <div class="nav-group" id="grp-profile">
+            <div class="nav-group-header" onclick="toggleGroup('grp-profile')">
+                <span class="nav-group-label">Profile</span>
+                <i class="fas fa-chevron-down nav-group-arrow"></i>
+            </div>
+            <div class="nav-group-body">
+                <a href="#" class="nav-sub-item">Company Info</a>
+                <a href="#" class="nav-sub-item">Users</a>
+                <a href="#" class="nav-sub-item">Security</a>
+                <a href="#" class="nav-sub-item">Payment method</a>
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="aside-footer">
+        <a href="#" class="nav-item" onclick="return false;">
+            <div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div>
+            <span class="nav-text">Log out</span>
+        </a>
+        <div style="text-align:center;margin-top:8px;font-size:9px;color:rgba(255,255,255,.15);letter-spacing:.5px;">Niche3DS Partner Portal</div>
+    </div>
+</aside>
+
+<!-- ══════════ MAIN ══════════ -->
+<div class="main-wrap">
+    <header class="topbar">
+        <div class="topbar-title" id="topbarTitle"> <span></span></div>
+        <div class="topbar-actions">
+            <button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+            <button class="topbar-btn" title="Search"><i class="fas fa-search"></i></button>
+            <div class="topbar-avatar">FS</div>
+        </div>
+    </header>
+
+    <main class="content">
+
+ 
+    <div class="message"><img src="./img/pending.jpeg" alt="Pending"></div>
+
+    
+
+    </main>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closePaymentModal()">&times;</button>
+        <h2 id="modalTitle" class="modal-title">Paid Commissions</h2>
+        <div class="modal-divider"></div>
+        <div style="overflow-x:auto;">
+            <table class="responsive-table modal-table">
+                <thead><tr>
+                    <th>Date</th><th>Order #</th>
+                    <th class="tooltip-header">Sales<span class="tooltip-badge"><i class="fas fa-info-circle"></i></span></th>
+                    <th>Commission Rate</th><th>Commission</th><th>Status</th>
+                </tr></thead>
+                <tbody id="modalTableBody"></tbody>
+                <tfoot><tr class="modal-total-row">
+                    <td><strong>TOTAL</strong></td><td></td>
+                    <td id="modalTotalSales"><strong>$0.00</strong></td><td></td>
+                    <td id="modalTotalCommission"><strong>$0.00</strong></td><td></td>
+                </tr></tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function toggleSubGroup(id) {
+    var body = document.getElementById(id);
+    var arrow = document.getElementById('arrow-' + id);
+    var isOpen = body.style.display !== 'none';
+
+    // Solo cerrar si no tiene item activo dentro
+    if (isOpen && !body.querySelector('.active')) {
+        body.style.display = 'none';
+        if (arrow) arrow.classList.remove('open');
+    } else {
+        body.style.display = 'block';
+        if (arrow) arrow.classList.add('open');
+    }
+}
+    /* Accordion */
+  // REEMPLAZA toggleGroup:
+function toggleGroup(id) {
+    var grp = document.getElementById(id);
+    var wasOpen = grp.classList.contains('open');
+
+    // Cerrar otros grupos solo si no tienen item activo
+    document.querySelectorAll('.nav-group').forEach(function(g) {
+        if (g.id !== id && !g.querySelector('.active')) {
+            g.classList.remove('open');
+        }
+    });
+
+    // Toggle el grupo clickeado
+    if (wasOpen && !grp.querySelector('.active')) {
+        grp.classList.remove('open');
+    } else {
+        grp.classList.add('open');
+    }
+}
+
+    /* View router */
+    const VIEWS = {
+        overview:          { el:'view-overview',    title:'Dashboard <span>/ Overview</span>' },
+        salesByPerfumery:  { el:'view-placeholder', title:'Dashboard <span>/ Sales by Perfumery</span>',  ph:'Sales by Perfumery' },
+        salesByState:      { el:'view-placeholder', title:'Dashboard <span>/ Sales by State</span>',      ph:'Sales by State' },
+        salesByCity:       { el:'view-placeholder', title:'Dashboard <span>/ Sales by City</span>',       ph:'Sales by City' },
+        salesByCollection: { el:'view-placeholder', title:'Dashboard <span>/ Sales by Collection</span>', ph:'Sales by Collection' },
+        salesByMonth:      { el:'view-placeholder', title:'Dashboard <span>/ Sales by Month</span>',      ph:'Sales by Month' },
+        commissions:       { el:'view-commissions', title:'Dashboard <span>/ Clients</span>' },
+    };
+
+   // REEMPLAZA la función showView completa:
+function showView(key, linkEl) {
+    // Quitar active de todos
+    document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone')
+        .forEach(function(i) { i.classList.remove('active'); });
+
+    // Poner active en el clickeado
+    if (linkEl) {
+        linkEl.classList.add('active');
+
+        // Mantener abierto el nav-group padre
+        var grp = linkEl.closest('.nav-group');
+        if (grp) grp.classList.add('open');
+
+        // Mantener abierto el nav-sub-group padre
+        var subBody = linkEl.closest('.nav-sub-group-body');
+        if (subBody) {
+            subBody.style.display = 'block';
+            var header = subBody.previousElementSibling;
+            if (header) {
+                var arrow = header.querySelector('.nav-sub-arrow');
+                if (arrow) arrow.classList.add('open');
+            }
+        }
+    }
+
+    const v = VIEWS[key] || VIEWS.overview;
+    ['view-overview','view-commissions','view-placeholder'].forEach(function(id) {
+        document.getElementById(id).style.display = 'none';
+    });
+    document.getElementById(v.el).style.display = 'block';
+    document.getElementById('topbarTitle').innerHTML = v.title;
+    if (v.ph) document.getElementById('placeholderTitle').textContent = v.ph;
+    return false;
+}
+    /* Tabs */
+    const TAB_TITLES = {
+        clients:    'Dashboard <span>/ Clients</span>',
+        commission: 'Dashboard <span>/ Commissions</span>',
+        payments:   'Dashboard <span>/ Payments</span>',
+    };
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === tab));
+        const title = TAB_TITLES[tab];
+        if (title) document.getElementById('topbarTitle').innerHTML = title;
+    }
+    function applyFilter(f, section) {
+        const id = section === 'commission' ? 'commissionFilters' : 'clientFilters';
+        document.getElementById(id)?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    }
+    function applyPaymentFilter(f) {
+        document.getElementById('paymentHistoryFilters')?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    }
+    function changeTableView() {}
+    function exportMonthlyReferralsToPDF() { alert('Connect js/dashboard.js'); }
+    function exportPaymentHistoryToPDF()   { alert('Connect js/dashboard.js'); }
+    function updateGroupedChart()    {}
+    function updateCommissionChart() {}
+    function updatePaymentChart()    {}
+    function closePaymentModal(e) {
+        if (!e || e.target === document.getElementById('paymentDetailModal'))
+            document.getElementById('paymentDetailModal').classList.remove('active');
+    }
+</script>
+
+<!-- <script src="js/api.js"></script> -->
+<!-- <script src="js/dashboard.js"></script> -->
+
+</body>
+</html>
+
+

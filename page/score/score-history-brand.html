@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Score</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../../css/dashboard.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
+:root{
+  --gold:rgb(171,160,110);--gold-dark:rgb(141,130,80);--gold-light:rgba(171,160,110,0.12);
+  --sidebar-bg:#1E2227;--sidebar-text:rgba(255,255,255,0.75);--card-bg:#fff;
+  --border:#E8E9E9;--text:#1E2227;--text-muted:#888;--radius:10px;
+}
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.topbar-btn:hover{background:#f0f0f0;}
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.content{padding:28px;flex:1;}
+.welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
+.welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);}
+.welcome-bar h2 span{color:var(--gold);}
+.welcome-bar p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+.filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+.filter-container{display:flex;gap:8px;flex-wrap:wrap;}
+.filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold);}
+.filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+.view-selector-wrap{position:relative;display:flex;align-items:center;gap:8px;}
+.view-selector-label{font-size:13px;color:var(--text-muted);white-space:nowrap;}
+.view-selector-btn{padding:9px 14px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;display:flex;align-items:center;gap:8px;min-width:180px;justify-content:space-between;transition:border-color .2s;}
+.view-selector-btn:hover,.view-selector-btn.open{border-color:var(--gold);}
+.view-selector-btn .chevron{font-size:10px;transition:transform .2s;}
+.view-selector-btn.open .chevron{transform:rotate(180deg);}
+.view-dropdown{position:absolute;top:calc(100% + 5px);right:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);z-index:200;min-width:200px;display:none;flex-direction:column;overflow:hidden;}
+.view-dropdown.open{display:flex;}
+.view-option{padding:11px 15px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:9px;transition:background .15s;}
+.view-option:hover{background:#f5f5f5;}
+.view-option.active{background:var(--gold-light);color:var(--gold);}
+.view-option i{font-size:13px;width:16px;}
+.section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+.table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
+.responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
+.responsive-table thead th:not(:first-child){text-align:center;}
+.responsive-table tbody td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text);vertical-align:middle;text-align:center;}
+.responsive-table tbody td:first-child{text-align:left;}
+.responsive-table tbody tr:last-child td{border-bottom:none;}
+.responsive-table tbody tr:hover{background:#fafafa;}
+.responsive-table .total-row{background:#f5f5f5;border-top:2px solid var(--gold);}
+.responsive-table .total-row td{font-weight:600;}
+.th-content{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.th-month{font-size:13px;font-weight:600;}
+.th-year{font-size:11px;font-weight:400;opacity:.8;}
+.th-year-header{font-size:13px;font-weight:600;}
+.brand-row{background:rgba(171,160,110,.08);transition:background .15s;}
+.brand-row:hover{background:rgba(171,160,110,.15);}
+.brand-cell{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.brand-name-cell{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;}
+.toggle-icon{color:var(--gold);font-size:10px;transition:transform .2s;display:inline-block;}
+.product-row{background:#fff;}
+.product-row:hover{background:#f9f9f9;}
+.product-cell{display:flex;align-items:center;gap:12px;padding-left:28px !important;}
+.product-image-placeholder{width:40px;height:40px;border-radius:8px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);flex-shrink:0;}
+.product-image-placeholder i{color:#ccc;font-size:16px;}
+.product-info{display:flex;flex-direction:column;gap:2px;}
+.product-name{font-weight:500;font-size:14px;}
+.product-sku{font-size:12px;color:var(--text-muted);}
+.score-high{color:#000;font-weight:600;}
+.score-mid{color:#000;font-weight:600;}
+.score-low{color:#000;font-weight:600;}
+.no-results{text-align:center;padding:40px;color:var(--text-muted);}
+.no-results i{font-size:40px;color:#ddd;margin-bottom:12px;display:block;}
+.no-results p{font-size:14px;}
+.empty-state{padding:60px 20px;text-align:center;color:var(--text-muted);}
+.empty-state i{font-size:48px;color:#ddd;margin-bottom:16px;display:block;}
+@media(max-width:768px){.main-wrap{margin-left:0;}.content{padding:16px;}.filters-row{flex-direction:column;align-items:flex-start;}}
+</style>
+<script src="../../js/aside.js"></script>
+</head>
+<body>
+
+<div id="aside-root"></div>
+
+<div class="main-wrap">
+  <header class="topbar">
+    <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+    <div class="topbar-actions">
+      <button class="topbar-btn"><i class="fas fa-bell"></i></button>
+      <button class="topbar-btn"><i class="fas fa-search"></i></button>
+      <div class="topbar-avatar">FS</div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div id="view-overview">
+      <div class="welcome-bar">
+        <div>
+          <h2>Welcome back, <span>Francis</span></h2>
+          <p>Member since: Mar 11, 2026</p>
+        </div>
+      </div>
+
+      <div class="filters-row">
+        <div class="filter-container" id="perfFilters">
+          <button class="filter-btn" data-filter="yearly"       onclick="applyPerfFilter('yearly')">Yearly</button>
+          <button class="filter-btn active" data-filter="lastYear" onclick="applyPerfFilter('lastYear')">Last 13 months</button>
+          <button class="filter-btn" data-filter="currentMonth" onclick="applyPerfFilter('currentMonth')">Current Month</button>
+        </div>
+        <div class="view-selector-wrap">
+          <span class="view-selector-label">View As</span>
+          <button class="view-selector-btn" id="perfViewBtn" onclick="togglePerfViewDropdown()">
+            <span><i class="fas fa-star" style="margin-right:6px;font-size:12px;"></i><span id="perfViewText">Artistic Score</span></span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="view-dropdown" id="perfViewDropdown">
+            <div class="view-option active" data-view="marketing"   onclick="changePerfView('marketing')">  <i class="fas fa-star"></i>        Artistic Score</div>
+            <div class="view-option"        data-view="commercial"  onclick="changePerfView('commercial')"> <i class="fas fa-chart-line"></i>   Commercial Score</div>
+            <div class="view-option"        data-view="combined"    onclick="changePerfView('combined')">   <i class="fas fa-layer-group"></i>  Combined Score</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-title"><i class="fas fa-star-half-alt"></i> Scores</h3>
+      <div class="table-wrapper">
+        <table class="responsive-table">
+          <thead id="perfumeryTableHead"></thead>
+          <tbody id="perfumeryTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="chart-container" style="background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+          <h4 style="margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-chart-area" style="color:var(--gold);"></i>
+            <span id="perfChartTitle">Marketing Score</span>
+          </h4>
+          <div style="display:flex;gap:5px;background:#f5f5f5;padding:4px;border-radius:8px;">
+            <button class="chart-type-btn active" data-type="bar" onclick="changePerfChartType('bar')"
+              style="padding:7px 14px;border:none;background:white;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--gold);box-shadow:0 2px 4px rgba(0,0,0,.1);display:flex;align-items:center;gap:5px;">
+              <i class="fas fa-chart-bar"></i> Bar
+            </button>
+            <button class="chart-type-btn" data-type="line" onclick="changePerfChartType('line')"
+              style="padding:7px 14px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:#535255;display:flex;align-items:center;gap:5px;">
+              <i class="fas fa-chart-line"></i> Line
+            </button>
+          </div>
+        </div>
+        <div style="position:relative;height:320px;width:100%;"><canvas id="perfChart"></canvas></div>
+        <div id="perfChartLegend" style="display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--border);"></div>
+      </div>
+    </div>
+
+    <div id="view-placeholder" style="display:none;">
+      <div class="welcome-bar"><div><h2 id="placeholderTitle">Section</h2><p>Content coming soon.</p></div></div>
+      <div class="empty-state"><i class="fas fa-tools"></i><p>This section is under construction.</p></div>
+    </div>
+  </main>
+</div>
+
+<script>
+function toggleSubGroup(id){
+  var body=document.getElementById(id),arrow=document.getElementById('arrow-'+id),isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'block';arrow.classList.toggle('open',!isOpen);
+}
+
+/* ── GLOBALS ── */
+var perfCurrentFilter = "lastYear";
+var perfCurrentView   = "marketing";
+var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+var dayNames   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+var perfChart = null, perfChartType = "bar", perfHiddenSeries = [];
+var perfColors = [
+  'rgb(171,160,110)','rgb(102,126,153)','rgb(153,102,102)',
+  'rgb(102,153,126)','rgb(153,126,102)','rgb(126,102,153)',
+  'rgb(102,153,153)','rgb(153,153,102)'
+];
+
+/* ── DATA — 3 scores por producto (marketing, commercial, combined) del 1 al 10 ── */
+var perfumeryData = [];
+
+/* ── Datos por marca ── */
+const BRAND_PERFUMERY_DATA = {
+  'Parfum De Mahzen': [
+    { perfumery:"Parfum De Mahzen", product:"Supreme Oudh 100ml",   sku:"AUR-001", date:"2026-03-12", marketing:8.5, commercial:7.2, combined:7.9, orderId:9011 },
+    { perfumery:"Parfum De Mahzen", product:"Veritas 100ml",        sku:"AUR-002", date:"2026-03-07", marketing:6.3, commercial:9.1, combined:7.7, orderId:9012 },
+    { perfumery:"Parfum De Mahzen", product:"Madam Oudh 100ml",     sku:"AUR-003", date:"2026-03-10", marketing:7.8, commercial:6.5, combined:7.2, orderId:9013 },
+    { perfumery:"Parfum De Mahzen", product:"Arcana 100ml",         sku:"AUR-004", date:"2026-03-11", marketing:5.4, commercial:8.3, combined:6.9, orderId:9014 },
+    { perfumery:"Parfum De Mahzen", product:"Ancient Spirits 100ml",sku:"AUR-005", date:"2026-03-12", marketing:9.2, commercial:7.8, combined:8.5, orderId:9015 },
+    { perfumery:"Parfum De Mahzen", product:"Curve 100ml",          sku:"AUR-015", date:"2026-02-22", marketing:5.2, commercial:8.9, combined:7.1, orderId:9025 },
+    { perfumery:"Parfum De Mahzen", product:"Capi 100ml",           sku:"AUR-016", date:"2026-02-23", marketing:8.3, commercial:7.5, combined:7.9, orderId:9026 },
+    { perfumery:"Parfum De Mahzen", product:"Ruhun 100ml",          sku:"AUR-017", date:"2026-01-24", marketing:6.9, commercial:5.4, combined:6.2, orderId:9027 },
+    { perfumery:"Parfum De Mahzen", product:"Aurum 100ml",          sku:"AUR-018", date:"2026-01-25", marketing:7.7, commercial:8.8, combined:8.3, orderId:9028 },
+    { perfumery:"Parfum De Mahzen", product:"Supreme Oudh 100ml",   sku:"AUR-001", date:"2025-12-15", marketing:8.1, commercial:7.0, combined:7.6, orderId:8901 },
+    { perfumery:"Parfum De Mahzen", product:"Veritas 100ml",        sku:"AUR-002", date:"2025-12-10", marketing:6.0, commercial:8.9, combined:7.5, orderId:8902 },
+    { perfumery:"Parfum De Mahzen", product:"Madam Oudh 100ml",     sku:"AUR-003", date:"2025-11-12", marketing:7.5, commercial:6.2, combined:6.9, orderId:8891 },
+    { perfumery:"Parfum De Mahzen", product:"Arcana 100ml",         sku:"AUR-004", date:"2025-11-08", marketing:5.2, commercial:8.0, combined:6.6, orderId:8892 },
+    { perfumery:"Parfum De Mahzen", product:"Ancient Spirits 100ml",sku:"AUR-005", date:"2025-10-14", marketing:9.0, commercial:7.5, combined:8.2, orderId:8881 },
+    { perfumery:"Parfum De Mahzen", product:"Malikat Oudh 100ml",   sku:"AUR-006", date:"2025-10-09", marketing:6.5, commercial:5.7, combined:6.1, orderId:8882 },
+    { perfumery:"Parfum De Mahzen", product:"Incense Oudh 100ml",   sku:"AUR-007", date:"2025-09-18", marketing:7.0, commercial:8.4, combined:7.7, orderId:8871 },
+    { perfumery:"Parfum De Mahzen", product:"Xyphos 100ml",         sku:"AUR-008", date:"2025-09-11", marketing:4.6, commercial:6.0, combined:5.3, orderId:8872 },
+    { perfumery:"Parfum De Mahzen", product:"Sungul 100ml",         sku:"AUR-009", date:"2025-08-20", marketing:8.7, commercial:7.1, combined:7.9, orderId:8861 },
+    { perfumery:"Parfum De Mahzen", product:"Mitra 100ml",          sku:"AUR-010", date:"2025-08-13", marketing:5.4, commercial:9.0, combined:7.2, orderId:8862 },
+    { perfumery:"Parfum De Mahzen", product:"Gugguluma 100ml",      sku:"AUR-011", date:"2025-07-22", marketing:7.1, commercial:6.5, combined:6.8, orderId:8851 },
+    { perfumery:"Parfum De Mahzen", product:"Cinnamom 100ml",       sku:"AUR-012", date:"2025-07-15", marketing:5.9, commercial:7.4, combined:6.7, orderId:8852 },
+    { perfumery:"Parfum De Mahzen", product:"Prajna 100ml",         sku:"AUR-013", date:"2025-06-17", marketing:9.1, commercial:7.8, combined:8.5, orderId:8841 },
+    { perfumery:"Parfum De Mahzen", product:"Divina 100ml",         sku:"AUR-014", date:"2025-06-10", marketing:7.3, commercial:6.0, combined:6.7, orderId:8842 },
+    { perfumery:"Parfum De Mahzen", product:"Curve 100ml",          sku:"AUR-015", date:"2025-05-19", marketing:5.0, commercial:8.6, combined:6.8, orderId:8831 },
+    { perfumery:"Parfum De Mahzen", product:"Capi 100ml",           sku:"AUR-016", date:"2025-05-12", marketing:8.0, commercial:7.2, combined:7.6, orderId:8832 },
+    { perfumery:"Parfum De Mahzen", product:"Ruhun 100ml",          sku:"AUR-017", date:"2025-04-21", marketing:6.7, commercial:5.2, combined:6.0, orderId:8821 },
+    { perfumery:"Parfum De Mahzen", product:"Aurum 100ml",          sku:"AUR-018", date:"2025-04-14", marketing:7.5, commercial:8.5, combined:8.0, orderId:8822 },
+    { perfumery:"Parfum De Mahzen", product:"Amiyah Oudh 100ml",    sku:"AUR-019", date:"2025-03-18", marketing:4.3, commercial:6.5, combined:5.4, orderId:8811 },
+    { perfumery:"Parfum De Mahzen", product:"Amali 100ml",          sku:"AUR-020", date:"2025-03-10", marketing:7.9, commercial:7.6, combined:7.8, orderId:8812 },
+  ],
+  'La Sabia Madrid': [
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-12", marketing:8.0, commercial:7.5, combined:7.8, orderId:7001 },
+    { perfumery:"La Sabia Madrid", product:"Poderío 100ml",   sku:"LSM-002", date:"2026-03-07", marketing:6.5, commercial:8.8, combined:7.7, orderId:7002 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-02-20", marketing:7.2, commercial:6.8, combined:7.0, orderId:7003 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-12-15", marketing:7.8, commercial:7.0, combined:7.4, orderId:7004 },
+    { perfumery:"La Sabia Madrid", product:"Poderío 100ml",   sku:"LSM-002", date:"2025-11-10", marketing:6.2, commercial:8.5, combined:7.4, orderId:7005 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-10-08", marketing:8.5, commercial:7.2, combined:7.9, orderId:7006 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-09-14", marketing:7.0, commercial:8.0, combined:7.5, orderId:7007 },
+    { perfumery:"La Sabia Madrid", product:"Poderío 100ml",   sku:"LSM-002", date:"2025-08-20", marketing:5.8, commercial:7.5, combined:6.7, orderId:7008 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-07-15", marketing:9.0, commercial:7.8, combined:8.4, orderId:7009 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-06-10", marketing:7.5, commercial:6.5, combined:7.0, orderId:7010 },
+  ],
+};
+
+/* ── Escucha el cambio de marca ── */
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyScoreBrand(brand);
+});
+
+/* ── Función principal ── */
+function applyScoreBrand(brand) {
+  if (BRAND_PERFUMERY_DATA[brand]) {
+    perfumeryData = BRAND_PERFUMERY_DATA[brand];
+    renderPerfumeryTable(perfCurrentFilter);
+  }
+}
+
+/* ── HELPERS ── */
+function generateLast13Months(){
+  var months=[],now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
+  for(var i=0;i<=12;i++){var m=cm-i,y=cy;while(m<=0){m+=12;y--;}months.push({year:y,month:m,key:y+"-"+String(m).padStart(2,"0")});}
+  return months;
+}
+function generateCurrentMonthDays(){
+  var days=[],now=new Date(),cd=now.getDate();
+  for(var i=0;i<cd;i++){
+    var d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i);
+    days.push({year:d.getFullYear(),month:d.getMonth()+1,day:d.getDate(),
+      dayName:dayNames[d.getDay()],monthName:monthNames[d.getMonth()],
+      key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),
+      isToday:i===0});
+  }
+  return days;
+}
+
+/* ── FILTER ── */
+function filterPerfByDate(data,filterType){
+  var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1,cd=now.getDate();
+  return data.filter(function(item){
+    var p=item.date.split('-'),iY=parseInt(p[0]),iM=parseInt(p[1]),iD=parseInt(p[2]);
+    if(filterType==="yearly")       return iY===cy||iY===(cy-1);
+    if(filterType==="currentMonth") return iY===cy&&iM===cm&&iD<=cd;
+    if(filterType==="lastYear"){var lm=cm-13,ly=cy;while(lm<=0){lm+=12;ly--;}return new Date(iY,iM-1,1)>=new Date(ly,lm-1,1);}
+    return true;
+  });
+}
+
+/* ── GROUP ── */
+function groupByPerfumery(data,keyType){
+  var result={};
+  data.forEach(function(item){
+    var p=item.date.split('-'),iY=parseInt(p[0]),iM=parseInt(p[1]),iD=parseInt(p[2]);
+    var key=keyType==="day"  ? iY+"-"+String(iM).padStart(2,"0")+"-"+String(iD).padStart(2,"0")
+           :keyType==="year" ? String(iY)
+           : iY+"-"+String(iM).padStart(2,"0");
+
+    if(!result[item.perfumery])
+      result[item.perfumery]={products:{},marketing:{},commercial:{},combined:{},counts:{}};
+
+    var pf=result[item.perfumery];
+
+    if(!pf.products[item.product])
+      pf.products[item.product]={name:item.product,sku:item.sku,marketing:{},commercial:{},combined:{}};
+
+    var pr=pf.products[item.product];
+    pr.marketing[key]  = item.marketing;
+    pr.commercial[key] = item.commercial;
+    pr.combined[key]   = item.combined;
+
+    if(!pf.counts[key]) pf.counts[key]=0;
+    pf.counts[key]++;
+    pf.marketing[key]  = ((pf.marketing[key]||0)  * (pf.counts[key]-1) + item.marketing)  / pf.counts[key];
+    pf.commercial[key] = ((pf.commercial[key]||0) * (pf.counts[key]-1) + item.commercial) / pf.counts[key];
+    pf.combined[key]   = ((pf.combined[key]||0)   * (pf.counts[key]-1) + item.combined)   / pf.counts[key];
+  });
+  return result;
+}
+
+/* ── AVG ── */
+function avgScore(obj, scoreKey){
+  var vals=Object.values(obj[scoreKey]||{});
+  if(!vals.length) return 0;
+  return vals.reduce(function(a,b){return a+b;},0)/vals.length;
+}
+
+/* ── FORMAT ── */
+function fmtVal(v){
+  if(!v && v!==0) return "—";
+  var n=parseFloat(v);
+  if(!n) return "—";
+  var cls = n>=7.5?"score-high":n>=5?"score-mid":"score-low";
+  return '<span class="'+cls+'">'+n.toFixed(1)+'</span>';
+}
+function fmtAvg(v){
+  if(!v && v!==0) return "—";
+  var n=parseFloat(v);
+  if(!n) return "—";
+  return n.toFixed(1);
+}
+
+/* ── RENDER TABLE ── */
+function renderPerfumeryTable(filterType){
+  var head=document.getElementById("perfumeryTableHead");
+  var body=document.getElementById("perfumeryTableBody");
+  if(!head||!body)return;
+
+  var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
+  var keyType=filterType==="currentMonth"?"day":filterType==="yearly"?"year":"month";
+
+  var filtered=filterPerfByDate(perfumeryData,filterType);
+  var grouped=groupByPerfumery(filtered,keyType);
+
+  var cols=[];
+  if(filterType==="yearly"){
+    cols=[{key:String(cy),label:String(cy)},{key:String(cy-1),label:String(cy-1)}];
+  } else if(filterType==="lastYear"){
+    cols=generateLast13Months();
+  } else {
+    cols=generateCurrentMonthDays();
+  }
+
+  var hr="<tr><th style='min-width:260px;'>PRODUCT</th>";
+  cols.forEach(function(col){
+    if(filterType==="currentMonth"){
+      var lbl=col.isToday?"TODAY":col.dayName;
+      hr+='<th><div class="th-content"><span class="th-month">'+lbl+'</span><span class="th-year">'+col.monthName+' '+col.day+'</span></div></th>';
+    } else if(filterType==="yearly"){
+      hr+='<th><div class="th-content"><span class="th-year-header">'+col.label+'</span></div></th>';
+    } else {
+      hr+='<th><div class="th-content"><span class="th-month">'+monthNames[col.month-1]+'</span><span class="th-year">'+col.year+'</span></div></th>';
+    }
+  });
+  hr+="</tr>";
+  head.innerHTML=hr;
+
+  if(Object.keys(grouped).length===0){
+    body.innerHTML='<tr><td colspan="'+(2+cols.length)+'"><div class="no-results"><i class="fas fa-search"></i><p>No results found</p></div></td></tr>';
+    return;
+  }
+
+  var html="";
+  var scoreKey=perfCurrentView;
+
+  Object.keys(grouped).sort().forEach(function(pName){
+    var pf=grouped[pName];
+    var pAvg=avgScore(pf,scoreKey);
+
+    html+='<tr class="brand-row" data-perf="'+pName+'">';
+    html+='<td><div class="brand-cell" onclick="togglePerfRows(\''+pName.replace(/'/g,"\\'")+'\')">'+
+          '<div class="brand-name-cell"><span class="toggle-icon" id="icon_'+btoa(pName).replace(/=/g,'')+'">▶</span>'+pName+'</div></div></td>';
+    cols.forEach(function(col){
+      var v=pf[scoreKey][col.key]||0;
+      html+='<td>'+fmtVal(v)+'</td>';
+    });
+    html+='</tr>';
+
+    Object.keys(pf.products).sort().forEach(function(prodKey){
+      var pr=pf.products[prodKey];
+      var prAvg=avgScore(pr,scoreKey);
+
+      html+='<tr class="product-row" data-perf="'+pName+'" style="display:none;">';
+      html+='<td class="product-cell">';
+      html+='<div class="product-image-placeholder"><i class="fas fa-spray-can"></i></div>';
+      html+='<div class="product-info"><span class="product-name">'+pr.name+'</span>';
+      if(pr.sku) html+='<span class="product-sku">SKU: '+pr.sku+'</span>';
+      html+='</div></td>';
+      cols.forEach(function(col){
+        var v=pr[scoreKey][col.key]||0;
+        html+='<td>'+fmtVal(v)+'</td>';
+      });
+      html+='</tr>';
+    });
+  });
+
+  html+='<tr class="total-row"><td><strong></strong></td>';
+  cols.forEach(function(col){
+    var colVals=[];
+    Object.keys(grouped).forEach(function(pName){var v=grouped[pName][scoreKey][col.key];if(v)colVals.push(v);});
+    var avg=colVals.length?colVals.reduce(function(a,b){return a+b;},0)/colVals.length:0;
+    html+='<td><strong>'+''+'</strong></td>';
+  });
+  html+='</tr>';
+
+  body.innerHTML=html;
+  renderPerfChart(filterType,grouped,cols);
+}
+
+/* ── TOGGLE ROWS ── */
+function togglePerfRows(pName){
+  var rows=document.querySelectorAll('.product-row[data-perf="'+pName+'"]');
+  var iconId="icon_"+btoa(pName).replace(/=/g,'');
+  var icon=document.getElementById(iconId);
+  var collapsed=icon&&icon.textContent==="▶";
+  rows.forEach(function(r){r.style.display=collapsed?"table-row":"none";});
+  if(icon) icon.textContent=collapsed?"▼":"▶";
+}
+
+/* ── FILTER CONTROLS ── */
+function applyPerfFilter(filterType){
+  perfCurrentFilter=filterType;
+  document.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){b.classList.toggle('active',b.dataset.filter===filterType);});
+  renderPerfumeryTable(filterType);
+}
+
+/* ── VIEW CONTROLS ── */
+function togglePerfViewDropdown(){
+  document.getElementById("perfViewDropdown").classList.toggle("open");
+  document.getElementById("perfViewBtn").classList.toggle("open");
+}
+function changePerfView(viewType){
+  perfCurrentView=viewType;
+  var labels={marketing:"Artistic Score",commercial:"Commercial Score",combined:"Combined Score"};
+  document.getElementById("perfViewText").textContent=labels[viewType];
+  document.querySelectorAll('#perfViewDropdown .view-option').forEach(function(o){o.classList.toggle('active',o.dataset.view===viewType);});
+  document.getElementById("perfViewDropdown").classList.remove("open");
+  document.getElementById("perfViewBtn").classList.remove("open");
+  renderPerfumeryTable(perfCurrentFilter);
+}
+document.addEventListener("click",function(e){
+  var wrap=document.querySelector(".view-selector-wrap");
+  if(wrap&&!wrap.contains(e.target)){
+    document.getElementById("perfViewDropdown").classList.remove("open");
+    document.getElementById("perfViewBtn").classList.remove("open");
+  }
+});
+
+/* ── CHART ── */
+function renderPerfChart(filterType,grouped,cols){
+  var ctx=document.getElementById('perfChart');
+  if(!ctx)return;
+  if(perfChart)perfChart.destroy();
+
+  var labels=cols.map(function(col){
+    if(filterType==="currentMonth") return (col.isToday?"TODAY":col.dayName)+"\n"+col.monthName+" "+col.day;
+    if(filterType==="yearly") return col.label;
+    return monthNames[col.month-1]+"\n"+col.year;
+  });
+
+  var scoreKey=perfCurrentView;
+  var datasets=[];
+  Object.keys(grouped).sort().forEach(function(pName,index){
+    var pf=grouped[pName];
+    var color=perfColors[index%perfColors.length];
+    var vals=cols.map(function(col){return pf[scoreKey][col.key]||0;});
+    datasets.push({
+      label:pName,data:vals,
+      backgroundColor:perfChartType==="bar"?color.replace('rgb','rgba').replace(')',',0.7)'):color.replace('rgb','rgba').replace(')',',0.1)'),
+      borderColor:color,borderWidth:2,borderRadius:perfChartType==="bar"?4:0,
+      fill:perfChartType==="line",tension:0.4,
+      pointBackgroundColor:color,pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:3,pointHoverRadius:5,
+      hidden:perfHiddenSeries.includes(pName)
+    });
+  });
+
+  perfChart=new Chart(ctx,{
+    type:perfChartType,
+    data:{labels:labels,datasets:datasets},
+    options:{
+      responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'rgba(30,34,39,0.95)',titleColor:'#fff',bodyColor:'#fff',
+          borderColor:'rgb(171,160,110)',borderWidth:1,cornerRadius:8,padding:12,
+          callbacks:{label:function(c){return c.dataset.label+": "+c.parsed.y.toFixed(1)+"/10";}}
+        }
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{color:'#888',font:{size:10},maxRotation:45}},
+        y:{
+          min:0,max:10,
+          grid:{color:'rgba(0,0,0,0.05)'},
+          ticks:{color:'#888',font:{size:11},stepSize:2,callback:function(v){return v+"/10";}}
+        }
+      }
+    }
+  });
+
+  var titleMap={marketing:"Marketing Score",commercial:"Commercial Score",combined:"Combined Score"};
+  document.getElementById("perfChartTitle").textContent=titleMap[perfCurrentView];
+
+  var lc=document.getElementById("perfChartLegend");
+  lc.innerHTML=Object.keys(grouped).sort().map(function(pName,i){
+    var color=perfColors[i%perfColors.length];
+    var disabled=perfHiddenSeries.includes(pName)?'opacity:0.4;':'';
+    return '<div onclick="togglePerfChartSeries(\''+pName.replace(/'/g,"\\'")+'\') " '+
+      'style="display:flex;align-items:center;gap:6px;font-size:12px;color:#535255;cursor:pointer;padding:4px 8px;border-radius:6px;'+disabled+'">'+
+      '<span style="width:12px;height:12px;border-radius:3px;background:'+color+';display:inline-block;"></span>'+pName+'</div>';
+  }).join('');
+}
+
+function togglePerfChartSeries(pName){
+  var idx=perfHiddenSeries.indexOf(pName);
+  if(idx>-1)perfHiddenSeries.splice(idx,1);else perfHiddenSeries.push(pName);
+  if(perfChart){
+    var di=perfChart.data.datasets.findIndex(function(d){return d.label===pName;});
+    if(di>-1){perfChart.data.datasets[di].hidden=perfHiddenSeries.includes(pName);perfChart.update();}
+  }
+  document.getElementById("perfChartLegend").querySelectorAll('div').forEach(function(el){
+    el.style.opacity=perfHiddenSeries.includes(el.textContent.trim())?'0.4':'1';
+  });
+}
+
+function changePerfChartType(type){
+  perfChartType=type;
+  document.querySelectorAll('.chart-type-btn').forEach(function(b){
+    var a=b.dataset.type===type;
+    b.style.background=a?'white':'transparent';b.style.color=a?'var(--gold)':'#535255';
+    b.style.boxShadow=a?'0 2px 4px rgba(0,0,0,.1)':'none';
+  });
+  renderPerfumeryTable(perfCurrentFilter);
+}
+
+/* ── BRAND LOAD ── */
+document.addEventListener('DOMContentLoaded', function() {
+  const savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand;
+    applyScoreBrand(savedBrand);
+  } else {
+    perfumeryData = BRAND_PERFUMERY_DATA['Parfum De Mahzen'];
+    renderPerfumeryTable('lastYear');
+  }
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   🎯 AUTO-SELECT VIEW FROM localStorage (NUEVO - AGREGAR ESTO)
+   ═══════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+  const savedView = localStorage.getItem('scoreView');
+  
+  if (savedView && ['marketing', 'commercial', 'combined'].includes(savedView)) {
+    setTimeout(function() {
+      if (typeof changePerfView === 'function') {
+        changePerfView(savedView);
+        console.log('✅ Vista aplicada desde localStorage:', savedView);
+      }
+      // Limpiar para la próxima vez
+      localStorage.removeItem('scoreView');
+    }, 150);
+  }
+});
+/* ═══════════════════════════════════════════════════════════════ */
+</script>
+</body>
+</html>

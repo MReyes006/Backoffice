@@ -250,7 +250,7 @@ const BRAND_PERFUMERY_DATA = {
   { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-020", date:"2025-03-10", marketing:7.9, commercial:7.6, combined:7.8, orderId:8812 },
 ],
   'La Sabia Madrid': [
-    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-12", marketing:8.0, commercial:7.5, combined:7.8, orderId:7001 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-04-05", marketing:8.0, commercial:7.5, combined:7.8, orderId:7001 },
     { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-03-07", marketing:6.5, commercial:8.8, combined:7.7, orderId:7002 },
     { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-02-20", marketing:7.2, commercial:6.8, combined:7.0, orderId:7003 },
     { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-12-15", marketing:7.8, commercial:7.0, combined:7.4, orderId:7004 },
@@ -258,8 +258,8 @@ const BRAND_PERFUMERY_DATA = {
     { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-10-08", marketing:8.5, commercial:7.2, combined:7.9, orderId:7006 },
     { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-09-14", marketing:7.0, commercial:8.0, combined:7.5, orderId:7007 },
     { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-08-20", marketing:5.8, commercial:7.5, combined:6.7, orderId:7008 },
-    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-07-15", marketing:9.0, commercial:7.8, combined:8.4, orderId:7009 },
-    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-06-10", marketing:7.5, commercial:6.5, combined:7.0, orderId:7010 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-05-15", marketing:9.0, commercial:7.8, combined:8.4, orderId:7009 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-04-10", marketing:7.5, commercial:6.5, combined:7.0, orderId:7010 },
   ],
 };
 
@@ -340,25 +340,25 @@ function groupByPerfumery(data,keyType){
   return result;
 }
 
-/* â”€â”€ AVG â”€â”€ */
+
 function avgScore(obj, scoreKey){
   var vals=Object.values(obj[scoreKey]||{});
   if(!vals.length) return 0;
   return vals.reduce(function(a,b){return a+b;},0)/vals.length;
 }
 
-/* â”€â”€ FORMAT â”€â”€ */
+
 function fmtVal(v){
-  if(!v && v!==0) return "â€”";
+  if(!v && v!==0) return "-";
   var n=parseFloat(v);
-  if(!n) return "â€”";
+  if(!n) return "-";
   var cls = n>=7.5?"score-high":n>=5?"score-mid":"score-low";
   return '<span class="'+cls+'">'+n.toFixed(1)+'</span>';
 }
 function fmtAvg(v){
-  if(!v && v!==0) return "â€”";
+  if(!v && v!==0) return "-";
   var n=parseFloat(v);
-  if(!n) return "â€”";
+  if(!n) return "-";
   return n.toFixed(1);
 }
 

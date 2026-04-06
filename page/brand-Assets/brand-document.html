@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motiv Perfumes – Dashboard</title>
+    <title>Motiv Perfumes â€“ Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="/css/dashboard.css">
@@ -22,10 +22,10 @@
 </head>
 <body>
 
-<!-- ══════════ ASIDE ══════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â• ASIDE â•â•â•â•â•â•â•â•â•â• -->
 <div id="aside-root"></div>
 
-<!-- ══════════ MAIN ══════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â•â•â•â• -->
 <div class="main-wrap">
     <header class="topbar">
        <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
@@ -38,7 +38,7 @@
 
     <main class="content">
 
-        <!-- ══ OVERVIEW ══ -->
+        <!-- â•â• OVERVIEW â•â• -->
         <div id="view-overview">
             <div class="welcome-bar">
                 <div>
@@ -47,11 +47,11 @@
                 </div>
             </div>
 
-            <!-- ══ DOCUMENTS ══ -->
+            <!-- â•â• DOCUMENTS â•â• -->
 <div id="view-documents">
 
 <style>
-    /* === Búsqueda === */
+    /* === BÃºsqueda === */
     .doc-search-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.5rem; }
     .doc-search-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
     .doc-search-row { display: flex; }
@@ -128,7 +128,7 @@
     .doc-btn-dl:hover { color: var(--gold); border-color: var(--gold); }
 </style>
 
-<!-- === Barra de búsqueda === -->
+<!-- === Barra de bÃºsqueda === -->
 <div class="doc-search-group">
     <span class="doc-search-label">Search Documents</span>
     <div class="doc-search-row">
@@ -157,8 +157,8 @@
 //         desc: 'Complete visual identity guide for the Aurea line: logos, color palettes, typography, and approved usage guidelines.'
 //     },
 //     {
-//         badge: 'VERITAS', 
-//         title: 'Product Sheet - Veritas',
+//         badge: 'DEMO2', 
+//         title: 'Product Sheet - Demo2',
 //         type: 'PDF',
 //         size: '1.8 MB',
 //         updated: 'Mar 08, 2026',
@@ -186,22 +186,22 @@
 // ];
 
 
-// ── Datos iniciales ───────────────────────────────────────────
+// â”€â”€ Datos iniciales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var docItems = [];
 
-// ── Datos por marca ───────────────────────────────────────────
+// â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const BRAND_DOC_ITEMS = {
-  'Parfum De Mahzen': [
+  'Brand Demo': [
     {
       badge: 'AUREA',
-      title: 'Brand Guidelines - Aurea',
+      title: 'Brand Guidelines - Demo',
       type: 'PDF', size: '2.4 MB', updated: 'Mar 10, 2026',
       tags: ['BRAND', 'GUIDELINES'],
       desc: 'Complete visual identity guide for the Aurea line: logos, color palettes, typography, and approved usage guidelines.'
     },
     {
-      badge: 'VERITAS',
-      title: 'Product Sheet - Veritas',
+      badge: 'DEMO2',
+      title: 'Product Sheet - Demo2',
       type: 'PDF', size: '1.8 MB', updated: 'Mar 08, 2026',
       tags: ['PRODUCT', 'SHEET'],
       desc: 'Technical specification sheet featuring olfactory notes, ingredient list, packaging details, and sales recommendations.'
@@ -230,8 +230,8 @@ const BRAND_DOC_ITEMS = {
       desc: 'Complete visual identity guide for La Sabia Madrid: logos, color palettes, typography, and approved usage guidelines.'
     },
     {
-      badge: 'PODERÍO',
-      title: 'Product Sheet - Poderío',
+      badge: 'PODERÃO',
+      title: 'Product Sheet - Poderio',
       type: 'PDF', size: '1.5 MB', updated: 'Mar 08, 2026',
       tags: ['PRODUCT', 'SHEET'],
       desc: 'Technical specification sheet featuring olfactory notes, ingredient list, packaging details, and sales recommendations.'
@@ -253,7 +253,7 @@ const BRAND_DOC_ITEMS = {
   ],
 };
 
-// ── Escucha el cambio de marca ────────────────────────────────
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('niche3ds:brandChanged', function(e) {
   const brand = e.detail.brand;
   document.getElementById('brandTitle').textContent = brand;
@@ -261,47 +261,47 @@ document.addEventListener('niche3ds:brandChanged', function(e) {
   applyDocBrand(brand);
 });
 
-// // ── Al cargar, aplica la marca guardada ───────────────────────
+// // â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // document.addEventListener('DOMContentLoaded', function() {
 //   const savedBrand = localStorage.getItem('selectedBrand');
 //   if (savedBrand) {
 //     applyDocBrand(savedBrand);
 //   } else {
-//     docItems = BRAND_DOC_ITEMS['Parfum De Mahzen'];
-//     renderDocs(); // ← verifica el nombre real de tu función
+//     docItems = BRAND_DOC_ITEMS['Brand Demo'];
+//     renderDocs(); // â† verifica el nombre real de tu funciÃ³n
 //   }
 // });
 
-// // ── Función principal ─────────────────────────────────────────
+// // â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // function applyDocBrand(brand) {
 //   if (BRAND_DOC_ITEMS[brand]) {
 //     docItems = BRAND_DOC_ITEMS[brand];
-//     renderDocs(); // ← verifica el nombre real de tu función
+//     renderDocs(); // â† verifica el nombre real de tu funciÃ³n
 //   }
 // }
 
-// ── Al cargar, aplica la marca guardada ───────────────────────
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', function() {
   const savedBrand = localStorage.getItem('selectedBrand');
   if (savedBrand) {
-    document.getElementById('brandTitle').textContent = savedBrand; // ← esta línea
+    document.getElementById('brandTitle').textContent = savedBrand; // â† esta lÃ­nea
     applyDocBrand(savedBrand);
   } else {
-    docItems = BRAND_DOC_ITEMS['Parfum De Mahzen'];
-    docRender(); // ← nombre correcto
+    docItems = BRAND_DOC_ITEMS['Brand Demo'];
+    docRender(); // â† nombre correcto
   }
 });
 
-// ── Función principal ─────────────────────────────────────────
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function applyDocBrand(brand) {
   if (BRAND_DOC_ITEMS[brand]) {
     docItems = BRAND_DOC_ITEMS[brand];
-    docRender(); // ← nombre correcto
+    docRender(); // â† nombre correcto
   }
 }
 
 
-    // === Función para obtener icono según tipo de archivo ===
+    // === FunciÃ³n para obtener icono segÃºn tipo de archivo ===
     function getDocIcon(type) {
         const icons = {
             'PDF': `<svg viewBox="0 0 48 60" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2h14l8 8v48H14z"/><path d="M28 2v8h8"/><path d="M18 32h4a4 4 0 0 0 0-8h-4v16"/><path d="M30 32h4a4 4 0 0 0 0-8h-4"/><path d="M18 40h12"/></svg>`,
@@ -384,7 +384,7 @@ function applyDocBrand(brand) {
     </main>
 </div>
 
-<!-- ══ MODAL ══ -->
+<!-- â•â• MODAL â•â• -->
 <div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <button class="modal-close" onclick="closePaymentModal()">&times;</button>
@@ -502,3 +502,4 @@ function applyDocBrand(brand) {
 
 </body>
 </html>
+

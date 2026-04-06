@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motiv Perfumes – By Product</title>
+    <title>Motiv Perfumes â€“ By Product</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../css/dashboard.css">
 <style>
@@ -21,22 +21,22 @@
   --radius:10px;
 }
 
-/* ── PAGE HEADER ── */
+/* â”€â”€ PAGE HEADER â”€â”€ */
 .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
 .page-title-section h2{font-size:1.35rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
 .page-title-section h2 i{color:var(--gold);}
 .page-title-section p{color:var(--text-muted);font-size:13px;margin-top:4px;}
 
-/* ── TABLE CARD ── */
+/* â”€â”€ TABLE CARD â”€â”€ */
 .table-card{background:var(--card-bg);border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden;border:1px solid var(--border);}
 
-/* ── FILTER ROW inside table ── */
+/* â”€â”€ FILTER ROW inside table â”€â”€ */
 .table-filter-row{display:flex;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;background:#fafafa;}
 .col-filter{padding:7px 10px;border:1px solid var(--border);border-radius:7px;background:#fff;font-size:12px;color:var(--text);outline:none;cursor:pointer;min-width:90px;transition:border-color .2s;}
 .col-filter:focus{border-color:var(--gold);}
 .results-count{margin-left:auto;font-size:12px;color:var(--text-muted);white-space:nowrap;}
 
-/* ── PRODUCTS TABLE ── */
+/* â”€â”€ PRODUCTS TABLE â”€â”€ */
 .products-table{width:100%;border-collapse:collapse;}
 .products-table thead th{
   background:var(--gold);color:#fff;
@@ -87,7 +87,7 @@
 .empty-row td{text-align:center;padding:50px 20px;color:var(--text-muted);}
 .empty-row i{font-size:36px;color:#ddd;display:block;margin-bottom:10px;}
 
-/* ── MODAL ── */
+/* â”€â”€ MODAL â”€â”€ */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.open{display:flex;}
 .product-modal{background:#fff;border-radius:16px;width:100%;max-width:680px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.28);}
@@ -107,7 +107,6 @@
 .modal-thumb{width:44px;height:44px;border-radius:7px;object-fit:cover;border:2px solid transparent;cursor:pointer;transition:border-color .2s;}
 .modal-thumb.active,.modal-thumb:hover{border-color:var(--gold);}
 
-.modal-info{}
 .modal-product-name{font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:4px;}
 .modal-product-sub{font-size:13px;color:var(--text-muted);margin-bottom:14px;}
 .modal-price{font-size:1.4rem;font-weight:700;color:var(--gold);margin-bottom:16px;}
@@ -217,14 +216,14 @@
   applyLaunchesBrand(brand);
 });
 
-// ── Al cargar, aplica la marca guardada ───────────────────────
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', function() {
   var savedBrand = localStorage.getItem('selectedBrand');
   if (savedBrand) {
     document.getElementById('brandTitle').textContent = savedBrand;
     applyLaunchesBrand(savedBrand);
   } else {
-    launches = BRAND_LAUNCHES['Parfum De Mahzen'];
+    launches = BRAND_LAUNCHES['Brand Demo'];
     populateCollectionFilter();
     renderTable();
   }
@@ -233,10 +232,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 <body>
 
-<!-- ══════════ ASIDE ══════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â• ASIDE â•â•â•â•â•â•â•â•â•â• -->
 <div id="aside-root"></div>
 
-<!-- ══════════ MAIN ══════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â•â•â•â• -->
 <div class="main-wrap">
     <header class="topbar">
        <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
@@ -260,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div class="table-card">
         <div class="table-filter-row">
-            <input type="text" id="fSearch" oninput="renderDocs()" placeholder="🔍 Search name..." class="col-filter" style="min-width:200px;">
+            <input type="text" id="fSearch" oninput="renderDocs()" placeholder="ðŸ” Search name..." class="col-filter" style="min-width:200px;">
              <select class="col-filter" id="fRestriction" onchange="renderDocs()">
                 <option value="">All Restrictions</option>
                 <option value="Confidential">Confidential</option>
@@ -275,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <option value="Expiring Soon">Expiring Soon</option>
             </select>
            
-            <span class="results-count" id="resultsCount">— documents</span>
+            <span class="results-count" id="resultsCount">â€” documents</span>
         </div>
 
         <div style="overflow-x:auto;">
@@ -305,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="doc-modal" onclick="event.stopPropagation()">
         <div class="doc-modal-header">
             <h3 id="formModalTitle"><i class="fas fa-plus-circle"></i> Add Legal Document</h3>
-            <button class="modal-close-btn" onclick="closeFormModal()">✕</button>
+            <button class="modal-close-btn" onclick="closeFormModal()">âœ•</button>
         </div>
         <div class="doc-modal-body">
             <div class="form-grid">
@@ -357,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="doc-modal view-doc-modal" onclick="event.stopPropagation()">
         <div class="doc-modal-header">
             <h3><i class="fas fa-file-contract"></i> Document Details</h3>
-            <button class="modal-close-btn" onclick="closeViewModal()">✕</button>
+            <button class="modal-close-btn" onclick="closeViewModal()">âœ•</button>
         </div>
         <div class="doc-modal-body" id="viewDocContent"></div>
     </div>
@@ -370,11 +369,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="toast" id="toast"><i class="fas fa-info-circle"></i><span id="toastMsg"></span></div>
 
 <!-- <script>
-/* ════════ PRODUCT DATA ════════ */
+/* â•â•â•â•â•â•â•â• PRODUCT DATA â•â•â•â•â•â•â•â• */
 var products = [
   {
     id:1, sku:"07H-0067F-EDP-100ML",
-    photo:"../../img/Veritas-Sise1.jpg",
+    photo:"../../img/Brand_Demo.webp",
     photos:["https://images.unsplash.com/photo-1541643600914-78b084683702?w=300&q=80","https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
      collection:"Artisan Collection", perfume:"Poderio",
     type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
@@ -382,11 +381,11 @@ var products = [
     topNotes:["Bergamot","Black Pepper","Cardamom"],
     middleNotes:["Rose","Oud","Leather"],
     baseNotes:["Amber","Sandalwood","Musk"],
-    firstOrder:1, nextOrder:"—"
+    firstOrder:1, nextOrder:"â€”"
   },
   {
     id:2, sku:"07H-0067G-EDP-100ML",
-    photo:"../../img/Veritas-Sise1.jpg",
+    photo:"../../img/Brand_Demo.webp",
     photos:["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
      collection:"Artisan Collection", perfume:"Dos Besos",
     type:"Extrait de Parfum", ml:100, msrp:200, wholesale:171.95,
@@ -398,7 +397,7 @@ var products = [
   },
   {
     id:3, sku:"07H-0067E-EDP-100ML",
-    photo:"../../img/Veritas-Sise1.jpg",
+    photo:"../../img/Brand_Demo.webp",
     photos:["https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&q=80"],
      collection:"Artisan Collection", perfume:"Verdanza",
     type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
@@ -406,27 +405,27 @@ var products = [
     topNotes:["Green Apple","Mint","Citrus"],
     middleNotes:["Jasmine","Vetiver","Geranium"],
     baseNotes:["Cedar","Oakmoss","Musk"],
-    firstOrder:1, nextOrder:"—"
+    firstOrder:1, nextOrder:"â€”"
   },
   {
     id:4, sku:"MO-001-EDP-100ML",
-    photo:"../../img/Veritas-Sise1.jpg",
+    photo:"../../img/Brand_Demo.webp",
     photos:["https://images.unsplash.com/photo-1547887538-047f814a9892?w=300&q=80"],
-    collection:"Modern Oudh", perfume:"Supreme Oudh",
+    collection:"Modern Oudh", perfume:"Demo1",
     type:"Eau de Parfum", ml:100, msrp:332.50, wholesale:210.00,
     description:"A luxurious modern oudh fragrance with rosewood, lavender, and sandalwood.",
     topNotes:["Rosewood","Lavender","Cinnamon"],
     middleNotes:["Lily-Of-The-Valley","Rose"],
     baseNotes:["Amber","West Indian Bay","Agarwood"],
-    firstOrder:1, nextOrder:"—"
+    firstOrder:1, nextOrder:"â€”"
   },
   {
     id:5, sku:"MO-002-EXP-50ML",
-    photo:"../../img/Veritas-Sise1.jpg",
+    photo:"../../img/Brand_Demo.webp",
     photos:["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=300&q=80"],
-    collection:"Modern Oudh", perfume:"Veritas",
+    collection:"Modern Oudh", perfume:"Demo2",
     type:"Extrait de Parfum", ml:50, msrp:280.00, wholesale:175.00,
-    description:"Truth and elegance distilled into a single fragrance. Veritas is pure, transparent and unforgettable.",
+    description:"Truth and elegance distilled into a single fragrance. Demo2 is pure, transparent and unforgettable.",
     topNotes:["Lemon","Bergamot","Pink Pepper"],
     middleNotes:["Neroli","Jasmine","Orris"],
     baseNotes:["Sandalwood","White Musk","Amber"],
@@ -434,7 +433,7 @@ var products = [
   },
   {
     id:6, sku:"AC-003-EDT-30ML",
-    photo:"../../img/Veritas-Sise1.jpg",
+    photo:"../../img/Brand_Demo.webp",
     photos:[],
     collection:"Artisan Collection", perfume:"Alba",
     type:"Eau de Toilette", ml:30, msrp:95.00, wholesale:58.00,
@@ -450,7 +449,7 @@ var sortCol = null;
 var sortDir = 1;
 var viewingProduct = null;
 
-/* ════════ POPULATE FILTERS ════════ */
+/* â•â•â•â•â•â•â•â• POPULATE FILTERS â•â•â•â•â•â•â•â• */
 function populateFilters() {
   var collections = [...new Set(products.map(function(p){ return p.collection; }))].sort();
   var perfumes    = [...new Set(products.map(function(p){ return p.perfume; }))].sort();
@@ -473,7 +472,7 @@ function populateFilters() {
   fillSelect('fWholesale', wholesales, '$');
 }
 
-/* ════════ RENDER TABLE ════════ */
+/* â•â•â•â•â•â•â•â• RENDER TABLE â•â•â•â•â•â•â•â• */
 function renderProducts() {
   var tbody = document.getElementById('productsTableBody');
   var fSku        = document.getElementById('fSku') ? document.getElementById('fSku').value.toLowerCase() : '';
@@ -534,14 +533,14 @@ function renderProducts() {
     '</tr>';
   }).join('');
 }
-/* ════════ SORT ════════ */
+/* â•â•â•â•â•â•â•â• SORT â•â•â•â•â•â•â•â• */
 function sortProducts(col) {
   if (sortCol === col) sortDir *= -1;
   else { sortCol = col; sortDir = 1; }
   renderProducts();
 }
 
-/* ════════ PRODUCT MODAL ════════ */
+/* â•â•â•â•â•â•â•â• PRODUCT MODAL â•â•â•â•â•â•â•â• */
 function openProductModal(id) {
   viewingProduct = products.find(function(p){ return p.id === id; });
   if (!viewingProduct) return;
@@ -585,14 +584,14 @@ function openProductModal(id) {
     '<div class="spec-item"><div class="spec-label">SKU</div><div class="spec-value" style="font-size:11px;font-family:monospace;">'+p.sku+'</div></div>' +
     '<div class="spec-item"><div class="spec-label">Type</div><div class="spec-value">'+p.type+'</div></div>' +
     '<div class="spec-item"><div class="spec-label">Size</div><div class="spec-value">'+p.ml+' ml</div></div>' +
-    '<div class="spec-item"><div class="spec-label">MSRP</div><div class="spec-value">'+(p.msrp > 0 ? '$'+p.msrp.toFixed(2) : '—')+'</div></div>' +
+    '<div class="spec-item"><div class="spec-label">MSRP</div><div class="spec-value">'+(p.msrp > 0 ? '$'+p.msrp.toFixed(2) : 'â€”')+'</div></div>' +
     '<div class="spec-item"><div class="spec-label">Wholesale</div><div class="spec-value" style="color:var(--gold-dark);">$'+p.wholesale.toFixed(2)+'</div></div>';
 
   /* Guidelines */
 //   document.getElementById('modalGuidelines').innerHTML =
 //     '<div class="modal-guidelines-title"><i class="fas fa-clipboard-list" style="margin-right:6px;"></i>Product Guidelines</div>' +
 //     '<div class="guideline-row"><span class="guideline-label">First Order:</span><span class="guideline-value">'+p.firstOrder+' Unit'+(p.firstOrder!==1?'s':'')+'</span></div>' +
-//     '<div class="guideline-row"><span class="guideline-label">Next Order:</span><span class="guideline-value">'+(p.nextOrder||'—')+'</span></div>';
+//     '<div class="guideline-row"><span class="guideline-label">Next Order:</span><span class="guideline-value">'+(p.nextOrder||'â€”')+'</span></div>';
 
   document.getElementById('productModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -610,7 +609,7 @@ function closeProductModal(e) {
   document.body.style.overflow = '';
 }
 
-/* ════════ NAV ════════ */
+/* â•â•â•â•â•â•â•â• NAV â•â•â•â•â•â•â•â• */
 function toggleGroup(id) {
   var grp = document.getElementById(id);
   var wasOpen = grp.classList.contains('open');
@@ -634,12 +633,12 @@ function toggleSubGroup(id) {
   }
 }
 
-/* ════════ ESC ════════ */
+/* â•â•â•â•â•â•â•â• ESC â•â•â•â•â•â•â•â• */
 document.addEventListener('keydown', function(e) {
   if (e.key==='Escape') closeProductModal();
 });
 
-/* ════════ INIT ════════ */
+/* â•â•â•â•â•â•â•â• INIT â•â•â•â•â•â•â•â• */
 document.addEventListener('DOMContentLoaded', function() {
   populateFilters();
   renderProducts();
@@ -667,12 +666,12 @@ function downloadProduct(id) {
     'Description:',
     p.description || '',
     '',
-    'Top Notes: ' + (p.topNotes ? p.topNotes.join(', ') : '—'),
-    'Middle Notes: ' + (p.middleNotes ? p.middleNotes.join(', ') : '—'),
-    'Base Notes: ' + (p.baseNotes ? p.baseNotes.join(', ') : '—'),
+    'Top Notes: ' + (p.topNotes ? p.topNotes.join(', ') : 'â€”'),
+    'Middle Notes: ' + (p.middleNotes ? p.middleNotes.join(', ') : 'â€”'),
+    'Base Notes: ' + (p.baseNotes ? p.baseNotes.join(', ') : 'â€”'),
     '',
     'First Order: ' + p.firstOrder + ' unit(s)',
-    'Next Order: ' + (p.nextOrder || '—')
+    'Next Order: ' + (p.nextOrder || 'â€”')
   ].join('\n');
 
   var blob = new Blob([content], { type: 'text/plain' });
@@ -702,9 +701,9 @@ var editingDocId = null;
 var viewingDoc = null;
 var selectedFile = null;
 
-/* ════════ HELPERS ════════ */
+/* â•â•â•â•â•â•â•â• HELPERS â•â•â•â•â•â•â•â• */
 function formatDate(d) {
-  if (!d) return '—';
+  if (!d) return 'â€”';
   var p = d.split('-');
   var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return m[parseInt(p[1])-1]+' '+parseInt(p[2])+', '+p[0];
@@ -726,7 +725,7 @@ function getRestrictionClass(r) {
   return 'restriction-public';
 }
 
-/* ════════ RENDER TABLE ════════ */
+/* â•â•â•â•â•â•â•â• RENDER TABLE â•â•â•â•â•â•â•â• */
 function renderDocs() {
   var tbody = document.getElementById('docsTableBody');
   var fSearch      = document.getElementById('fSearch').value.toLowerCase();
@@ -779,7 +778,7 @@ function sortDocs(col) {
   renderDocs();
 }
 
-/* ════════ ADD / EDIT MODAL ════════ */
+/* â•â•â•â•â•â•â•â• ADD / EDIT MODAL â•â•â•â•â•â•â•â• */
 function openAddModal() {
   editingDocId = null;
   selectedFile = null;
@@ -804,7 +803,7 @@ function openEditModal(id) {
     var area = document.getElementById('docUploadArea');
     area.classList.add('has-file');
     document.getElementById('docUploadIcon').className = 'fas fa-check-circle';
-    document.getElementById('docUploadPrompt').textContent = 'File attached — click to replace';
+    document.getElementById('docUploadPrompt').textContent = 'File attached â€” click to replace';
     document.getElementById('docFileSelectedName').textContent = d.file;
   }
   document.getElementById('formModal').classList.add('open');
@@ -831,7 +830,7 @@ function handleDocFileSelect(input) {
   var area = document.getElementById('docUploadArea');
   area.classList.add('has-file');
   document.getElementById('docUploadIcon').className = 'fas fa-check-circle';
-  document.getElementById('docUploadPrompt').textContent = 'File selected — click to change';
+  document.getElementById('docUploadPrompt').textContent = 'File selected â€” click to change';
   document.getElementById('docFileSelectedName').textContent = selectedFile.name;
   if (!document.getElementById('fieldDocName').value) {
     document.getElementById('fieldDocName').value = selectedFile.name.replace(/\.[^/.]+$/,'').replace(/[-_]/g,' ');
@@ -869,7 +868,7 @@ function closeFormModal(e) {
   document.body.style.overflow = '';
 }
 
-/* ════════ VIEW MODAL ════════ */
+/* â•â•â•â•â•â•â•â• VIEW MODAL â•â•â•â•â•â•â•â• */
 function openViewModal(id) {
   viewingDoc = docs.find(function(d){ return d.id===id; });
   if (!viewingDoc) return;
@@ -879,12 +878,12 @@ function openViewModal(id) {
   document.getElementById('viewDocContent').innerHTML =
     '<div class="doc-view-grid">' +
       '<div class="doc-view-item full"><div class="doc-view-label">Document Name</div><div class="doc-view-value"><i class="fas fa-file-pdf" style="color:var(--gold);margin-right:6px;"></i>'+d.name+'</div></div>' +
-      '<div class="doc-view-item full"><div class="doc-view-label">Description</div><div class="doc-view-value" style="font-weight:400;font-size:13px;color:#555;">'+( d.description||'—')+'</div></div>' +
+      '<div class="doc-view-item full"><div class="doc-view-label">Description</div><div class="doc-view-value" style="font-weight:400;font-size:13px;color:#555;">'+( d.description||'â€”')+'</div></div>' +
       '<div class="doc-view-item"><div class="doc-view-label">Created Date</div><div class="doc-view-value">'+formatDate(d.createdAt)+'</div></div>' +
       '<div class="doc-view-item"><div class="doc-view-label">Expiration Date</div><div class="doc-view-value">'+formatDate(d.expiresAt)+'</div></div>' +
       '<div class="doc-view-item"><div class="doc-view-label">Restriction</div><div class="doc-view-value"><span class="restriction-badge '+rc+'">'+d.restriction+'</span></div></div>' +
       '<div class="doc-view-item"><div class="doc-view-label">Status</div><div class="doc-view-value"><span class="doc-status '+st.cls+'">'+st.label+'</span></div></div>' +
-      '<div class="doc-view-item full"><div class="doc-view-label">File</div><div class="doc-view-value" style="font-size:12px;font-family:monospace;">'+(d.file||'—')+'</div></div>' +
+      '<div class="doc-view-item full"><div class="doc-view-label">File</div><div class="doc-view-value" style="font-size:12px;font-family:monospace;">'+(d.file||'â€”')+'</div></div>' +
     '</div>' +
     '<div style="display:flex;gap:10px;">' +
       '<button class="btn-save" onclick="downloadDoc('+d.id+')" style="flex:1;"><i class="fas fa-download" style="margin-right:7px;"></i>Download</button>' +
@@ -900,12 +899,12 @@ function closeViewModal(e) {
   document.body.style.overflow = '';
 }
 
-/* ════════ DOWNLOAD ════════ */
+/* â•â•â•â•â•â•â•â• DOWNLOAD â•â•â•â•â•â•â•â• */
 function downloadDoc(id) {
   var d = docs.find(function(x){ return x.id===id; });
   if (!d) return;
   if (d.url && d.url !== '#') { window.open(d.url,'_blank'); return; }
-  var content = ['Document: '+d.name,'Description: '+(d.description||'—'),'Created: '+formatDate(d.createdAt),'Expires: '+formatDate(d.expiresAt),'Restriction: '+d.restriction,'File: '+(d.file||'—')].join('\n');
+  var content = ['Document: '+d.name,'Description: '+(d.description||'â€”'),'Created: '+formatDate(d.createdAt),'Expires: '+formatDate(d.expiresAt),'Restriction: '+d.restriction,'File: '+(d.file||'â€”')].join('\n');
   var blob = new Blob([content], {type:'text/plain'});
   var a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -913,7 +912,7 @@ function downloadDoc(id) {
   a.click();
 }
 
-/* ════════ TOAST ════════ */
+/* â•â•â•â•â•â•â•â• TOAST â•â•â•â•â•â•â•â• */
 function showToast(msg, isError) {
   var toast = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
@@ -922,7 +921,7 @@ function showToast(msg, isError) {
   setTimeout(function(){ toast.classList.remove('show'); }, 3000);
 }
 
-/* ════════ NAV ════════ */
+/* â•â•â•â•â•â•â•â• NAV â•â•â•â•â•â•â•â• */
 function toggleGroup(id) {
   var grp = document.getElementById(id);
   var wasOpen = grp.classList.contains('open');
@@ -963,3 +962,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
+

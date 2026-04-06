@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Networks – By Platform</title>
+  <title>Social Networks â€“ By Platform</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="../../css/dashboard.css">
@@ -36,7 +36,7 @@
     .welcome-bar h2{font-size:1.4rem;font-weight:700;color:var(--text);}
     .welcome-bar h2 span{color:var(--gold);}
 
-    /* ── METRIC CARDS ── */
+    /* â”€â”€ METRIC CARDS â”€â”€ */
     .metric-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
     .metric-card{background:#fff;border-radius:12px;padding:16px 18px;border:1px solid var(--border);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
     .metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);}
@@ -52,7 +52,7 @@
     .metric-card-growth{font-size:11px;color:#4CAF50;display:flex;align-items:center;gap:3px;}
     .metric-card-growth.down{color:#e53935;}
 
-    /* ── FILTERS ── */
+    /* â”€â”€ FILTERS â”€â”€ */
     .filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
     .filter-container{display:flex;gap:8px;flex-wrap:wrap;}
     .filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
@@ -71,10 +71,10 @@
     .view-option.active{background:var(--gold-light);color:var(--gold);}
     .view-option i{font-size:13px;width:16px;}
 
-    /* ── SECTION TITLE ── */
+    /* â”€â”€ SECTION TITLE â”€â”€ */
     .section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
 
-    /* ── TABLE ── */
+    /* â”€â”€ TABLE â”€â”€ */
     .table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
     .responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
     .responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
@@ -102,7 +102,7 @@
     .platform-sub-cell{display:flex;align-items:center;gap:10px;padding-left:28px!important;}
     .platform-sub-badge{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;flex-shrink:0;}
 
-    /* ── CHART ── */
+    /* â”€â”€ CHART â”€â”€ */
     .chart-container{background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);}
     .chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
     .chart-title{margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;}
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('brandTitle').textContent = savedBrand;
     applyScoreBrand(savedBrand);
   } else {
-    perfumeryData = BRAND_PERFUMERY_DATA['Parfum De Mahzen'];
+    perfumeryData = BRAND_PERFUMERY_DATA['Brand Demo'];
     renderTable();
   }
 });
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <main class="content">
 
     <div class="welcome-bar">
-      <div><h2>Social Networks — <span>By Platform</span></h2></div>
+      <div><h2>Social Networks â€” <span>By Platform</span></h2></div>
     </div>
 
     <!-- METRIC CARDS -->
@@ -304,13 +304,13 @@ function generateCurrentMonthDays(){
   return days;
 }
 
-/* Plataformas visibles según filtro */
+/* Plataformas visibles segÃºn filtro */
 function getVisiblePlatforms(){
   if(activePlatformFilter==="all") return PLATFORMS;
   return PLATFORMS.filter(function(p){return p.key===activePlatformFilter;});
 }
 
-/* Suma o promedio de todas las plataformas visibles para una métrica+clave */
+/* Suma o promedio de todas las plataformas visibles para una mÃ©trica+clave */
 function getAggVal(metricKey, colKey){
   var plats = getVisiblePlatforms();
   if(metricKey==="engagement"){
@@ -363,7 +363,7 @@ function getAggMTD(metricKey){
   },0);
 }
 
-/* ── METRIC CARDS ── */
+/* â”€â”€ METRIC CARDS â”€â”€ */
 function renderMetricCards(){
   var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
   var curKey  = cy+"-"+String(cm).padStart(2,"0");
@@ -386,14 +386,14 @@ function renderMetricCards(){
     html+='</div>';
     html+='<div class="metric-card-label">'+m.label+'</div>';
     html+='<div class="metric-card-val">'+m.fmt(curVal)+'</div>';
-    html+='<div class="metric-card-sub"><i class="fas fa-globe" style="font-size:9px;"></i> '+platLabel+' &nbsp;·&nbsp; '+fLabel+'</div>';
+    html+='<div class="metric-card-sub"><i class="fas fa-globe" style="font-size:9px;"></i> '+platLabel+' &nbsp;Â·&nbsp; '+fLabel+'</div>';
     html+='<div class="metric-card-growth'+(up?"":" down")+'"><i class="fas fa-arrow-'+(up?"up":"down")+'"></i> '+Math.abs(growth)+'% vs last month</div>';
     html+='</div>';
   });
   document.getElementById("metricCards").innerHTML=html;
 }
 
-/* ── TABLE ── */
+/* â”€â”€ TABLE â”€â”€ */
 function renderTable(filterType){
   var head=document.getElementById("tableHead");
   var body=document.getElementById("tableBody");
@@ -420,7 +420,7 @@ function renderTable(filterType){
   var visiblePlats = getVisiblePlatforms();
 
   METRICS.forEach(function(m){
-    /* Fila principal — métrica */
+    /* Fila principal â€” mÃ©trica */
     var mYTD = getAggYTD(m.key);
     var mMTD = getAggMTD(m.key);
 
@@ -439,7 +439,7 @@ function renderTable(filterType){
     });
     html+='</tr>';
 
-    /* Sub-filas — plataformas */
+    /* Sub-filas â€” plataformas */
     visiblePlats.forEach(function(p){
       /* YTD / MTD por plataforma */
       var pYTD = (function(){
@@ -486,7 +486,7 @@ function togglePlatformRows(metricKey){
   if(icon) icon.textContent=collapsed?"▼":"▶";
 }
 
-/* ── CHART: una línea/barra por métrica ── */
+/* â”€â”€ CHART: una lÃ­nea/barra por mÃ©trica â”€â”€ */
 function renderChart(filterType, cols){
   var ctx=document.getElementById("mainChart");
   if(!ctx)return;
@@ -498,7 +498,7 @@ function renderChart(filterType, cols){
     return monthNames[col.month-1]+"\n"+col.year;
   });
 
-  // Chart solo muestra Followers, Reach, Impressions, Views (métricas numéricas comparables)
+  // Chart solo muestra Followers, Reach, Impressions, Views (mÃ©tricas numÃ©ricas comparables)
   var chartMetrics = METRICS.filter(function(m){ return m.key!=="engagement"&&m.key!=="sales"; });
 
   var datasets=[];
@@ -539,7 +539,7 @@ function renderChart(filterType, cols){
   });
 
   var platLabel = activePlatformFilter==="all"?"All Platforms":(PLATFORMS.find(function(p){return p.key===activePlatformFilter;})||{label:""}).label;
-  document.getElementById("chartTitle").textContent="Metrics — "+platLabel;
+  document.getElementById("chartTitle").textContent="Metrics â€” "+platLabel;
 
   var lc=document.getElementById("chartLegend");
   lc.innerHTML=chartMetrics.map(function(m){
@@ -599,3 +599,4 @@ document.addEventListener("DOMContentLoaded",function(){
 </script>
 </body>
 </html>
+

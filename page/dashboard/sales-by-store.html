@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motiv Perfumes – Dashboard</title>
+    <title>Motiv Perfumes â€“ Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../../css/dashboard.css">
@@ -11,11 +11,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-/* ── RESET & BASE ── */
+/* â”€â”€ RESET & BASE â”€â”€ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
 
-/* ── CSS VARIABLES ── */
+/* â”€â”€ CSS VARIABLES â”€â”€ */
 :root{
   --gold:rgb(171,160,110);
   --gold-dark:rgb(141,130,80);
@@ -33,7 +33,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
     color: #aca68b;
 }
 
-/* ── ASIDE ── */
+/* â”€â”€ ASIDE â”€â”€ */
 /* .aside{width:240px;min-height:100vh;background:var(--sidebar-bg);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;}
 .aside-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.07);}
 .aside-logo img{width:140px;max-width:100%;}
@@ -61,7 +61,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 .aside-footer a:hover{color:#fff;}
 .aside-powered{text-align:center;margin-top:8px;font-size:9px;color:rgba(255,255,255,.15);letter-spacing:.5px;} */
 
-/* ── MAIN ── */
+/* â”€â”€ MAIN â”€â”€ */
 .main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
 .topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
 /* .topbar-title{font-size:15px;font-weight:600;color:var(--text);}
@@ -73,13 +73,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 
 .content{padding:28px;flex:1;}
 
-/* ── WELCOME ── */
+/* â”€â”€ WELCOME â”€â”€ */
 .welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
 .welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);}
 .welcome-bar h2 span{color:var(--gold);}
 .welcome-bar p{color:var(--text-muted);font-size:13px;margin-top:4px;}
 
-/* ── FILTERS ROW ── */
+/* â”€â”€ FILTERS ROW â”€â”€ */
 .filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
 .filter-container{display:flex;gap:8px;flex-wrap:wrap;}
 .filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
@@ -101,11 +101,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 .view-option.active{background:var(--gold-light);color:var(--gold);}
 .view-option i{font-size:13px;width:16px;}
 
-/* ── SECTION TITLE ── */
+/* â”€â”€ SECTION TITLE â”€â”€ */
 .section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
 .section-title i{font-size:1rem;}
 
-/* ── TABLE ── */
+/* â”€â”€ TABLE â”€â”€ */
 .table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
 .responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
 .responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
@@ -147,7 +147,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 .empty-state{padding:60px 20px;text-align:center;color:var(--text-muted);}
 .empty-state i{font-size:48px;color:#ddd;margin-bottom:16px;display:block;}
 
-/* ── RESPONSIVE ── */
+/* â”€â”€ RESPONSIVE â”€â”€ */
 @media(max-width:768px){
   .aside{transform:translateX(-100%);}
   .main-wrap{margin-left:0;}
@@ -270,9 +270,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
             body.style.display = isOpen ? 'none' : 'block';
             arrow.classList.toggle('open', !isOpen);
         }
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    GLOBALS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 var perfCurrentFilter = "lastYear";
 var perfCurrentView   = "quantity";
 var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
@@ -287,37 +287,37 @@ var perfColors = [
   'rgb(102,153,153)','rgb(153,153,102)'
 ];
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FAKE DATA
-════════════════════════════════ */
-// ── Datos iniciales ───────────────────────────────────────────
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+// â”€â”€ Datos iniciales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var perfumeryData = [];
 
-// ── Datos por marca ───────────────────────────────────────────
+// â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const BRAND_PERFUMERY_DATA = {
-  'Parfum De Mahzen': [
-    { perfumery:"Luckyscent",  product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2026-03-12", quantity:5,  amount:475.00,  orderId:9011 },
-    { perfumery:"Luckyscent",  product:"Veritas 100ml",      sku:"AUR-002", date:"2026-03-07", quantity:3,  amount:285.00,  orderId:9012 },
-    { perfumery:"Twisted Lily",product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2026-02-28", quantity:11, amount:1045.00, orderId:9013 },
-    { perfumery:"Twisted Lily",product:"Veritas 100ml",      sku:"AUR-002", date:"2026-01-15", quantity:8,  amount:760.00,  orderId:9014 },
-    { perfumery:"Scentrique",  product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-12-22", quantity:16, amount:1520.00, orderId:9015 },
-    { perfumery:"Scentrique",  product:"Veritas 100ml",      sku:"AUR-002", date:"2025-11-18", quantity:4,  amount:380.00,  orderId:9016 },
-    { perfumery:"Scentrique",  product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-10-09", quantity:13, amount:1235.00, orderId:9017 },
-    { perfumery:"Scentrique",  product:"Veritas 100ml",      sku:"AUR-002", date:"2025-09-25", quantity:6,  amount:570.00,  orderId:9018 },
+  'Brand Demo': [
+    { perfumery:"Luckyscent",  product:"Demo1", sku:"AUR-001", date:"2026-03-12", quantity:5,  amount:475.00,  orderId:9011 },
+    { perfumery:"Luckyscent",  product:"Demo2",      sku:"AUR-002", date:"2026-03-07", quantity:3,  amount:285.00,  orderId:9012 },
+    { perfumery:"Twisted Lily",product:"Demo1", sku:"AUR-001", date:"2026-02-28", quantity:11, amount:1045.00, orderId:9013 },
+    { perfumery:"Twisted Lily",product:"Demo2",      sku:"AUR-002", date:"2026-01-15", quantity:8,  amount:760.00,  orderId:9014 },
+    { perfumery:"Scentrique",  product:"Demo1", sku:"AUR-001", date:"2025-12-22", quantity:16, amount:1520.00, orderId:9015 },
+    { perfumery:"Scentrique",  product:"Demo2",      sku:"AUR-002", date:"2025-11-18", quantity:4,  amount:380.00,  orderId:9016 },
+    { perfumery:"Scentrique",  product:"Demo1", sku:"AUR-001", date:"2025-10-09", quantity:13, amount:1235.00, orderId:9017 },
+    { perfumery:"Scentrique",  product:"Demo2",      sku:"AUR-002", date:"2025-09-25", quantity:6,  amount:570.00,  orderId:9018 },
   ],
   'La Sabia Madrid': [
     { perfumery:"Fueguia 1833", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-12", quantity:6,  amount:540.00,  orderId:8011 },
-    { perfumery:"Fueguia 1833", product:"Poderío 100ml",   sku:"LSM-002", date:"2026-03-07", quantity:4,  amount:360.00,  orderId:8012 },
-    { perfumery:"El Jardín",    product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-02-28", quantity:9,  amount:810.00,  orderId:8013 },
-    { perfumery:"El Jardín",    product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-01-15", quantity:7,  amount:630.00,  orderId:8014 },
-    { perfumery:"Nose Paris",   product:"Poderío 100ml",   sku:"LSM-002", date:"2025-12-22", quantity:12, amount:1080.00, orderId:8015 },
+    { perfumery:"Fueguia 1833", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-03-07", quantity:4,  amount:360.00,  orderId:8012 },
+    { perfumery:"El JardÃ­n",    product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-02-28", quantity:9,  amount:810.00,  orderId:8013 },
+    { perfumery:"El JardÃ­n",    product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-01-15", quantity:7,  amount:630.00,  orderId:8014 },
+    { perfumery:"Nose Paris",   product:"Poderio 100ml",   sku:"LSM-002", date:"2025-12-22", quantity:12, amount:1080.00, orderId:8015 },
     { perfumery:"Nose Paris",   product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-11-18", quantity:5,  amount:450.00,  orderId:8016 },
     { perfumery:"Nose Paris",   product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-10-09", quantity:10, amount:900.00,  orderId:8017 },
-    { perfumery:"Nose Paris",   product:"Poderío 100ml",   sku:"LSM-002", date:"2025-09-25", quantity:6,  amount:540.00,  orderId:8018 },
+    { perfumery:"Nose Paris",   product:"Poderio 100ml",   sku:"LSM-002", date:"2025-09-25", quantity:6,  amount:540.00,  orderId:8018 },
   ],
 };
 
-// ── Escucha el cambio de marca ────────────────────────────────
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('niche3ds:brandChanged', function(e) {
   const brand = e.detail.brand;
   document.getElementById('brandTitle').textContent = brand;
@@ -325,29 +325,29 @@ document.addEventListener('niche3ds:brandChanged', function(e) {
   applyPerfumeryBrand(brand);
 });
 
-// ── Al cargar, aplica la marca guardada ───────────────────────
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', function() {
   const savedBrand = localStorage.getItem('selectedBrand');
   if (savedBrand) {
-    document.getElementById('brandTitle').textContent = savedBrand; // ← esta línea
+    document.getElementById('brandTitle').textContent = savedBrand; // â† esta lÃ­nea
     applyPerfumeryBrand(savedBrand);
   } else {
-    perfumeryData = BRAND_PERFUMERY_DATA['Parfum De Mahzen'];
-    renderPerfumeryTable('lastYear'); // ← verifica el nombre real de tu función
+    perfumeryData = BRAND_PERFUMERY_DATA['Brand Demo'];
+    renderPerfumeryTable('lastYear'); // â† verifica el nombre real de tu funciÃ³n
   }
 });
 
-// ── Función principal ─────────────────────────────────────────
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function applyPerfumeryBrand(brand) {
   if (BRAND_PERFUMERY_DATA[brand]) {
     perfumeryData = BRAND_PERFUMERY_DATA[brand];
-    renderPerfumeryTable(perfCurrentFilter); // ← verifica el nombre real de tu función
+    renderPerfumeryTable(perfCurrentFilter); // â† verifica el nombre real de tu funciÃ³n
   }
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    HELPERS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function formatCurrency(v) {
   return "$" + v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
@@ -378,9 +378,9 @@ function generateCurrentMonthDays() {
   return days;
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FILTER + GROUP
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function filterPerfByDate(data, filterType) {
   var now = new Date();
   var cy = now.getFullYear(), cm = now.getMonth()+1, cd = now.getDate();
@@ -440,9 +440,9 @@ function sumObj(obj, viewType, isProduct) {
   return uids.length;
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RENDER TABLE
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderPerfumeryTable(filterType) {
   var head = document.getElementById("perfumeryTableHead");
   var body = document.getElementById("perfumeryTableBody");
@@ -474,7 +474,7 @@ function renderPerfumeryTable(filterType) {
     }), "month");
   }
 
-  /* ── HEADER ── */
+  /* â”€â”€ HEADER â”€â”€ */
   var hr = "<tr><th style='min-width:260px;'>STORE / PRODUCT</th>";
   if (filterType !== "yearly") hr += "<th>YTD</th><th>MTD</th>";
   cols.forEach(function(col) {
@@ -490,7 +490,7 @@ function renderPerfumeryTable(filterType) {
   hr += "</tr>";
   head.innerHTML = hr;
 
-  /* ── BODY ── */
+  /* â”€â”€ BODY â”€â”€ */
   if (Object.keys(grouped).length === 0) {
     var cs = (filterType==="yearly"?1:3) + cols.length;
     body.innerHTML = '<tr><td colspan="'+cs+'"><div class="no-results"><i class="fas fa-search"></i><p>No results found</p></div></td></tr>';
@@ -578,9 +578,9 @@ function renderPerfumeryTable(filterType) {
 
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TOGGLE PRODUCT ROWS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function togglePerfRows(pName) {
   var rows = document.querySelectorAll('.product-row[data-perf="'+pName+'"]');
   var iconId = "icon_" + btoa(pName).replace(/=/g,'');
@@ -590,9 +590,9 @@ function togglePerfRows(pName) {
   if (icon) icon.textContent = collapsed ? "▼" : "▶";
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FILTER CONTROLS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function applyPerfFilter(filterType) {
   perfCurrentFilter = filterType;
   document.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){
@@ -601,9 +601,9 @@ function applyPerfFilter(filterType) {
   renderPerfumeryTable(filterType);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW AS CONTROLS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function togglePerfViewDropdown() {
   var dd = document.getElementById("perfViewDropdown");
   var btn = document.getElementById("perfViewBtn");
@@ -623,9 +623,9 @@ function changePerfView(viewType) {
   renderPerfumeryTable(perfCurrentFilter);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CLOSE DROPDOWN ON OUTSIDE CLICK
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener("click", function(e) {
   var wrap = document.querySelector(".view-selector-wrap");
   if (wrap && !wrap.contains(e.target)) {
@@ -634,9 +634,9 @@ document.addEventListener("click", function(e) {
   }
 });
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NAV HELPERS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function toggleGroup(id) {
   var grp = document.getElementById(id);
   var wasOpen = grp.classList.contains('open');
@@ -651,9 +651,9 @@ function showView(key, linkEl) {
   document.getElementById('view-placeholder').style.display = key!=='overview' ? 'block' : 'none';
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CHART
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderPerfChart(filterType, grouped, cols) {
   var ctx = document.getElementById('perfChart');
   if (!ctx) return;
@@ -785,19 +785,19 @@ function changePerfChartType(type) {
   renderPerfumeryTable(perfCurrentFilter);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    INIT
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener("DOMContentLoaded", function() {
   renderPerfumeryTable("lastYear");
 });
 </script>
 <script>
-  // Al cargar la página, marcar el link activo según la URL actual
+  // Al cargar la pÃ¡gina, marcar el link activo segÃºn la URL actual
 document.addEventListener("DOMContentLoaded", function() {
     var currentPage = window.location.pathname.split('/').pop();
 
-    // Buscar el link que coincida con la página actual
+    // Buscar el link que coincida con la pÃ¡gina actual
     var activeLink = document.querySelector('a[href*="' + currentPage + '"]');
     
     if (activeLink) {
@@ -827,3 +827,5 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </body>
 </html>
+
+

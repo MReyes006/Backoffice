@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motiv Perfumes – Dashboard</title>
+    <title>Motiv Perfumes â€“ Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../../css/dashboard.css">
@@ -11,11 +11,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-/* ── RESET & BASE ── */
+/* â”€â”€ RESET & BASE â”€â”€ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
 
-/* ── CSS VARIABLES ── */
+/* â”€â”€ CSS VARIABLES â”€â”€ */
 :root{
   --gold:rgb(171,160,110);
   --gold-dark:rgb(141,130,80);
@@ -32,7 +32,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
     font-size: 14px;
     color: #aca68b;
 }
-/* ── ASIDE ── */
+/* â”€â”€ ASIDE â”€â”€ */
 /* .aside{width:240px;min-height:100vh;background:var(--sidebar-bg);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;}
 .aside-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.07);}
 .aside-logo img{width:140px;max-width:100%;}
@@ -60,7 +60,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 .aside-footer a:hover{color:#fff;}
 .aside-powered{text-align:center;margin-top:8px;font-size:9px;color:rgba(255,255,255,.15);letter-spacing:.5px;} */
 
-/* ── MAIN ── */
+/* â”€â”€ MAIN â”€â”€ */
 .main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
 .topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
 /* .topbar-title{font-size:15px;font-weight:600;color:var(--text);}
@@ -72,13 +72,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 
 .content{padding:28px;flex:1;}
 
-/* ── WELCOME ── */
+/* â”€â”€ WELCOME â”€â”€ */
 .welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
 .welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);}
 .welcome-bar h2 span{color:var(--gold);}
 .welcome-bar p{color:var(--text-muted);font-size:13px;margin-top:4px;}
 
-/* ── FILTERS ROW ── */
+/* â”€â”€ FILTERS ROW â”€â”€ */
 .filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
 .filter-container{display:flex;gap:8px;flex-wrap:wrap;}
 .filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
@@ -100,11 +100,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 .view-option.active{background:var(--gold-light);color:var(--gold);}
 .view-option i{font-size:13px;width:16px;}
 
-/* ── SECTION TITLE ── */
+/* â”€â”€ SECTION TITLE â”€â”€ */
 .section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
 .section-title i{font-size:1rem;}
 
-/* ── TABLE ── */
+/* â”€â”€ TABLE â”€â”€ */
 .table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
 .responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
 .responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
@@ -146,7 +146,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 .empty-state{padding:60px 20px;text-align:center;color:var(--text-muted);}
 .empty-state i{font-size:48px;color:#ddd;margin-bottom:16px;display:block;}
 
-/* ── RESPONSIVE ── */
+/* â”€â”€ RESPONSIVE â”€â”€ */
 @media(max-width:768px){
   .aside{transform:translateX(-100%);}
   .main-wrap{margin-left:0;}
@@ -290,9 +290,9 @@ function toggleSubGroup(id) {
     }
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    GLOBALS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 var perfCurrentFilter = "lastYear";
 var perfCurrentView   = "quantity";
 var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
@@ -307,106 +307,106 @@ var perfColors = [
   'rgb(102,153,153)','rgb(153,153,102)'
 ];
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FAKE DATA
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 // var stateData = [
-//   { state:"Florida",    country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2026-03-15", quantity:8,  amount:760.00,  orderId:1001 },
-//   { state:"Florida",    country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2026-03-10", quantity:5,  amount:475.00,  orderId:1002 },
-//   { state:"Florida",    country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2026-02-20", quantity:12, amount:1140.00, orderId:1003 },
-//   { state:"Florida",    country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2025-12-10", quantity:20, amount:1900.00, orderId:1005 },
-//   { state:"Florida",    country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2025-11-22", quantity:9,  amount:855.00,  orderId:1006 },
-//   { state:"Florida",    country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2025-09-05", quantity:11, amount:1045.00, orderId:1008 },
-//   { state:"New York",   country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2026-03-18", quantity:6,  amount:570.00,  orderId:2001 },
-//   { state:"New York",   country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2026-03-05", quantity:4,  amount:380.00,  orderId:2002 },
-//   { state:"New York",   country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2026-01-22", quantity:7,  amount:665.00,  orderId:2004 },
-//   { state:"New York",   country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2025-12-18", quantity:14, amount:1330.00, orderId:2005 },
-//   { state:"New York",   country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2025-10-25", quantity:8,  amount:760.00,  orderId:2007 },
-//   { state:"New York",   country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2025-09-12", quantity:10, amount:950.00,  orderId:2008 },
-//   { state:"Texas",      country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2026-03-20", quantity:10, amount:950.00,  orderId:3001 },
-//   { state:"Texas",      country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2026-02-25", quantity:6,  amount:570.00,  orderId:3003 },
-//   { state:"Texas",      country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2026-01-30", quantity:8,  amount:760.00,  orderId:3004 },
-//   { state:"Texas",      country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2025-11-15", quantity:3,  amount:285.00,  orderId:3006 },
-//   { state:"Texas",      country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2025-10-20", quantity:9,  amount:855.00,  orderId:3007 },
-//   { state:"California", country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2026-03-22", quantity:7,  amount:665.00,  orderId:4001 },
-//   { state:"California", country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2026-03-01", quantity:5,  amount:475.00,  orderId:4002 },
-//   { state:"California", country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2026-01-08", quantity:6,  amount:570.00,  orderId:4004 },
-//   { state:"California", country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2025-12-28", quantity:13, amount:1235.00, orderId:4005 },
-//   { state:"California", country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2025-10-17", quantity:7,  amount:665.00,  orderId:4007 },
-//   { state:"California", country:"USA",    product:"Supreme Oudh", sku:"AUR-001", date:"2025-09-20", quantity:9,  amount:855.00,  orderId:4008 },
-//   { state:"Ontario",    country:"CANADA", product:"Supreme Oudh", sku:"AUR-001", date:"2026-03-14", quantity:6,  amount:570.00,  orderId:5001 },
-//   { state:"Ontario",    country:"CANADA", product:"Veritas",      sku:"AUR-002", date:"2026-03-06", quantity:4,  amount:380.00,  orderId:5002 },
-//   { state:"Ontario",    country:"CANADA", product:"Supreme Oudh", sku:"AUR-001", date:"2026-01-12", quantity:7,  amount:665.00,  orderId:5004 },
-//   { state:"Ontario",    country:"CANADA", product:"Veritas",      sku:"AUR-002", date:"2025-12-15", quantity:11, amount:1045.00, orderId:5005 },
-//   { state:"Ontario",    country:"CANADA", product:"Supreme Oudh", sku:"AUR-001", date:"2025-10-08", quantity:8,  amount:760.00,  orderId:5007 },
-//   { state:"Ontario",    country:"CANADA", product:"Veritas",      sku:"AUR-002", date:"2025-09-18", quantity:6,  amount:570.00,  orderId:5008 },
-//   { state:"Quebec",     country:"CANADA", product:"Supreme Oudh", sku:"AUR-001", date:"2026-03-04", quantity:3,  amount:285.00,  orderId:6002 },
-//   { state:"Quebec",     country:"CANADA", product:"Veritas",      sku:"AUR-002", date:"2026-02-16", quantity:7,  amount:665.00,  orderId:6003 },
-//   { state:"Quebec",     country:"CANADA", product:"Supreme Oudh", sku:"AUR-001", date:"2025-12-20", quantity:9,  amount:855.00,  orderId:6005 },
-//   { state:"Quebec",     country:"CANADA", product:"Veritas",      sku:"AUR-002", date:"2025-11-11", quantity:6,  amount:570.00,  orderId:6006 },
-//   { state:"Quebec",     country:"CANADA", product:"Supreme Oudh", sku:"AUR-001", date:"2025-09-08", quantity:8,  amount:760.00,  orderId:6008 },
+//   { state:"Florida",    country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-03-15", quantity:8,  amount:760.00,  orderId:1001 },
+//   { state:"Florida",    country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-03-10", quantity:5,  amount:475.00,  orderId:1002 },
+//   { state:"Florida",    country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-02-20", quantity:12, amount:1140.00, orderId:1003 },
+//   { state:"Florida",    country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-12-10", quantity:20, amount:1900.00, orderId:1005 },
+//   { state:"Florida",    country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2025-11-22", quantity:9,  amount:855.00,  orderId:1006 },
+//   { state:"Florida",    country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-09-05", quantity:11, amount:1045.00, orderId:1008 },
+//   { state:"New York",   country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-03-18", quantity:6,  amount:570.00,  orderId:2001 },
+//   { state:"New York",   country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-03-05", quantity:4,  amount:380.00,  orderId:2002 },
+//   { state:"New York",   country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-01-22", quantity:7,  amount:665.00,  orderId:2004 },
+//   { state:"New York",   country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-12-18", quantity:14, amount:1330.00, orderId:2005 },
+//   { state:"New York",   country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2025-10-25", quantity:8,  amount:760.00,  orderId:2007 },
+//   { state:"New York",   country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-09-12", quantity:10, amount:950.00,  orderId:2008 },
+//   { state:"Texas",      country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-03-20", quantity:10, amount:950.00,  orderId:3001 },
+//   { state:"Texas",      country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-02-25", quantity:6,  amount:570.00,  orderId:3003 },
+//   { state:"Texas",      country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-01-30", quantity:8,  amount:760.00,  orderId:3004 },
+//   { state:"Texas",      country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2025-11-15", quantity:3,  amount:285.00,  orderId:3006 },
+//   { state:"Texas",      country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-10-20", quantity:9,  amount:855.00,  orderId:3007 },
+//   { state:"California", country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-03-22", quantity:7,  amount:665.00,  orderId:4001 },
+//   { state:"California", country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-03-01", quantity:5,  amount:475.00,  orderId:4002 },
+//   { state:"California", country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-01-08", quantity:6,  amount:570.00,  orderId:4004 },
+//   { state:"California", country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-12-28", quantity:13, amount:1235.00, orderId:4005 },
+//   { state:"California", country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2025-10-17", quantity:7,  amount:665.00,  orderId:4007 },
+//   { state:"California", country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-09-20", quantity:9,  amount:855.00,  orderId:4008 },
+//   { state:"Ontario",    country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2026-03-14", quantity:6,  amount:570.00,  orderId:5001 },
+//   { state:"Ontario",    country:"CANADA", product:"Demo2",      sku:"AUR-002", date:"2026-03-06", quantity:4,  amount:380.00,  orderId:5002 },
+//   { state:"Ontario",    country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2026-01-12", quantity:7,  amount:665.00,  orderId:5004 },
+//   { state:"Ontario",    country:"CANADA", product:"Demo2",      sku:"AUR-002", date:"2025-12-15", quantity:11, amount:1045.00, orderId:5005 },
+//   { state:"Ontario",    country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2025-10-08", quantity:8,  amount:760.00,  orderId:5007 },
+//   { state:"Ontario",    country:"CANADA", product:"Demo2",      sku:"AUR-002", date:"2025-09-18", quantity:6,  amount:570.00,  orderId:5008 },
+//   { state:"Quebec",     country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2026-03-04", quantity:3,  amount:285.00,  orderId:6002 },
+//   { state:"Quebec",     country:"CANADA", product:"Demo2",      sku:"AUR-002", date:"2026-02-16", quantity:7,  amount:665.00,  orderId:6003 },
+//   { state:"Quebec",     country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2025-12-20", quantity:9,  amount:855.00,  orderId:6005 },
+//   { state:"Quebec",     country:"CANADA", product:"Demo2",      sku:"AUR-002", date:"2025-11-11", quantity:6,  amount:570.00,  orderId:6006 },
+//   { state:"Quebec",     country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2025-09-08", quantity:8,  amount:760.00,  orderId:6008 },
 // ];
 
 var stateData = [];
 
 const BRAND_STATE_PRODUCTS = {
-  'Parfum De Mahzen': [
-    { state:"Florida",    country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2026-03-15", quantity:8,  amount:760.00,  orderId:1001 },
-    { state:"Florida",    country:"USA",    product:"Veritas 100ml",      sku:"AUR-002", date:"2026-03-10", quantity:5,  amount:475.00,  orderId:1002 },
-    { state:"Florida",    country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2026-02-20", quantity:12, amount:1140.00, orderId:1003 },
-    { state:"Florida",    country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-12-10", quantity:20, amount:1900.00, orderId:1005 },
-    { state:"Florida",    country:"USA",    product:"Veritas 100ml",      sku:"AUR-002", date:"2025-11-22", quantity:9,  amount:855.00,  orderId:1006 },
-    { state:"Florida",    country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-09-05", quantity:11, amount:1045.00, orderId:1008 },
-    { state:"New York",   country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2026-03-18", quantity:6,  amount:570.00,  orderId:2001 },
-    { state:"New York",   country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2026-03-05", quantity:4,  amount:380.00,  orderId:2002 },
-    { state:"New York",   country:"USA",    product:"Veritas",      sku:"AUR-002", date:"2026-01-22", quantity:7,  amount:665.00,  orderId:2004 },
-    { state:"New York",   country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-12-18", quantity:14, amount:1330.00, orderId:2005 },
-    { state:"New York",   country:"USA",    product:"Veritas 100ml",      sku:"AUR-002", date:"2025-10-25", quantity:8,  amount:760.00,  orderId:2007 },
-    { state:"New York",   country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-09-12", quantity:10, amount:950.00,  orderId:2008 },
-    { state:"Texas",      country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2026-03-20", quantity:10, amount:950.00,  orderId:3001 },
-    { state:"Texas",      country:"USA",    product:"Veritas 100ml",      sku:"AUR-002", date:"2026-02-25", quantity:6,  amount:570.00,  orderId:3003 },
-    { state:"Texas",      country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2026-01-30", quantity:8,  amount:760.00,  orderId:3004 },
-    { state:"Texas",      country:"USA",    product:"Veritas 100ml",      sku:"AUR-002", date:"2025-11-15", quantity:3,  amount:285.00,  orderId:3006 },
-    { state:"Texas",      country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-10-20", quantity:9,  amount:855.00,  orderId:3007 },
-    { state:"California", country:"USA",    product:"Veritas 100ml",      sku:"AUR-002", date:"2026-03-22", quantity:7,  amount:665.00,  orderId:4001 },
-    { state:"California", country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2026-03-01", quantity:5,  amount:475.00,  orderId:4002 },
-    { state:"California", country:"USA",    product:"Veritas 100ml",      sku:"AUR-002", date:"2026-01-08", quantity:6,  amount:570.00,  orderId:4004 },
-    { state:"California", country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-12-28", quantity:13, amount:1235.00, orderId:4005 },
-    { state:"California", country:"USA",    product:"Veritas 100ml",      sku:"AUR-002", date:"2025-10-17", quantity:7,  amount:665.00,  orderId:4007 },
-    { state:"California", country:"USA",    product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-09-20", quantity:9,  amount:855.00,  orderId:4008 },
-    { state:"Ontario",    country:"CANADA", product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2026-03-14", quantity:6,  amount:570.00,  orderId:5001 },
-    { state:"Ontario",    country:"CANADA", product:"Veritas 100ml",      sku:"AUR-002", date:"2026-03-06", quantity:4,  amount:380.00,  orderId:5002 },
-    { state:"Ontario",    country:"CANADA", product:"Supreme Oudh", sku:"AUR-001", date:"2026-01-12", quantity:7,  amount:665.00,  orderId:5004 },
-    { state:"Ontario",    country:"CANADA", product:"Veritas 100ml",      sku:"AUR-002", date:"2025-12-15", quantity:11, amount:1045.00, orderId:5005 },
-    { state:"Ontario",    country:"CANADA", product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-10-08", quantity:8,  amount:760.00,  orderId:5007 },
-    { state:"Ontario",    country:"CANADA", product:"Veritas 100ml",      sku:"AUR-002", date:"2025-09-18", quantity:6,  amount:570.00,  orderId:5008 },
-    { state:"Quebec",     country:"CANADA", product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2026-03-04", quantity:3,  amount:285.00,  orderId:6002 },
-    { state:"Quebec",     country:"CANADA", product:"Veritas 100ml",      sku:"AUR-002", date:"2026-02-16", quantity:7,  amount:665.00,  orderId:6003 },
-    { state:"Quebec",     country:"CANADA", product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-12-20", quantity:9,  amount:855.00,  orderId:6005 },
-    { state:"Quebec",     country:"CANADA", product:"Veritas 100ml",      sku:"AUR-002", date:"2025-11-11", quantity:6,  amount:570.00,  orderId:6006 },
-    { state:"Quebec",     country:"CANADA", product:"Supreme Oudh 100ml", sku:"AUR-001", date:"2025-09-08", quantity:8,  amount:760.00,  orderId:6008 },
+  'Brand Demo': [
+    { state:"Florida",    country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-03-15", quantity:8,  amount:760.00,  orderId:1001 },
+    { state:"Florida",    country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-03-10", quantity:5,  amount:475.00,  orderId:1002 },
+    { state:"Florida",    country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-02-20", quantity:12, amount:1140.00, orderId:1003 },
+    { state:"Florida",    country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-12-10", quantity:20, amount:1900.00, orderId:1005 },
+    { state:"Florida",    country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2025-11-22", quantity:9,  amount:855.00,  orderId:1006 },
+    { state:"Florida",    country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-09-05", quantity:11, amount:1045.00, orderId:1008 },
+    { state:"New York",   country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-03-18", quantity:6,  amount:570.00,  orderId:2001 },
+    { state:"New York",   country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-03-05", quantity:4,  amount:380.00,  orderId:2002 },
+    { state:"New York",   country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-01-22", quantity:7,  amount:665.00,  orderId:2004 },
+    { state:"New York",   country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-12-18", quantity:14, amount:1330.00, orderId:2005 },
+    { state:"New York",   country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2025-10-25", quantity:8,  amount:760.00,  orderId:2007 },
+    { state:"New York",   country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-09-12", quantity:10, amount:950.00,  orderId:2008 },
+    { state:"Texas",      country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-03-20", quantity:10, amount:950.00,  orderId:3001 },
+    { state:"Texas",      country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-02-25", quantity:6,  amount:570.00,  orderId:3003 },
+    { state:"Texas",      country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-01-30", quantity:8,  amount:760.00,  orderId:3004 },
+    { state:"Texas",      country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2025-11-15", quantity:3,  amount:285.00,  orderId:3006 },
+    { state:"Texas",      country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-10-20", quantity:9,  amount:855.00,  orderId:3007 },
+    { state:"California", country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-03-22", quantity:7,  amount:665.00,  orderId:4001 },
+    { state:"California", country:"USA",    product:"Demo1", sku:"AUR-001", date:"2026-03-01", quantity:5,  amount:475.00,  orderId:4002 },
+    { state:"California", country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2026-01-08", quantity:6,  amount:570.00,  orderId:4004 },
+    { state:"California", country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-12-28", quantity:13, amount:1235.00, orderId:4005 },
+    { state:"California", country:"USA",    product:"Demo2",      sku:"AUR-002", date:"2025-10-17", quantity:7,  amount:665.00,  orderId:4007 },
+    { state:"California", country:"USA",    product:"Demo1", sku:"AUR-001", date:"2025-09-20", quantity:9,  amount:855.00,  orderId:4008 },
+    { state:"Ontario",    country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2026-03-14", quantity:6,  amount:570.00,  orderId:5001 },
+    { state:"Ontario",    country:"CANADA", product:"Demo2",      sku:"AUR-002", date:"2026-03-06", quantity:4,  amount:380.00,  orderId:5002 },
+    { state:"Ontario",    country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2026-01-12", quantity:7,  amount:665.00,  orderId:5004 },
+    { state:"Ontario",    country:"CANADA", product:"Demo2",      sku:"AUR-002", date:"2025-12-15", quantity:11, amount:1045.00, orderId:5005 },
+    { state:"Ontario",    country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2025-10-08", quantity:8,  amount:760.00,  orderId:5007 },
+    { state:"Ontario",    country:"CANADA", product:"Demo2",      sku:"AUR-002", date:"2025-09-18", quantity:6,  amount:570.00,  orderId:5008 },
+    { state:"Quebec",     country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2026-03-04", quantity:3,  amount:285.00,  orderId:6002 },
+    { state:"Quebec",     country:"CANADA", product:"Demo2",      sku:"AUR-002", date:"2026-02-16", quantity:7,  amount:665.00,  orderId:6003 },
+    { state:"Quebec",     country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2025-12-20", quantity:9,  amount:855.00,  orderId:6005 },
+    { state:"Quebec",     country:"CANADA", product:"Demo2",      sku:"AUR-002", date:"2025-11-11", quantity:6,  amount:570.00,  orderId:6006 },
+    { state:"Quebec",     country:"CANADA", product:"Demo1", sku:"AUR-001", date:"2025-09-08", quantity:8,  amount:760.00,  orderId:6008 },
   ],
   'La Sabia Madrid': [
     { state:"Madrid",    country:"SPAIN",  product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-15", quantity:8,  amount:720.00,  orderId:7001 },
-    { state:"Madrid",    country:"SPAIN",  product:"Poderío 100ml",   sku:"LSM-002", date:"2026-03-10", quantity:5,  amount:450.00,  orderId:7002 },
+    { state:"Madrid",    country:"SPAIN",  product:"Poderio 100ml",   sku:"LSM-002", date:"2026-03-10", quantity:5,  amount:450.00,  orderId:7002 },
     { state:"Madrid",    country:"SPAIN",  product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-02-20", quantity:10, amount:900.00,  orderId:7003 },
     { state:"Madrid",    country:"SPAIN",  product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-12-10", quantity:15, amount:1350.00, orderId:7004 },
-    { state:"Madrid",    country:"SPAIN",  product:"Poderío 100ml",   sku:"LSM-002", date:"2025-11-22", quantity:7,  amount:630.00,  orderId:7005 },
+    { state:"Madrid",    country:"SPAIN",  product:"Poderio 100ml",   sku:"LSM-002", date:"2025-11-22", quantity:7,  amount:630.00,  orderId:7005 },
     { state:"Barcelona", country:"SPAIN",  product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-03-18", quantity:6,  amount:540.00,  orderId:8001 },
     { state:"Barcelona", country:"SPAIN",  product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-05", quantity:4,  amount:360.00,  orderId:8002 },
-    { state:"Barcelona", country:"SPAIN",  product:"Poderío 100ml",   sku:"LSM-002", date:"2026-01-22", quantity:9,  amount:810.00,  orderId:8003 },
+    { state:"Barcelona", country:"SPAIN",  product:"Poderio 100ml",   sku:"LSM-002", date:"2026-01-22", quantity:9,  amount:810.00,  orderId:8003 },
     { state:"Barcelona", country:"SPAIN",  product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-12-18", quantity:11, amount:990.00,  orderId:8004 },
     { state:"Paris",     country:"FRANCE", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-20", quantity:7,  amount:630.00,  orderId:9001 },
-    { state:"Paris",     country:"FRANCE", product:"Poderío 100ml",   sku:"LSM-002", date:"2026-02-25", quantity:5,  amount:450.00,  orderId:9002 },
+    { state:"Paris",     country:"FRANCE", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-02-25", quantity:5,  amount:450.00,  orderId:9002 },
     { state:"Paris",     country:"FRANCE", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-01-30", quantity:8,  amount:720.00,  orderId:9003 },
     { state:"Paris",     country:"FRANCE", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-11-15", quantity:12, amount:1080.00, orderId:9004 },
-    { state:"Lyon",      country:"FRANCE", product:"Poderío 100ml",   sku:"LSM-002", date:"2026-03-22", quantity:4,  amount:360.00,  orderId:9005 },
+    { state:"Lyon",      country:"FRANCE", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-03-22", quantity:4,  amount:360.00,  orderId:9005 },
     { state:"Lyon",      country:"FRANCE", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-03-01", quantity:6,  amount:540.00,  orderId:9006 },
     { state:"Lyon",      country:"FRANCE", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-12-28", quantity:9,  amount:810.00,  orderId:9007 },
   ],
 };
 
-// ── Escucha el cambio de marca ────────────────────────────────
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('niche3ds:brandChanged', function(e) {
   const brand = e.detail.brand;
   document.getElementById('brandTitle').textContent = brand;
@@ -414,32 +414,32 @@ document.addEventListener('niche3ds:brandChanged', function(e) {
   applyStateBrand(brand);
 });
 
-// ── Al cargar, aplica la marca guardada ───────────────────────
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', function() {
   const savedBrand = localStorage.getItem('selectedBrand');
   if (savedBrand) {
-    document.getElementById('brandTitle').textContent = savedBrand; // ← esta línea
+    document.getElementById('brandTitle').textContent = savedBrand; // â† esta lÃ­nea
     applyStateBrand(savedBrand);
   } else {
     // Si no hay marca guardada, carga la primera por defecto
-    stateData = BRAND_STATE_PRODUCTS['Parfum De Mahzen'];
+    stateData = BRAND_STATE_PRODUCTS['Brand Demo'];
     renderPerfumeryTable('lastYear');
   }
 });
 
 
 
-// ── Función principal ─────────────────────────────────────────
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function applyStateBrand(brand) {
   if (BRAND_STATE_PRODUCTS[brand]) {
     stateData = BRAND_STATE_PRODUCTS[brand];
-    renderPerfumeryTable(perfCurrentFilter); // ← nombre correcto
+    renderPerfumeryTable(perfCurrentFilter); // â† nombre correcto
   }
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    HELPERS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function formatCurrency(v) {
   return "$" + v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
@@ -470,9 +470,9 @@ function generateCurrentMonthDays() {
   return days;
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FILTER + GROUP
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function filterPerfByDate(data, filterType) {
   var now = new Date();
   var cy = now.getFullYear(), cm = now.getMonth()+1, cd = now.getDate();
@@ -532,9 +532,9 @@ function sumObj(obj, viewType, isProduct) {
   return uids.length;
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RENDER TABLE
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderPerfumeryTable(filterType) {
   var head = document.getElementById("perfumeryTableHead");
   var body = document.getElementById("perfumeryTableBody");
@@ -657,9 +657,9 @@ function renderPerfumeryTable(filterType) {
   renderPerfChart(filterType, grouped, chartCols);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TOGGLE PRODUCT ROWS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function togglePerfRows(pName) {
   var rows = document.querySelectorAll('.product-row[data-perf="'+pName+'"]');
   var iconId = "icon_" + btoa(pName).replace(/=/g,'');
@@ -669,9 +669,9 @@ function togglePerfRows(pName) {
   if (icon) icon.textContent = collapsed ? "▼" : "▶";
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FILTER CONTROLS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function applyPerfFilter(filterType) {
   perfCurrentFilter = filterType;
   document.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){
@@ -680,9 +680,9 @@ function applyPerfFilter(filterType) {
   renderPerfumeryTable(filterType);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW AS CONTROLS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function togglePerfViewDropdown() {
   var dd = document.getElementById("perfViewDropdown");
   var btn = document.getElementById("perfViewBtn");
@@ -710,9 +710,9 @@ document.addEventListener("click", function(e) {
   }
 });
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NAV HELPERS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function toggleGroup(id) {
   var grp = document.getElementById(id);
   var wasOpen = grp.classList.contains('open');
@@ -727,9 +727,9 @@ function showView(key, linkEl) {
   document.getElementById('view-placeholder').style.display = key!=='overview' ? 'block' : 'none';
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CHART
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderPerfChart(filterType, grouped, cols) {
   var ctx = document.getElementById('perfChart');
   if (!ctx) return;
@@ -857,20 +857,20 @@ function changePerfChartType(type) {
   renderPerfumeryTable(perfCurrentFilter);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    INIT
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener("DOMContentLoaded", function() {
   renderPerfumeryTable("lastYear");
 });
 </script>
 
 <script>
-  // Al cargar la página, marcar el link activo según la URL actual
+  // Al cargar la pÃ¡gina, marcar el link activo segÃºn la URL actual
 document.addEventListener("DOMContentLoaded", function() {
     var currentPage = window.location.pathname.split('/').pop();
 
-    // Buscar el link que coincida con la página actual
+    // Buscar el link que coincida con la pÃ¡gina actual
     var activeLink = document.querySelector('a[href*="' + currentPage + '"]');
     
     if (activeLink) {
@@ -900,3 +900,5 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </body>
 </html>
+
+

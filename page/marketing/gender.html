@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Networks – By Platform</title>
+  <title>Social Networks â€“ By Platform</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
    <link rel="stylesheet" href="../../css/dashboard.css">
@@ -29,7 +29,7 @@
       --pt: #E60023;
     }
 
-    /* ── SIDEBAR (idéntico al dashboard) ── */
+    /* â”€â”€ SIDEBAR (idÃ©ntico al dashboard) â”€â”€ */
     /* .nav-group-header{display:flex;justify-content:space-between;align-items:center;padding:11px 20px;cursor:pointer;color:rgba(255,255,255,.55);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
     .nav-group-header:hover{color:#fff;}
     .nav-group-arrow{font-size:10px;transition:transform .25s;}
@@ -40,7 +40,7 @@
     .aside-footer a{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:color .2s;}
     .aside-footer a:hover{color:#fff;} */
 
-    /* ── MAIN ── */
+    /* â”€â”€ MAIN â”€â”€ */
     .main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
     .topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
     /* .topbar-title{font-size:15px;font-weight:600;color:var(--text);}
@@ -51,7 +51,7 @@
     .topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
     .content{padding:28px;flex:1;}
 
-    /* ── WELCOME ── */
+    /* â”€â”€ WELCOME â”€â”€ */
     .welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
     .welcome-bar h2{font-size:1.4rem;font-weight:700;color:var(--text);}
     .welcome-bar h2 span{color:var(--gold);}
@@ -59,7 +59,7 @@
     .breadcrumb{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:6px;}
     .breadcrumb span{color:var(--gold);}
 
-    /* ── PLATFORM CARDS ── */
+    /* â”€â”€ PLATFORM CARDS â”€â”€ */
     .platform-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
     .platform-card{background:#fff;border-radius:12px;padding:16px 18px;border:1px solid var(--border);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
     .platform-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);}
@@ -74,7 +74,7 @@
     .platform-growth{font-size:14px;color:#4CAF50;display:flex;align-items:center;gap:3px;}
     .platform-growth.down{color:#e53935;}
 
-    /* ── FILTERS ── */
+    /* â”€â”€ FILTERS â”€â”€ */
     .filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
     .filter-container{display:flex;gap:8px;flex-wrap:wrap;}
     .filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
@@ -95,10 +95,10 @@
     .view-option.active{background:var(--gold-light);color:var(--gold);}
     .view-option i{font-size:13px;width:16px;}
 
-    /* ── SECTION TITLE ── */
+    /* â”€â”€ SECTION TITLE â”€â”€ */
     .section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
 
-    /* ── TABLE ── */
+    /* â”€â”€ TABLE â”€â”€ */
     .table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
     .responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
     .responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
@@ -129,7 +129,7 @@
     .metric-name{font-size:13px;font-weight:500;color:var(--text);}
     .toggle-icon{color:var(--gold);font-size:10px;transition:transform .2s;display:inline-block;margin-right:4px;}
 
-    /* ── CHART ── */
+    /* â”€â”€ CHART â”€â”€ */
     .chart-container{background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);}
     .chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
     .chart-title{margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;}
@@ -138,7 +138,7 @@
     .chart-type-btn.active{background:white;color:var(--gold);box-shadow:0 2px 4px rgba(0,0,0,.1);}
     .chart-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--border);}
 
-    /* ── RESPONSIVE ── */
+    /* â”€â”€ RESPONSIVE â”€â”€ */
     @media(max-width:1100px){.platform-cards{grid-template-columns:repeat(3,1fr);}}
     @media(max-width:768px){
       .main-wrap{margin-left:0;}
@@ -181,7 +181,7 @@
     <!-- WELCOME -->
     <div class="welcome-bar">
       <div>
-        <h2>Social Networks — <span>By Gender</span></h2>
+        <h2>Social Networks â€” <span>By Gender</span></h2>
         <!-- <p>Track followers, reach, impressions, engagement and sales across all platforms.</p> -->
       </div>
       <!-- <div class="breadcrumb">
@@ -255,9 +255,9 @@
 </div>
 
 <script>
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CONFIG
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 // var PLATFORMS = [
 //   { key:"instagram", label:"Instagram", icon:"fab fa-instagram", color:"#E1306C" },
 //   { key:"facebook",  label:"Facebook",  icon:"fab fa-facebook-f", color:"#1877F2" },
@@ -283,9 +283,9 @@ var METRICS = [
 var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
 var dayNames   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
 
-/* ════════════════════════════════
-   FAKE DATA  (seed per platform × month)
-════════════════════════════════ */
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FAKE DATA  (seed per platform Ã— month)
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function seedData(platform) {
   // Base values per platform
   var bases = {
@@ -344,9 +344,9 @@ function seedData(platform) {
 var allData = [];
 PLATFORMS.forEach(function(p){ allData = allData.concat(seedData(p.key)); });
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    STATE
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 var currentFilter  = "lastYear";
 var currentMetric  = "followers";
 var currentChartType = "bar";
@@ -354,9 +354,9 @@ var hiddenSeries   = [];
 var activePlatforms = PLATFORMS.map(function(p){ return p.key; }); // all active
 var mainChart = null;
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FORMAT HELPERS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function fmtNum(v) {
   if (v >= 1000000) return (v/1000000).toFixed(1)+"M";
   if (v >= 1000)    return (v/1000).toFixed(1)+"K";
@@ -391,9 +391,9 @@ function generateCurrentMonthDays(){
   return days;
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    PLATFORM SUMMARY CARDS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderPlatformCards() {
   var now = new Date();
   var cy = now.getFullYear(), cm = now.getMonth()+1;
@@ -430,7 +430,7 @@ function renderPlatformCards() {
         html += '<div class="platform-followers">'+fmtNum(curVal)+'</div>';
         html += '<div style="font-size:14px;color:var(--text-muted);margin-bottom:6px;display:flex;align-items:center;gap:4px;">'
             + '<i class="'+(m?m.icon:'fas fa-users')+'" style="font-size:10px;"></i>'
-            + ' '+mLabel+' &nbsp;·&nbsp; '+fLabel
+            + ' '+mLabel+' &nbsp;Â·&nbsp; '+fLabel
             + '</div>';
         html += '<div class="platform-growth'+(growthUp?"":" down")+'">';
     html += '<i class="fas fa-arrow-'+(growthUp?"up":"down")+'"></i> '+Math.abs(growth)+'% vs last month';
@@ -451,9 +451,9 @@ function togglePlatform(key) {
   renderTable(currentFilter);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TABLE
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderTable(filterType) {
   var head = document.getElementById("tableHead");
   var body = document.getElementById("tableBody");
@@ -589,11 +589,11 @@ function renderTable(filterType) {
   /* GRAND TOTAL */
   html += '<tr class="total-row"><td><strong>TOTAL / AVG</strong></td>';
   if (!isYear) {
-    html += '<td><strong>'+(currentMetric==="engagement"?"—":metricFmt(grandYTD))+'</strong></td>';
-    html += '<td><strong>'+(currentMetric==="engagement"?"—":metricFmt(grandMTD))+'</strong></td>';
+    html += '<td><strong>'+(currentMetric==="engagement"?"â€”":metricFmt(grandYTD))+'</strong></td>';
+    html += '<td><strong>'+(currentMetric==="engagement"?"â€”":metricFmt(grandMTD))+'</strong></td>';
   }
   cols.forEach(function(col){
-    html += '<td><strong>'+(currentMetric==="engagement"?"—":metricFmt(grandCols[col.key]||0))+'</strong></td>';
+    html += '<td><strong>'+(currentMetric==="engagement"?"â€”":metricFmt(grandCols[col.key]||0))+'</strong></td>';
   });
   html += '</tr>';
 
@@ -607,9 +607,9 @@ function renderTable(filterType) {
   renderChart(filterType, chartCols);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TOGGLE METRIC ROWS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function toggleMetricRows(platform) {
   var rows = document.querySelectorAll('.metric-row[data-platform="'+platform+'"]');
   var icon = document.getElementById("icon_"+platform);
@@ -618,9 +618,9 @@ function toggleMetricRows(platform) {
   if (icon) icon.textContent = collapsed?"▼":"▶";
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CHART
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderChart(filterType, cols) {
   var ctx = document.getElementById("mainChart");
   if (!ctx) return;
@@ -726,9 +726,9 @@ function changeChartType(type) {
   renderTable(currentFilter);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CONTROLS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function applyFilter(filterType) {
   currentFilter = filterType;
   document.querySelectorAll("#dateFilters .filter-btn").forEach(function(b){
@@ -763,9 +763,9 @@ document.addEventListener("click", function(e) {
   }
 });
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    INIT
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener("DOMContentLoaded", function() {
   renderPlatformCards();
   renderTable("lastYear");
@@ -773,3 +773,4 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </body>
 </html>
+

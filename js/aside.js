@@ -13,8 +13,8 @@
   /* ═══════════════════════════════════════════════
      0. VARIABLE GLOBAL: MARCA SELECCIONADA
      ═══════════════════════════════════════════════ */
-  var selectedBrand = localStorage.getItem('niche3ds_brand') || 'Parfum De Mahzen';
-  var AVAILABLE_BRANDS = ['Parfum De Mahzen', 'La Sabia Madrid'];
+  var selectedBrand = localStorage.getItem('niche3ds_brand') || 'La Sabia Madrid';
+  var AVAILABLE_BRANDS = ['La Sabia Madrid','Brand Demo'];
 
   /* ═══════════════════════════════════════════════
      1. DEFINICIÓN CENTRALIZADA DEL MENÚ

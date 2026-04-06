@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motiv Perfumes – Dashboard</title>
+    <title>Motiv Perfumes â€“ Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="css/dashboard.css">
@@ -11,12 +11,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-    /* Opción A: Si usas el atributo disabled en el HTML */
+    /* OpciÃ³n A: Si usas el atributo disabled en el HTML */
     .nav-sub-item[disabled] {
         color: #999 !important;
         opacity: 0.6;
-        cursor: default !important;    /* ← Cursor normal (flecha), no mano */
-        pointer-events: none !important; /* ← Bloquea clics */
+        cursor: default !important;    /* â† Cursor normal (flecha), no mano */
+        pointer-events: none !important; /* â† Bloquea clics */
         text-decoration: none !important;
     }
     
@@ -26,7 +26,7 @@
         text-decoration: none !important;
     }
 
-    /* Opción B: Si prefieres usar la clase "disabled" (más compatible) */
+    /* OpciÃ³n B: Si prefieres usar la clase "disabled" (mÃ¡s compatible) */
     .nav-sub-item.disabled {
         color: #999 !important;
         opacity: 0.6;
@@ -47,7 +47,7 @@ console.log("Marca actual:", brand);
 </head>
 <body>
 
-<!-- ══════════ ASIDE ══════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â• ASIDE â•â•â•â•â•â•â•â•â•â• -->
 <aside class="aside">
     <div class="aside-logo">
         <div class="logo-mark">
@@ -195,7 +195,7 @@ console.log("Marca actual:", brand);
     </div>
 </aside>
 
-<!-- ══════════ MAIN ══════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â•â•â•â• -->
 <div class="main-wrap">
     <header class="topbar">
         <div class="topbar-title" id="topbarTitle"> <span></span></div>
@@ -208,7 +208,7 @@ console.log("Marca actual:", brand);
 
     <main class="content">
 
-        <!-- ══ OVERVIEW ══ -->
+        <!-- â•â• OVERVIEW â•â• -->
         <div id="view-overview">
             <div class="welcome-bar">
                 <div>
@@ -241,7 +241,7 @@ console.log("Marca actual:", brand);
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-label">Best-Selling Product</div>
-                    <div class="kpi-value" style="font-size:1.05rem;line-height:1.3;">Supreme Oudh 100ml</div>
+                    <div class="kpi-value" style="font-size:1.05rem;line-height:1.3;">Demo1</div>
                     <div class="kpi-sub">Top SKU by units sold</div>
                 </div>
             </div>
@@ -310,14 +310,14 @@ console.log("Marca actual:", brand);
                 <div class="insights-card">
                     <h3>Quick Insights</h3>
                     <div class="insight-item">Florida is the strongest state by revenue and order count.</div>
-                    <div class="insight-item">Supreme Oudh 100ml is currently the highest-volume SKU.</div>
+                    <div class="insight-item">Demo1 is currently the highest-volume SKU.</div>
                     <div class="insight-item">Modern Oudh leads all collections in total sales contribution.</div>
                     <div class="insight-item">Repeat orders are strong, indicating healthy brand traction.</div>
                 </div>
             </div>
         </div><!-- /view-overview -->
 
-        <!-- ══ COMMISSIONS VIEW ══ -->
+        <!-- â•â• COMMISSIONS VIEW â•â• -->
         <div id="view-commissions" style="display:none;">
             <div class="welcome-bar" style="margin-bottom:16px;">
                 <div><h2>Commissions <span style="color:var(--gold);">/ Summary</span></h2></div>
@@ -437,7 +437,7 @@ console.log("Marca actual:", brand);
     </main>
 </div>
 
-<!-- ══ MODAL ══ -->
+<!-- â•â• MODAL â•â• -->
 <div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <button class="modal-close" onclick="closePaymentModal()">&times;</button>
@@ -509,7 +509,7 @@ function toggleGroup(id) {
         commissions:       { el:'view-commissions', title:'Dashboard <span>/ Clients</span>' },
     };
 
-   // REEMPLAZA la función showView completa:
+   // REEMPLAZA la funciÃ³n showView completa:
 function showView(key, linkEl) {
     // Quitar active de todos
     document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone')

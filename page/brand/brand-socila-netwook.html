@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motiv Perfumes – Dashboard</title>
+    <title>Motiv Perfumes â€“ Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../../css/dashboard.css">
@@ -11,11 +11,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-/* ── RESET & BASE ── */
+/* â”€â”€ RESET & BASE â”€â”€ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
 
-/* ── CSS VARIABLES ── */
+/* â”€â”€ CSS VARIABLES â”€â”€ */
 :root{
   --gold:rgb(171,160,110);
   --gold-dark:rgb(141,130,80);
@@ -29,7 +29,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
   --radius:10px;
 }
 
-/* ── ASIDE ── */
+/* â”€â”€ ASIDE â”€â”€ */
 /* .aside{width:240px;min-height:100vh;background:var(--sidebar-bg);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;}
 .aside-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.07);}
 .aside-logo img{width:140px;max-width:100%;}
@@ -57,7 +57,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 .aside-footer a:hover{color:#fff;}
 .aside-powered{text-align:center;margin-top:8px;font-size:9px;color:rgba(255,255,255,.15);letter-spacing:.5px;} */
 
-/* ── MAIN ── */
+/* â”€â”€ MAIN â”€â”€ */
 .main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
 .topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
 /* .topbar-title{font-size:15px;font-weight:600;color:var(--text);}
@@ -69,13 +69,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 
 .content{padding:28px;flex:1;}
 
-/* ── WELCOME ── */
+/* â”€â”€ WELCOME â”€â”€ */
 .welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
 .welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);}
 .welcome-bar h2 span{color:var(--gold);}
 .welcome-bar p{color:var(--text-muted);font-size:13px;margin-top:4px;}
 
-/* ── FILTERS ROW ── */
+/* â”€â”€ FILTERS ROW â”€â”€ */
 .filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
 .filter-container{display:flex;gap:8px;flex-wrap:wrap;}
 .filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
@@ -97,11 +97,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 .view-option.active{background:var(--gold-light);color:var(--gold);}
 .view-option i{font-size:13px;width:16px;}
 
-/* ── SECTION TITLE ── */
+/* â”€â”€ SECTION TITLE â”€â”€ */
 .section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
 .section-title i{font-size:1rem;}
 
-/* ── TABLE ── */
+/* â”€â”€ TABLE â”€â”€ */
 .table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
 .responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
 .responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
@@ -143,7 +143,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 .empty-state{padding:60px 20px;text-align:center;color:var(--text-muted);}
 .empty-state i{font-size:48px;color:#ddd;margin-bottom:16px;display:block;}
 
-/* ── RESPONSIVE ── */
+/* â”€â”€ RESPONSIVE â”€â”€ */
 @media(max-width:768px){
   .aside{transform:translateX(-100%);}
   .main-wrap{margin-left:0;}
@@ -265,9 +265,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
             body.style.display = isOpen ? 'none' : 'block';
             arrow.classList.toggle('open', !isOpen);
         }
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    GLOBALS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 var perfCurrentFilter = "lastYear";
 var perfCurrentView   = "quantity";
 var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
@@ -282,126 +282,126 @@ var perfColors = [
   'rgb(102,153,153)','rgb(153,153,102)'
 ];
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FAKE DATA
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 // var productData = [
-//   // ── FLORIDA ──
-//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2026-03-15", quantity:8,  amount:760.00,  orderId:1001, collection:"Instagram" },
-//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Veritas",         sku:"AUR-002", date:"2026-03-10", quantity:5,  amount:475.00,  orderId:1002, collection:"Facebook" },
-//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2026-02-20", quantity:12, amount:1140.00, orderId:1003, collection:"Instagram" },
-//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Uchcha",          sku:"07F-00688-PARF-100ML", date:"2026-01-18", quantity:6,  amount:570.00,  orderId:1004, collection:"TikTok" },
-//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2025-12-10", quantity:20, amount:1900.00, orderId:1005, collection:"Instagram" },
-//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Veritas",         sku:"AUR-002", date:"2025-11-22", quantity:9,  amount:855.00,  orderId:1006, collection:"Facebook" },
+//   // â”€â”€ FLORIDA â”€â”€
+//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2026-03-15", quantity:8,  amount:760.00,  orderId:1001, collection:"Instagram" },
+//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Demo2",         sku:"AUR-002", date:"2026-03-10", quantity:5,  amount:475.00,  orderId:1002, collection:"Facebook" },
+//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2026-02-20", quantity:12, amount:1140.00, orderId:1003, collection:"Instagram" },
+//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Demon3",          sku:"07F-00688-PARF-100ML", date:"2026-01-18", quantity:6,  amount:570.00,  orderId:1004, collection:"TikTok" },
+//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2025-12-10", quantity:20, amount:1900.00, orderId:1005, collection:"Instagram" },
+//   { city:"Miami",       state:"Florida",    country:"USA",    product:"Demo2",         sku:"AUR-002", date:"2025-11-22", quantity:9,  amount:855.00,  orderId:1006, collection:"Facebook" },
 //   { city:"Orlando",     state:"Florida",    country:"USA",    product:"Sphinx",          sku:"07F-0068D-PARF-100ML", date:"2025-10-14", quantity:7,  amount:665.00,  orderId:1007, collection:"TikTok" },
-//   { city:"Orlando",     state:"Florida",    country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2025-09-05", quantity:11, amount:1045.00, orderId:1008, collection:"Instagram" },
-//   { city:"Orlando",     state:"Florida",    country:"USA",    product:"Veritas",         sku:"AUR-002", date:"2026-02-08", quantity:4,  amount:380.00,  orderId:1009, collection:"Facebook" },
-//   { city:"Tampa",       state:"Florida",    country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2026-03-02", quantity:6,  amount:570.00,  orderId:1010, collection:"Instagram" },
+//   { city:"Orlando",     state:"Florida",    country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2025-09-05", quantity:11, amount:1045.00, orderId:1008, collection:"Instagram" },
+//   { city:"Orlando",     state:"Florida",    country:"USA",    product:"Demo2",         sku:"AUR-002", date:"2026-02-08", quantity:4,  amount:380.00,  orderId:1009, collection:"Facebook" },
+//   { city:"Tampa",       state:"Florida",    country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2026-03-02", quantity:6,  amount:570.00,  orderId:1010, collection:"Instagram" },
 //   { city:"Tampa",       state:"Florida",    country:"USA",    product:"Molecule Oudh",   sku:"07F-00685-PARF-100ML", date:"2026-01-25", quantity:5,  amount:475.00,  orderId:1011, collection:"Instagram" },
-//   { city:"Tampa",       state:"Florida",    country:"USA",    product:"Veritas",         sku:"AUR-002", date:"2025-12-20", quantity:8,  amount:760.00,  orderId:1012, collection:"Facebook" },
+//   { city:"Tampa",       state:"Florida",    country:"USA",    product:"Demo2",         sku:"AUR-002", date:"2025-12-20", quantity:8,  amount:760.00,  orderId:1012, collection:"Facebook" },
 //   { city:"Tampa",       state:"Florida",    country:"USA",    product:"Sangal",          sku:"07F-0068C-PARF-100ML", date:"2025-11-15", quantity:6,  amount:570.00,  orderId:1013, collection:"TikTok" },
 
-//   // ── NEW YORK ──
-//   { city:"New York City", state:"New York", country:"USA",    product:"Veritas",         sku:"AUR-002", date:"2026-03-18", quantity:6,  amount:570.00,  orderId:2001, collection:"Facebook" },
-//   { city:"New York City", state:"New York", country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2026-03-05", quantity:4,  amount:380.00,  orderId:2002, collection:"Instagram" },
+//   // â”€â”€ NEW YORK â”€â”€
+//   { city:"New York City", state:"New York", country:"USA",    product:"Demo2",         sku:"AUR-002", date:"2026-03-18", quantity:6,  amount:570.00,  orderId:2001, collection:"Facebook" },
+//   { city:"New York City", state:"New York", country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2026-03-05", quantity:4,  amount:380.00,  orderId:2002, collection:"Instagram" },
 //   { city:"New York City", state:"New York", country:"USA",    product:"Incense Oudh",    sku:"07F-00684-PARF-100ML", date:"2026-02-14", quantity:9,  amount:855.00,  orderId:2003, collection:"Instagram" },
-//   { city:"New York City", state:"New York", country:"USA",    product:"Veritas",         sku:"AUR-002", date:"2026-01-22", quantity:7,  amount:665.00,  orderId:2004, collection:"Facebook" },
-//   { city:"New York City", state:"New York", country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2025-12-18", quantity:14, amount:1330.00, orderId:2005, collection:"Instagram" },
-//   { city:"Buffalo",       state:"New York", country:"USA",    product:"Hūma",            sku:"07F-0068B-PARF-100ML", date:"2025-11-09", quantity:5,  amount:475.00,  orderId:2006, collection:"TikTok" },
-//   { city:"Buffalo",       state:"New York", country:"USA",    product:"Veritas",         sku:"AUR-002", date:"2025-10-25", quantity:8,  amount:760.00,  orderId:2007, collection:"Facebook" },
-//   { city:"Buffalo",       state:"New York", country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2025-09-12", quantity:10, amount:950.00,  orderId:2008, collection:"Instagram" },
+//   { city:"New York City", state:"New York", country:"USA",    product:"Demo2",         sku:"AUR-002", date:"2026-01-22", quantity:7,  amount:665.00,  orderId:2004, collection:"Facebook" },
+//   { city:"New York City", state:"New York", country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2025-12-18", quantity:14, amount:1330.00, orderId:2005, collection:"Instagram" },
+//   { city:"Buffalo",       state:"New York", country:"USA",    product:"HÅ«ma",            sku:"07F-0068B-PARF-100ML", date:"2025-11-09", quantity:5,  amount:475.00,  orderId:2006, collection:"TikTok" },
+//   { city:"Buffalo",       state:"New York", country:"USA",    product:"Demo2",         sku:"AUR-002", date:"2025-10-25", quantity:8,  amount:760.00,  orderId:2007, collection:"Facebook" },
+//   { city:"Buffalo",       state:"New York", country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2025-09-12", quantity:10, amount:950.00,  orderId:2008, collection:"Instagram" },
 //   { city:"Buffalo",       state:"New York", country:"USA",    product:"Gugulanna",       sku:"07F-0068A-PARF-100ML", date:"2025-08-20", quantity:7,  amount:665.00,  orderId:2009, collection:"TikTok" },
 
-//   // ── TEXAS ──
-//   { city:"Houston",     state:"Texas",      country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2026-03-20", quantity:10, amount:950.00,  orderId:3001, collection:"Instagram" },
+//   // â”€â”€ TEXAS â”€â”€
+//   { city:"Houston",     state:"Texas",      country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2026-03-20", quantity:10, amount:950.00,  orderId:3001, collection:"Instagram" },
 //   { city:"Houston",     state:"Texas",      country:"USA",    product:"Divina",          sku:"07F-0067Y-PARF-100ML", date:"2026-03-08", quantity:4,  amount:380.00,  orderId:3002, collection:"Facebook" },
-//   { city:"Houston",     state:"Texas",      country:"USA",    product:"Veritas",         sku:"AUR-002", date:"2026-02-25", quantity:6,  amount:570.00,  orderId:3003, collection:"Facebook" },
-//   { city:"Dallas",      state:"Texas",      country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2026-01-30", quantity:8,  amount:760.00,  orderId:3004, collection:"Instagram" },
+//   { city:"Houston",     state:"Texas",      country:"USA",    product:"Demo2",         sku:"AUR-002", date:"2026-02-25", quantity:6,  amount:570.00,  orderId:3003, collection:"Facebook" },
+//   { city:"Dallas",      state:"Texas",      country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2026-01-30", quantity:8,  amount:760.00,  orderId:3004, collection:"Instagram" },
 //   { city:"Dallas",      state:"Texas",      country:"USA",    product:"Gamayun",         sku:"07F-00689-PARF-100ML", date:"2025-12-05", quantity:11, amount:1045.00, orderId:3005, collection:"TikTok" },
-//   { city:"Dallas",      state:"Texas",      country:"USA",    product:"Veritas",         sku:"AUR-002", date:"2025-11-15", quantity:3,  amount:285.00,  orderId:3006, collection:"Facebook" },
-//   { city:"Austin",      state:"Texas",      country:"USA",    product:"Supreme Oudh",   sku:"AUR-001", date:"2025-10-20", quantity:9,  amount:855.00,  orderId:3007, collection:"Instagram" },
+//   { city:"Dallas",      state:"Texas",      country:"USA",    product:"Demo2",         sku:"AUR-002", date:"2025-11-15", quantity:3,  amount:285.00,  orderId:3006, collection:"Facebook" },
+//   { city:"Austin",      state:"Texas",      country:"USA",    product:"Demo1",   sku:"AUR-001", date:"2025-10-20", quantity:9,  amount:855.00,  orderId:3007, collection:"Instagram" },
 //   { city:"Austin",      state:"Texas",      country:"USA",    product:"Fenrir",          sku:"07F-00688-PARF-100ML", date:"2025-09-28", quantity:5,  amount:475.00,  orderId:3008, collection:"TikTok" },
 
-//   // ── CALIFORNIA ──
-//   { city:"Los Angeles",  state:"California", country:"USA",   product:"Veritas",         sku:"AUR-002", date:"2026-03-22", quantity:7,  amount:665.00,  orderId:4001, collection:"Facebook" },
-//   { city:"Los Angeles",  state:"California", country:"USA",   product:"Supreme Oudh",   sku:"AUR-001", date:"2026-03-01", quantity:5,  amount:475.00,  orderId:4002, collection:"Instagram" },
+//   // â”€â”€ CALIFORNIA â”€â”€
+//   { city:"Los Angeles",  state:"California", country:"USA",   product:"Demo2",         sku:"AUR-002", date:"2026-03-22", quantity:7,  amount:665.00,  orderId:4001, collection:"Facebook" },
+//   { city:"Los Angeles",  state:"California", country:"USA",   product:"Demo1",   sku:"AUR-001", date:"2026-03-01", quantity:5,  amount:475.00,  orderId:4002, collection:"Instagram" },
 //   { city:"Los Angeles",  state:"California", country:"USA",   product:"Molecule Oudh",   sku:"07F-00685-PARF-100ML", date:"2026-02-10", quantity:8,  amount:760.00,  orderId:4003, collection:"Instagram" },
-//   { city:"San Francisco",state:"California", country:"USA",   product:"Veritas",         sku:"AUR-002", date:"2026-01-08", quantity:6,  amount:570.00,  orderId:4004, collection:"Facebook" },
-//   { city:"San Francisco",state:"California", country:"USA",   product:"Supreme Oudh",   sku:"AUR-001", date:"2025-12-28", quantity:13, amount:1235.00, orderId:4005, collection:"Instagram" },
+//   { city:"San Francisco",state:"California", country:"USA",   product:"Demo2",         sku:"AUR-002", date:"2026-01-08", quantity:6,  amount:570.00,  orderId:4004, collection:"Facebook" },
+//   { city:"San Francisco",state:"California", country:"USA",   product:"Demo1",   sku:"AUR-001", date:"2025-12-28", quantity:13, amount:1235.00, orderId:4005, collection:"Instagram" },
 //   { city:"San Diego",    state:"California", country:"USA",   product:"Incense Oudh",    sku:"07F-00684-PARF-100ML", date:"2025-11-03", quantity:4,  amount:380.00,  orderId:4006, collection:"Instagram" },
-//   { city:"San Diego",    state:"California", country:"USA",   product:"Veritas",         sku:"AUR-002", date:"2025-10-17", quantity:7,  amount:665.00,  orderId:4007, collection:"Facebook" },
-//   // { city:"San Diego",    state:"California", country:"USA",   product:"Supreme Oudh",   sku:"AUR-001", date:"2025-09-20", quantity:9,  amount:855.00,  orderId:4008, collection:"Modern Oudh" },
-//   { city:"San Diego",    state:"California", country:"USA",   product:"Uchcha",          sku:"07F-00688-PARF-100ML", date:"2025-08-15", quantity:6,  amount:570.00,  orderId:4009, collection:"TikTok" },
+//   { city:"San Diego",    state:"California", country:"USA",   product:"Demo2",         sku:"AUR-002", date:"2025-10-17", quantity:7,  amount:665.00,  orderId:4007, collection:"Facebook" },
+//   // { city:"San Diego",    state:"California", country:"USA",   product:"Demo1",   sku:"AUR-001", date:"2025-09-20", quantity:9,  amount:855.00,  orderId:4008, collection:"Modern Oudh" },
+//   { city:"San Diego",    state:"California", country:"USA",   product:"Demon3",          sku:"07F-00688-PARF-100ML", date:"2025-08-15", quantity:6,  amount:570.00,  orderId:4009, collection:"TikTok" },
 
 // ];
 
 
-// ── Datos iniciales ───────────────────────────────────────────
+// â”€â”€ Datos iniciales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var productData = [];
 
-// ── Datos por marca ───────────────────────────────────────────
+// â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const BRAND_PRODUCT_DATA = {
-  'Parfum De Mahzen': [
-    { city:"Miami",        state:"Florida",    country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2026-03-15", quantity:8,  amount:760.00,  orderId:1001, collection:"Instagram" },
-    { city:"Miami",        state:"Florida",    country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2026-03-10", quantity:5,  amount:475.00,  orderId:1002, collection:"Facebook" },
-    { city:"Miami",        state:"Florida",    country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2026-02-20", quantity:12, amount:1140.00, orderId:1003, collection:"Instagram" },
-    { city:"Miami",        state:"Florida",    country:"USA",    product:"Uchcha 100ml",         sku:"07F-00688-PARF-100ML",      date:"2026-01-18", quantity:6,  amount:570.00,  orderId:1004, collection:"TikTok" },
-    { city:"Miami",        state:"Florida",    country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2025-12-10", quantity:20, amount:1900.00, orderId:1005, collection:"Instagram" },
-    { city:"Miami",        state:"Florida",    country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2025-11-22", quantity:9,  amount:855.00,  orderId:1006, collection:"Facebook" },
-    { city:"Orlando",      state:"Florida",    country:"USA",    product:"Sphinx 100ml",         sku:"07F-0068D-PARF-100ML",      date:"2025-10-14", quantity:7,  amount:665.00,  orderId:1007, collection:"TikTok" },
-    { city:"Orlando",      state:"Florida",    country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2025-09-05", quantity:11, amount:1045.00, orderId:1008, collection:"Instagram" },
-    { city:"Orlando",      state:"Florida",    country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2026-02-08", quantity:4,  amount:380.00,  orderId:1009, collection:"Facebook" },
-    { city:"Tampa",        state:"Florida",    country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2026-03-02", quantity:6,  amount:570.00,  orderId:1010, collection:"Instagram" },
-    { city:"Tampa",        state:"Florida",    country:"USA",    product:"Molecule Oudh 100ml",  sku:"07F-00685-PARF-100ML",      date:"2026-01-25", quantity:5,  amount:475.00,  orderId:1011, collection:"Instagram" },
-    { city:"Tampa",        state:"Florida",    country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2025-12-20", quantity:8,  amount:760.00,  orderId:1012, collection:"Facebook" },
-    { city:"Tampa",        state:"Florida",    country:"USA",    product:"Sangal 100ml",         sku:"07F-0068C-PARF-100ML",      date:"2025-11-15", quantity:6,  amount:570.00,  orderId:1013, collection:"TikTok" },
-    { city:"New York City",state:"New York",   country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2026-03-18", quantity:6,  amount:570.00,  orderId:2001, collection:"Facebook" },
-    { city:"New York City",state:"New York",   country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2026-03-05", quantity:4,  amount:380.00,  orderId:2002, collection:"Instagram" },
-    { city:"New York City",state:"New York",   country:"USA",    product:"Incense Oudh 100ml",   sku:"07F-00684-PARF-100ML",      date:"2026-02-14", quantity:9,  amount:855.00,  orderId:2003, collection:"Instagram" },
-    { city:"New York City",state:"New York",   country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2026-01-22", quantity:7,  amount:665.00,  orderId:2004, collection:"Facebook" },
-    { city:"New York City",state:"New York",   country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2025-12-18", quantity:14, amount:1330.00, orderId:2005, collection:"Instagram" },
-    { city:"Buffalo",      state:"New York",   country:"USA",    product:"Hūma 100ml",           sku:"07F-0068B-PARF-100ML",      date:"2025-11-09", quantity:5,  amount:475.00,  orderId:2006, collection:"TikTok" },
-    { city:"Buffalo",      state:"New York",   country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2025-10-25", quantity:8,  amount:760.00,  orderId:2007, collection:"Facebook" },
-    { city:"Buffalo",      state:"New York",   country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2025-09-12", quantity:10, amount:950.00,  orderId:2008, collection:"Instagram" },
-    { city:"Buffalo",      state:"New York",   country:"USA",    product:"Gugulanna 100ml",      sku:"07F-0068A-PARF-100ML",      date:"2025-08-20", quantity:7,  amount:665.00,  orderId:2009, collection:"TikTok" },
-    { city:"Houston",      state:"Texas",      country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2026-03-20", quantity:10, amount:950.00,  orderId:3001, collection:"Instagram" },
-    { city:"Houston",      state:"Texas",      country:"USA",    product:"Divina 100ml",         sku:"07F-0067Y-PARF-100ML",      date:"2026-03-08", quantity:4,  amount:380.00,  orderId:3002, collection:"Facebook" },
-    { city:"Houston",      state:"Texas",      country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2026-02-25", quantity:6,  amount:570.00,  orderId:3003, collection:"Facebook" },
-    { city:"Dallas",       state:"Texas",      country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2026-01-30", quantity:8,  amount:760.00,  orderId:3004, collection:"Instagram" },
-    { city:"Dallas",       state:"Texas",      country:"USA",    product:"Gamayun 100ml",        sku:"07F-00689-PARF-100ML",      date:"2025-12-05", quantity:11, amount:1045.00, orderId:3005, collection:"TikTok" },
-    { city:"Dallas",       state:"Texas",      country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2025-11-15", quantity:3,  amount:285.00,  orderId:3006, collection:"Facebook" },
-    { city:"Austin",       state:"Texas",      country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2025-10-20", quantity:9,  amount:855.00,  orderId:3007, collection:"Instagram" },
-    { city:"Austin",       state:"Texas",      country:"USA",    product:"Fenrir 100ml",         sku:"07F-00688-PARF-100ML",      date:"2025-09-28", quantity:5,  amount:475.00,  orderId:3008, collection:"TikTok" },
-    { city:"Los Angeles",  state:"California", country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2026-03-22", quantity:7,  amount:665.00,  orderId:4001, collection:"Facebook" },
-    { city:"Los Angeles",  state:"California", country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2026-03-01", quantity:5,  amount:475.00,  orderId:4002, collection:"Instagram" },
-    { city:"Los Angeles",  state:"California", country:"USA",    product:"Molecule Oudh 100ml",  sku:"07F-00685-PARF-100ML",      date:"2026-02-10", quantity:8,  amount:760.00,  orderId:4003, collection:"Instagram" },
-    { city:"San Francisco",state:"California", country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2026-01-08", quantity:6,  amount:570.00,  orderId:4004, collection:"Facebook" },
-    { city:"San Francisco",state:"California", country:"USA",    product:"Supreme Oudh 100ml",  sku:"AUR-001",                   date:"2025-12-28", quantity:13, amount:1235.00, orderId:4005, collection:"Instagram" },
-    { city:"San Diego",    state:"California", country:"USA",    product:"Incense Oudh 100ml",   sku:"07F-00684-PARF-100ML",      date:"2025-11-03", quantity:4,  amount:380.00,  orderId:4006, collection:"Instagram" },
-    { city:"San Diego",    state:"California", country:"USA",    product:"Veritas 100ml",        sku:"AUR-002",                   date:"2025-10-17", quantity:7,  amount:665.00,  orderId:4007, collection:"Facebook" },
-    { city:"San Diego",    state:"California", country:"USA",    product:"Uchcha 100ml",         sku:"07F-00688-PARF-100ML",      date:"2025-08-15", quantity:6,  amount:570.00,  orderId:4009, collection:"TikTok" },
+  'Brand Demo': [
+    { city:"Miami",        state:"Florida",    country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2026-03-15", quantity:8,  amount:760.00,  orderId:1001, collection:"Instagram" },
+    { city:"Miami",        state:"Florida",    country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2026-03-10", quantity:5,  amount:475.00,  orderId:1002, collection:"Facebook" },
+    { city:"Miami",        state:"Florida",    country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2026-02-20", quantity:12, amount:1140.00, orderId:1003, collection:"Instagram" },
+    { city:"Miami",        state:"Florida",    country:"USA",    product:"Demo3",         sku:"07F-00688-PARF-100ML",      date:"2026-01-18", quantity:6,  amount:570.00,  orderId:1004, collection:"TikTok" },
+    { city:"Miami",        state:"Florida",    country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2025-12-10", quantity:20, amount:1900.00, orderId:1005, collection:"Instagram" },
+    { city:"Miami",        state:"Florida",    country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2025-11-22", quantity:9,  amount:855.00,  orderId:1006, collection:"Facebook" },
+    // { city:"Orlando",      state:"Florida",    country:"USA",    product:"Sphinx 100ml",         sku:"07F-0068D-PARF-100ML",      date:"2025-10-14", quantity:7,  amount:665.00,  orderId:1007, collection:"TikTok" },
+    { city:"Orlando",      state:"Florida",    country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2025-09-05", quantity:11, amount:1045.00, orderId:1008, collection:"Instagram" },
+    { city:"Orlando",      state:"Florida",    country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2026-02-08", quantity:4,  amount:380.00,  orderId:1009, collection:"Facebook" },
+    { city:"Tampa",        state:"Florida",    country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2026-03-02", quantity:6,  amount:570.00,  orderId:1010, collection:"Instagram" },
+    // { city:"Tampa",        state:"Florida",    country:"USA",    product:"Molecule Oudh 100ml",  sku:"07F-00685-PARF-100ML",      date:"2026-01-25", quantity:5,  amount:475.00,  orderId:1011, collection:"Instagram" },
+    { city:"Tampa",        state:"Florida",    country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2025-12-20", quantity:8,  amount:760.00,  orderId:1012, collection:"Facebook" },
+    // { city:"Tampa",        state:"Florida",    country:"USA",    product:"Sangal 100ml",         sku:"07F-0068C-PARF-100ML",      date:"2025-11-15", quantity:6,  amount:570.00,  orderId:1013, collection:"TikTok" },
+    { city:"New York City",state:"New York",   country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2026-03-18", quantity:6,  amount:570.00,  orderId:2001, collection:"Facebook" },
+    { city:"New York City",state:"New York",   country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2026-03-05", quantity:4,  amount:380.00,  orderId:2002, collection:"Instagram" },
+    // { city:"New York City",state:"New York",   country:"USA",    product:"Incense Oudh 100ml",   sku:"07F-00684-PARF-100ML",      date:"2026-02-14", quantity:9,  amount:855.00,  orderId:2003, collection:"Instagram" },
+    { city:"New York City",state:"New York",   country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2026-01-22", quantity:7,  amount:665.00,  orderId:2004, collection:"Facebook" },
+    { city:"New York City",state:"New York",   country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2025-12-18", quantity:14, amount:1330.00, orderId:2005, collection:"Instagram" },
+    // { city:"Buffalo",      state:"New York",   country:"USA",    product:"HÅ«ma 100ml",           sku:"07F-0068B-PARF-100ML",      date:"2025-11-09", quantity:5,  amount:475.00,  orderId:2006, collection:"TikTok" },
+    { city:"Buffalo",      state:"New York",   country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2025-10-25", quantity:8,  amount:760.00,  orderId:2007, collection:"Facebook" },
+    { city:"Buffalo",      state:"New York",   country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2025-09-12", quantity:10, amount:950.00,  orderId:2008, collection:"Instagram" },
+    // { city:"Buffalo",      state:"New York",   country:"USA",    product:"Gugulanna 100ml",      sku:"07F-0068A-PARF-100ML",      date:"2025-08-20", quantity:7,  amount:665.00,  orderId:2009, collection:"TikTok" },
+    { city:"Houston",      state:"Texas",      country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2026-03-20", quantity:10, amount:950.00,  orderId:3001, collection:"Instagram" },
+    // { city:"Houston",      state:"Texas",      country:"USA",    product:"Divina 100ml",         sku:"07F-0067Y-PARF-100ML",      date:"2026-03-08", quantity:4,  amount:380.00,  orderId:3002, collection:"Facebook" },
+    { city:"Houston",      state:"Texas",      country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2026-02-25", quantity:6,  amount:570.00,  orderId:3003, collection:"Facebook" },
+    { city:"Dallas",       state:"Texas",      country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2026-01-30", quantity:8,  amount:760.00,  orderId:3004, collection:"Instagram" },
+    // { city:"Dallas",       state:"Texas",      country:"USA",    product:"Gamayun 100ml",        sku:"07F-00689-PARF-100ML",      date:"2025-12-05", quantity:11, amount:1045.00, orderId:3005, collection:"TikTok" },
+    { city:"Dallas",       state:"Texas",      country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2025-11-15", quantity:3,  amount:285.00,  orderId:3006, collection:"Facebook" },
+    { city:"Austin",       state:"Texas",      country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2025-10-20", quantity:9,  amount:855.00,  orderId:3007, collection:"Instagram" },
+    // { city:"Austin",       state:"Texas",      country:"USA",    product:"Fenrir 100ml",         sku:"07F-00688-PARF-100ML",      date:"2025-09-28", quantity:5,  amount:475.00,  orderId:3008, collection:"TikTok" },
+    { city:"Los Angeles",  state:"California", country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2026-03-22", quantity:7,  amount:665.00,  orderId:4001, collection:"Facebook" },
+    { city:"Los Angeles",  state:"California", country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2026-03-01", quantity:5,  amount:475.00,  orderId:4002, collection:"Instagram" },
+    // { city:"Los Angeles",  state:"California", country:"USA",    product:"Molecule Oudh 100ml",  sku:"07F-00685-PARF-100ML",      date:"2026-02-10", quantity:8,  amount:760.00,  orderId:4003, collection:"Instagram" },
+    { city:"San Francisco",state:"California", country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2026-01-08", quantity:6,  amount:570.00,  orderId:4004, collection:"Facebook" },
+    { city:"San Francisco",state:"California", country:"USA",    product:"Demo1",  sku:"AUR-001",                   date:"2025-12-28", quantity:13, amount:1235.00, orderId:4005, collection:"Instagram" },
+    // { city:"San Diego",    state:"California", country:"USA",    product:"Incense Oudh 100ml",   sku:"07F-00684-PARF-100ML",      date:"2025-11-03", quantity:4,  amount:380.00,  orderId:4006, collection:"Instagram" },
+    { city:"San Diego",    state:"California", country:"USA",    product:"Demo2",        sku:"AUR-002",                   date:"2025-10-17", quantity:7,  amount:665.00,  orderId:4007, collection:"Facebook" },
+    { city:"San Diego",    state:"California", country:"USA",    product:"Demo3",         sku:"07F-00688-PARF-100ML",      date:"2025-08-15", quantity:6,  amount:570.00,  orderId:4009, collection:"TikTok" },
   ],
   'La Sabia Madrid': [
     { city:"Madrid Centro", state:"Madrid",    country:"SPAIN",  product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-15", quantity:8,  amount:720.00,  orderId:7001, collection:"Instagram" },
-    { city:"Madrid Centro", state:"Madrid",    country:"SPAIN",  product:"Poderío 100ml",   sku:"LSM-002", date:"2026-03-10", quantity:5,  amount:450.00,  orderId:7002, collection:"Facebook" },
+    { city:"Madrid Centro", state:"Madrid",    country:"SPAIN",  product:"Poderio 100ml",   sku:"LSM-002", date:"2026-03-10", quantity:5,  amount:450.00,  orderId:7002, collection:"Facebook" },
     { city:"Madrid Centro", state:"Madrid",    country:"SPAIN",  product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-02-20", quantity:10, amount:900.00,  orderId:7003, collection:"TikTok" },
     { city:"Madrid Norte",  state:"Madrid",    country:"SPAIN",  product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-12-10", quantity:15, amount:1350.00, orderId:7004, collection:"Instagram" },
-    { city:"Madrid Norte",  state:"Madrid",    country:"SPAIN",  product:"Poderío 100ml",   sku:"LSM-002", date:"2025-11-22", quantity:7,  amount:630.00,  orderId:7005, collection:"Facebook" },
+    { city:"Madrid Norte",  state:"Madrid",    country:"SPAIN",  product:"Poderio 100ml",   sku:"LSM-002", date:"2025-11-22", quantity:7,  amount:630.00,  orderId:7005, collection:"Facebook" },
     { city:"Barcelona",     state:"Barcelona", country:"SPAIN",  product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-03-18", quantity:6,  amount:540.00,  orderId:8001, collection:"TikTok" },
     { city:"Barcelona",     state:"Barcelona", country:"SPAIN",  product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-05", quantity:4,  amount:360.00,  orderId:8002, collection:"Instagram" },
-    { city:"Barcelona",     state:"Barcelona", country:"SPAIN",  product:"Poderío 100ml",   sku:"LSM-002", date:"2026-01-22", quantity:9,  amount:810.00,  orderId:8003, collection:"Facebook" },
+    { city:"Barcelona",     state:"Barcelona", country:"SPAIN",  product:"Poderio 100ml",   sku:"LSM-002", date:"2026-01-22", quantity:9,  amount:810.00,  orderId:8003, collection:"Facebook" },
     { city:"Gracia",        state:"Barcelona", country:"SPAIN",  product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-12-18", quantity:11, amount:990.00,  orderId:8004, collection:"TikTok" },
     { city:"Paris 1er",     state:"Paris",     country:"FRANCE", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-20", quantity:7,  amount:630.00,  orderId:9001, collection:"Instagram" },
-    { city:"Paris 1er",     state:"Paris",     country:"FRANCE", product:"Poderío 100ml",   sku:"LSM-002", date:"2026-02-25", quantity:5,  amount:450.00,  orderId:9002, collection:"Facebook" },
-    { city:"Paris 8ème",    state:"Paris",     country:"FRANCE", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-01-30", quantity:8,  amount:720.00,  orderId:9003, collection:"TikTok" },
-    { city:"Paris 8ème",    state:"Paris",     country:"FRANCE", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-11-15", quantity:12, amount:1080.00, orderId:9004, collection:"Instagram" },
-    { city:"Lyon",          state:"Lyon",      country:"FRANCE", product:"Poderío 100ml",   sku:"LSM-002", date:"2026-03-22", quantity:4,  amount:360.00,  orderId:9005, collection:"Facebook" },
+    { city:"Paris 1er",     state:"Paris",     country:"FRANCE", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-02-25", quantity:5,  amount:450.00,  orderId:9002, collection:"Facebook" },
+    { city:"Paris 8Ã¨me",    state:"Paris",     country:"FRANCE", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-01-30", quantity:8,  amount:720.00,  orderId:9003, collection:"TikTok" },
+    { city:"Paris 8Ã¨me",    state:"Paris",     country:"FRANCE", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-11-15", quantity:12, amount:1080.00, orderId:9004, collection:"Instagram" },
+    { city:"Lyon",          state:"Lyon",      country:"FRANCE", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-03-22", quantity:4,  amount:360.00,  orderId:9005, collection:"Facebook" },
     { city:"Lyon",          state:"Lyon",      country:"FRANCE", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-03-01", quantity:6,  amount:540.00,  orderId:9006, collection:"TikTok" },
     { city:"Lyon",          state:"Lyon",      country:"FRANCE", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-12-28", quantity:9,  amount:810.00,  orderId:9007, collection:"Instagram" },
   ],
 };
 
-// ── Escucha el cambio de marca ────────────────────────────────
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('niche3ds:brandChanged', function(e) {
   const brand = e.detail.brand;
 document.getElementById('brandTitle').textContent = brand;
@@ -409,28 +409,28 @@ document.getElementById('brandTitle').textContent = brand;
   applyProductBrand(brand);
 });
 
-// ── Al cargar, aplica la marca guardada ───────────────────────
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', function() {
   const savedBrand = localStorage.getItem('selectedBrand');
   if (savedBrand) {
-    document.getElementById('brandTitle').textContent = savedBrand; // ← esta línea
+    document.getElementById('brandTitle').textContent = savedBrand; // â† esta lÃ­nea
     applyProductBrand(savedBrand);
   } else {
-    productData = BRAND_PRODUCT_DATA['Parfum De Mahzen'];
-    renderPerfumeryTable('lastYear'); // ← verifica el nombre real de tu función
+    productData = BRAND_PRODUCT_DATA['Brand Demo'];
+    renderPerfumeryTable('lastYear'); // â† verifica el nombre real de tu funciÃ³n
   }
 });
 
-// ── Función principal ─────────────────────────────────────────
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function applyProductBrand(brand) {
   if (BRAND_PRODUCT_DATA[brand]) {
     productData = BRAND_PRODUCT_DATA[brand];
-    renderPerfumeryTable(perfCurrentFilter); // ← verifica el nombre real de tu función
+    renderPerfumeryTable(perfCurrentFilter); // â† verifica el nombre real de tu funciÃ³n
   }
 }
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    HELPERS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function formatCurrency(v) {
   return "$" + v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
@@ -461,9 +461,9 @@ function generateCurrentMonthDays() {
   return days;
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FILTER + GROUP
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function filterPerfByDate(data, filterType) {
   var now = new Date();
   var cy = now.getFullYear(), cm = now.getMonth()+1, cd = now.getDate();
@@ -526,9 +526,9 @@ function sumObj(obj, viewType, isProduct) {
   return uids.length;
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RENDER TABLE
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderPerfumeryTable(filterType) {
   var head = document.getElementById("perfumeryTableHead");
   var body = document.getElementById("perfumeryTableBody");
@@ -539,7 +539,7 @@ function renderPerfumeryTable(filterType) {
   var keyType = filterType==="currentMonth" ? "day" : filterType==="yearly" ? "year" : "month";
 
   var filtered = filterPerfByDate(productData, filterType);
-  var grouped  = groupByCollection(filtered, keyType);  // ← CAMBIO
+  var grouped  = groupByCollection(filtered, keyType);  // â† CAMBIO
 
   var cols = [];
   if (filterType === "yearly") {
@@ -552,14 +552,14 @@ function renderPerfumeryTable(filterType) {
 
   var ytdGrouped=null, mtdGrouped=null;
   if (filterType !== "yearly") {
-    ytdGrouped = groupByCollection(productData.filter(function(i){ return parseInt(i.date.split('-')[0])===cy; }), "month");   // ← CAMBIO
-    mtdGrouped = groupByCollection(productData.filter(function(i){   // ← CAMBIO
+    ytdGrouped = groupByCollection(productData.filter(function(i){ return parseInt(i.date.split('-')[0])===cy; }), "month");   // â† CAMBIO
+    mtdGrouped = groupByCollection(productData.filter(function(i){   // â† CAMBIO
       var p=i.date.split('-'); return parseInt(p[0])===cy && parseInt(p[1])===cm;
     }), "month");
   }
 
   /* HEADER */
-  var hr = "<tr><th style='min-width:260px;'>NETWORK</th>";   // ← CAMBIO texto
+  var hr = "<tr><th style='min-width:260px;'>NETWORK</th>";   // â† CAMBIO texto
   if (filterType !== "yearly") hr += "<th>YTD</th><th>MTD</th>";
   cols.forEach(function(col) {
     if (filterType === "currentMonth") {
@@ -585,7 +585,7 @@ function renderPerfumeryTable(filterType) {
   var html = "";
   function fmtVal(v) { return perfCurrentView==="amount" ? formatCurrency(v) : v; }
 
-  Object.keys(grouped).sort().forEach(function(cName) {   // ← cName en vez de pName
+  Object.keys(grouped).sort().forEach(function(cName) {   // â† cName en vez de pName
     var ct = grouped[cName];
     var cYTD = ytdGrouped && ytdGrouped[cName] ? sumObj(ytdGrouped[cName], perfCurrentView, false) : 0;
     var cMTD = mtdGrouped && mtdGrouped[cName] ? sumObj(mtdGrouped[cName], perfCurrentView, false) : 0;
@@ -655,9 +655,9 @@ function renderPerfumeryTable(filterType) {
   }
   renderPerfChart(filterType, grouped, chartCols);
 }
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TOGGLE PRODUCT ROWS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function togglePerfRows(pName) {
   var rows = document.querySelectorAll('.product-row[data-perf="'+pName+'"]');
   var iconId = "icon_" + btoa(pName).replace(/=/g,'');
@@ -667,9 +667,9 @@ function togglePerfRows(pName) {
   if (icon) icon.textContent = collapsed ? "▼" : "▶";
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FILTER CONTROLS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function applyPerfFilter(filterType) {
   perfCurrentFilter = filterType;
   document.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){
@@ -678,9 +678,9 @@ function applyPerfFilter(filterType) {
   renderPerfumeryTable(filterType);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW AS CONTROLS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function togglePerfViewDropdown() {
   var dd = document.getElementById("perfViewDropdown");
   var btn = document.getElementById("perfViewBtn");
@@ -700,9 +700,9 @@ function changePerfView(viewType) {
   renderPerfumeryTable(perfCurrentFilter);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CLOSE DROPDOWN ON OUTSIDE CLICK
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener("click", function(e) {
   var wrap = document.querySelector(".view-selector-wrap");
   if (wrap && !wrap.contains(e.target)) {
@@ -711,9 +711,9 @@ document.addEventListener("click", function(e) {
   }
 });
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NAV HELPERS
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function toggleGroup(id) {
   var grp = document.getElementById(id);
   var wasOpen = grp.classList.contains('open');
@@ -728,9 +728,9 @@ function showView(key, linkEl) {
   document.getElementById('view-placeholder').style.display = key!=='overview' ? 'block' : 'none';
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CHART
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderPerfChart(filterType, grouped, cols) {
   var ctx = document.getElementById('perfChart');
   if (!ctx) return;
@@ -862,20 +862,20 @@ function changePerfChartType(type) {
   renderPerfumeryTable(perfCurrentFilter);
 }
 
-/* ════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    INIT
-════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener("DOMContentLoaded", function() {
   renderPerfumeryTable("lastYear");
 });
 </script>
 
 <script>
-  // Al cargar la página, marcar el link activo según la URL actual
+  // Al cargar la pÃ¡gina, marcar el link activo segÃºn la URL actual
 document.addEventListener("DOMContentLoaded", function() {
     var currentPage = window.location.pathname.split('/').pop();
 
-    // Buscar el link que coincida con la página actual
+    // Buscar el link que coincida con la pÃ¡gina actual
     var activeLink = document.querySelector('a[href*="' + currentPage + '"]');
     
     if (activeLink) {
@@ -905,3 +905,5 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </body>
 </html>
+
+

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Networks – By Content</title>
+  <title>Social Networks â€“ By Content</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../../css/dashboard.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('brandTitle').textContent = savedBrand;
     applyScoreBrand(savedBrand);
   } else {
-    perfumeryData = BRAND_PERFUMERY_DATA['Parfum De Mahzen'];
+    perfumeryData = BRAND_PERFUMERY_DATA['Brand Demo'];
     renderTable();
   }
 });
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div class="welcome-bar">
       <div>
-        <h2>Social Networks — <span>By Content</span></h2>
+        <h2>Social Networks â€” <span>By Content</span></h2>
       </div>
     </div>
 
@@ -203,7 +203,7 @@ var CONTENT_TYPES = [
   { key:"blog",    label:"Blog / Article",      icon:"fas fa-newspaper",     color:"#1877F2" }
 ];
 
-// ── CAMBIO 1: agregado "views" al array METRICS ──
+// â”€â”€ CAMBIO 1: agregado "views" al array METRICS â”€â”€
 var METRICS = [
   { key:"followers",   label:"Followers",       icon:"fas fa-users",          fmt: fmtNum },
   { key:"reach",       label:"Reach",           icon:"fas fa-broadcast-tower",fmt: fmtNum },
@@ -217,7 +217,7 @@ var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","N
 var dayNames   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
 
 function seedData(ctype) {
-  // ── CAMBIO 2: agregado "views" a los bases ──
+  // â”€â”€ CAMBIO 2: agregado "views" a los bases â”€â”€
   var bases = {
     reels:   { followers:98000,  reach:142000, impressions:420000, engagement:6.8, views:1800000, sales:14200 },
     photo:   { followers:72000,  reach:88000,  impressions:260000, engagement:4.1, views:620000,  sales:9800  },
@@ -241,7 +241,7 @@ function seedData(ctype) {
       reach:       noise(b.reach       * trend, 0.18),
       impressions: noise(b.impressions * trend, 0.20),
       engagement:  parseFloat((b.engagement*(1+(Math.random()-0.5)*0.18)).toFixed(2)),
-      views:       noise(b.views       * trend, 0.25), // ── CAMBIO 2b ──
+      views:       noise(b.views       * trend, 0.25), // â”€â”€ CAMBIO 2b â”€â”€
       sales:       noise(b.sales       * trend, 0.24)
     });
   }
@@ -257,7 +257,7 @@ function seedData(ctype) {
       reach:       dayNoise(b.reach, 0.40),
       impressions: dayNoise(b.impressions, 0.40),
       engagement:  parseFloat((b.engagement*(1+(Math.random()-0.5)*0.22)).toFixed(2)),
-      views:       dayNoise(b.views, 0.40), // ── CAMBIO 2c ──
+      views:       dayNoise(b.views, 0.40), // â”€â”€ CAMBIO 2c â”€â”€
       sales:       dayNoise(b.sales, 0.40)
     });
   }
@@ -308,7 +308,7 @@ function generateCurrentMonthDays(){
   return days;
 }
 
-// ── CAMBIO 3: sub-label en cards (métrica + filtro) ──
+// â”€â”€ CAMBIO 3: sub-label en cards (mÃ©trica + filtro) â”€â”€
 function renderContentCards(){
   var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
   var curKey  = cy+"-"+String(cm).padStart(2,"0");
@@ -325,7 +325,7 @@ function renderContentCards(){
     var isActive= activeTypes.includes(ct.key);
     var up      = parseFloat(growth)>=0;
 
-    // sub-label métrica + filtro
+    // sub-label mÃ©trica + filtro
     var m      = METRICS.find(function(x){ return x.key===currentMetric; });
     var mLabel = m ? m.label : "Followers";
     var fLabel = currentFilter==="yearly" ? "YTD" : currentFilter==="currentMonth" ? "MTD" : "MTD";
@@ -338,7 +338,7 @@ function renderContentCards(){
     html+='<div class="content-type-name">'+ct.label+'</div>';
     html+='<div class="content-metric-val">'+fmtNum(curVal)+'</div>';
     html+='<div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;display:flex;align-items:center;gap:4px;">';
-    html+='<i class="'+(m?m.icon:'fas fa-users')+'" style="font-size:10px;"></i> '+mLabel+' &nbsp;·&nbsp; '+fLabel;
+    html+='<i class="'+(m?m.icon:'fas fa-users')+'" style="font-size:10px;"></i> '+mLabel+' &nbsp;Â·&nbsp; '+fLabel;
     html+='</div>';
     html+='<div class="content-growth'+(up?"":" down")+'"><i class="fas fa-arrow-'+(up?"up":"down")+'"></i> '+Math.abs(growth)+'% vs last month</div>';
     html+='</div>';
@@ -427,7 +427,7 @@ function renderTable(filterType){
     });
     html+='</tr>';
 
-    // ── CAMBIO 4: fila activa con color rgb(225,220,197) + borde dorado ──
+    // â”€â”€ CAMBIO 4: fila activa con color rgb(225,220,197) + borde dorado â”€â”€
     METRICS.forEach(function(m){
       var mYTD=getYTD(ct.key,m.key);
       var mMTD=getMTD(ct.key,m.key);
@@ -460,11 +460,11 @@ function renderTable(filterType){
 
   html+='<tr class="total-row"><td><strong>TOTAL / AVG</strong></td>';
   if(!isYear){
-    html+='<td><strong>'+(currentMetric==="engagement"?"—":metricFmt(grandYTD))+'</strong></td>';
-    html+='<td><strong>'+(currentMetric==="engagement"?"—":metricFmt(grandMTD))+'</strong></td>';
+    html+='<td><strong>'+(currentMetric==="engagement"?"â€”":metricFmt(grandYTD))+'</strong></td>';
+    html+='<td><strong>'+(currentMetric==="engagement"?"â€”":metricFmt(grandMTD))+'</strong></td>';
   }
   cols.forEach(function(col){
-    html+='<td><strong>'+(currentMetric==="engagement"?"—":metricFmt(grandCols[col.key]||0))+'</strong></td>';
+    html+='<td><strong>'+(currentMetric==="engagement"?"â€”":metricFmt(grandCols[col.key]||0))+'</strong></td>';
   });
   html+='</tr>';
   body.innerHTML=html;
@@ -609,3 +609,4 @@ document.addEventListener("DOMContentLoaded",function(){
 </script>
 </body>
 </html>
+

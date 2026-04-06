@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('brandTitle').textContent = savedBrand;
     applyLaunchesBrand(savedBrand);
   } else {
-    launches = BRAND_LAUNCHES['Parfum De Mahzen'];
+    launches = BRAND_LAUNCHES['Brand Demo'];
     populateCollectionFilter();
     renderTable();
   }
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <input type="file" id="logoUpload" class="logo-upload-input" accept="image/*">
 </div>
 <div class="company-info-status">
-    <div class="company-name-title" id="displayCompanyName">Parfum De Mahzen</div>
+    <div class="company-name-title" id="displayCompanyName">Brand Demo</div>
     <div class="registration-date">Registered: <span id="displayRegDate">Mar 11, 2026</span></div>
     <span class="company-status-badge">Active</span>
 </div>
@@ -453,7 +453,7 @@ function resetForm(){
 if(confirm('Are you sure you want to reset all changes?')){
 document.getElementById('companyForm').reset();
 // Reset to default values
-document.getElementById('companyName').value = 'Parfum De Mahzen';
+document.getElementById('companyName').value = 'Brand Demo';
 document.getElementById('email').value = 'contact@8motivperfumes.com';
 document.getElementById('address').value = '123 Fragrance Avenue, Suite 100';
 document.getElementById('city').value = 'Miami';
@@ -461,7 +461,7 @@ document.getElementById('state').value = 'Florida';
 document.getElementById('zipCode').value = '33101';
 document.getElementById('country').value = 'US';
 document.getElementById('industry').value = 'perfume';
-document.getElementById('displayCompanyName').textContent = 'Parfum De Mahzen';
+document.getElementById('displayCompanyName').textContent = 'Brand Demo';
 document.getElementById('logoWrapper').classList.remove('has-image');
 document.getElementById('logoPreview').src = '';
 showNotification('Form reset to default values', 'success');

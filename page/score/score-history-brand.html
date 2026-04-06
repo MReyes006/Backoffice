@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -89,7 +89,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 
 <div class="main-wrap">
   <header class="topbar">
-    <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+    <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle">La Sabia Madrid</div></div>
     <div class="topbar-actions">
       <button class="topbar-btn"><i class="fas fa-bell"></i></button>
       <button class="topbar-btn"><i class="fas fa-search"></i></button>
@@ -169,7 +169,7 @@ function toggleSubGroup(id){
   body.style.display=isOpen?'none':'block';arrow.classList.toggle('open',!isOpen);
 }
 
-/* ── GLOBALS ── */
+/* â”€â”€ GLOBALS â”€â”€ */
 var perfCurrentFilter = "lastYear";
 var perfCurrentView   = "marketing";
 var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
@@ -181,57 +181,89 @@ var perfColors = [
   'rgb(102,153,153)','rgb(153,153,102)'
 ];
 
-/* ── DATA — 3 scores por producto (marketing, commercial, combined) del 1 al 10 ── */
+/* â”€â”€ DATA â€” 3 scores por producto (marketing, commercial, combined) del 1 al 10 â”€â”€ */
 var perfumeryData = [];
 
-/* ── Datos por marca ── */
+/* â”€â”€ Datos por marca â”€â”€ */
 const BRAND_PERFUMERY_DATA = {
-  'Parfum De Mahzen': [
-    { perfumery:"Parfum De Mahzen", product:"Supreme Oudh 100ml",   sku:"AUR-001", date:"2026-03-12", marketing:8.5, commercial:7.2, combined:7.9, orderId:9011 },
-    { perfumery:"Parfum De Mahzen", product:"Veritas 100ml",        sku:"AUR-002", date:"2026-03-07", marketing:6.3, commercial:9.1, combined:7.7, orderId:9012 },
-    { perfumery:"Parfum De Mahzen", product:"Madam Oudh 100ml",     sku:"AUR-003", date:"2026-03-10", marketing:7.8, commercial:6.5, combined:7.2, orderId:9013 },
-    { perfumery:"Parfum De Mahzen", product:"Arcana 100ml",         sku:"AUR-004", date:"2026-03-11", marketing:5.4, commercial:8.3, combined:6.9, orderId:9014 },
-    { perfumery:"Parfum De Mahzen", product:"Ancient Spirits 100ml",sku:"AUR-005", date:"2026-03-12", marketing:9.2, commercial:7.8, combined:8.5, orderId:9015 },
-    { perfumery:"Parfum De Mahzen", product:"Curve 100ml",          sku:"AUR-015", date:"2026-02-22", marketing:5.2, commercial:8.9, combined:7.1, orderId:9025 },
-    { perfumery:"Parfum De Mahzen", product:"Capi 100ml",           sku:"AUR-016", date:"2026-02-23", marketing:8.3, commercial:7.5, combined:7.9, orderId:9026 },
-    { perfumery:"Parfum De Mahzen", product:"Ruhun 100ml",          sku:"AUR-017", date:"2026-01-24", marketing:6.9, commercial:5.4, combined:6.2, orderId:9027 },
-    { perfumery:"Parfum De Mahzen", product:"Aurum 100ml",          sku:"AUR-018", date:"2026-01-25", marketing:7.7, commercial:8.8, combined:8.3, orderId:9028 },
-    { perfumery:"Parfum De Mahzen", product:"Supreme Oudh 100ml",   sku:"AUR-001", date:"2025-12-15", marketing:8.1, commercial:7.0, combined:7.6, orderId:8901 },
-    { perfumery:"Parfum De Mahzen", product:"Veritas 100ml",        sku:"AUR-002", date:"2025-12-10", marketing:6.0, commercial:8.9, combined:7.5, orderId:8902 },
-    { perfumery:"Parfum De Mahzen", product:"Madam Oudh 100ml",     sku:"AUR-003", date:"2025-11-12", marketing:7.5, commercial:6.2, combined:6.9, orderId:8891 },
-    { perfumery:"Parfum De Mahzen", product:"Arcana 100ml",         sku:"AUR-004", date:"2025-11-08", marketing:5.2, commercial:8.0, combined:6.6, orderId:8892 },
-    { perfumery:"Parfum De Mahzen", product:"Ancient Spirits 100ml",sku:"AUR-005", date:"2025-10-14", marketing:9.0, commercial:7.5, combined:8.2, orderId:8881 },
-    { perfumery:"Parfum De Mahzen", product:"Malikat Oudh 100ml",   sku:"AUR-006", date:"2025-10-09", marketing:6.5, commercial:5.7, combined:6.1, orderId:8882 },
-    { perfumery:"Parfum De Mahzen", product:"Incense Oudh 100ml",   sku:"AUR-007", date:"2025-09-18", marketing:7.0, commercial:8.4, combined:7.7, orderId:8871 },
-    { perfumery:"Parfum De Mahzen", product:"Xyphos 100ml",         sku:"AUR-008", date:"2025-09-11", marketing:4.6, commercial:6.0, combined:5.3, orderId:8872 },
-    { perfumery:"Parfum De Mahzen", product:"Sungul 100ml",         sku:"AUR-009", date:"2025-08-20", marketing:8.7, commercial:7.1, combined:7.9, orderId:8861 },
-    { perfumery:"Parfum De Mahzen", product:"Mitra 100ml",          sku:"AUR-010", date:"2025-08-13", marketing:5.4, commercial:9.0, combined:7.2, orderId:8862 },
-    { perfumery:"Parfum De Mahzen", product:"Gugguluma 100ml",      sku:"AUR-011", date:"2025-07-22", marketing:7.1, commercial:6.5, combined:6.8, orderId:8851 },
-    { perfumery:"Parfum De Mahzen", product:"Cinnamom 100ml",       sku:"AUR-012", date:"2025-07-15", marketing:5.9, commercial:7.4, combined:6.7, orderId:8852 },
-    { perfumery:"Parfum De Mahzen", product:"Prajna 100ml",         sku:"AUR-013", date:"2025-06-17", marketing:9.1, commercial:7.8, combined:8.5, orderId:8841 },
-    { perfumery:"Parfum De Mahzen", product:"Divina 100ml",         sku:"AUR-014", date:"2025-06-10", marketing:7.3, commercial:6.0, combined:6.7, orderId:8842 },
-    { perfumery:"Parfum De Mahzen", product:"Curve 100ml",          sku:"AUR-015", date:"2025-05-19", marketing:5.0, commercial:8.6, combined:6.8, orderId:8831 },
-    { perfumery:"Parfum De Mahzen", product:"Capi 100ml",           sku:"AUR-016", date:"2025-05-12", marketing:8.0, commercial:7.2, combined:7.6, orderId:8832 },
-    { perfumery:"Parfum De Mahzen", product:"Ruhun 100ml",          sku:"AUR-017", date:"2025-04-21", marketing:6.7, commercial:5.2, combined:6.0, orderId:8821 },
-    { perfumery:"Parfum De Mahzen", product:"Aurum 100ml",          sku:"AUR-018", date:"2025-04-14", marketing:7.5, commercial:8.5, combined:8.0, orderId:8822 },
-    { perfumery:"Parfum De Mahzen", product:"Amiyah Oudh 100ml",    sku:"AUR-019", date:"2025-03-18", marketing:4.3, commercial:6.5, combined:5.4, orderId:8811 },
-    { perfumery:"Parfum De Mahzen", product:"Amali 100ml",          sku:"AUR-020", date:"2025-03-10", marketing:7.9, commercial:7.6, combined:7.8, orderId:8812 },
-  ],
+  // 'Brand Demo': [
+  //   { perfumery:"Brand Demo", product:"Demo1",   sku:"AUR-001", date:"2026-03-12", marketing:8.5, commercial:7.2, combined:7.9, orderId:9011 },
+  //   { perfumery:"Brand Demo", product:"Demo2",        sku:"AUR-002", date:"2026-03-07", marketing:6.3, commercial:9.1, combined:7.7, orderId:9012 },
+  //   { perfumery:"Brand Demo", product:"Madam Oudh 100ml",     sku:"AUR-003", date:"2026-03-10", marketing:7.8, commercial:6.5, combined:7.2, orderId:9013 },
+  //   { perfumery:"Brand Demo", product:"Arcana 100ml",         sku:"AUR-004", date:"2026-03-11", marketing:5.4, commercial:8.3, combined:6.9, orderId:9014 },
+  //   { perfumery:"Brand Demo", product:"Ancient Spirits 100ml",sku:"AUR-005", date:"2026-03-12", marketing:9.2, commercial:7.8, combined:8.5, orderId:9015 },
+  //   { perfumery:"Brand Demo", product:"Curve 100ml",          sku:"AUR-015", date:"2026-02-22", marketing:5.2, commercial:8.9, combined:7.1, orderId:9025 },
+  //   { perfumery:"Brand Demo", product:"Capi 100ml",           sku:"AUR-016", date:"2026-02-23", marketing:8.3, commercial:7.5, combined:7.9, orderId:9026 },
+  //   { perfumery:"Brand Demo", product:"Ruhun 100ml",          sku:"AUR-017", date:"2026-01-24", marketing:6.9, commercial:5.4, combined:6.2, orderId:9027 },
+  //   { perfumery:"Brand Demo", product:"Aurum 100ml",          sku:"AUR-018", date:"2026-01-25", marketing:7.7, commercial:8.8, combined:8.3, orderId:9028 },
+  //   { perfumery:"Brand Demo", product:"Demo1",   sku:"AUR-001", date:"2025-12-15", marketing:8.1, commercial:7.0, combined:7.6, orderId:8901 },
+  //   { perfumery:"Brand Demo", product:"Demo2",        sku:"AUR-002", date:"2025-12-10", marketing:6.0, commercial:8.9, combined:7.5, orderId:8902 },
+  //   { perfumery:"Brand Demo", product:"Madam Oudh 100ml",     sku:"AUR-003", date:"2025-11-12", marketing:7.5, commercial:6.2, combined:6.9, orderId:8891 },
+  //   { perfumery:"Brand Demo", product:"Arcana 100ml",         sku:"AUR-004", date:"2025-11-08", marketing:5.2, commercial:8.0, combined:6.6, orderId:8892 },
+  //   { perfumery:"Brand Demo", product:"Ancient Spirits 100ml",sku:"AUR-005", date:"2025-10-14", marketing:9.0, commercial:7.5, combined:8.2, orderId:8881 },
+  //   { perfumery:"Brand Demo", product:"Malikat Oudh 100ml",   sku:"AUR-006", date:"2025-10-09", marketing:6.5, commercial:5.7, combined:6.1, orderId:8882 },
+  //   { perfumery:"Brand Demo", product:"Incense Oudh 100ml",   sku:"AUR-007", date:"2025-09-18", marketing:7.0, commercial:8.4, combined:7.7, orderId:8871 },
+  //   { perfumery:"Brand Demo", product:"Xyphos 100ml",         sku:"AUR-008", date:"2025-09-11", marketing:4.6, commercial:6.0, combined:5.3, orderId:8872 },
+  //   { perfumery:"Brand Demo", product:"Sungul 100ml",         sku:"AUR-009", date:"2025-08-20", marketing:8.7, commercial:7.1, combined:7.9, orderId:8861 },
+  //   { perfumery:"Brand Demo", product:"Mitra 100ml",          sku:"AUR-010", date:"2025-08-13", marketing:5.4, commercial:9.0, combined:7.2, orderId:8862 },
+  //   { perfumery:"Brand Demo", product:"Gugguluma 100ml",      sku:"AUR-011", date:"2025-07-22", marketing:7.1, commercial:6.5, combined:6.8, orderId:8851 },
+  //   { perfumery:"Brand Demo", product:"Cinnamom 100ml",       sku:"AUR-012", date:"2025-07-15", marketing:5.9, commercial:7.4, combined:6.7, orderId:8852 },
+  //   { perfumery:"Brand Demo", product:"Prajna 100ml",         sku:"AUR-013", date:"2025-06-17", marketing:9.1, commercial:7.8, combined:8.5, orderId:8841 },
+  //   { perfumery:"Brand Demo", product:"Divina 100ml",         sku:"AUR-014", date:"2025-06-10", marketing:7.3, commercial:6.0, combined:6.7, orderId:8842 },
+  //   { perfumery:"Brand Demo", product:"Curve 100ml",          sku:"AUR-015", date:"2025-05-19", marketing:5.0, commercial:8.6, combined:6.8, orderId:8831 },
+  //   { perfumery:"Brand Demo", product:"Capi 100ml",           sku:"AUR-016", date:"2025-05-12", marketing:8.0, commercial:7.2, combined:7.6, orderId:8832 },
+  //   { perfumery:"Brand Demo", product:"Ruhun 100ml",          sku:"AUR-017", date:"2025-04-21", marketing:6.7, commercial:5.2, combined:6.0, orderId:8821 },
+  //   { perfumery:"Brand Demo", product:"Aurum 100ml",          sku:"AUR-018", date:"2025-04-14", marketing:7.5, commercial:8.5, combined:8.0, orderId:8822 },
+  //   { perfumery:"Brand Demo", product:"Amiyah Oudh 100ml",    sku:"AUR-019", date:"2025-03-18", marketing:4.3, commercial:6.5, combined:5.4, orderId:8811 },
+  //   { perfumery:"Brand Demo", product:"Amali 100ml",          sku:"AUR-020", date:"2025-03-10", marketing:7.9, commercial:7.6, combined:7.8, orderId:8812 },
+  // ],
+  'Brand Demo': [
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-04-5", marketing:8.5, commercial:7.2, combined:7.9, orderId:9011 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-03-12", marketing:8.5, commercial:7.2, combined:7.9, orderId:9011 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-002", date:"2026-03-07", marketing:6.3, commercial:9.1, combined:7.7, orderId:9012 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-003", date:"2026-03-10", marketing:7.8, commercial:6.5, combined:7.2, orderId:9013 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-004", date:"2026-03-11", marketing:5.4, commercial:8.3, combined:6.9, orderId:9014 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-005", date:"2026-03-12", marketing:9.2, commercial:7.8, combined:8.5, orderId:9015 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-015", date:"2026-02-22", marketing:5.2, commercial:8.9, combined:7.1, orderId:9025 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-016", date:"2026-02-23", marketing:8.3, commercial:7.5, combined:7.9, orderId:9026 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-017", date:"2026-01-24", marketing:6.9, commercial:5.4, combined:6.2, orderId:9027 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-018", date:"2026-01-25", marketing:7.7, commercial:8.8, combined:8.3, orderId:9028 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-12-15", marketing:8.1, commercial:7.0, combined:7.6, orderId:8901 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-002", date:"2025-12-10", marketing:6.0, commercial:8.9, combined:7.5, orderId:8902 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-003", date:"2025-11-12", marketing:7.5, commercial:6.2, combined:6.9, orderId:8891 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-004", date:"2025-11-08", marketing:5.2, commercial:8.0, combined:6.6, orderId:8892 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-005", date:"2025-10-14", marketing:9.0, commercial:7.5, combined:8.2, orderId:8881 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-006", date:"2025-10-09", marketing:6.5, commercial:5.7, combined:6.1, orderId:8882 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-007", date:"2025-09-18", marketing:7.0, commercial:8.4, combined:7.7, orderId:8871 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-008", date:"2025-09-11", marketing:4.6, commercial:6.0, combined:5.3, orderId:8872 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-009", date:"2025-08-20", marketing:8.7, commercial:7.1, combined:7.9, orderId:8861 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-010", date:"2025-08-13", marketing:5.4, commercial:9.0, combined:7.2, orderId:8862 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-011", date:"2025-07-22", marketing:7.1, commercial:6.5, combined:6.8, orderId:8851 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-012", date:"2025-07-15", marketing:5.9, commercial:7.4, combined:6.7, orderId:8852 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-013", date:"2025-06-17", marketing:9.1, commercial:7.8, combined:8.5, orderId:8841 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-014", date:"2025-06-10", marketing:7.3, commercial:6.0, combined:6.7, orderId:8842 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-015", date:"2025-05-19", marketing:5.0, commercial:8.6, combined:6.8, orderId:8831 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-016", date:"2025-05-12", marketing:8.0, commercial:7.2, combined:7.6, orderId:8832 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-017", date:"2025-04-21", marketing:6.7, commercial:5.2, combined:6.0, orderId:8821 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-018", date:"2025-04-14", marketing:7.5, commercial:8.5, combined:8.0, orderId:8822 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-019", date:"2025-03-18", marketing:4.3, commercial:6.5, combined:5.4, orderId:8811 },
+  { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-020", date:"2025-03-10", marketing:7.9, commercial:7.6, combined:7.8, orderId:8812 },
+],
   'La Sabia Madrid': [
     { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-12", marketing:8.0, commercial:7.5, combined:7.8, orderId:7001 },
-    { perfumery:"La Sabia Madrid", product:"Poderío 100ml",   sku:"LSM-002", date:"2026-03-07", marketing:6.5, commercial:8.8, combined:7.7, orderId:7002 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-03-07", marketing:6.5, commercial:8.8, combined:7.7, orderId:7002 },
     { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-02-20", marketing:7.2, commercial:6.8, combined:7.0, orderId:7003 },
     { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-12-15", marketing:7.8, commercial:7.0, combined:7.4, orderId:7004 },
-    { perfumery:"La Sabia Madrid", product:"Poderío 100ml",   sku:"LSM-002", date:"2025-11-10", marketing:6.2, commercial:8.5, combined:7.4, orderId:7005 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-11-10", marketing:6.2, commercial:8.5, combined:7.4, orderId:7005 },
     { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-10-08", marketing:8.5, commercial:7.2, combined:7.9, orderId:7006 },
     { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-09-14", marketing:7.0, commercial:8.0, combined:7.5, orderId:7007 },
-    { perfumery:"La Sabia Madrid", product:"Poderío 100ml",   sku:"LSM-002", date:"2025-08-20", marketing:5.8, commercial:7.5, combined:6.7, orderId:7008 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-08-20", marketing:5.8, commercial:7.5, combined:6.7, orderId:7008 },
     { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-07-15", marketing:9.0, commercial:7.8, combined:8.4, orderId:7009 },
     { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-06-10", marketing:7.5, commercial:6.5, combined:7.0, orderId:7010 },
   ],
 };
 
-/* ── Escucha el cambio de marca ── */
+/* â”€â”€ Escucha el cambio de marca â”€â”€ */
 document.addEventListener('niche3ds:brandChanged', function(e) {
   const brand = e.detail.brand;
   document.getElementById('brandTitle').textContent = brand;
@@ -239,7 +271,7 @@ document.addEventListener('niche3ds:brandChanged', function(e) {
   applyScoreBrand(brand);
 });
 
-/* ── Función principal ── */
+/* â”€â”€ FunciÃ³n principal â”€â”€ */
 function applyScoreBrand(brand) {
   if (BRAND_PERFUMERY_DATA[brand]) {
     perfumeryData = BRAND_PERFUMERY_DATA[brand];
@@ -247,7 +279,7 @@ function applyScoreBrand(brand) {
   }
 }
 
-/* ── HELPERS ── */
+/* â”€â”€ HELPERS â”€â”€ */
 function generateLast13Months(){
   var months=[],now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
   for(var i=0;i<=12;i++){var m=cm-i,y=cy;while(m<=0){m+=12;y--;}months.push({year:y,month:m,key:y+"-"+String(m).padStart(2,"0")});}
@@ -265,7 +297,7 @@ function generateCurrentMonthDays(){
   return days;
 }
 
-/* ── FILTER ── */
+/* â”€â”€ FILTER â”€â”€ */
 function filterPerfByDate(data,filterType){
   var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1,cd=now.getDate();
   return data.filter(function(item){
@@ -277,7 +309,7 @@ function filterPerfByDate(data,filterType){
   });
 }
 
-/* ── GROUP ── */
+/* â”€â”€ GROUP â”€â”€ */
 function groupByPerfumery(data,keyType){
   var result={};
   data.forEach(function(item){
@@ -308,29 +340,29 @@ function groupByPerfumery(data,keyType){
   return result;
 }
 
-/* ── AVG ── */
+/* â”€â”€ AVG â”€â”€ */
 function avgScore(obj, scoreKey){
   var vals=Object.values(obj[scoreKey]||{});
   if(!vals.length) return 0;
   return vals.reduce(function(a,b){return a+b;},0)/vals.length;
 }
 
-/* ── FORMAT ── */
+/* â”€â”€ FORMAT â”€â”€ */
 function fmtVal(v){
-  if(!v && v!==0) return "—";
+  if(!v && v!==0) return "â€”";
   var n=parseFloat(v);
-  if(!n) return "—";
+  if(!n) return "â€”";
   var cls = n>=7.5?"score-high":n>=5?"score-mid":"score-low";
   return '<span class="'+cls+'">'+n.toFixed(1)+'</span>';
 }
 function fmtAvg(v){
-  if(!v && v!==0) return "—";
+  if(!v && v!==0) return "â€”";
   var n=parseFloat(v);
-  if(!n) return "—";
+  if(!n) return "â€”";
   return n.toFixed(1);
 }
 
-/* ── RENDER TABLE ── */
+/* â”€â”€ RENDER TABLE â”€â”€ */
 function renderPerfumeryTable(filterType){
   var head=document.getElementById("perfumeryTableHead");
   var body=document.getElementById("perfumeryTableBody");
@@ -417,7 +449,7 @@ function renderPerfumeryTable(filterType){
   renderPerfChart(filterType,grouped,cols);
 }
 
-/* ── TOGGLE ROWS ── */
+
 function togglePerfRows(pName){
   var rows=document.querySelectorAll('.product-row[data-perf="'+pName+'"]');
   var iconId="icon_"+btoa(pName).replace(/=/g,'');
@@ -427,14 +459,14 @@ function togglePerfRows(pName){
   if(icon) icon.textContent=collapsed?"▼":"▶";
 }
 
-/* ── FILTER CONTROLS ── */
+
 function applyPerfFilter(filterType){
   perfCurrentFilter=filterType;
   document.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){b.classList.toggle('active',b.dataset.filter===filterType);});
   renderPerfumeryTable(filterType);
 }
 
-/* ── VIEW CONTROLS ── */
+/* â”€â”€ VIEW CONTROLS â”€â”€ */
 function togglePerfViewDropdown(){
   document.getElementById("perfViewDropdown").classList.toggle("open");
   document.getElementById("perfViewBtn").classList.toggle("open");
@@ -456,7 +488,7 @@ document.addEventListener("click",function(e){
   }
 });
 
-/* ── CHART ── */
+/* â”€â”€ CHART â”€â”€ */
 function renderPerfChart(filterType,grouped,cols){
   var ctx=document.getElementById('perfChart');
   if(!ctx)return;
@@ -543,21 +575,17 @@ function changePerfChartType(type){
   renderPerfumeryTable(perfCurrentFilter);
 }
 
-/* ── BRAND LOAD ── */
+/* â”€â”€ BRAND LOAD â”€â”€ */
 document.addEventListener('DOMContentLoaded', function() {
+  const defaultBrand = 'La Sabia Madrid';
   const savedBrand = localStorage.getItem('selectedBrand');
-  if (savedBrand) {
-    document.getElementById('brandTitle').textContent = savedBrand;
-    applyScoreBrand(savedBrand);
-  } else {
-    perfumeryData = BRAND_PERFUMERY_DATA['Parfum De Mahzen'];
-    renderPerfumeryTable('lastYear');
-  }
+  const initialBrand = savedBrand && BRAND_PERFUMERY_DATA[savedBrand] ? savedBrand : defaultBrand;
+  document.getElementById('brandTitle').textContent = initialBrand;
+  localStorage.setItem('selectedBrand', initialBrand);
+  applyScoreBrand(initialBrand);
 });
 
-/* ═══════════════════════════════════════════════════════════════
-   🎯 AUTO-SELECT VIEW FROM localStorage (NUEVO - AGREGAR ESTO)
-   ═══════════════════════════════════════════════════════════════ */
+
 document.addEventListener('DOMContentLoaded', function() {
   const savedView = localStorage.getItem('scoreView');
   
@@ -565,14 +593,14 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
       if (typeof changePerfView === 'function') {
         changePerfView(savedView);
-        console.log('✅ Vista aplicada desde localStorage:', savedView);
+        console.log('âœ… Vista aplicada desde localStorage:', savedView);
       }
-      // Limpiar para la próxima vez
+      // Limpiar para la prÃ³xima vez
       localStorage.removeItem('scoreView');
     }, 150);
   }
 });
-/* ═══════════════════════════════════════════════════════════════ */
 </script>
 </body>
 </html>
+

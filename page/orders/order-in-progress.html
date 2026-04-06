@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -128,9 +128,9 @@
 .page-btns button:disabled{opacity:.4;cursor:not-allowed;}
 .page-info{font-size:12px;color:var(--text-muted);}
 
-/* ═══════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NEW ORDER MODAL
-═══════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;}
 .modal-overlay.open{display:flex;}
 .modal-box{background:#fff;border-radius:16px;width:100%;max-width:900px;margin:auto;box-shadow:0 24px 64px rgba(0,0,0,.25);display:flex;flex-direction:column;overflow:hidden;}
@@ -221,7 +221,7 @@
 .view-line-qty{font-size:12px;color:var(--text-muted);}
 .view-line-price{font-size:13px;font-weight:700;color:var(--gold-dark);}
 
-/* ── DATE MODAL ── */
+
 .date-modal-box{max-width:340px;}
 .date-modal-header{background:var(--gold);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}
 .date-modal-header h3{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;}
@@ -268,7 +268,7 @@
     <div class="page-header">
       <div class="page-title">
         <h2><i class="fas fa-shopping-cart"></i> Orders</h2>
-        <!-- <p>Orders placed to the brand — B2B procurement management</p> -->
+        <!-- <p>Orders placed to the brand â€” B2B procurement management</p> -->
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
         <button class="om-btn" onclick="exportExcel()"><i class="fas fa-file-excel"></i> Export Excel</button>
@@ -283,19 +283,19 @@
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-receipt"></i></div>
-        <div><div class="stat-val" id="sTotalOrders">—</div><div class="stat-label">Total Orders</div></div>
+        <div><div class="stat-val" id="sTotalOrders">â€”</div><div class="stat-label">Total Orders</div></div>
       </div>
       <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-clock"></i></div>
-        <div><div class="stat-val" id="sInProgress">—</div><div class="stat-label">In Progress</div></div>
+        <div><div class="stat-val" id="sInProgress">â€”</div><div class="stat-label">In Progress</div></div>
       </div>
       <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
-        <div><div class="stat-val" id="sReceived">—</div><div class="stat-label">Received</div></div>
+        <div><div class="stat-val" id="sReceived">â€”</div><div class="stat-label">Received</div></div>
       </div>
       <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
-        <div><div class="stat-val" id="sTotalValue">—</div><div class="stat-label">Total Invested</div></div>
+        <div><div class="stat-val" id="sTotalValue">â€”</div><div class="stat-label">Total Invested</div></div>
       </div>
     </div>
 
@@ -329,7 +329,7 @@
         </div>
       </div>
       <div class="filter-right">
-        <span style="font-size:12px;color:var(--text-muted);"><strong id="resultsCount">—</strong> orders</span>
+        <span style="font-size:12px;color:var(--text-muted);"><strong id="resultsCount">â€”</strong> orders</span>
       </div>
     </div>
 
@@ -363,12 +363,12 @@
   </main>
 </div>
 
-<!-- ═══════ NEW ORDER MODAL ═══════ -->
+<!-- â•â•â•â•â•â•â• NEW ORDER MODAL â•â•â•â•â•â•â• -->
 <div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-header">
       <h3><i class="fas fa-shopping-cart"></i> <span id="modalTitle">New Purchase Order</span></h3>
-      <button class="modal-close" onclick="closeOrderModal()">✕</button>
+      <button class="modal-close" onclick="closeOrderModal()">âœ•</button>
     </div>
     <div class="modal-body">
 
@@ -437,10 +437,10 @@
           <div class="form-group">
             <label class="form-label">Currency</label>
             <select class="form-select" id="fCurrency">
-              <option value="USD">USD — US Dollar</option>
-              <option value="EUR">EUR — Euro</option>
-              <option value="GBP">GBP — British Pound</option>
-              <option value="AED">AED — UAE Dirham</option>
+              <option value="USD">USD â€” US Dollar</option>
+              <option value="EUR">EUR â€” Euro</option>
+              <option value="GBP">GBP â€” British Pound</option>
+              <option value="AED">AED â€” UAE Dirham</option>
             </select>
           </div>
           <div class="form-group full">
@@ -494,17 +494,17 @@
   </div>
 </div>
 
-<!-- ═══════ EDIT STATUS MODAL ═══════ -->
+
 <div class="modal-overlay" id="editModal" onclick="closeEditModal(event)">
   <div class="modal-box" style="max-width:420px;" onclick="event.stopPropagation()">
     <div class="modal-header">
       <h3><i class="fas fa-pen"></i> Update Order Status</h3>
-      <button class="modal-close" onclick="closeEditModal()">✕</button>
+      <button class="modal-close" onclick="closeEditModal()">âœ•</button>
     </div>
     <div class="modal-body" style="gap:16px;">
       <div style="background:var(--gold-light);border:1px solid var(--gold-border);border-radius:8px;padding:12px 16px;">
         <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">Order</div>
-        <div style="font-size:15px;font-weight:700;color:var(--gold-dark);font-family:monospace;" id="editOrderNum">—</div>
+        <div style="font-size:15px;font-weight:700;color:var(--gold-dark);font-family:monospace;" id="editOrderNum">â€”</div>
       </div>
       <div class="form-group">
         <label class="form-label">Status <span class="req">*</span></label>
@@ -536,12 +536,12 @@
 </div>
 
 
-<!-- ═══════ VIEW ORDER MODAL ═══════ -->
+<!-- â•â•â•â•â•â•â• VIEW ORDER MODAL â•â•â•â•â•â•â• -->
 <div class="modal-overlay" id="viewModal" onclick="closeViewModal(event)">
   <div class="modal-box view-modal-box" onclick="event.stopPropagation()">
     <div class="modal-header">
       <h3><i class="fas fa-eye"></i> Order Details</h3>
-      <button class="modal-close" onclick="closeViewModal()">✕</button>
+      <button class="modal-close" onclick="closeViewModal()">âœ•</button>
     </div>
     <div class="modal-body" id="viewModalContent" style="max-height:75vh;"></div>
     <div class="modal-footer">
@@ -553,12 +553,12 @@
   </div>
 </div>
 
-<!-- ═══════ DATE MODAL ═══════ -->
+<!-- â•â•â•â•â•â•â• DATE MODAL â•â•â•â•â•â•â• -->
 <div class="modal-overlay" id="dateModal" onclick="closeDateModal(event)">
   <div class="modal-box date-modal-box" onclick="event.stopPropagation()">
     <div class="date-modal-header">
       <h3><i class="fas fa-calendar-alt"></i> Custom Date Range</h3>
-      <button class="modal-close" onclick="closeDateModal()">✕</button>
+      <button class="modal-close" onclick="closeDateModal()">âœ•</button>
     </div>
     <div class="modal-body" style="padding:20px;gap:14px;">
       <div class="form-group">
@@ -692,35 +692,35 @@ function saveStatus(){
   render();
   showToast('Status updated successfully!');
 }
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    BRAND CATALOG
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 const BRAND_CATALOG = {
-  'Parfum De Mahzen': [
-    { sku:'07F-0067F-PARF-100ML', name:'Supreme Oudh',  collection:'Modern Oudh',           price:210.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-0067G-PARF-100ML', name:'Veritas',       collection:'Arcana',                price:175.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-00682-PARF-100ML', name:'Madam Oudh',    collection:'Modern Oudh',           price:190.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-00683-PARF-100ML', name:'Uchcha',        collection:'Ancient Spirits',       price:185.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-00684-PARF-100ML', name:'Incense Oudh',  collection:'Modern Oudh',           price:195.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-0068D-PARF-100ML', name:'Sphinx',        collection:'Ancient Spirits',       price:200.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-0068C-PARF-100ML', name:'Sangal',        collection:'Ancient Spirits',       price:195.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-00689-PARF-100ML', name:'Gamayun',       collection:'Ancient Spirits',       price:200.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-0068A-PARF-100ML', name:'Gugulanna',     collection:'Ancient Spirits',       price:195.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-0067Y-PARF-100ML', name:'Divina',        collection:'Arcana',                price:190.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-00685-PARF-100ML', name:'Molecule Oudh', collection:'Modern Oudh',           price:185.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-0068B-PARF-100ML', name:'Hūma',          collection:'Ancient Spirits',       price:200.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-00688-PARF-100ML', name:'Fenrir',        collection:'Ancient Spirits',       price:195.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-00686-PARF-100ML', name:'Prajna',        collection:'Arcana',                price:180.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-00687-PARF-100ML', name:'Amali',         collection:'Modern Oudh',           price:175.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-00681-PARF-100ML', name:'Amiyah Oudh',   collection:'Modern Oudh',           price:185.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-00680-PARF-100ML', name:'Aurum',         collection:'Arcana',                price:195.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-0067X-PARF-100ML', name:'Ruhun',         collection:'Ancient Spirits',       price:190.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-0067W-PARF-100ML', name:'Capi',          collection:'Mandarine Orientale Italy', price:200.00, image:'../../img/Veritas-Sise1.jpg' },
-    { sku:'07F-0067V-PARF-100ML', name:'Curve',         collection:'Mandarine Orientale Italy', price:195.00, image:'../../img/Veritas-Sise1.jpg' },
+  'Brand Demo': [
+    { sku:'07F-0067F-PARF-100ML', name:'Demo1',  collection:'Modern Oudh',           price:210.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067G-PARF-100ML', name:'Demo2',       collection:'Arcana',                price:175.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00682-PARF-100ML', name:'Madam Oudh',    collection:'Modern Oudh',           price:190.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00683-PARF-100ML', name:'Demon3',        collection:'Ancient Spirits',       price:185.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00684-PARF-100ML', name:'Incense Oudh',  collection:'Modern Oudh',           price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0068D-PARF-100ML', name:'Sphinx',        collection:'Ancient Spirits',       price:200.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0068C-PARF-100ML', name:'Sangal',        collection:'Ancient Spirits',       price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00689-PARF-100ML', name:'Gamayun',       collection:'Ancient Spirits',       price:200.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0068A-PARF-100ML', name:'Gugulanna',     collection:'Ancient Spirits',       price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067Y-PARF-100ML', name:'Divina',        collection:'Arcana',                price:190.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00685-PARF-100ML', name:'Molecule Oudh', collection:'Modern Oudh',           price:185.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0068B-PARF-100ML', name:'HÅ«ma',          collection:'Ancient Spirits',       price:200.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00688-PARF-100ML', name:'Fenrir',        collection:'Ancient Spirits',       price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00686-PARF-100ML', name:'Prajna',        collection:'Arcana',                price:180.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00687-PARF-100ML', name:'Amali',         collection:'Modern Oudh',           price:175.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00681-PARF-100ML', name:'Amiyah Oudh',   collection:'Modern Oudh',           price:185.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00680-PARF-100ML', name:'Aurum',         collection:'Arcana',                price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067X-PARF-100ML', name:'Ruhun',         collection:'Ancient Spirits',       price:190.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067W-PARF-100ML', name:'Capi',          collection:'Mandarine Orientale Italy', price:200.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067V-PARF-100ML', name:'Curve',         collection:'Mandarine Orientale Italy', price:195.00, image:'../../img/Brand_Demo.webp' },
   ],
   'La Sabia Madrid': [
     { sku:'07H-0067E-EDP-100ML',      name:'Verdanza',   collection:'Artisan Collection', price:171.95, image:'../../img/LaSabiaMadrid.webp' },
-    { sku:'07H-0067F-EDP-100ML',      name:'Poderío',    collection:'Artisan Collection', price:171.95, image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067F-EDP-100ML',      name:'Poderio',    collection:'Artisan Collection', price:171.95, image:'../../img/LaSabiaMadrid.webp' },
     { sku:'07H-0067G-EDP-100ML',      name:'Dos Besos',  collection:'Artisan Collection', price:171.95, image:'../../img/LaSabiaMadrid.webp' },
     { sku:'07H-0067G-EDP-100ML-TKTOK',name:'Dos Besos (TikTok Ed.)', collection:'Artisan Collection', price:10.00, image:'../../img/LaSabiaMadrid.webp' },
     { sku:'07H-0067G-EDP-100ML-TST',  name:'Dos Besos Tester',       collection:'Artisan Collection', price:94.00, image:'../../img/LaSabiaMadrid.webp' },
@@ -729,9 +729,9 @@ const BRAND_CATALOG = {
   ],
 };
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ORDERS DATA
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 // var ordersData = [];
 var ordersData = [
   {
@@ -740,7 +740,7 @@ var ordersData = [
     orderDate: '2026-03-10',
     deliveryDate: '2026-03-25',
     company: 'Niche305 LLC',
-    contact: 'Francis Sánchez',
+    contact: 'Francis SÃ¡nchez',
     email: 'orders@niche305.com',
     phone: '+1 (305) 555-0100',
     address: '1200 Brickell Ave, Miami, FL 33131, USA',
@@ -749,11 +749,11 @@ var ordersData = [
     paymentNotes: 'REF-2026-001',
     notes: 'Please include packing list inside each box.',
     status: 'In Progress',
-    brand: 'Parfum De Mahzen',
+    brand: 'Brand Demo',
     lineItems: [
-      { name:'Supreme Oudh',  sku:'07F-0067F-PARF-100ML', qty:12, unitPrice:210.00, lineTotal:2520.00, image:'../../img/Veritas-Sise1.jpg' },
-      { name:'Veritas',       sku:'07F-0067G-PARF-100ML', qty:6,  unitPrice:175.00, lineTotal:1050.00, image:'../../img/Veritas-Sise1.jpg' },
-      { name:'Incense Oudh',  sku:'07F-00684-PARF-100ML', qty:8,  unitPrice:195.00, lineTotal:1560.00, image:'../../img/Veritas-Sise1.jpg' },
+      { name:'Demo1',  sku:'07F-0067F-PARF-100ML', qty:12, unitPrice:210.00, lineTotal:2520.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Demo2',       sku:'07F-0067G-PARF-100ML', qty:6,  unitPrice:175.00, lineTotal:1050.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Incense Oudh',  sku:'07F-00684-PARF-100ML', qty:8,  unitPrice:195.00, lineTotal:1560.00, image:'../../img/Brand_Demo.webp' },
     ],
     total: 5130.00
   },
@@ -763,19 +763,19 @@ var ordersData = [
     orderDate: '2026-02-15',
     deliveryDate: '2026-03-01',
     company: 'Niche305 LLC',
-    contact: 'Francis Sánchez',
+    contact: 'Francis SÃ¡nchez',
     email: 'orders@niche305.com',
     phone: '+1 (305) 555-0100',
     address: '1200 Brickell Ave, Miami, FL 33131, USA',
     payment: 'Net 30',
     currency: 'USD',
-    paymentNotes: 'Net 30 — Invoice #INV-2026-014',
+    paymentNotes: 'Net 30 â€” Invoice #INV-2026-014',
     notes: '',
     status: 'Received',
-    brand: 'Parfum De Mahzen',
+    brand: 'Brand Demo',
     lineItems: [
-      { name:'Uchcha',       sku:'07F-00683-PARF-100ML', qty:10, unitPrice:185.00, lineTotal:1850.00, image:'../../img/Veritas-Sise1.jpg' },
-      { name:'Madam Oudh',   sku:'07F-00682-PARF-100ML', qty:5,  unitPrice:190.00, lineTotal:950.00,  image:'../../img/Veritas-Sise1.jpg' },
+      { name:'Demon3',       sku:'07F-00683-PARF-100ML', qty:10, unitPrice:185.00, lineTotal:1850.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Madam Oudh',   sku:'07F-00682-PARF-100ML', qty:5,  unitPrice:190.00, lineTotal:950.00,  image:'../../img/Brand_Demo.webp' },
     ],
     total: 2800.00
   },
@@ -785,20 +785,20 @@ var ordersData = [
     orderDate: '2026-01-20',
     // deliveryDate: '2026-02-10',
     company: 'Niche305 LLC',
-    contact: 'Francis Sánchez',
+    contact: 'Francis SÃ¡nchez',
     email: 'orders@niche305.com',
     phone: '+1 (305) 555-0100',
     address: '1200 Brickell Ave, Miami, FL 33131, USA',
     payment: 'Bank Transfer',
     currency: 'USD',
     paymentNotes: 'REF-2026-003',
-    notes: 'Fragile — handle with care.',
+    notes: 'Fragile â€” handle with care.',
     status: 'Received',
-    brand: 'Parfum De Mahzen',
+    brand: 'Brand Demo',
     lineItems: [
-      { name:'Sphinx',   sku:'07F-0068D-PARF-100ML', qty:8,  unitPrice:200.00, lineTotal:1600.00, image:'../../img/Veritas-Sise1.jpg' },
-      { name:'Hūma',     sku:'07F-0068B-PARF-100ML', qty:6,  unitPrice:200.00, lineTotal:1200.00, image:'../../img/Veritas-Sise1.jpg' },
-      { name:'Divina',   sku:'07F-0067Y-PARF-100ML', qty:4,  unitPrice:190.00, lineTotal:760.00,  image:'../../img/Veritas-Sise1.jpg' },
+      { name:'Sphinx',   sku:'07F-0068D-PARF-100ML', qty:8,  unitPrice:200.00, lineTotal:1600.00, image:'../../img/Brand_Demo.webp' },
+      { name:'HÅ«ma',     sku:'07F-0068B-PARF-100ML', qty:6,  unitPrice:200.00, lineTotal:1200.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Divina',   sku:'07F-0067Y-PARF-100ML', qty:4,  unitPrice:190.00, lineTotal:760.00,  image:'../../img/Brand_Demo.webp' },
     ],
     total: 3560.00
   },
@@ -808,7 +808,7 @@ var ordersData = [
     orderDate: '2026-03-12',
     deliveryDate: '2026-03-28',
     company: 'Niche305 LLC',
-    contact: 'Francis Sánchez',
+    contact: 'Francis SÃ¡nchez',
     email: 'orders@niche305.com',
     phone: '+1 (305) 555-0100',
     address: '1200 Brickell Ave, Miami, FL 33131, USA',
@@ -820,7 +820,7 @@ var ordersData = [
     brand: 'La Sabia Madrid',
     lineItems: [
       { name:'Verdanza',  sku:'07H-0067E-EDP-100ML', qty:10, unitPrice:171.95, lineTotal:1719.50, image:'../../img/LaSabiaMadrid.webp' },
-      { name:'Poderío',   sku:'07H-0067F-EDP-100ML', qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Poderio',   sku:'07H-0067F-EDP-100ML', qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
       { name:'Dos Besos', sku:'07H-0067G-EDP-100ML', qty:6,  unitPrice:171.95, lineTotal:1031.70, image:'../../img/LaSabiaMadrid.webp' },
     ],
     total: 4126.80
@@ -831,7 +831,7 @@ var ordersData = [
     orderDate: '2026-02-08',
     deliveryDate: '2026-02-25',
     company: 'Niche305 LLC',
-    contact: 'Francis Sánchez',
+    contact: 'Francis SÃ¡nchez',
     email: 'orders@niche305.com',
     phone: '+1 (305) 555-0100',
     address: '1200 Brickell Ave, Miami, FL 33131, USA',
@@ -853,7 +853,7 @@ var ordersData = [
     orderDate: '2026-01-15',
     deliveryDate: '2026-02-01',
     company: 'Niche305 LLC',
-    contact: 'Francis Sánchez',
+    contact: 'Francis SÃ¡nchez',
     email: 'orders@niche305.com',
     phone: '+1 (305) 555-0100',
     address: '1200 Brickell Ave, Miami, FL 33131, USA',
@@ -864,7 +864,7 @@ var ordersData = [
     status: 'Received',
     brand: 'La Sabia Madrid',
     lineItems: [
-      { name:'Poderío',              sku:'07H-0067F-EDP-100ML',        qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Poderio',              sku:'07H-0067F-EDP-100ML',        qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
       { name:'Dos Besos (TikTok Ed.)',sku:'07H-0067G-EDP-100ML-TKTOK', qty:20, unitPrice:10.00,  lineTotal:200.00,  image:'../../img/LaSabiaMadrid.webp' },
       { name:'Normal',               sku:'07H-0067D-EDP-100ML',        qty:5,  unitPrice:100.00, lineTotal:500.00,  image:'../../img/LaSabiaMadrid.webp' },
     ],
@@ -873,10 +873,10 @@ var ordersData = [
 ];
 var nextOrderId = 7;
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    STATE
-════════════════════════════ */
-var currentBrand  = 'Parfum De Mahzen';
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+var currentBrand  = 'Brand Demo';
 var boSearch      = '';
 var boRange       = 'all';
 var boCustomFrom  = '';
@@ -890,12 +890,12 @@ var editingOrderId = null;
 // Product selection in modal
 var selectedProducts = {}; // { sku: qty }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    HELPERS
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function fmt(n){ return '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function fmtDate(d){
-  if(!d) return '—';
+  if(!d) return 'â€”';
   var p=d.split('-'), m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return m[parseInt(p[1])-1]+' '+parseInt(p[2])+', '+p[0];
 }
@@ -930,9 +930,9 @@ function todayISO(){
   return new Date().toISOString().split('T')[0];
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FILTER & RENDER TABLE
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function getFiltered(){
   return ordersData.filter(function(o){
     var q=boSearch.toLowerCase();
@@ -979,7 +979,7 @@ function render(){
       +'<td style="white-space:nowrap;">'+fmtDate(o.orderDate)+'</td>'
     //   +'<td style="white-space:nowrap;">'+fmtDate(o.deliveryDate)+'</td>'
       +'<td class="text-center">'+totalItems+'</td>'
-      +'<td style="font-size:12px;color:var(--text-muted);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+o.address+'">'+( o.address||'—')+'</td>'
+      +'<td style="font-size:12px;color:var(--text-muted);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+o.address+'">'+( o.address||'â€”')+'</td>'
       +'<td class="text-center">'+statusBadge(o.status)+'</td>'
       +'<td class="text-right font-bold">'+fmt(o.total)+'</td>'
       +'<td><div class="act-group">'
@@ -996,14 +996,14 @@ function render(){
 
   // Pagination
   document.getElementById('pageInfo').textContent=
-    'Showing '+(((boPage-1)*BO_PER_PAGE)+1)+'–'+Math.min(boPage*BO_PER_PAGE,filtered.length)+' of '+filtered.length;
+    'Showing '+(((boPage-1)*BO_PER_PAGE)+1)+'-'+Math.min(boPage*BO_PER_PAGE,filtered.length)+' of '+filtered.length;
   var btns='';
-  btns+='<button '+(boPage===1?'disabled':'')+' onclick="goPage('+(boPage-1)+')">‹</button>';
+  btns+='<button '+(boPage===1?'disabled':'')+' onclick="goPage('+(boPage-1)+')">â€¹</button>';
   for(var i=1;i<=total;i++){
-    if(total>7&&i>2&&i<total-1&&Math.abs(i-boPage)>1){if(i===3||i===total-2)btns+='<button disabled>…</button>';continue;}
+    if(total>7&&i>2&&i<total-1&&Math.abs(i-boPage)>1){if(i===3||i===total-2)btns+='<button disabled>â€¦</button>';continue;}
     btns+='<button class="'+(i===boPage?'active':'')+'" onclick="goPage('+i+')">'+i+'</button>';
   }
-  btns+='<button '+(boPage===total?'disabled':'')+' onclick="goPage('+(boPage+1)+')">›</button>';
+  btns+='<button '+(boPage===total?'disabled':'')+' onclick="goPage('+(boPage+1)+')">â€º</button>';
   document.getElementById('pageBtns').innerHTML=btns;
 }
 
@@ -1020,9 +1020,9 @@ function updateStats(filtered){
   document.getElementById('sTotalValue').textContent = fmt(total);
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FILTERS
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function applyFilters(){boSearch=document.getElementById('boSearch').value;boPage=1;render();}
 function setStatus(s,el){
   boStatus=s;
@@ -1048,9 +1048,9 @@ function applyCustomRange(){
   closeDateModal();boPage=1;render();
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    PRODUCT GRID IN MODAL
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function buildProductGrid(){
   var catalog=BRAND_CATALOG[currentBrand]||[];
   var q=document.getElementById('prodSearch').value.toLowerCase();
@@ -1126,7 +1126,7 @@ function buildSelectionSummary(){
         +'<div class="sel-item-price">'+fmt(prod.price)+' / unit</div>'
       +'</div>'
       +'<div class="sel-item-qty">'
-        +'<button class="qty-btn" onclick="changeQty(\''+sku+'\',-1)">−</button>'
+        +'<button class="qty-btn" onclick="changeQty(\''+sku+'\',-1)">âˆ’</button>'
         +'<input class="qty-input" type="number" min="1" value="'+qty+'" onchange="setQty(\''+sku+'\',this.value)">'
         +'<button class="qty-btn" onclick="changeQty(\''+sku+'\',1)">+</button>'
       +'</div>'
@@ -1156,9 +1156,9 @@ function removeProduct(sku){
   buildSelectionSummary();
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NEW ORDER MODAL
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function openNewOrder(){
   editingOrderId=null;
   selectedProducts={};
@@ -1249,9 +1249,9 @@ function submitOrder(){
   boPage=1;render();
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW ORDER
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function viewOrder(id){
   var o=ordersData.find(function(x){return x.id===id;});
   if(!o)return;
@@ -1261,7 +1261,7 @@ function viewOrder(id){
       +(it.image?'<img src="'+it.image+'" onerror="this.style.display=\'none\'">':'')
       +'<div class="view-line-ph" style="'+(it.image?'display:none':'')+'"><i class="fas fa-spray-can"></i></div>'
       +'<div class="view-line-info"><div class="view-line-name">'+it.name+'</div><div class="view-line-sku">'+it.sku+'</div></div>'
-      +'<div class="view-line-right"><div class="view-line-qty">×'+it.qty+' @ '+fmt(it.unitPrice)+'</div><div class="view-line-price">'+fmt(it.lineTotal)+'</div></div>'
+      +'<div class="view-line-right"><div class="view-line-qty">Ã—'+it.qty+' @ '+fmt(it.unitPrice)+'</div><div class="view-line-price">'+fmt(it.lineTotal)+'</div></div>'
       +'</div>';
   }).join('');
 
@@ -1274,9 +1274,9 @@ function viewOrder(id){
         +'<div class="view-item"><div class="view-item-label">Order Date</div><div class="view-item-val">'+fmtDate(o.orderDate)+'</div></div>'
         +'<div class="view-item"><div class="view-item-label">Expected Delivery</div><div class="view-item-val">'+fmtDate(o.deliveryDate)+'</div></div>'
         +'<div class="view-item"><div class="view-item-label">Company</div><div class="view-item-val">'+o.company+'</div></div>'
-        +'<div class="view-item"><div class="view-item-label">Contact</div><div class="view-item-val">'+(o.contact||'—')+'</div></div>'
-        +'<div class="view-item full"><div class="view-item-label">Shipping Address</div><div class="view-item-val">'+(o.address||'—')+'</div></div>'
-        +'<div class="view-item"><div class="view-item-label">Payment</div><div class="view-item-val">'+(o.payment||'—')+'</div></div>'
+        +'<div class="view-item"><div class="view-item-label">Contact</div><div class="view-item-val">'+(o.contact||'â€”')+'</div></div>'
+        +'<div class="view-item full"><div class="view-item-label">Shipping Address</div><div class="view-item-val">'+(o.address||'â€”')+'</div></div>'
+        +'<div class="view-item"><div class="view-item-label">Payment</div><div class="view-item-val">'+(o.payment||'â€”')+'</div></div>'
         +'<div class="view-item"><div class="view-item-label">Currency</div><div class="view-item-val">'+(o.currency||'USD')+'</div></div>'
         +(o.notes?'<div class="view-item full"><div class="view-item-label">Notes</div><div class="view-item-val" style="font-weight:400;">'+o.notes+'</div></div>':'')
       +'</div>'
@@ -1301,9 +1301,9 @@ function closeViewModal(e){
   document.body.style.overflow='';
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    EDIT ORDER
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function editOrder(id){
   var o=ordersData.find(function(x){return x.id===id;});
   if(!o)return;
@@ -1312,7 +1312,7 @@ function editOrder(id){
   o.lineItems.forEach(function(it){selectedProducts[it.sku]=it.qty;});
 
   clearOrderForm();
-  document.getElementById('modalTitle').textContent='Edit Order — '+o.orderNum;
+  document.getElementById('modalTitle').textContent='Edit Order â€” '+o.orderNum;
   document.getElementById('fOrderNum').value=o.orderNum;
   document.getElementById('fOrderDate').value=o.orderDate;
   document.getElementById('fDeliveryDate').value=o.deliveryDate||'';
@@ -1332,27 +1332,27 @@ function editOrder(id){
   document.body.style.overflow='hidden';
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    DELETE ORDER
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function deleteOrder(id){
   if(!confirm('Delete this purchase order?'))return;
   ordersData=ordersData.filter(function(o){return o.id!==id;});
   render();showToast('Order deleted.');
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    DATE MODAL
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function openDateModal(){document.getElementById('dateModal').classList.add('open');document.body.style.overflow='hidden';}
 function closeDateModal(e){
   if(e&&e.target!==document.getElementById('dateModal'))return;
   document.getElementById('dateModal').classList.remove('open');document.body.style.overflow='';
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    EXPORT
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function exportExcel(){
   var load=function(cb){if(window.XLSX){cb();return;}var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=cb;document.head.appendChild(s);};
   load(function(){
@@ -1380,7 +1380,7 @@ function exportPDF(){
       doc.text('Generated: '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),W-14,17,{align:'right'});
       var head=[['ORDER #','DATE','DELIVERY','COMPANY','ADDRESS','PAYMENT','STATUS','TOTAL']];
       var body=getFiltered().map(function(o){
-        return [o.orderNum,fmtDate(o.orderDate),fmtDate(o.deliveryDate),o.company,o.address||'—',o.payment||'—',o.status,fmt(o.total)];
+        return [o.orderNum,fmtDate(o.orderDate),fmtDate(o.deliveryDate),o.company,o.address||'â€”',o.payment||'â€”',o.status,fmt(o.total)];
       });
       doc.autoTable({head:head,body:body,startY:32,headStyles:{fillColor:gold,textColor:[255,255,255],fontStyle:'bold',fontSize:9},bodyStyles:{fontSize:9,textColor:dark},alternateRowStyles:{fillColor:[250,249,246]},theme:'grid'});
       doc.save('purchase-orders.pdf');
@@ -1389,17 +1389,17 @@ function exportPDF(){
   });
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TOAST
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function showToast(msg){
   var t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;
   t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);
 }
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    BRAND CHANGE
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener('niche3ds:brandChanged',function(e){
   currentBrand=e.detail.brand;
   document.getElementById('brandTitle').textContent=currentBrand;
@@ -1407,9 +1407,9 @@ document.addEventListener('niche3ds:brandChanged',function(e){
   boPage=1;render();
 });
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    QUICK RANGE DROPDOWN
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.getElementById('qrBtn').addEventListener('click',function(e){
   e.stopPropagation();
   document.getElementById('qrDd').classList.toggle('show');
@@ -1420,9 +1420,9 @@ document.addEventListener('click',function(){
   document.getElementById('qrBtn').classList.remove('open');
 });
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NAV
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function toggleGroup(id){
   var grp=document.getElementById(id),wasOpen=grp.classList.contains('open');
   document.querySelectorAll('.nav-group').forEach(function(g){if(g.id!==id&&!g.querySelector('.active'))g.classList.remove('open');});
@@ -1436,9 +1436,9 @@ function toggleSubGroup(id){
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeOrderModal();closeViewModal();closeDateModal();}});
 
-/* ════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    INIT
-════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener('DOMContentLoaded',function(){
   var savedBrand=localStorage.getItem('selectedBrand');
   if(savedBrand&&BRAND_CATALOG[savedBrand]){
@@ -1463,3 +1463,5 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 </body>
 </html>
+
+

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Networks – By Audience</title>
+  <title>Social Networks â€“ By Audience</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="../../css/dashboard.css">
@@ -35,7 +35,7 @@
     .welcome-bar h2{font-size:1.4rem;font-weight:700;color:var(--text);}
     .welcome-bar h2 span{color:var(--gold);}
 
-    /* ── METRIC CARDS (4) ── */
+    /* â”€â”€ METRIC CARDS (4) â”€â”€ */
     .metric-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
     .metric-card{background:#fff;border-radius:12px;padding:16px 18px;border:1px solid var(--border);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
     .metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--mc-color,var(--gold));}
@@ -51,17 +51,17 @@
     .mc-growth{font-size:11px;color:#4CAF50;display:flex;align-items:center;gap:3px;}
     .mc-growth.down{color:#e53935;}
 
-    /* ── FILTERS ── */
+    /* â”€â”€ FILTERS â”€â”€ */
     .filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
     .filter-container{display:flex;gap:8px;flex-wrap:wrap;}
     .filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
     .filter-btn:hover{border-color:var(--gold);color:var(--gold);}
     .filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
 
-    /* ── SECTION TITLE ── */
+    /* â”€â”€ SECTION TITLE â”€â”€ */
     .section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
 
-    /* ── TABLE ── */
+    /* â”€â”€ TABLE â”€â”€ */
     .table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
     .responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
     .responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
@@ -89,7 +89,7 @@
     .platform-sub-cell{display:flex;align-items:center;gap:10px;padding-left:28px!important;}
     .platform-sub-badge{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;flex-shrink:0;}
 
-    /* ── CHART ── */
+    /* â”€â”€ CHART â”€â”€ */
     .chart-container{background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);}
     .chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
     .chart-title{margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;}
@@ -117,7 +117,7 @@
   <main class="content">
 
     <div class="welcome-bar">
-      <div><h2>Social Networks — <span>By Audience</span></h2></div>
+      <div><h2>Social Networks â€” <span>By Audience</span></h2></div>
     </div>
 
     <!-- METRIC CARDS -->
@@ -160,7 +160,7 @@
 </div>
 
 <script>
-/* ── 4 AUDIENCE METRICS — filas principales ── */
+/* â”€â”€ 4 AUDIENCE METRICS â€” filas principales â”€â”€ */
 var METRICS = [
   { key:"views",        label:"Views",         icon:"fas fa-play-circle",  color:"#7B2D8B", fmt:fmtNum,
     desc:"Times your content was seen" },
@@ -172,7 +172,7 @@ var METRICS = [
     desc:"Times content was shared" }
 ];
 
-/* ── 5 PLATFORMS — sub-filas ── */
+/* â”€â”€ 5 PLATFORMS â€” sub-filas â”€â”€ */
 var PLATFORMS = [
   { key:"instagram", label:"Instagram", icon:"fab fa-instagram", color:"#E1306C" },
   { key:"facebook",  label:"Facebook",  icon:"fab fa-facebook-f",color:"#1877F2" },
@@ -184,7 +184,7 @@ var PLATFORMS = [
 var monthNames=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
 var dayNames=["SUN","MON","TUE","WED","THU","FRI","SAT"];
 
-/* ── SEED DATA — indexed by platform ── */
+/* â”€â”€ SEED DATA â€” indexed by platform â”€â”€ */
 function seedData(platform){
   var bases={
     instagram:{ views:920000,  interactions:38000, newFollowers:210, shares:1800 },
@@ -229,7 +229,7 @@ function seedData(platform){
 var allData=[];
 PLATFORMS.forEach(function(p){ allData=allData.concat(seedData(p.key)); });
 
-/* ── STATE ── */
+/* â”€â”€ STATE â”€â”€ */
 var currentFilter   ="lastYear";
 var currentChartType="bar";
 var hiddenSeries    =[];
@@ -241,7 +241,7 @@ function fmtNum(v){
   return (v||0).toString();
 }
 
-/* ── DATA HELPERS ── */
+/* â”€â”€ DATA HELPERS â”€â”€ */
 function getVal(platKey,colKey,metricKey){
   var row=allData.find(function(d){return d.platform===platKey&&d.key===colKey;});
   return row?row[metricKey]:0;
@@ -284,7 +284,7 @@ function generateCurrentMonthDays(){
   return days;
 }
 
-/* ── METRIC CARDS ── */
+/* â”€â”€ METRIC CARDS â”€â”€ */
 function renderMetricCards(){
   var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
   var curKey=cy+"-"+String(cm).padStart(2,"0");
@@ -303,14 +303,14 @@ function renderMetricCards(){
     html+='<div class="mc-header"><div class="mc-icon"><i class="'+m.icon+'"></i></div><div class="mc-check"><i class="fas fa-check"></i></div></div>';
     html+='<div class="mc-label">'+m.label+'</div>';
     html+='<div class="mc-val">'+fmtNum(curVal)+'</div>';
-    html+='<div class="mc-sub">'+m.desc+' · '+fLabel+'</div>';
+    html+='<div class="mc-sub">'+m.desc+' Â· '+fLabel+'</div>';
     html+='<div class="mc-growth'+(up?"":" down")+'"><i class="fas fa-arrow-'+(up?"up":"down")+'"></i> '+Math.abs(growth)+'% vs last month</div>';
     html+='</div>';
   });
   document.getElementById("metricCards").innerHTML=html;
 }
 
-/* ── TABLE ── */
+/* â”€â”€ TABLE â”€â”€ */
 /* Rows = METRICS (Views, Interactions, New Followers, Shares)
    Sub-rows = PLATFORMS (Instagram, Facebook, TikTok, YouTube, Pinterest) */
 function renderTable(filterType){
@@ -339,7 +339,7 @@ function renderTable(filterType){
 
   var html="";
 
-  /* Una fila principal por MÉTRICA */
+  /* Una fila principal por MÃ‰TRICA */
   METRICS.forEach(function(m){
     var mYTD=getTotalYTD(m.key);
     var mMTD=getTotalMTD(m.key);
@@ -392,7 +392,7 @@ function togglePlatformRows(metricKey){
   if(icon)icon.textContent=collapsed?"▼":"▶";
 }
 
-/* ── CHART — una línea/barra por métrica ── */
+/* â”€â”€ CHART â€” una lÃ­nea/barra por mÃ©trica â”€â”€ */
 function renderChart(filterType,cols){
   var ctx=document.getElementById("mainChart");
   if(!ctx)return;
@@ -484,3 +484,4 @@ document.addEventListener("DOMContentLoaded",function(){
 </script>
 </body>
 </html>
+

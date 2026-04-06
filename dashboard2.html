@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motiv Perfumes – Dashboard</title>
+    <title>Motiv Perfumes â€“ Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="css/dashboard.css">
@@ -12,12 +12,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-    /* Opción A: Si usas el atributo disabled en el HTML */
+    /* OpciÃ³n A: Si usas el atributo disabled en el HTML */
     .nav-sub-item[disabled] {
         color: #999 !important;
         opacity: 0.6;
-        cursor: default !important;    /* ← Cursor normal (flecha), no mano */
-        pointer-events: none !important; /* ← Bloquea clics */
+        cursor: default !important;    /* â† Cursor normal (flecha), no mano */
+        pointer-events: none !important; /* â† Bloquea clics */
         text-decoration: none !important;
     }
     
@@ -27,7 +27,7 @@
         text-decoration: none !important;
     }
 
-    /* Opción B: Si prefieres usar la clase "disabled" (más compatible) */
+    /* OpciÃ³n B: Si prefieres usar la clase "disabled" (mÃ¡s compatible) */
     .nav-sub-item.disabled {
         color: #999 !important;
         opacity: 0.6;
@@ -42,9 +42,9 @@
 </style>
 
 <script>
-    // ═══════════════════════════════════════════════════════════════
-    // FUNCIÓN PARA APLICAR LA MARCA Y MOSTRAR EL CONTENIDO CORRECTO
-    // ═══════════════════════════════════════════════════════════════
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    // FUNCIÃ“N PARA APLICAR LA MARCA Y MOSTRAR EL CONTENIDO CORRECTO
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     function applyBrand(brand) {
         const content1 = document.getElementById('content');
         const content2 = document.getElementById('content2');
@@ -53,45 +53,41 @@
             if (content1) content1.style.display = 'none';
             if (content2) content2.style.display = 'block';
         } else {
-            // Por defecto: Parfum De Mahzen o cualquier otra
+            // Por defecto: Brand Demo o cualquier otra
             if (content1) content1.style.display = 'block';
             if (content2) content2.style.display = 'none';
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     // AL CARGAR: Aplicar marca guardada Y mostrar contenido correcto
-    // ═══════════════════════════════════════════════════════════════
+    // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     document.addEventListener('DOMContentLoaded', function() {
+        const defaultBrand = 'La Sabia Madrid';
         const savedBrand = localStorage.getItem('selectedBrand');
+        const initialBrand = savedBrand || defaultBrand;
+        localStorage.setItem('selectedBrand', initialBrand);
         
-        if (savedBrand) {
-            // Actualizar textos de la marca
-            const brandTitle = document.getElementById('brandTitle');
-            const companyName = document.getElementById('displayCompanyName');
-            
-            if (brandTitle) brandTitle.textContent = savedBrand;
-            if (companyName) companyName.textContent = savedBrand;
-            
-            // 🔥 IMPORTANTE: Aplicar la marca para mostrar el contenido correcto
-            applyBrand(savedBrand);
-            
-            // Si tienes funciones específicas por marca, llámalas aquí:
-            if (typeof applyLaunchesBrand === 'function') {
-                applyLaunchesBrand(savedBrand);
-            }
-        } else {
-            // Marca por defecto
-            applyBrand('Parfum De Mahzen');
+        // Actualizar textos de la marca desde la primera carga
+        const brandTitle = document.getElementById('brandTitle');
+        const companyName = document.getElementById('displayCompanyName');
+        
+        if (brandTitle) brandTitle.textContent = initialBrand;
+        if (companyName) companyName.textContent = initialBrand;
+        
+        // Aplicar la marca para mostrar el contenido correcto
+        applyBrand(initialBrand);
+        
+        // Si tienes funciones especÃ­ficas por marca, llÃ¡malas aquÃ­:
+        if (typeof applyLaunchesBrand === 'function') {
+            applyLaunchesBrand(initialBrand);
         }
     });
 
-    // ═══════════════════════════════════════════════════════════════
-    // ESCUCHAR CAMBIOS DE MARCA DESDE EL SIDEBAR
-    // ═══════════════════════════════════════════════════════════════
+  
     document.addEventListener('niche3ds:brandChanged', function(e) {
         const brand = e.detail.brand;
-        console.log("🔄 Cambio de marca detectado:", brand);
+        console.log("ðŸ”„ Cambio de marca detectado:", brand);
         
         // Actualizar UI
         const brandTitle = document.getElementById('brandTitle');
@@ -107,13 +103,13 @@
 </head>
 <body>
 
-<!-- ══════════ ASIDE ══════════ -->
+
 <div id="aside-root"></div>
 
-<!-- ══════════ MAIN ══════════ -->
+
 <div class="main-wrap">
     <header class="topbar">
-        <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+        <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle">La Sabia Madrid</div></div>
         <!-- <div class="" id="brandTitle"></div> -->
         <div class="topbar-actions">
             <button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
@@ -124,7 +120,7 @@
 
     <main id="content" class="content">
 
-        <!-- ══ OVERVIEW ══ -->
+        <!-- â•â• OVERVIEW â•â• -->
         <div id="view-overview">
             <div class="welcome-bar">
                 <div>
@@ -316,7 +312,7 @@
 
                   <div class="snapshot-item">
                         <div class="kpi-label">Best-Selling Product Top 1</div>
-                        <div class="kpi-value" style="font-size:1.05rem;line-height:1.3;">Supreme Oudh</div>
+                        <div class="kpi-value" style="font-size:1.05rem;line-height:1.3;">Demo1</div>
                         <div class="kpi-sub">Top SKU by units sold</div>
                     </div>
 
@@ -339,7 +335,7 @@
 
                      <div class="snapshot-item">
                         <div class="kpi-label">Best-Selling Product Top 2</div>
-                        <div class="kpi-value" style="font-size:1.1rem;">Uchcha</div>
+                        <div class="kpi-value" style="font-size:1.1rem;">Demo3</div>
                         <div class="kpi-sub">Highest revenue contribution</div>
                     </div>
 
@@ -368,7 +364,7 @@
 
                      <div class="snapshot-item">
                         <div class="kpi-label">Best-Selling Product Top 3</div>
-                        <div class="kpi-value" style="font-size:1.1rem;">Veritas</div>
+                        <div class="kpi-value" style="font-size:1.1rem;">Demo2</div>
                         <div class="kpi-sub">Highest revenue contribution</div>
                     </div>
 
@@ -379,14 +375,14 @@
                 <!-- <div class="insights-card">
                     <h3>Quick Insights</h3>
                     <div class="insight-item">Florida is the strongest state by revenue and order count.</div>
-                    <div class="insight-item">Supreme Oudh 100ml is currently the highest-volume SKU.</div>
+                    <div class="insight-item">Demo1 is currently the highest-volume SKU.</div>
                     <div class="insight-item">Modern Oudh leads all collections in total sales contribution.</div>
                     <div class="insight-item">Repeat orders are strong, indicating healthy brand traction.</div>
                 </div> -->
             </div>
         </div><!-- /view-overview -->
 
-        <!-- ══ COMMISSIONS VIEW ══ -->
+        <!-- â•â• COMMISSIONS VIEW â•â• -->
         <div id="view-commissions" style="display:none;">
             <div class="welcome-bar" style="margin-bottom:16px;">
                 <div><h2>Commissions <span style="color:var(--gold);">/ Summary</span></h2></div>
@@ -509,7 +505,7 @@
     <!-- La Sabia Madrid -->
     <main id="content2" class="content">
 
-        <!-- ══ OVERVIEW ══ -->
+        <!-- â•â• OVERVIEW â•â• -->
         <div id="view-overview">
             <div class="welcome-bar">
                 <div>
@@ -719,7 +715,7 @@
 
                      <div class="snapshot-item">
                         <div class="kpi-label">Best-Selling Product Top 2</div>
-                        <div class="kpi-value" style="font-size:1.1rem;">Poderío</div>
+                        <div class="kpi-value" style="font-size:1.1rem;">Poderio</div>
                         <div class="kpi-sub">Highest revenue contribution</div>
                     </div>
 
@@ -753,14 +749,14 @@
                 <!-- <div class="insights-card">
                     <h3>Quick Insights</h3>
                     <div class="insight-item">Florida is the strongest state by revenue and order count.</div>
-                    <div class="insight-item">Supreme Oudh 100ml is currently the highest-volume SKU.</div>
+                    <div class="insight-item">Demo1 is currently the highest-volume SKU.</div>
                     <div class="insight-item">Modern Oudh leads all collections in total sales contribution.</div>
                     <div class="insight-item">Repeat orders are strong, indicating healthy brand traction.</div>
                 </div> -->
             </div>
         </div><!-- /view-overview -->
 
-        <!-- ══ COMMISSIONS VIEW ══ -->
+        <!-- â•â• COMMISSIONS VIEW â•â• -->
         <div id="view-commissions" style="display:none;">
             <div class="welcome-bar" style="margin-bottom:16px;">
                 <div><h2>Commissions <span style="color:var(--gold);">/ Summary</span></h2></div>
@@ -881,7 +877,7 @@
     
 </div>
 
-<!-- ══ MODAL ══ -->
+<!-- â•â• MODAL â•â• -->
 <div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <button class="modal-close" onclick="closePaymentModal()">&times;</button>

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motiv Perfumes – Upcoming Launches</title>
+    <title>Motiv Perfumes â€“ Upcoming Launches</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../css/dashboard.css">
     <script src="../../js/aside.js"></script>
@@ -116,7 +116,7 @@
 .btn-dl-photo-lg.disabled{background:#f5f5f5;color:#bbb;cursor:not-allowed;}
 .btn-dl-photo-lg.disabled:hover{background:#f5f5f5;color:#bbb;}
 
-/* ══ MODAL ══ */
+/* â•â• MODAL â•â• */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.open{display:flex;}
 .launch-modal{background:#fff;border-radius:16px;width:100%;max-width:700px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.28);}
@@ -229,7 +229,7 @@
 
     <div class="table-card">
       <div class="table-filter-row">
-        <input type="text" id="fSearch" oninput="renderTable()" placeholder="🔍 Search perfume or collection..." class="col-filter" style="min-width:220px;">
+        <input type="text" id="fSearch" oninput="renderTable()" placeholder="ðŸ” Search perfume or collection..." class="col-filter" style="min-width:220px;">
         <select class="col-filter" id="fCollection" onchange="renderTable()">
           <option value="">All Collections</option>
         </select>
@@ -244,7 +244,7 @@
           <option value="1">Notify On</option>
           <option value="0">Notify Off</option>
         </select>
-        <span class="results-count" id="resultsCount">— launches</span>
+        <span class="results-count" id="resultsCount">â€” launches</span>
       </div>
 
       <div style="overflow-x:auto;">
@@ -269,12 +269,12 @@
   </main>
 </div>
 
-<!-- ══ ADD / EDIT MODAL ══ -->
+<!-- â•â• ADD / EDIT MODAL â•â• -->
 <div class="modal-overlay" id="formModal" onclick="closeFormModal(event)">
   <div class="launch-modal" onclick="event.stopPropagation()">
     <div class="modal-header">
       <h3 id="formModalTitle"><i class="fas fa-rocket"></i> Add Upcoming Launch</h3>
-      <button class="modal-close-btn" onclick="closeFormModal()">✕</button>
+      <button class="modal-close-btn" onclick="closeFormModal()">âœ•</button>
     </div>
     <div class="modal-body">
 
@@ -297,7 +297,7 @@
         <div class="form-grid">
           <div class="form-group">
             <label class="form-label">Perfume Name <span class="required">*</span></label>
-            <input type="text" class="form-input" id="fieldPerfume" placeholder="e.g. Supreme Oudh">
+            <input type="text" class="form-input" id="fieldPerfume" placeholder="e.g. Demo1">
           </div>
           <div class="form-group">
             <label class="form-label">Collection <span class="required">*</span></label>
@@ -372,7 +372,7 @@
               <option value="Woods">Woods</option>
               <option value="Fresh">Fresh</option>
               <option value="Citrus">Citrus</option>
-              <option value="Fougère">Fougère</option>
+              <option value="FougÃ¨re">FougÃ¨re</option>
               <option value="Chypre">Chypre</option>
               <option value="Gourmand">Gourmand</option>
               <option value="Aquatic">Aquatic</option>
@@ -450,12 +450,12 @@
   </div>
 </div>
 
-<!-- ══ VIEW MODAL ══ -->
+<!-- â•â• VIEW MODAL â•â• -->
 <div class="modal-overlay" id="viewModal" onclick="closeViewModal(event)">
   <div class="launch-modal" onclick="event.stopPropagation()">
     <div class="modal-header">
       <h3><i class="fas fa-eye"></i> Launch Details</h3>
-      <button class="modal-close-btn" onclick="closeViewModal()">✕</button>
+      <button class="modal-close-btn" onclick="closeViewModal()">âœ•</button>
     </div>
     <div class="modal-body view-modal-body" id="viewModalContent"></div>
   </div>
@@ -465,13 +465,13 @@
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
 
 <script>
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    DATA
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 // var launches = [
 //   {
 //     id: 1,
-//     perfume: "Supreme Oudh",
+//     perfume: "Demo1",
 //     collection: "Modern Oudh",
 //     type: "Extrait de Parfum",
 //     ml: 100,
@@ -490,11 +490,11 @@
 //     wholesale: 265.00,
 //     sku: "MO-007-EXP-100ML",
 //     notify: true,
-//     photo: '../../img/Veritas-Sise1.jpg'
+//     photo: '../../img/Brand_Demo.webp'
 //   },
 //   {
 //     id: 2,
-//     perfume: "Veritas",
+//     perfume: "Demo2",
 //     collection: "Arcana",
 //     type: "Eau de Parfum",
 //     ml: 50,
@@ -513,15 +513,15 @@
 //     wholesale: 120.00,
 //     sku: "AC-010-EDP-50ML",
 //     notify: true,
-//     photo: '../../img/Veritas-Sise1.jpg'
+//     photo: '../../img/Brand_Demo.webp'
 //   },
 //   {
 //     id: 3,
-//     perfume: "Uchcha",
+//     perfume: "Demon3",
 //     collection: "Ancient Spirits",
 //     type: "Eau de Parfum",
 //     ml: 100,
-//     description: "A limited-edition masterpiece — bold, spicy and unforgettable.",
+//     description: "A limited-edition masterpiece â€” bold, spicy and unforgettable.",
 //     country: "UAE",
 //     fragFamily: "Oriental",
 //     sillage: "Enormous",
@@ -536,19 +536,19 @@
 //     wholesale: 240.00,
 //     sku: "LE-003-EDP-100ML",
 //     notify: false,
-//     photo: '../../img/Veritas-Sise1.jpg'
+//     photo: '../../img/Brand_Demo.webp'
 //   }
 // ];
 
 
-// ── Datos iniciales ───────────────────────────────────────────
+
 var launches = [];
 
-// ── Datos por marca ───────────────────────────────────────────
+
 const BRAND_LAUNCHES = {
-  'Parfum De Mahzen': [
+  'Brand Demo': [
     {
-      id:1, perfume:"Supreme Oudh", collection:"Modern Oudh",
+      id:1, perfume:"Demo1", collection:"Collection1",
       type:"Extrait de Parfum", ml:100,
       description:"A dark, celestial blend of oud and smoky resins that transports you to a starlit night.",
       country:"France", fragFamily:"Woods", sillage:"Strong", projection:"Strong",
@@ -558,10 +558,10 @@ const BRAND_LAUNCHES = {
       midNotes:["Oud","Rose","Leather"],
       baseNotes:["Amber","Vetiver","Musk"],
       launchDate:"2026-05-15", msrp:420.00, wholesale:265.00,
-      sku:"MO-007-EXP-100ML", notify:true, photo:'../../img/Veritas-Sise1.jpg'
+      sku:"MO-007-EXP-100ML", notify:true, photo:'../../img/Brand_Demo.webp'
     },
     {
-      id:2, perfume:"Veritas", collection:"Arcana",
+      id:2, perfume:"Demo2", collection:"Collection2",
       type:"Eau de Parfum", ml:50,
       description:"A radiant, sun-kissed fragrance with golden citrus and warm florals.",
       country:"Italy", fragFamily:"Floral", sillage:"Moderate", projection:"Moderate to Strong",
@@ -571,12 +571,12 @@ const BRAND_LAUNCHES = {
       midNotes:["Jasmine","Mimosa","Freesia"],
       baseNotes:["Sandalwood","Vanilla","White Musk"],
       launchDate:"2026-04-01", msrp:195.00, wholesale:120.00,
-      sku:"AC-010-EDP-50ML", notify:true, photo:'../../img/Veritas-Sise1.jpg'
+      sku:"AC-010-EDP-50ML", notify:true, photo:'../../img/Brand_Demo.webp'
     },
     {
-      id:3, perfume:"Uchcha", collection:"Ancient Spirits",
+      id:3, perfume:"Demo3", collection:"Collection3",
       type:"Eau de Parfum", ml:100,
-      description:"A limited-edition masterpiece — bold, spicy and unforgettable.",
+      description:"A limited-edition masterpiece â€” bold, spicy and unforgettable.",
       country:"UAE", fragFamily:"Oriental", sillage:"Enormous", projection:"Very Strong",
       characteristics:["Unisex","Bold","Evening","Limited Edition"],
       ingredients:"Alcohol Denat., Parfum (Fragrance), Aqua (Water), Eugenol, Isoeugenol, Benzyl Benzoate, Cinnamyl Alcohol.",
@@ -584,7 +584,7 @@ const BRAND_LAUNCHES = {
       midNotes:["Rose","Oud","Patchouli"],
       baseNotes:["Labdanum","Benzoin","Amber"],
       launchDate:"2025-12-01", msrp:380.00, wholesale:240.00,
-      sku:"LE-003-EDP-100ML", notify:false, photo:'../../img/Veritas-Sise1.jpg'
+      sku:"LE-003-EDP-100ML", notify:false, photo:'../../img/Brand_Demo.webp'
     },
   ],
   'La Sabia Madrid': [
@@ -602,7 +602,7 @@ const BRAND_LAUNCHES = {
       sku:"LSM-001-EDP-100ML", notify:true, photo:'../../img/LaSabiaMadrid.webp'
     },
     {
-      id:2, perfume:"Poderío", collection:"Pasión",
+      id:2, perfume:"Poderio", collection:"PasiÃ³n",
       type:"Eau de Parfum", ml:100,
       description:"A powerful and confident fragrance with bold spicy opening and deep amber base.",
       country:"Spain", fragFamily:"Woods", sillage:"Strong", projection:"Strong",
@@ -615,7 +615,7 @@ const BRAND_LAUNCHES = {
       sku:"LSM-002-EDP-100ML", notify:true, photo:'../../img/LaSabiaMadrid.webp'
     },
     {
-      id:3, perfume:"Dos Besos", collection:"Pasión",
+      id:3, perfume:"Dos Besos", collection:"PasiÃ³n",
       type:"Extrait de Parfum", ml:100,
       description:"A warm and sensual oriental fragrance evoking the passion of Spanish culture.",
       country:"Spain", fragFamily:"Oriental", sillage:"Strong", projection:"Strong",
@@ -630,7 +630,7 @@ const BRAND_LAUNCHES = {
   ],
 };
 
-// ── Escucha el cambio de marca ────────────────────────────────
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('niche3ds:brandChanged', function(e) {
   const brand = e.detail.brand;
   document.getElementById('brandTitle').textContent = brand;
@@ -638,24 +638,24 @@ document.addEventListener('niche3ds:brandChanged', function(e) {
   applyLaunchesBrand(brand);
 });
 
-// ── Al cargar, aplica la marca guardada ───────────────────────
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', function() {
   var savedBrand = localStorage.getItem('selectedBrand');
   if (savedBrand) {
     document.getElementById('brandTitle').textContent = savedBrand;
     applyLaunchesBrand(savedBrand);
   } else {
-    launches = BRAND_LAUNCHES['Parfum De Mahzen'];
+    launches = BRAND_LAUNCHES['Brand Demo'];
     populateCollectionFilter();
     renderTable();
   }
 });
 
-// ── Función principal ─────────────────────────────────────────
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function applyLaunchesBrand(brand) {
   if (BRAND_LAUNCHES[brand]) {
     launches = BRAND_LAUNCHES[brand];
-    populateCollectionFilter(); // ← también actualiza el filtro
+    populateCollectionFilter(); // â† tambiÃ©n actualiza el filtro
     renderTable();
   }
 
@@ -669,11 +669,11 @@ var currentNotes = { topNotes: [], midNotes: [], baseNotes: [], characteristics:
 var selectedPhotoFile = null;
 var selectedPhotoUrl = null;
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    HELPERS
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function fmtDate(d) {
-  if (!d) return '—';
+  if (!d) return 'â€”';
   var p = d.split('-');
   var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return m[parseInt(p[1])-1] + ' ' + parseInt(p[2]) + ', ' + p[0];
@@ -689,7 +689,7 @@ function getCountdown(dateStr) {
 
 function getStatusInfo(dateStr) {
   var diff = getCountdown(dateStr);
-  if (diff === null) return { label: 'Unknown', cls: 'status-upcoming', chipCls: 'chip-future', chip: '—' };
+  if (diff === null) return { label: 'Unknown', cls: 'status-upcoming', chipCls: 'chip-future', chip: 'â€”' };
   if (diff < 0)  return { label: 'Launched',        cls: 'status-launched', chipCls: 'chip-past',   chip: 'Launched' };
   if (diff === 0)return { label: 'Launching Today',  cls: 'status-today',   chipCls: 'chip-today',  chip: 'Today!' };
   if (diff <= 30)return { label: 'Launching Soon',   cls: 'status-soon',    chipCls: 'chip-soon',   chip: diff + 'd left' };
@@ -697,13 +697,13 @@ function getStatusInfo(dateStr) {
 }
 
 function fmt(n) {
-  if (!n && n !== 0) return '—';
+  if (!n && n !== 0) return 'â€”';
   return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    POPULATE FILTERS
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function populateCollectionFilter() {
   var sel = document.getElementById('fCollection');
   var cols = [...new Set(launches.map(function(l){ return l.collection; }))].sort();
@@ -715,9 +715,9 @@ function populateCollectionFilter() {
   });
 }
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RENDER TABLE
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function renderTable() {
   var tbody = document.getElementById('launchTbody');
   var fSearch     = document.getElementById('fSearch').value.toLowerCase();
@@ -759,14 +759,14 @@ function renderTable() {
       : '<div class="photo-placeholder"><i class="fas fa-spray-can"></i></div>';
 
     var descSnippet = l.description
-      ? (l.description.length > 60 ? l.description.slice(0, 60) + '…' : l.description)
-      : '<span style="color:#ccc;">—</span>';
+      ? (l.description.length > 60 ? l.description.slice(0, 60) + 'â€¦' : l.description)
+      : '<span style="color:#ccc;">â€”</span>';
 
     var notifyHtml = '<label class="toggle-switch"><input type="checkbox"' + (l.notify ? ' checked' : '') + ' onchange="toggleNotify(' + l.id + ',this)"><span class="toggle-slider"></span></label>';
 
     return '<tr>'
       + '<td style="text-align:center;">' + photoCell + '</td>'
-      + '<td style="font-weight:600;">' + l.perfume + (l.type ? '<div style="font-size:11px;color:var(--text-muted);font-weight:400;margin-top:2px;">' + l.type + (l.ml ? ' · ' + l.ml + 'ml' : '') + '</div>' : '') + '</td>'
+      + '<td style="font-weight:600;">' + l.perfume + (l.type ? '<div style="font-size:11px;color:var(--text-muted);font-weight:400;margin-top:2px;">' + l.type + (l.ml ? ' Â· ' + l.ml + 'ml' : '') + '</div>' : '') + '</td>'
       + '<td><span class="collection-badge">' + l.collection + '</span></td>'
       + '<td style="white-space:nowrap;font-size:13px;">' + fmtDate(l.launchDate) + '</td>'
       + '<td style="text-align:center;"><span class="countdown-chip ' + si.chipCls + '">' + si.chip + '</span></td>'
@@ -802,9 +802,9 @@ function deleteLaunch(id) {
   showToast('Launch deleted');
 }
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    NOTES TAGS
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function focusNotesInput(inputId) {
   document.getElementById(inputId).focus();
 }
@@ -868,9 +868,9 @@ function loadNoteTagsFromData(l) {
   renderNoteTags('characteristics', 'charInput');
 }
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    PHOTO UPLOAD
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function handlePhotoSelect(input) {
   if (!input.files || !input.files[0]) return;
   selectedPhotoFile = input.files[0];
@@ -904,9 +904,9 @@ function setPhotoFromUrl(url) {
     '<p style="font-size:11px;color:var(--gold);margin-top:4px;">Click to change photo</p>';
 }
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ADD / EDIT MODAL
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function openAddModal() {
   editingId = null;
   clearFormFields();
@@ -1008,9 +1008,9 @@ function closeFormModal(e) {
   document.body.style.overflow = '';
 }
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    VIEW MODAL
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function openViewModal(id) {
   var l = launches.find(function(x) { return x.id === id; });
   if (!l) return;
@@ -1021,22 +1021,22 @@ function openViewModal(id) {
     : '<div class="view-hero-placeholder"><i class="fas fa-spray-can"></i></div>';
 
   function noteChips(arr) {
-    if (!arr || !arr.length) return '<span style="color:rgba(200,200,200,.6);font-size:12px;">—</span>';
+    if (!arr || !arr.length) return '<span style="color:rgba(200,200,200,.6);font-size:12px;">â€”</span>';
     return arr.map(function(n) { return '<span class="view-note-chip">' + n + '</span>'; }).join('');
   }
   function viewChips(arr) {
-    if (!arr || !arr.length) return '<span style="font-size:12px;color:#bbb;">—</span>';
+    if (!arr || !arr.length) return '<span style="font-size:12px;color:#bbb;">â€”</span>';
     return arr.map(function(n) { return '<span class="view-note-chip" style="background:#f0f0f0;color:#555;">' + n + '</span>'; }).join('');
   }
-  function val(v){ return v || '<span style="color:#bbb;">—</span>'; }
+  function val(v){ return v || '<span style="color:#bbb;">â€”</span>'; }
 
   document.getElementById('viewModalContent').innerHTML =
     '<div class="view-hero">'
       + photoEl
       + '<div class="view-hero-info">'
         + '<div class="view-perfume-name">' + l.perfume + '</div>'
-        + '<div class="view-collection">' + l.collection + (l.type ? ' · ' + l.type : '') + (l.ml ? ' · ' + l.ml + 'ml' : '') + '</div>'
-        + '<div class="view-launch-date"><i class="fas fa-calendar-alt"></i>' + fmtDate(l.launchDate) + ' &nbsp;·&nbsp; <span class="countdown-chip ' + si.chipCls + '" style="background:rgba(255,255,255,.1);color:#fff;">' + si.chip + '</span></div>'
+        + '<div class="view-collection">' + l.collection + (l.type ? ' Â· ' + l.type : '') + (l.ml ? ' Â· ' + l.ml + 'ml' : '') + '</div>'
+        + '<div class="view-launch-date"><i class="fas fa-calendar-alt"></i>' + fmtDate(l.launchDate) + ' &nbsp;Â·&nbsp; <span class="countdown-chip ' + si.chipCls + '" style="background:rgba(255,255,255,.1);color:#fff;">' + si.chip + '</span></div>'
       + '</div>'
     + '</div>'
     + '<div class="view-content">'
@@ -1079,9 +1079,9 @@ function closeViewModal(e) {
   document.body.style.overflow = '';
 }
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    DOWNLOAD PDF
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function downloadPDF(id) {
   var l = launches.find(function(x) { return x.id === id; });
   if (!l) return;
@@ -1100,7 +1100,7 @@ function downloadPDF(id) {
       var gold = [171, 160, 110];
       var dark = [30, 34, 39];
 
-      /* ── Header bar ── */
+      /* â”€â”€ Header bar â”€â”€ */
       doc.setFillColor(dark[0], dark[1], dark[2]);
       doc.rect(0, 0, W, 32, 'F');
       doc.setFontSize(18); doc.setFont('helvetica','bold');
@@ -1108,31 +1108,31 @@ function downloadPDF(id) {
       doc.text('UPCOMING', 14, 14);
       doc.setFontSize(10); doc.setFont('helvetica','normal');
       doc.setTextColor(180, 180, 180);
-      doc.text('Niche305 Partner Portal  ·  Generated ' + new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}), 14, 22);
+      doc.text('Niche305 Partner Portal  Â·  Generated ' + new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}), 14, 22);
 
-      /* ── Gold accent line ── */
+      /* â”€â”€ Gold accent line â”€â”€ */
       doc.setDrawColor(gold[0], gold[1], gold[2]);
       doc.setLineWidth(0.8);
       doc.line(0, 32, W, 32);
 
       var y = 44;
 
-      /* ── Perfume name ── */
+      /* â”€â”€ Perfume name â”€â”€ */
       doc.setFontSize(22); doc.setFont('helvetica','bold');
       doc.setTextColor(dark[0], dark[1], dark[2]);
       doc.text(l.perfume, 14, y); y += 8;
 
       doc.setFontSize(11); doc.setFont('helvetica','normal');
       doc.setTextColor(120, 120, 120);
-      var sub = [l.collection, l.type, l.ml ? l.ml + ' ml' : null].filter(Boolean).join('  ·  ');
+      var sub = [l.collection, l.type, l.ml ? l.ml + ' ml' : null].filter(Boolean).join('  Â·  ');
       doc.text(sub, 14, y); y += 10;
 
-      /* ── Gold separator ── */
+      /* â”€â”€ Gold separator â”€â”€ */
       doc.setDrawColor(gold[0], gold[1], gold[2]);
       doc.setLineWidth(0.4);
       doc.line(14, y, W - 14, y); y += 8;
 
-      /* ── Key info table ── */
+      /* â”€â”€ Key info table â”€â”€ */
       var si = getStatusInfo(l.launchDate);
       doc.autoTable({
         startY: y,
@@ -1141,16 +1141,16 @@ function downloadPDF(id) {
         body: [
           ['Launch Date',      fmtDate(l.launchDate)],
           ['Countdown',        si.chip],
-          ['Type of Perfume',  l.type        || '—'],
-          ['Country',          l.country     || '—'],
+          ['Type of Perfume',  l.type        || 'â€”'],
+          ['Country',          l.country     || 'â€”'],
           ['Collection',       l.collection],
-          ['Fragrance Family', l.fragFamily  || '—'],
-          ['Sillage',          l.sillage     || '—'],
-          ['Projection',       l.projection  || '—'],
-          ['Size',             l.ml ? l.ml + ' ml' : '—'],
-          ['MSRP',             l.msrp     ? '$' + Number(l.msrp).toFixed(2)      : '—'],
-          ['Wholesale',        l.wholesale ? '$' + Number(l.wholesale).toFixed(2) : '—'],
-          ['SKU',              l.sku || '—'],
+          ['Fragrance Family', l.fragFamily  || 'â€”'],
+          ['Sillage',          l.sillage     || 'â€”'],
+          ['Projection',       l.projection  || 'â€”'],
+          ['Size',             l.ml ? l.ml + ' ml' : 'â€”'],
+          ['MSRP',             l.msrp     ? '$' + Number(l.msrp).toFixed(2)      : 'â€”'],
+          ['Wholesale',        l.wholesale ? '$' + Number(l.wholesale).toFixed(2) : 'â€”'],
+          ['SKU',              l.sku || 'â€”'],
         //   ['Notify Partners',  l.notify ? 'Yes' : 'No'],
         ],
         headStyles: { fillColor: gold, textColor: [255,255,255], fontStyle: 'bold', fontSize: 10 },
@@ -1161,17 +1161,17 @@ function downloadPDF(id) {
       });
       y = doc.lastAutoTable.finalY + 10;
 
-      /* ── Characteristics ── */
+      /* â”€â”€ Characteristics â”€â”€ */
       if (l.characteristics && l.characteristics.length) {
         doc.setFontSize(11); doc.setFont('helvetica','bold');
         doc.setTextColor(gold[0], gold[1], gold[2]);
         doc.text('CHARACTERISTICS', 14, y); y += 6;
         doc.setFont('helvetica','normal'); doc.setFontSize(10);
         doc.setTextColor(60, 60, 60);
-        doc.text(l.characteristics.join('  ·  '), 14, y); y += 10;
+        doc.text(l.characteristics.join('  Â·  '), 14, y); y += 10;
       }
 
-      /* ── Description ── */
+      /* â”€â”€ Description â”€â”€ */
       if (l.description) {
         doc.setFontSize(11); doc.setFont('helvetica','bold');
         doc.setTextColor(gold[0], gold[1], gold[2]);
@@ -1182,7 +1182,7 @@ function downloadPDF(id) {
         doc.text(lines, 14, y); y += lines.length * 5 + 8;
       }
 
-      /* ── Fragrance Notes ── */
+      /* â”€â”€ Fragrance Notes â”€â”€ */
       var hasNotes = (l.topNotes && l.topNotes.length) || (l.midNotes && l.midNotes.length) || (l.baseNotes && l.baseNotes.length);
       if (hasNotes) {
         doc.setFontSize(11); doc.setFont('helvetica','bold');
@@ -1204,7 +1204,7 @@ function downloadPDF(id) {
         y = doc.lastAutoTable.finalY + 10;
       }
 
-      /* ── Ingredients ── */
+      /* â”€â”€ Ingredients â”€â”€ */
       if (l.ingredients) {
         doc.setFontSize(11); doc.setFont('helvetica','bold');
         doc.setTextColor(gold[0], gold[1], gold[2]);
@@ -1215,13 +1215,13 @@ function downloadPDF(id) {
         doc.text(iLines, 14, y); y += iLines.length * 4.5 + 8;
       }
 
-      /* ── Footer ── */
+      /* â”€â”€ Footer â”€â”€ */
       var pageH = doc.internal.pageSize.getHeight();
       doc.setFillColor(dark[0], dark[1], dark[2]);
       doc.rect(0, pageH - 12, W, 12, 'F');
       doc.setFontSize(8); doc.setFont('helvetica','normal');
       doc.setTextColor(120, 120, 120);
-      doc.text('Niche3DS Partner Portal  —  Confidential', 14, pageH - 4);
+      doc.text('Niche3DS Partner Portal  â€”  Confidential', 14, pageH - 4);
       doc.text('Page 1', W - 14, pageH - 4, { align: 'right' });
 
       doc.save((l.sku || l.perfume.replace(/ /g,'_')) + '_launch.pdf');
@@ -1230,16 +1230,16 @@ function downloadPDF(id) {
   });
 }
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    DOWNLOAD PHOTO
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function downloadPhoto(id) {
   var l = launches.find(function(x) { return x.id === id; });
   if (!l || !l.photo) { showToast('No photo available for this launch.'); return; }
 
   var fileName = l.perfume.replace(/ /g, '_') + '_promo';
 
-  /* Si ya es un blob: URL (foto subida localmente) — descarga directa */
+  /* Si ya es un blob: URL (foto subida localmente) â€” descarga directa */
   if (l.photo.startsWith('blob:')) {
     var a = document.createElement('a');
     a.href = l.photo;
@@ -1249,15 +1249,15 @@ function downloadPhoto(id) {
     return;
   }
 
-  /* Para URLs externas: fetch → blob → descarga como imagen */
-  showToast('Preparing download…');
+  /* Para URLs externas: fetch â†’ blob â†’ descarga como imagen */
+  showToast('Preparing downloadâ€¦');
   fetch(l.photo)
     .then(function(res) {
       if (!res.ok) throw new Error('Network error');
       return res.blob();
     })
     .then(function(blob) {
-      /* Detectar extensión real desde el mime type */
+      /* Detectar extensiÃ³n real desde el mime type */
       var mime = blob.type || 'image/jpeg';
       var extMap = { 'image/jpeg':'jpg', 'image/png':'png', 'image/webp':'webp', 'image/gif':'gif' };
       var ext = extMap[mime] || 'jpg';
@@ -1275,15 +1275,15 @@ function downloadPhoto(id) {
       showToast('Photo downloaded!');
     })
     .catch(function() {
-      /* Fallback: abrir en nueva pestaña para que el usuario la guarde manualmente */
+      /* Fallback: abrir en nueva pestaÃ±a para que el usuario la guarde manualmente */
       window.open(l.photo, '_blank');
-      showToast('Opening photo — right-click to save.');
+      showToast('Opening photo â€” right-click to save.');
     });
 }
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    TOAST
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 function showToast(msg) {
   var t = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
@@ -1291,16 +1291,16 @@ function showToast(msg) {
   setTimeout(function() { t.classList.remove('show'); }, 3000);
 }
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    KEYBOARD
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') { closeFormModal(); closeViewModal(); }
 });
 
-/* ════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    INIT
-════════════════════════════════════ */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 // document.addEventListener('DOMContentLoaded', function() {
 //   populateCollectionFilter();
 //   renderTable();
@@ -1308,3 +1308,5 @@ document.addEventListener('keydown', function(e) {
 </script>
 </body>
 </html>
+
+

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motiv Perfumes – Dashboard</title>
+    <title>Motiv Perfumes â€“ Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="/css/dashboard.css">
@@ -14,10 +14,10 @@
 </head>
 <body>
 
-<!-- ══════════ ASIDE ══════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â• ASIDE â•â•â•â•â•â•â•â•â•â• -->
 <div id="aside-root"></div>
 
-<!-- ══════════ MAIN ══════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â•â•â•â• -->
 <div class="main-wrap">
     <header class="topbar">
       <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
@@ -30,7 +30,7 @@
 
     <main class="content">
 
-        <!-- ══ OVERVIEW ══ -->
+        <!-- â•â• OVERVIEW â•â• -->
         <div id="view-overview">
             <div class="welcome-bar">
                 <div>
@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <!-- ══ IMAGES ══ -->
+            <!-- â•â• IMAGES â•â• -->
             <div id="view-images">
 
             <style>
@@ -82,35 +82,35 @@
                 // const imgItems = [
                 // {
                 //     badge: 'AUREA', title: 'Aurea',
-                //     img: '../../img/Aurea-Sise1.jpg',       /* ← ruta real de tu imagen */
+                //     img: '../../img/Aurea-Sise1.jpg',       /* â† ruta real de tu imagen */
                 //     tags: ['IMAGE'],
                 //     desc: 'Aurea es una fragancia elegante y luminosa que captura la esencia del lujo moderno...'
                 // },
                 // {
-                //     badge: 'VERITAS', title: 'Veritas',
-                //     img: '../../img/Veritas-Sise1.jpg',      /* ← ruta real de tu imagen */
+                //     badge: 'DEMO2', title: 'Demo2',
+                //     img: '../../img/Brand_Demo.webp',      /* â† ruta real de tu imagen */
                 //     tags: ['IMAGE'],
-                //     desc: 'Veritas es una fragancia refinada que encarna autenticidad, fuerza y elegancia...'
+                //     desc: 'Demo2 es una fragancia refinada que encarna autenticidad, fuerza y elegancia...'
                 // },
-                // /* agrega más objetos aquí */
+                // /* agrega mÃ¡s objetos aquÃ­ */
                 // ];
 
                 var imgItems = [];
 
-                // ── Datos por marca ───────────────────────────────────────────
+                // â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 const BRAND_IMG_ITEMS = {
-                'Parfum De Mahzen': [
+                'Brand Demo': [
                     {
-                    badge: 'AUREA',   title: 'Aurea',
-                    img:  '../../img/Aurea-Sise1.jpg',
+                    badge: 'AUREA',   title: 'Demo1',  
+                    img:  '../../img/Brand_Demo.webp',
                     tags: ['IMAGE'],
-                    desc: 'Aurea es una fragancia elegante y luminosa que captura la esencia del lujo moderno...'
+                    desc: 'Demo1 es una fragancia elegante y luminosa que captura la esencia del lujo moderno...'
                     },
                     {
-                    badge: 'VERITAS', title: 'Veritas',
-                    img:  '../../img/Veritas-Sise1.jpg',
+                    badge: 'DEMO2', title: 'Demo2',
+                    img:  '../../img/Brand_Demo.webp',
                     tags: ['IMAGE'],
-                    desc: 'Veritas es una fragancia refinada que encarna autenticidad, fuerza y elegancia...'
+                    desc: 'Demo2 es una fragancia refinada que encarna autenticidad, fuerza y elegancia...'
                     },
                 ],
                 'La Sabia Madrid': [
@@ -121,15 +121,15 @@
                     desc: 'Verdanza es una fragancia fresca y luminosa inspirada en los jardines de Madrid...'
                     },
                     {
-                    badge: 'PODERÍO',  title: 'Poderío',
+                    badge: 'PODERÃO',  title: 'Poderio',
                     img:  '../../img/LaSabiaMadrid.webp',
                     tags: ['IMAGE'],
-                    desc: 'Poderío es una fragancia poderosa y segura con una apertura especiada y una base de ámbar profundo...'
+                    desc: 'Poderio es una fragancia poderosa y segura con una apertura especiada y una base de Ã¡mbar profundo...'
                     },
                 ],
                 };
 
-                // ── Escucha el cambio de marca ────────────────────────────────
+                // â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 document.addEventListener('niche3ds:brandChanged', function(e) {
                 const brand = e.detail.brand;
                 document.getElementById('brandTitle').textContent = brand;
@@ -137,23 +137,23 @@
                 applyImgBrand(brand);
                 });
 
-                // ── Función principal ─────────────────────────────────────────
+                // â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                     function applyImgBrand(brand) {
                     if (BRAND_IMG_ITEMS[brand]) {
                         imgItems = BRAND_IMG_ITEMS[brand];
-                        imgRender(); // ← nombre correcto
+                        imgRender(); // â† nombre correcto
                     }
                     }
 
-                    // ── Un solo DOMContentLoaded ──────────────────────────────────
+                    // â”€â”€ Un solo DOMContentLoaded â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                     document.addEventListener('DOMContentLoaded', function() {
                     const savedBrand = localStorage.getItem('selectedBrand');
                     if (savedBrand) {
                         document.getElementById('brandTitle').textContent = savedBrand;
                         applyImgBrand(savedBrand);
                     } else {
-                        imgItems = BRAND_IMG_ITEMS['Parfum De Mahzen'];
-                        imgRender(); // ← nombre correcto
+                        imgItems = BRAND_IMG_ITEMS['Brand Demo'];
+                        imgRender(); // â† nombre correcto
                     }
                     });
 
@@ -212,7 +212,7 @@
     </main>
 </div>
 
-<!-- ══ MODAL ══ -->
+<!-- â•â• MODAL â•â• -->
 <div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <button class="modal-close" onclick="closePaymentModal()">&times;</button>
@@ -307,3 +307,4 @@
 
 </body>
 </html>
+

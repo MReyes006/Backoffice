@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motiv Perfumes – By Product</title>
+    <title>Motiv Perfumes â€“ By Product</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../css/dashboard.css">
 <style>
@@ -21,22 +21,22 @@
   --radius:10px;
 }
 
-/* ── PAGE HEADER ── */
+/* â”€â”€ PAGE HEADER â”€â”€ */
 .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
 .page-title-section h2{font-size:1.35rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
 .page-title-section h2 i{color:var(--gold);}
 .page-title-section p{color:var(--text-muted);font-size:13px;margin-top:4px;}
 
-/* ── TABLE CARD ── */
+/* â”€â”€ TABLE CARD â”€â”€ */
 .table-card{background:var(--card-bg);border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden;border:1px solid var(--border);}
 
-/* ── FILTER ROW inside table ── */
+/* â”€â”€ FILTER ROW inside table â”€â”€ */
 .table-filter-row{display:flex;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;background:#fafafa;}
 .col-filter{padding:7px 10px;border:1px solid var(--border);border-radius:7px;background:#fff;font-size:12px;color:var(--text);outline:none;cursor:pointer;min-width:90px;transition:border-color .2s;}
 .col-filter:focus{border-color:var(--gold);}
 .results-count{margin-left:auto;font-size:12px;color:var(--text-muted);white-space:nowrap;}
 
-/* ── PRODUCTS TABLE ── */
+/* â”€â”€ PRODUCTS TABLE â”€â”€ */
 .products-table{width:100%;border-collapse:collapse;}
 .products-table thead th{
   background:var(--gold);color:#fff;
@@ -87,7 +87,7 @@
 .empty-row td{text-align:center;padding:50px 20px;color:var(--text-muted);}
 .empty-row i{font-size:36px;color:#ddd;display:block;margin-bottom:10px;}
 
-/* ── MODAL ── */
+/* â”€â”€ MODAL â”€â”€ */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.open{display:flex;}
 .product-modal{background:#fff;border-radius:16px;width:100%;max-width:680px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.28);}
@@ -107,7 +107,6 @@
 .modal-thumb{width:44px;height:44px;border-radius:7px;object-fit:cover;border:2px solid transparent;cursor:pointer;transition:border-color .2s;}
 .modal-thumb.active,.modal-thumb:hover{border-color:var(--gold);}
 
-.modal-info{}
 .modal-product-name{font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:4px;}
 .modal-product-sub{font-size:13px;color:var(--text-muted);margin-bottom:14px;}
 .modal-price{font-size:1.4rem;font-weight:700;color:var(--gold);margin-bottom:16px;}
@@ -156,10 +155,10 @@
 </head>
 <body>
 
-<!-- ══════════ ASIDE ══════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â• ASIDE â•â•â•â•â•â•â•â•â•â• -->
 <div id="aside-root"></div>
 
-<!-- ══════════ MAIN ══════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â•â•â•â• -->
 <div class="main-wrap">
     <header class="topbar">
        <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
@@ -263,7 +262,7 @@
             <select class="col-filter" id="fWholesale" onchange="renderProducts()">
                 <option value="">All Wholesale</option>
             </select>
-            <span class="results-count" id="resultsCount">— products</span>
+            <span class="results-count" id="resultsCount">â€” products</span>
         </div>
 
             <div style="overflow-x:auto;">
@@ -295,12 +294,12 @@
     </main>
 </div>
 
-<!-- ══ PRODUCT DETAIL MODAL ══ -->
+<!-- â•â• PRODUCT DETAIL MODAL â•â• -->
 <div class="modal-overlay" id="productModal" onclick="closeProductModal(event)">
     <div class="product-modal" onclick="event.stopPropagation()">
         <div class="product-modal-header">
             <h3><i class="fas fa-spray-can"></i> Product Details</h3>
-            <button class="modal-close-btn" onclick="closeProductModal()">✕</button>
+            <button class="modal-close-btn" onclick="closeProductModal()">âœ•</button>
         </div>
         <div class="product-modal-body">
             <div class="modal-product-layout">
@@ -328,11 +327,11 @@
 <div class="toast" id="toast"><i class="fas fa-info-circle"></i><span id="toastMsg"></span></div>
 
 <script>
-/* ════════ PRODUCT DATA ════════ */
+/* â•â•â•â•â•â•â•â• PRODUCT DATA â•â•â•â•â•â•â•â• */
 // var products = [
 //   {
 //     id:1, sku:"07H-0067F-EDP-100ML",
-//     photo:"../../img/Veritas-Sise1.jpg",
+//     photo:"../../img/Brand_Demo.webp",
 //     photos:["https://images.unsplash.com/photo-1541643600914-78b084683702?w=300&q=80","https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
 //      collection:"Artisan Collection", perfume:"Poderio",
 //     type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
@@ -340,11 +339,11 @@
 //     topNotes:["Bergamot","Black Pepper","Cardamom"],
 //     middleNotes:["Rose","Oud","Leather"],
 //     baseNotes:["Amber","Sandalwood","Musk"],
-//     firstOrder:1, nextOrder:"—",active:true,  niche:false 
+//     firstOrder:1, nextOrder:"â€”",active:true,  niche:false 
 //   },
 //   {
 //     id:2, sku:"07H-0067G-EDP-100ML",
-//     photo:"../../img/Veritas-Sise1.jpg",
+//     photo:"../../img/Brand_Demo.webp",
 //     photos:["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
 //      collection:"Artisan Collection", perfume:"Dos Besos",
 //     type:"Extrait de Parfum", ml:100, msrp:200, wholesale:171.95,
@@ -356,7 +355,7 @@
 //   },
 //   {
 //     id:3, sku:"07H-0067E-EDP-100ML",
-//     photo:"../../img/Veritas-Sise1.jpg",
+//     photo:"../../img/Brand_Demo.webp",
 //     photos:["https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&q=80"],
 //      collection:"Artisan Collection", perfume:"Verdanza",
 //     type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
@@ -364,27 +363,27 @@
 //     topNotes:["Green Apple","Mint","Citrus"],
 //     middleNotes:["Jasmine","Vetiver","Geranium"],
 //     baseNotes:["Cedar","Oakmoss","Musk"],
-//     firstOrder:1, nextOrder:"—",active:false, niche:false
+//     firstOrder:1, nextOrder:"â€”",active:false, niche:false
 //   },
 //   {
 //     id:4, sku:"MO-001-EDP-100ML",
-//     photo:"../../img/Veritas-Sise1.jpg",
+//     photo:"../../img/Brand_Demo.webp",
 //     photos:["https://images.unsplash.com/photo-1547887538-047f814a9892?w=300&q=80"],
-//     collection:"Modern Oudh", perfume:"Supreme Oudh",
+//     collection:"Modern Oudh", perfume:"Demo1",
 //     type:"Eau de Parfum", ml:100, msrp:332.50, wholesale:210.00,
 //     description:"A luxurious modern oudh fragrance with rosewood, lavender, and sandalwood.",
 //     topNotes:["Rosewood","Lavender","Cinnamon"],
 //     middleNotes:["Lily-Of-The-Valley","Rose"],
 //     baseNotes:["Amber","West Indian Bay","Agarwood"],
-//     firstOrder:1, nextOrder:"—",active:false, niche:false
+//     firstOrder:1, nextOrder:"â€”",active:false, niche:false
 //   },
 //   {
 //     id:5, sku:"MO-002-EXP-50ML",
-//     photo:"../../img/Veritas-Sise1.jpg",
+//     photo:"../../img/Brand_Demo.webp",
 //     photos:["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=300&q=80"],
-//     collection:"Modern Oudh", perfume:"Veritas",
+//     collection:"Modern Oudh", perfume:"Demo2",
 //     type:"Extrait de Parfum", ml:50, msrp:280.00, wholesale:175.00,
-//     description:"Truth and elegance distilled into a single fragrance. Veritas is pure, transparent and unforgettable.",
+//     description:"Truth and elegance distilled into a single fragrance. Demo2 is pure, transparent and unforgettable.",
 //     topNotes:["Lemon","Bergamot","Pink Pepper"],
 //     middleNotes:["Neroli","Jasmine","Orris"],
 //     baseNotes:["Sandalwood","White Musk","Amber"],
@@ -392,7 +391,7 @@
 //   },
 //   {
 //     id:6, sku:"AC-003-EDT-30ML",
-//     photo:"../../img/Veritas-Sise1.jpg",
+//     photo:"../../img/Brand_Demo.webp",
 //     photos:[],
 //     collection:"Artisan Collection", perfume:"Alba",
 //     type:"Eau de Toilette", ml:30, msrp:95.00, wholesale:58.00,
@@ -404,84 +403,84 @@
 //   }
 // ];
 
-// ── Datos iniciales ───────────────────────────────────────────
+// â”€â”€ Datos iniciales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 var products = [];
 
-// ── Datos por marca ───────────────────────────────────────────
+// â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const BRAND_PRODUCTS = {
-  'Parfum De Mahzen': [
-    {
-      id:1, sku:"07H-0067F-EDP-100ML",
-      photo:"../../img/Veritas-Sise1.jpg",
-      photos:["https://images.unsplash.com/photo-1541643600914-78b084683702?w=300&q=80","https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
-      collection:"Artisan Collection", perfume:"Poderio",
-      type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
-      description:"A bold and powerful fragrance that commands attention. Poderio captures strength and elegance in every spray.",
-      topNotes:["Bergamot","Black Pepper","Cardamom"],
-      middleNotes:["Rose","Oud","Leather"],
-      baseNotes:["Amber","Sandalwood","Musk"],
-      firstOrder:1, nextOrder:"—", active:true, niche:false
-    },
-    {
-      id:2, sku:"07H-0067G-EDP-100ML",
-      photo:"../../img/Veritas-Sise1.jpg",
-      photos:["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
-      collection:"Artisan Collection", perfume:"Dos Besos",
-      type:"Extrait de Parfum", ml:100, msrp:200, wholesale:171.95,
-      description:"An intimate and romantic fragrance. Dos Besos evokes warmth, passion and closeness.",
-      topNotes:["Raspberry","Peach","Saffron"],
-      middleNotes:["Rose","Jasmine","Iris"],
-      baseNotes:["Musk","Vanilla","Patchouli"],
-      firstOrder:1, nextOrder:"12 units", active:false, niche:false
-    },
-    {
-      id:3, sku:"07H-0067E-EDP-100ML",
-      photo:"../../img/Veritas-Sise1.jpg",
-      photos:["https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&q=80"],
-      collection:"Artisan Collection", perfume:"Verdanza",
-      type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
-      description:"A fresh and vibrant fragrance inspired by lush green landscapes.",
-      topNotes:["Green Apple","Mint","Citrus"],
-      middleNotes:["Jasmine","Vetiver","Geranium"],
-      baseNotes:["Cedar","Oakmoss","Musk"],
-      firstOrder:1, nextOrder:"—", active:false, niche:false
-    },
+  'Brand Demo': [
+    // {
+    //   id:1, sku:"07H-0067F-EDP-100ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:["https://images.unsplash.com/photo-1541643600914-78b084683702?w=300&q=80","https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
+    //   collection:"Artisan Collection", perfume:"Poderio",
+    //   type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
+    //   description:"A bold and powerful fragrance that commands attention. Poderio captures strength and elegance in every spray.",
+    //   topNotes:["Bergamot","Black Pepper","Cardamom"],
+    //   middleNotes:["Rose","Oud","Leather"],
+    //   baseNotes:["Amber","Sandalwood","Musk"],
+    //   firstOrder:1, nextOrder:"â€”", active:true, niche:false
+    // },
+    // {
+    //   id:2, sku:"07H-0067G-EDP-100ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
+    //   collection:"Artisan Collection", perfume:"Dos Besos",
+    //   type:"Extrait de Parfum", ml:100, msrp:200, wholesale:171.95,
+    //   description:"An intimate and romantic fragrance. Dos Besos evokes warmth, passion and closeness.",
+    //   topNotes:["Raspberry","Peach","Saffron"],
+    //   middleNotes:["Rose","Jasmine","Iris"],
+    //   baseNotes:["Musk","Vanilla","Patchouli"],
+    //   firstOrder:1, nextOrder:"12 units", active:false, niche:false
+    // },
+    // {
+    //   id:3, sku:"07H-0067E-EDP-100ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:["https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&q=80"],
+    //   collection:"Artisan Collection", perfume:"Verdanza",
+    //   type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
+    //   description:"A fresh and vibrant fragrance inspired by lush green landscapes.",
+    //   topNotes:["Green Apple","Mint","Citrus"],
+    //   middleNotes:["Jasmine","Vetiver","Geranium"],
+    //   baseNotes:["Cedar","Oakmoss","Musk"],
+    //   firstOrder:1, nextOrder:"â€”", active:false, niche:false
+    // },
     {
       id:4, sku:"MO-001-EDP-100ML",
-      photo:"../../img/Veritas-Sise1.jpg",
+      photo:"../../img/Brand_Demo.webp",
       photos:["https://images.unsplash.com/photo-1547887538-047f814a9892?w=300&q=80"],
-      collection:"Modern Oudh", perfume:"Supreme Oudh",
+      collection:"Collection Demo", perfume:"Demo1",
       type:"Eau de Parfum", ml:100, msrp:332.50, wholesale:210.00,
       description:"A luxurious modern oudh fragrance with rosewood, lavender, and sandalwood.",
       topNotes:["Rosewood","Lavender","Cinnamon"],
       middleNotes:["Lily-Of-The-Valley","Rose"],
       baseNotes:["Amber","West Indian Bay","Agarwood"],
-      firstOrder:1, nextOrder:"—", active:false, niche:false
+      firstOrder:1, nextOrder:"â€”", active:false, niche:false
     },
     {
       id:5, sku:"MO-002-EXP-50ML",
-      photo:"../../img/Veritas-Sise1.jpg",
+      photo:"../../img/Brand_Demo.webp",
       photos:["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=300&q=80"],
-      collection:"Modern Oudh", perfume:"Veritas",
+      collection:"Collection Demo", perfume:"Demo2",
       type:"Extrait de Parfum", ml:50, msrp:280.00, wholesale:175.00,
-      description:"Truth and elegance distilled into a single fragrance. Veritas is pure, transparent and unforgettable.",
+      description:"Truth and elegance distilled into a single fragrance. Demo2 is pure, transparent and unforgettable.",
       topNotes:["Lemon","Bergamot","Pink Pepper"],
       middleNotes:["Neroli","Jasmine","Orris"],
       baseNotes:["Sandalwood","White Musk","Amber"],
       firstOrder:1, nextOrder:"6 units", active:true, niche:true
     },
-    {
-      id:6, sku:"AC-003-EDT-30ML",
-      photo:"../../img/Veritas-Sise1.jpg",
-      photos:[],
-      collection:"Artisan Collection", perfume:"Alba",
-      type:"Eau de Toilette", ml:30, msrp:95.00, wholesale:58.00,
-      description:"A delicate morning fragrance inspired by the first light of dawn.",
-      topNotes:["White Peach","Mandarin","Dew"],
-      middleNotes:["Magnolia","Freesia","Muguet"],
-      baseNotes:["White Sandalwood","Musk","Cashmere"],
-      firstOrder:2, nextOrder:"12 units", active:true, niche:true
-    },
+    // {
+    //   id:6, sku:"AC-003-EDT-30ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:[],
+    //   collection:"Artisan Collection", perfume:"Alba",
+    //   type:"Eau de Toilette", ml:30, msrp:95.00, wholesale:58.00,
+    //   description:"A delicate morning fragrance inspired by the first light of dawn.",
+    //   topNotes:["White Peach","Mandarin","Dew"],
+    //   middleNotes:["Magnolia","Freesia","Muguet"],
+    //   baseNotes:["White Sandalwood","Musk","Cashmere"],
+    //   firstOrder:2, nextOrder:"12 units", active:true, niche:true
+    // },
   ],
   'La Sabia Madrid': [
     {
@@ -494,25 +493,25 @@ const BRAND_PRODUCTS = {
       topNotes:["Jasmine","Green Leaves","Citrus"],
       middleNotes:["Rose","Iris","Peony"],
       baseNotes:["Cedar","Musk","Amber"],
-      firstOrder:1, nextOrder:"—", active:true, niche:false
+      firstOrder:1, nextOrder:"â€”", active:true, niche:false
     },
     {
       id:2, sku:"LSM-002-EDP-100ML",
       photo:"../../img/LaSabiaMadrid.webp",
       photos:[],
-      collection:"Pasión", perfume:"Poderío",
+      collection:"PasiÃ³n", perfume:"Poderio",
       type:"Eau de Parfum", ml:100, msrp:360.00, wholesale:220.00,
       description:"A powerful and confident fragrance with bold spicy opening, rich oud heart, and a deep amber base.",
       topNotes:["Black Pepper","Cardamom","Saffron"],
       middleNotes:["Oud","Rose","Leather"],
       baseNotes:["Amber","Sandalwood","Musk"],
-      firstOrder:1, nextOrder:"—", active:true, niche:false
+      firstOrder:1, nextOrder:"â€”", active:true, niche:false
     },
     {
       id:3, sku:"LSM-003-EXT-100ML",
       photo:"../../img/LaSabiaMadrid.webp",
       photos:[],
-      collection:"Pasión", perfume:"Dos Besos",
+      collection:"PasiÃ³n", perfume:"Dos Besos",
       type:"Extrait de Parfum", ml:100, msrp:380.00, wholesale:240.00,
       description:"A warm and sensual oriental fragrance evoking the passion of Spanish culture.",
       topNotes:["Raspberry","Saffron","Rose"],
@@ -523,7 +522,7 @@ const BRAND_PRODUCTS = {
   ],
 };
 
-// ── Escucha el cambio de marca ────────────────────────────────
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('niche3ds:brandChanged', function(e) {
   const brand = e.detail.brand;
   document.getElementById('brandTitle').textContent = brand;
@@ -531,23 +530,23 @@ document.addEventListener('niche3ds:brandChanged', function(e) {
   applyProductsBrand(brand);
 });
 
-// ── Al cargar, aplica la marca guardada ───────────────────────
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', function() {
   const savedBrand = localStorage.getItem('selectedBrand');
   if (savedBrand) {
     document.getElementById('brandTitle').textContent = savedBrand;
     applyProductsBrand(savedBrand);
   } else {
-    products = BRAND_PRODUCTS['Parfum De Mahzen'];
-    renderProducts(); // ← verifica el nombre real de tu función
+    products = BRAND_PRODUCTS['Brand Demo'];
+    renderProducts(); // â† verifica el nombre real de tu funciÃ³n
   }
 });
 
-// ── Función principal ─────────────────────────────────────────
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function applyProductsBrand(brand) {
   if (BRAND_PRODUCTS[brand]) {
     products = BRAND_PRODUCTS[brand];
-    renderProducts(); // ← verifica el nombre real de tu función
+    renderProducts(); // â† verifica el nombre real de tu funciÃ³n
   }
 }
 
@@ -555,7 +554,7 @@ var sortCol = null;
 var sortDir = 1;
 var viewingProduct = null;
 
-/* ════════ POPULATE FILTERS ════════ */
+/* â•â•â•â•â•â•â•â• POPULATE FILTERS â•â•â•â•â•â•â•â• */
 function populateFilters() {
   var collections = [...new Set(products.map(function(p){ return p.collection; }))].sort();
   var perfumes    = [...new Set(products.map(function(p){ return p.perfume; }))].sort();
@@ -578,7 +577,7 @@ function populateFilters() {
   fillSelect('fWholesale', wholesales, '$');
 }
 
-/* ════════ RENDER TABLE ════════ */
+/* â•â•â•â•â•â•â•â• RENDER TABLE â•â•â•â•â•â•â•â• */
 function renderProducts() {
   var tbody = document.getElementById('productsTableBody');
   var fSku        = document.getElementById('fSku') ? document.getElementById('fSku').value.toLowerCase() : '';
@@ -649,14 +648,14 @@ function renderProducts() {
     '</tr>';
   }).join('');
 }
-/* ════════ SORT ════════ */
+/* â•â•â•â•â•â•â•â• SORT â•â•â•â•â•â•â•â• */
 function sortProducts(col) {
   if (sortCol === col) sortDir *= -1;
   else { sortCol = col; sortDir = 1; }
   renderProducts();
 }
 
-/* ════════ PRODUCT MODAL ════════ */
+/* â•â•â•â•â•â•â•â• PRODUCT MODAL â•â•â•â•â•â•â•â• */
 function openProductModal(id) {
   viewingProduct = products.find(function(p){ return p.id === id; });
   if (!viewingProduct) return;
@@ -700,14 +699,14 @@ function openProductModal(id) {
     '<div class="spec-item"><div class="spec-label">SKU</div><div class="spec-value" style="font-size:11px;font-family:monospace;">'+p.sku+'</div></div>' +
     '<div class="spec-item"><div class="spec-label">Type</div><div class="spec-value">'+p.type+'</div></div>' +
     '<div class="spec-item"><div class="spec-label">Size</div><div class="spec-value">'+p.ml+' ml</div></div>' +
-    '<div class="spec-item"><div class="spec-label">MSRP</div><div class="spec-value">'+(p.msrp > 0 ? '$'+p.msrp.toFixed(2) : '—')+'</div></div>' +
+    '<div class="spec-item"><div class="spec-label">MSRP</div><div class="spec-value">'+(p.msrp > 0 ? '$'+p.msrp.toFixed(2) : 'â€”')+'</div></div>' +
     '<div class="spec-item"><div class="spec-label">Wholesale</div><div class="spec-value" style="color:var(--gold-dark);">$'+p.wholesale.toFixed(2)+'</div></div>';
 
   /* Guidelines */
 //   document.getElementById('modalGuidelines').innerHTML =
 //     '<div class="modal-guidelines-title"><i class="fas fa-clipboard-list" style="margin-right:6px;"></i>Product Guidelines</div>' +
 //     '<div class="guideline-row"><span class="guideline-label">First Order:</span><span class="guideline-value">'+p.firstOrder+' Unit'+(p.firstOrder!==1?'s':'')+'</span></div>' +
-//     '<div class="guideline-row"><span class="guideline-label">Next Order:</span><span class="guideline-value">'+(p.nextOrder||'—')+'</span></div>';
+//     '<div class="guideline-row"><span class="guideline-label">Next Order:</span><span class="guideline-value">'+(p.nextOrder||'â€”')+'</span></div>';
 
   document.getElementById('productModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -725,7 +724,7 @@ function closeProductModal(e) {
   document.body.style.overflow = '';
 }
 
-/* ════════ NAV ════════ */
+/* â•â•â•â•â•â•â•â• NAV â•â•â•â•â•â•â•â• */
 function toggleGroup(id) {
   var grp = document.getElementById(id);
   var wasOpen = grp.classList.contains('open');
@@ -749,12 +748,12 @@ function toggleSubGroup(id) {
   }
 }
 
-/* ════════ ESC ════════ */
+/* â•â•â•â•â•â•â•â• ESC â•â•â•â•â•â•â•â• */
 document.addEventListener('keydown', function(e) {
   if (e.key==='Escape') closeProductModal();
 });
 
-/* ════════ INIT ════════ */
+/* â•â•â•â•â•â•â•â• INIT â•â•â•â•â•â•â•â• */
 document.addEventListener('DOMContentLoaded', function() {
   populateFilters();
   renderProducts();
@@ -782,12 +781,12 @@ function downloadProduct(id) {
     'Description:',
     p.description || '',
     '',
-    'Top Notes: ' + (p.topNotes ? p.topNotes.join(', ') : '—'),
-    'Middle Notes: ' + (p.middleNotes ? p.middleNotes.join(', ') : '—'),
-    'Base Notes: ' + (p.baseNotes ? p.baseNotes.join(', ') : '—'),
+    'Top Notes: ' + (p.topNotes ? p.topNotes.join(', ') : 'â€”'),
+    'Middle Notes: ' + (p.middleNotes ? p.middleNotes.join(', ') : 'â€”'),
+    'Base Notes: ' + (p.baseNotes ? p.baseNotes.join(', ') : 'â€”'),
     '',
     'First Order: ' + p.firstOrder + ' unit(s)',
-    'Next Order: ' + (p.nextOrder || '—')
+    'Next Order: ' + (p.nextOrder || 'â€”')
   ].join('\n');
 
   var blob = new Blob([content], { type: 'text/plain' });
@@ -801,3 +800,5 @@ function downloadProduct(id) {
 </script>
 </body>
 </html>
+
+

@@ -85,11 +85,18 @@
               { href: "/page/orders/orders-by-perfumery.html",  label: "Perfume",    key: "orders-perfume" },
               { href: "/page/orders/orders-by-season.html",     label: "Season",     key: "orders-season" }
             ]
+          },
+          {
+            id: "grp-order-progress",
+            label: "Order in progress",
+            items: [
+              { href: "/page/orders/order-in-progress.html", label: "Pre Order", key: "order-pre-order" },
+              { href: "/page/orders/order.html", label: "Order", key: "order-in-progress" }
+            ]
           }
         ],
         directItems: [
           { href: "/page/orders/order-history.html", label: "Order History", key: "order-history" },
-          { href: "/page/orders/order-in-progress.html", label: "Order in progress", key: "order-in-progress" }
         ]
       },
 
@@ -179,6 +186,7 @@
      ═══════════════════════════════════════════════ */
   function detectActiveKey() {
     var currentPath = window.location.pathname.toLowerCase();
+    var currentHash = window.location.hash.toLowerCase();
     if (currentPath !== "/" && currentPath.slice(-1) === "/") {
       currentPath = currentPath.slice(0, -1);
     }
@@ -186,9 +194,21 @@
     function match(href) {
       if (!href || href === "#") return false;
       var h = href.toLowerCase();
-      if (currentPath === h) return true;
-      var fileName = h.split("/").pop();
-      return !!fileName && currentPath.slice(-("/" + fileName).length) === "/" + fileName;
+      var hashIndex = h.indexOf("#");
+      var hrefPath = hashIndex >= 0 ? h.slice(0, hashIndex) : h;
+      var hrefHash = hashIndex >= 0 ? h.slice(hashIndex) : "";
+
+      var pathMatches = false;
+      if (currentPath === hrefPath) {
+        pathMatches = true;
+      } else {
+        var fileName = hrefPath.split("/").pop();
+        pathMatches = !!fileName && currentPath.slice(-("/" + fileName).length) === "/" + fileName;
+      }
+
+      if (!pathMatches) return false;
+      if (hrefHash) return currentHash === hrefHash;
+      return true;
     }
 
     for (var i = 0; i < MENU.standalone.length; i++) {

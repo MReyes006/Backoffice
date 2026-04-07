@@ -1,0 +1,926 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes â€“ Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../../css/dashboard.css">
+  
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* â”€â”€ RESET & BASE â”€â”€ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+/* body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;} */
+
+/* â”€â”€ CSS VARIABLES â”€â”€ */
+:root{
+  --gold:rgb(171,160,110);
+  --gold-dark:rgb(141,130,80);
+  --gold-light:rgba(171,160,110,0.12);
+  --sidebar-bg:#1E2227;
+  --sidebar-text:rgba(255,255,255,0.75);
+  --card-bg:#fff;
+  --border:#E8E9E9;
+  --text:#1E2227;
+  --text-muted:#888;
+  --radius:10px;
+}
+.user-status span {
+    font-size: 14px;
+    color: #aca68b;
+}
+
+/* â”€â”€ MAIN â”€â”€ */
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+/* .topbar-title{font-size:15px;font-weight:600;color:var(--text);}
+.topbar-title span{color:var(--text-muted);font-weight:400;} */
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.topbar-btn:hover{background:#f0f0f0;}
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+
+.content{padding:28px;flex:1;}
+
+/* â”€â”€ WELCOME â”€â”€ */
+.welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
+.welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);}
+.welcome-bar h2 span{color:var(--gold);}
+.welcome-bar p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+
+/* â”€â”€ FILTERS ROW â”€â”€ */
+.filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+.filter-container{display:flex;gap:8px;flex-wrap:wrap;}
+.filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold);}
+.filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* View Selector */
+.view-selector-wrap{position:relative;display:flex;align-items:center;gap:8px;}
+.view-selector-label{font-size:13px;color:var(--text-muted);white-space:nowrap;}
+.view-selector-btn{padding:9px 14px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;display:flex;align-items:center;gap:8px;min-width:170px;justify-content:space-between;transition:border-color .2s;}
+.view-selector-btn:hover{border-color:var(--gold);}
+.view-selector-btn.open{border-color:var(--gold);}
+.view-selector-btn .chevron{font-size:10px;transition:transform .2s;}
+.view-selector-btn.open .chevron{transform:rotate(180deg);}
+.view-dropdown{position:absolute;top:calc(100% + 5px);right:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);z-index:200;min-width:190px;display:none;flex-direction:column;overflow:hidden;}
+.view-dropdown.open{display:flex;}
+.view-option{padding:11px 15px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:9px;transition:background .15s;}
+.view-option:hover{background:#f5f5f5;}
+.view-option.active{background:var(--gold-light);color:var(--gold);}
+.view-option i{font-size:13px;width:16px;}
+
+/* â”€â”€ SECTION TITLE â”€â”€ */
+.section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+.section-title i{font-size:1rem;}
+
+/* â”€â”€ TABLE â”€â”€ */
+.table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
+.responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
+.responsive-table thead th:not(:first-child){text-align:center;}
+.responsive-table tbody td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text);vertical-align:middle;text-align:center;}
+.responsive-table tbody td:first-child{text-align:left;}
+.responsive-table tbody tr:last-child td{border-bottom:none;}
+.responsive-table tbody tr:hover{background:#fafafa;}
+.responsive-table .total-row{background:#f5f5f5;border-top:2px solid var(--gold);}
+.responsive-table .total-row td{font-weight:600;}
+
+.th-content{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.th-month{font-size:13px;font-weight:600;}
+.th-year{font-size:11px;font-weight:400;opacity:.8;}
+.th-year-header{font-size:13px;font-weight:600;}
+
+/* Brand / Perfumery rows */
+.brand-row{background:rgba(171,160,110,.08);transition:background .15s;}
+.brand-row:hover{background:rgba(171,160,110,.15);}
+.brand-cell{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.brand-name-cell{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;}
+.toggle-icon{color:var(--gold);font-size:10px;transition:transform .2s;display:inline-block;}
+
+/* Product rows */
+.product-row{background:#fff;}
+.product-row:hover{background:#f9f9f9;}
+.product-cell{display:flex;align-items:center;gap:12px;padding-left:28px !important;}
+.product-image-placeholder{width:40px;height:40px;border-radius:8px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);flex-shrink:0;}
+.product-image-placeholder i{color:#ccc;font-size:16px;}
+.product-info{display:flex;flex-direction:column;gap:2px;}
+.product-name{font-weight:500;font-size:14px;}
+.product-sku{font-size:12px;color:var(--text-muted);}
+
+.no-results{text-align:center;padding:40px;color:var(--text-muted);}
+.no-results i{font-size:40px;color:#ddd;margin-bottom:12px;display:block;}
+.no-results p{font-size:14px;}
+
+/* Placeholder */
+.empty-state{padding:60px 20px;text-align:center;color:var(--text-muted);}
+.empty-state i{font-size:48px;color:#ddd;margin-bottom:16px;display:block;}
+
+/* â”€â”€ RESPONSIVE â”€â”€ */
+@media(max-width:768px){
+  .aside{transform:translateX(-100%);}
+  .main-wrap{margin-left:0;}
+  .content{padding:16px;}
+  .filters-row{flex-direction:column;align-items:flex-start;}
+}
+
+
+/* â”€â”€ ORDER MANAGER â”€â”€ */
+.om-tab{font-size:15px;padding:10px 28px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-weight:700;background:#fff;transition:all .2s;color:var(--text);}
+.om-tab.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+.om-tab:hover:not(.active){border-color:var(--gold);color:var(--gold);}
+
+.om-filters{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:12px;}
+.om-search-box{position:relative;display:flex;align-items:center;border:1px solid var(--border);border-radius:7px;background:#fff;padding:0 12px;min-width:240px;}
+.om-search-box i{color:var(--text-muted);font-size:13px;margin-right:8px;}
+.om-search-box input{border:none;outline:none;font-size:13px;color:var(--text);padding:9px 0;background:transparent;width:100%;}
+.om-btn{display:flex;align-items:center;gap:7px;padding:9px 16px;border:1px solid var(--border);border-radius:7px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:all .2s;}
+.om-btn:hover{border-color:var(--gold);color:var(--gold);}
+.om-btn i{font-size:13px;}
+
+.om-quick-range{position:relative;display:flex;align-items:center;gap:7px;padding:9px 16px;border:1px solid var(--border);border-radius:7px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);user-select:none;transition:all .2s;}
+.om-quick-range:hover{border-color:var(--gold);color:var(--gold);}
+.om-quick-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid var(--border);border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;min-width:170px;overflow:hidden;}
+.om-quick-dropdown.show{display:block;}
+.om-quick-dropdown div{padding:10px 16px;font-size:13px;cursor:pointer;transition:background .15s;}
+.om-quick-dropdown div:hover{background:#f5f5f5;}
+.om-quick-dropdown div.active-range{background:var(--gold-light);color:var(--gold);}
+
+.om-table{width:100%;border-collapse:collapse;background:#fff;}
+.om-table thead th{background:var(--gold);color:#fff;padding:12px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+.om-table tbody td{padding:13px 14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);vertical-align:middle;}
+.om-table tbody tr:last-child td{border-bottom:none;}
+.om-table tbody tr:hover{background:#fafafa;}
+
+.om-product-cell{display:flex;align-items:center;gap:10px;}
+.om-product-img{width:52px;height:68px;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
+.om-product-placeholder{width:52px;height:52px;border-radius:6px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;border:1px solid var(--gold-border);flex-shrink:0;}
+.om-product-placeholder i{color:var(--gold);font-size:16px;}
+.om-stacked-images{position:relative;height:64px;min-width:100px;}
+.om-stacked-img{position:absolute;width:60px;height:60px;object-fit:cover;border-radius:7px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.15);}
+.om-stacked-img:nth-child(1){left:0;z-index:3;}
+.om-stacked-img:nth-child(2){left:16px;z-index:2;}
+.om-stacked-img:nth-child(3){left:32px;z-index:1;}
+.om-product-name{font-weight:600;font-size:13px;margin-bottom:2px;}
+.om-product-variant{font-size:11px;color:var(--text-muted);}
+
+.om-order-link{color:var(--gold);font-weight:600;text-decoration:none;font-family:monospace;font-size:13px;cursor:pointer;}
+.om-order-link:hover{text-decoration:underline;}
+
+/* Status badges */
+.om-badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;min-width:90px;text-align:center;}
+.om-badge-fulfilled{background:#f6ffed;color:#2e8b57;border:1px solid #2e8b57;}
+.om-badge-unfulfilled{background:#edfaff;color:#0c8ce9;border:1px solid #0c8ce9;}
+.om-badge-partial{background:#e6f7ff;color:#1890ff;border:1px solid #1890ff;}
+.om-badge-pending{background:#fff8e6;color:#d48806;border:1px solid #d48806;}
+.om-badge-delivered{background:#f6ffed;color:#2e8b57;border:1px solid #2e8b57;}
+
+.om-view-btn{width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:#e8f0fe;color:#1a73e8;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;margin:0 auto;}
+.om-view-btn:hover{background:#1a73e8;color:#fff;}
+.om-ext-link{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:7px;background:var(--gold-light);color:var(--gold);transition:all .18s;}
+.om-ext-link:hover{background:var(--gold);color:#fff;}
+
+.om-pagination{margin-top:16px;display:flex;justify-content:center;gap:6px;}
+.om-pagination button{padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:13px;transition:all .2s;}
+.om-pagination button.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+.om-pagination button:hover:not(.active){border-color:var(--gold);}
+.om-pagination button:disabled{opacity:.4;cursor:not-allowed;}
+
+.om-empty{text-align:center;padding:50px;color:var(--text-muted);}
+.om-empty i{font-size:40px;color:#ddd;display:block;margin-bottom:12px;}
+</style>
+<script src="../../js/aside.js"></script>
+</head>
+<body>
+
+<!-- ASIDE -->
+<div id="aside-root"></div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+  <header class="topbar">
+   <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+    <div class="topbar-actions">
+      <button class="topbar-btn"><i class="fas fa-bell"></i></button>
+      <button class="topbar-btn"><i class="fas fa-search"></i></button>
+      <div class="topbar-avatar">FS</div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div class="page-header">
+        <div class="page-title-section" style="margin-bottom: 16px;">
+            <h2><i class="fas fa-receipt"></i> Order History</h2>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="order-manager-tabs" style="display:flex;gap:10px;margin-bottom:20px;">
+        <button class="om-tab active" data-view="orders" onclick="switchTab('orders',this)">ORDERS</button>
+        <button class="om-tab" data-view="items" onclick="switchTab('items',this)">ITEMS</button>
+    </div>
+
+    <!-- FILTERS ROW -->
+    <div class="om-filters">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <div class="om-search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="omSearch" placeholder="Search by Order Number" oninput="applyFilters()">
+            </div>
+            <button class="om-btn" onclick="openDateModal()"><i class="fas fa-calendar-alt"></i> Custom Range</button>
+            <div class="om-quick-range" id="omQuickRange">
+                <span>Quick Range</span> <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+                <div class="om-quick-dropdown" id="omQuickDropdown">
+                    <div onclick="setQuickRange('7d',this)">Last 7 Days</div>
+                    <div onclick="setQuickRange('30d',this)">Last 30 Days</div>
+                    <div onclick="setQuickRange('90d',this)">Last 90 Days</div>
+                    <div onclick="setQuickRange('year',this)">This Year</div>
+                    <div onclick="setQuickRange('last-year',this)">Last Year</div>
+                    <div onclick="setQuickRange('all',this)">All Time</div>
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;">
+            <button class="om-btn" onclick="exportExcel()"><i class="fas fa-file-excel"></i> Export to Excel</button>
+            <button class="om-btn" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Export to PDF</button>
+            <button class="om-btn" onclick="shareOrders()"><i class="fas fa-share-alt"></i> Share</button>
+        </div>
+    </div>
+
+    <!-- ORDERS TABLE -->
+    <div id="view-orders">
+        <div style="overflow-x:auto;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.07);border:1px solid var(--border);">
+            <table class="om-table" id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>PRODUCT NAME</th>
+                        <th>NO. ITEMS</th>
+                        <th>ORDER NUMBER</th>
+                        <th>ORDER DATE</th>
+                        <th>ORDER STATUS</th>
+                        <th>EST. DELIVERY</th>
+                        <th style="text-align:right;">SUBTOTAL</th>
+                        <th style="text-align:right;">DISCOUNT</th>
+                        <th style="text-align:right;">SHIPPING</th>
+                        <th style="text-align:right;">TAXES</th>
+                        <th style="text-align:right;">TOTAL</th>
+                        <th style="text-align:center;">VIEW ITEMS</th>
+                        <th style="text-align:center;">VIEW ORDER</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTbody"></tbody>
+            </table>
+        </div>
+        <div class="om-pagination" id="ordersPagination"></div>
+    </div>
+
+    <!-- ITEMS TABLE -->
+    <div id="view-items" style="display:none;">
+        <div style="overflow-x:auto;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.07);border:1px solid var(--border);">
+            <table class="om-table" id="itemsTable">
+                <thead>
+                    <tr>
+                        <th>PRODUCT NAME</th>
+                        <th># OF ITEMS</th>
+                        <th>BRAND</th>
+                        <th>UNIT PRICE</th>
+                        <th>ORDER NUMBER</th>
+                        <th>ORDER DATE</th>
+                        <th>DELIVERY STATUS</th>
+                        <th style="text-align:right;">TOTAL PRICE</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsTbody"></tbody>
+            </table>
+        </div>
+        <div class="om-pagination" id="itemsPagination"></div>
+    </div>
+
+</main>
+
+<!-- DATE MODAL -->
+<div class="modal-overlay" id="dateModal" onclick="closeDateModal(event)">
+    <div class="doc-modal" style="max-width:340px;" onclick="event.stopPropagation()">
+        <div class="doc-modal-header">
+            <h3><i class="fas fa-calendar-alt"></i> Select Date Range</h3>
+            <button class="modal-close-btn" onclick="closeDateModal()">âœ•</button>
+        </div>
+        <div class="doc-modal-body">
+            <div class="form-grid" style="grid-template-columns:1fr;">
+                <div class="form-group">
+                    <label class="form-label">From</label>
+                    <input type="date" class="form-input" id="dateFrom">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">To</label>
+                    <input type="date" class="form-input" id="dateTo">
+                </div>
+            </div>
+        </div>
+        <div class="doc-modal-footer">
+            <button class="btn-cancel" onclick="closeDateModal()">Cancel</button>
+            <button class="btn-save" onclick="applyCustomRange()">Apply</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+</div>
+
+<script>
+
+
+// â”€â”€ Datos iniciales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+var ordersData = [];
+
+// â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const BRAND_ORDERS_DATA = {
+  'Brand Demo': [
+    {
+      id:1001, name:"#1009", date:"2026-03-10",
+      fulfillmentStatus:"unfulfilled", financialStatus:"paid",
+      subtotal:5158.50, discounts:0, shipping:0, taxes:0, total:5158.50,
+      lineItems:[
+        { title:"Demo1", variant:"100ml EDP",    quantity:2, unitPrice:332.50, linePrice:665.00,  brand:"Modern Oudh",       image:"../../img/Brand_Demo.webp" },
+        { title:"Demo2",      variant:"50ml Extrait", quantity:1, unitPrice:280.00, linePrice:280.00,  brand:"Modern Oudh",       image:"../../img/Brand_Demo.webp" },
+      //   { title:"Poderio",      variant:"100ml EDP",    quantity:1, unitPrice:171.95, linePrice:171.95,  brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" },
+      //   { title:"Dos Besos",    variant:"100ml Extrait",quantity:1, unitPrice:171.95, linePrice:171.95,  brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" }
+       ]
+    },
+    {
+      id:1002, name:"#1008", date:"2026-02-15",
+      fulfillmentStatus:"fulfilled", financialStatus:"paid",
+      subtotal:1045.90, discounts:50, shipping:0, taxes:0, total:995.90,
+      lineItems:[
+        { title:"Demo1", variant:"100ml EDP",  quantity:3, unitPrice:332.50, linePrice:997.50, brand:"Modern Oudh",       image:"../../img/Brand_Demo.webp" },
+        // { title:"Alba",         variant:"30ml EDT",   quantity:1, unitPrice:95.00,  linePrice:95.00,  brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" }
+      ]
+    },
+    // {
+    //   id:1003, name:"#1007", date:"2026-01-22",
+    //   fulfillmentStatus:"fulfilled", financialStatus:"paid",
+    //   subtotal:343.90, discounts:0, shipping:15, taxes:28.60, total:387.50,
+    //   lineItems:[
+    //     { title:"Verdanza", variant:"100ml EDP", quantity:2, unitPrice:171.95, linePrice:343.90, brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" }
+    //   ]
+    // },
+    {
+      id:1004, name:"#1006", date:"2025-12-05",
+      fulfillmentStatus:"fulfilled", financialStatus:"paid",
+      subtotal:560.00, discounts:0, shipping:0, taxes:0, total:560.00,
+      lineItems:[
+        { title:"Demo2", variant:"50ml Extrait", quantity:2, unitPrice:280.00, linePrice:560.00, brand:"Modern Oudh", image:"../../img/Brand_Demo.webp" }
+      ]
+    },
+    {
+      id:1005, name:"#1005", date:"2025-11-18",
+      fulfillmentStatus:"fulfilled", financialStatus:"paid",
+      subtotal:858.00, discounts:100, shipping:0, taxes:0, total:758.00,
+      lineItems:[
+        { title:"Demo1", variant:"100ml EDP",    quantity:1, unitPrice:332.50, linePrice:332.50, brand:"Modern Oudh",       image:"../../img/Brand_Demo.webp" },
+        // { title:"Poderio",      variant:"100ml EDP",    quantity:2, unitPrice:171.95, linePrice:343.90, brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" },
+        // { title:"Alba",         variant:"30ml EDT",     quantity:2, unitPrice:95.00,  linePrice:190.00, brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" }
+      ]
+    },
+    // {
+    //   id:1006, name:"#1004", date:"2025-10-30",
+    //   fulfillmentStatus:"fulfilled", financialStatus:"paid",
+    //   subtotal:466.95, discounts:0, shipping:12, taxes:39.30, total:518.25,
+    //   lineItems:[
+    //     { title:"Dos Besos", variant:"100ml Extrait", quantity:1, unitPrice:171.95, linePrice:171.95, brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" },
+    //     { title:"Verdanza",  variant:"100ml EDP",    quantity:1, unitPrice:171.95, linePrice:171.95, brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" },
+    //     { title:"Alba",      variant:"30ml EDT",     quantity:1, unitPrice:95.00,  linePrice:95.00,  brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" }
+    //   ]
+    // },
+    {
+      id:1007, name:"#1003", date:"2025-09-14",
+      fulfillmentStatus:"fulfilled", financialStatus:"paid",
+      subtotal:665.00, discounts:0, shipping:0, taxes:0, total:665.00,
+      lineItems:[
+        { title:"Demo1", variant:"100ml EDP", quantity:2, unitPrice:332.50, linePrice:665.00, brand:"Modern Oudh", image:"../../img/Brand_Demo.webp" }
+      ]
+    },
+    // {
+    //   id:1008, name:"#1002", date:"2025-08-02",
+    //   fulfillmentStatus:"fulfilled", financialStatus:"paid",
+    //   subtotal:515.85, discounts:0, shipping:0, taxes:0, total:515.85,
+    //   lineItems:[
+    //     { title:"Poderio", variant:"100ml EDP", quantity:3, unitPrice:171.95, linePrice:515.85, brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" }
+    //   ]
+    // },
+    {
+      id:1009, name:"#1001", date:"2025-07-10",
+      fulfillmentStatus:"fulfilled", financialStatus:"paid",
+      subtotal:280.00, discounts:0, shipping:18, taxes:24.80, total:322.80,
+      lineItems:[
+        { title:"Demo2", variant:"50ml Extrait", quantity:1, unitPrice:280.00, linePrice:280.00, brand:"Modern Oudh", image:"../../img/Brand_Demo.webp" }
+      ]
+    },
+    {
+      id:1010, name:"#1000", date:"2025-06-20",
+      fulfillmentStatus:"fulfilled", financialStatus:"paid",
+      subtotal:1030.00, discounts:200, shipping:0, taxes:0, total:830.00,
+      lineItems:[
+        { title:"Demo1", variant:"100ml EDP",    quantity:2, unitPrice:332.50, linePrice:665.00, brand:"Modern Oudh",       image:"../../img/Brand_Demo.webp" },
+        { title:"Demo2",      variant:"50ml Extrait", quantity:1, unitPrice:280.00, linePrice:280.00, brand:"Modern Oudh",       image:"../../img/Brand_Demo.webp" },
+        // { title:"Alba",         variant:"30ml EDT",     quantity:1, unitPrice:95.00,  linePrice:95.00,  brand:"Artisan Collection", image:"../../img/Brand_Demo.webp" }
+      ]
+    },
+  ],
+  'La Sabia Madrid': [
+    {
+      id:2001, name:"#2009", date:"2026-03-12",
+      fulfillmentStatus:"unfulfilled", financialStatus:"paid",
+      subtotal:2160.00, discounts:0, shipping:0, taxes:0, total:2160.00,
+      lineItems:[
+        { title:"Verdanza",  variant:"100ml EDP",    quantity:3, unitPrice:360.00, linePrice:1080.00, brand:"Esencia", image:"../../img/LaSabiaMadrid.webp" },
+        { title:"Poderio",   variant:"100ml EDP",    quantity:2, unitPrice:360.00, linePrice:720.00,  brand:"PasiÃ³n",  image:"../../img/LaSabiaMadrid.webp" },
+        { title:"Dos Besos", variant:"100ml Extrait", quantity:1, unitPrice:360.00, linePrice:360.00, brand:"PasiÃ³n",  image:"../../img/LaSabiaMadrid.webp" }
+      ]
+    },
+    {
+      id:2002, name:"#2008", date:"2026-02-20",
+      fulfillmentStatus:"fulfilled", financialStatus:"paid",
+      subtotal:720.00, discounts:0, shipping:0, taxes:0, total:720.00,
+      lineItems:[
+        { title:"Verdanza", variant:"100ml EDP", quantity:2, unitPrice:360.00, linePrice:720.00, brand:"Esencia", image:"../../img/LaSabiaMadrid.webp" }
+      ]
+    },
+    {
+      id:2003, name:"#2007", date:"2026-01-15",
+      fulfillmentStatus:"fulfilled", financialStatus:"paid",
+      subtotal:1080.00, discounts:100, shipping:0, taxes:0, total:980.00,
+      lineItems:[
+        { title:"Poderio",   variant:"100ml EDP",     quantity:2, unitPrice:360.00, linePrice:720.00, brand:"PasiÃ³n",  image:"../../img/LaSabiaMadrid.webp" },
+        { title:"Dos Besos", variant:"100ml Extrait",  quantity:1, unitPrice:360.00, linePrice:360.00, brand:"PasiÃ³n", image:"../../img/LaSabiaMadrid.webp" }
+      ]
+    },
+    {
+      id:2004, name:"#2006", date:"2025-12-08",
+      fulfillmentStatus:"fulfilled", financialStatus:"paid",
+      subtotal:360.00, discounts:0, shipping:0, taxes:0, total:360.00,
+      lineItems:[
+        { title:"Verdanza", variant:"100ml EDP", quantity:1, unitPrice:360.00, linePrice:360.00, brand:"Esencia", image:"../../img/LaSabiaMadrid.webp" }
+      ]
+    },
+    {
+      id:2005, name:"#2005", date:"2025-11-20",
+      fulfillmentStatus:"fulfilled", financialStatus:"paid",
+      subtotal:1080.00, discounts:0, shipping:0, taxes:0, total:1080.00,
+      lineItems:[
+        { title:"Poderio",   variant:"100ml EDP",    quantity:1, unitPrice:360.00, linePrice:360.00,  brand:"PasiÃ³n",  image:"../../img/LaSabiaMadrid.webp" },
+        { title:"Dos Besos", variant:"100ml Extrait", quantity:2, unitPrice:360.00, linePrice:720.00, brand:"PasiÃ³n",  image:"../../img/LaSabiaMadrid.webp" }
+      ]
+    },
+  ],
+};
+
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  
+  localStorage.setItem('selectedBrand', brand);
+  applyOrdersBrand(brand);
+});
+
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('DOMContentLoaded', function() {
+  const savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand; // â† esta lÃ­nea
+    applyOrdersBrand(savedBrand);
+  } else {
+    ordersData = BRAND_ORDERS_DATA['Brand Demo'];
+    renderOrdersTable(); // â† verifica el nombre real de tu funciÃ³n
+  }
+});
+
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// function applyOrdersBrand(brand) {
+//   if (BRAND_ORDERS_DATA[brand]) {
+//     ordersData = BRAND_ORDERS_DATA[brand];
+//     // renderOrdersTable(); 
+//     renderOrders(1)
+//   }
+// }
+
+function applyOrdersBrand(brand) {
+  if (BRAND_ORDERS_DATA[brand]) {
+    ordersData = BRAND_ORDERS_DATA[brand];
+    omOrderFilter = null; // limpia cualquier filtro de orden
+    
+    // Renderiza segÃºn el tab activo
+    if (omCurrentView === 'items') {
+      renderItems(1);
+    } else {
+      renderOrders(1);
+    }
+  }
+}
+
+/* â•â•â•â•â•â•â•â• STATE â•â•â•â•â•â•â•â• */
+var omCurrentView   = 'orders';
+var omSearch        = '';
+var omQuickRange    = 'all';
+var omCustomFrom    = '';
+var omCustomTo      = '';
+var omHasCustom     = false;
+var omOrderFilter   = null; // filter items by order
+var omPageOrders    = 1;
+var omPageItems     = 1;
+var OM_PER_PAGE     = 8;
+
+/* â•â•â•â•â•â•â•â• HELPERS â•â•â•â•â•â•â•â• */
+function fmt(n){ return '$' + Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtDate(d){
+  var p=d.split('-'), m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return m[parseInt(p[1])-1]+' '+parseInt(p[2])+', '+p[0];
+}
+function inRange(dateStr){
+  var date = new Date(dateStr), now = new Date();
+  if(omHasCustom){
+    if(omCustomFrom && date < new Date(omCustomFrom)) return false;
+    if(omCustomTo   && date > new Date(omCustomTo))   return false;
+    return true;
+  }
+  switch(omQuickRange){
+    case '7d':        return (now-date) <= 7*864e5;
+    case '30d':       return (now-date) <= 30*864e5;
+    case '90d':       return (now-date) <= 90*864e5;
+    case 'year':      return date.getFullYear() === now.getFullYear();
+    case 'last-year': return date.getFullYear() === (now.getFullYear()-1);
+    default:          return true;
+  }
+}
+function statusBadge(s){
+  s = (s||'unfulfilled').toLowerCase();
+  if(s==='fulfilled') return '<span class="om-badge om-badge-fulfilled">Fulfilled</span>';
+  if(s==='partial')   return '<span class="om-badge om-badge-partial">Partially</span>';
+  return '<span class="om-badge om-badge-unfulfilled">Unfulfilled</span>';
+}
+function deliveryBadge(s){
+  s = (s||'').toLowerCase();
+  if(s==='fulfilled') return '<span class="om-badge om-badge-delivered">Delivered</span>';
+  return '<span class="om-badge om-badge-pending">Pending</span>';
+}
+function getFiltered(){
+  return ordersData.filter(function(o){
+    return (!omSearch || o.name.toLowerCase().includes(omSearch)) && inRange(o.date);
+  });
+}
+
+/* â•â•â•â•â•â•â•â• RENDER ORDERS â•â•â•â•â•â•â•â• */
+function renderOrders(page){
+  omPageOrders = page||1;
+  var filtered = getFiltered();
+  var total = Math.ceil(filtered.length/OM_PER_PAGE);
+  var paged  = filtered.slice((omPageOrders-1)*OM_PER_PAGE, omPageOrders*OM_PER_PAGE);
+  var tbody  = document.getElementById('ordersTbody');
+  if(!tbody) return;
+
+  if(paged.length===0){
+    tbody.innerHTML='<tr><td colspan="13"><div class="om-empty"><i class="fas fa-search"></i><p>No orders found.</p></div></td></tr>';
+    document.getElementById('ordersPagination').innerHTML='';
+    return;
+  }
+
+  var html = '';
+  paged.forEach(function(o){
+    var multi = o.lineItems.length > 1;
+
+    /* â”€â”€ FIRST ROW: always the "summary" row with stacked images â”€â”€ */
+    var firstItem = o.lineItems[0];
+
+    /* Product cell for first row */
+    var productCell = '';
+    if(multi){
+      var imgs = o.lineItems.slice(0,3).map(function(it,i){
+        return it.image
+          ? '<img src="'+it.image+'" class="om-stacked-img" style="left:'+(i*16)+'px;z-index:'+(3-i)+';" onerror="this.style.display=\'none\'">'
+          : '<div class="om-product-placeholder om-stacked-img" style="left:'+(i*16)+'px;z-index:'+(3-i)+';width:52px;height:52px;"><i class="fas fa-spray-can"></i></div>';
+      }).join('');
+      productCell = '<td><div style="display:flex;align-items:center;gap:14px;">'
+        +'<div class="om-stacked-images" style="min-width:'+(Math.min(o.lineItems.length,3)*16+52)+'px;">'+imgs+'</div>'
+        +'<div class="om-product-name">'+o.lineItems.length+' Products</div>'
+        +'</div></td>';
+    } else {
+      productCell = '<td><div class="om-product-cell">'
+        +(firstItem.image?'<img src="'+firstItem.image+'" class="om-product-img" onerror="this.style.display=\'none\'">':'<div class="om-product-placeholder"><i class="fas fa-spray-can"></i></div>')
+        +'<div><div class="om-product-name">'+firstItem.title+'</div>'
+        +'<div class="om-product-variant">'+firstItem.variant+'</div>'
+        +'</div></div></td>';
+    }
+
+    html += '<tr style="background:rgba(171,160,110,.04);">'
+      + productCell
+      + '<td>'+o.lineItems.length+'</td>'
+      + '<td><span class="om-order-link" onclick="viewOrderItems(\''+o.name+'\')">'+o.name+'</span></td>'
+      + '<td style="white-space:nowrap;">'+fmtDate(o.date)+'</td>'
+      + '<td>'+statusBadge(o.fulfillmentStatus)+'</td>'
+      + '<td>'+deliveryBadge(o.fulfillmentStatus)+'</td>'
+      + '<td style="text-align:right;">'+fmt(o.subtotal)+'</td>'
+      + '<td style="text-align:right;color:var(--gold);">'+(o.discounts>0?'-'+fmt(o.discounts):'$0.00')+'</td>'
+      + '<td style="text-align:right;">'+fmt(o.shipping)+'</td>'
+      + '<td style="text-align:right;">'+fmt(o.taxes)+'</td>'
+      + '<td style="text-align:right;font-weight:700;">'+fmt(o.total)+'</td>'
+      + '<td style="text-align:center;"><button class="om-view-btn" onclick="viewOrderItems(\''+o.name+'\')" title="View items"><i class="fas fa-eye"></i></button></td>'
+      + '<td style="text-align:center;"><a class="om-ext-link" href="#" title="View order"><i class="fas fa-external-link-alt" style="font-size:12px;"></i></a></td>'
+      + '</tr>';
+
+    /* â”€â”€ SUB ROWS: show each product below the summary row â”€â”€ */
+    if(multi){
+      o.lineItems.forEach(function(item){
+        html += '<tr style="background:#fff;display: none;">'
+          + '<td style="padding-left:20px;border-left:3px solid var(--gold-border);">'
+              +'<div class="om-product-cell">'
+              +(item.image?'<img src="'+item.image+'" class="om-product-img" onerror="this.style.display=\'none\'">':'<div class="om-product-placeholder"><i class="fas fa-spray-can"></i></div>')
+              +'<div><div class="om-product-name">'+item.title+'</div>'
+              +'<div class="om-product-variant">'+item.variant+'</div>'
+              +'</div></div>'
+          +'</td>'
+          + '<td style="color:var(--text-muted);font-size:12px;">x'+item.quantity+'</td>'
+          + '<td></td><td></td><td></td><td></td><td></td>'
+          + '<td style="text-align:right;color:var(--text-muted);font-size:12px;">'+fmt(item.linePrice)+'</td>'
+          + '<td></td><td></td><td></td><td></td><td></td>'
+          + '</tr>';
+      });
+    }
+  });
+
+  tbody.innerHTML = html;
+  renderPagination('ordersPagination', omPageOrders, total, function(p){ renderOrders(p); });
+}
+/* â•â•â•â•â•â•â•â• RENDER ITEMS â•â•â•â•â•â•â•â• */
+function renderItems(page){
+  omPageItems = page||1;
+  var allItems = [];
+  var sourceOrders = omOrderFilter
+    ? ordersData.filter(function(o){ return o.name===omOrderFilter; })
+    : getFiltered();
+
+  sourceOrders.forEach(function(o){
+    o.lineItems.forEach(function(it){
+      allItems.push({ order:o, item:it });
+    });
+  });
+
+  var total  = Math.ceil(allItems.length/OM_PER_PAGE);
+  var paged  = allItems.slice((omPageItems-1)*OM_PER_PAGE, omPageItems*OM_PER_PAGE);
+  var tbody  = document.getElementById('itemsTbody');
+  if(!tbody) return;
+
+  if(paged.length===0){
+    tbody.innerHTML='<tr><td colspan="8"><div class="om-empty"><i class="fas fa-box-open"></i><p>No items found.</p></div></td></tr>';
+    document.getElementById('itemsPagination').innerHTML='';
+    return;
+  }
+
+  var html = '';
+  paged.forEach(function(r){
+    html += '<tr>'
+      + '<td><div class="om-product-cell">'+(r.item.image?'<img src="'+r.item.image+'" class="om-product-img" onerror="this.style.display=\'none\'">':'<div class="om-product-placeholder"><i class="fas fa-spray-can"></i></div>')+'<div><div class="om-product-name">'+r.item.title+'</div><div class="om-product-variant">'+r.item.variant+'</div></div></div></td>'
+      + '<td>'+r.item.quantity+'</td>'
+      + '<td>'+r.item.brand+'</td>'
+      + '<td>'+fmt(r.item.unitPrice)+'</td>'
+      + '<td><span class="om-order-link">'+r.order.name+'</span></td>'
+      + '<td style="white-space:nowrap;">'+fmtDate(r.order.date)+'</td>'
+      + '<td>'+statusBadge(r.order.fulfillmentStatus)+'</td>'
+      + '<td style="text-align:right;font-weight:600;">'+fmt(r.item.linePrice)+'</td>'
+      + '</tr>';
+  });
+
+  tbody.innerHTML = html;
+  renderPagination('itemsPagination', omPageItems, total, function(p){ renderItems(p); });
+}
+
+/* â•â•â•â•â•â•â•â• PAGINATION â•â•â•â•â•â•â•â• */
+function renderPagination(containerId, current, total, cb){
+  var el = document.getElementById(containerId);
+  if(!el || total<=1){ if(el) el.innerHTML=''; return; }
+  var html = '';
+  html += '<button '+(current===1?'disabled':'')+' onclick="('+cb.toString()+')('+( current-1)+')">â€¹</button>';
+  for(var i=1;i<=total;i++){
+    html += '<button class="'+(i===current?'active':'')+'" onclick="('+cb.toString()+')('+i+')">'+i+'</button>';
+  }
+  html += '<button '+(current===total?'disabled':'')+' onclick="('+cb.toString()+')('+(current+1)+')">â€º</button>';
+  el.innerHTML = html;
+}
+
+/* â•â•â•â•â•â•â•â• SWITCH TAB â•â•â•â•â•â•â•â• */
+function switchTab(view, btn){
+  omCurrentView  = view;
+  omOrderFilter  = null;
+  document.querySelectorAll('.om-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('view-orders').style.display = view==='orders' ? '' : 'none';
+  document.getElementById('view-items').style.display  = view==='items'  ? '' : 'none';
+  if(view==='orders') renderOrders(1);
+  else renderItems(1);
+}
+
+function viewOrderItems(orderName){
+  omOrderFilter = orderName;
+  omCurrentView = 'items';
+  document.querySelectorAll('.om-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelector('.om-tab[data-view="items"]').classList.add('active');
+  document.getElementById('view-orders').style.display = 'none';
+  document.getElementById('view-items').style.display  = '';
+  renderItems(1);
+}
+
+/* â•â•â•â•â•â•â•â• FILTERS â•â•â•â•â•â•â•â• */
+function applyFilters(){
+  omSearch = document.getElementById('omSearch').value.trim().toLowerCase();
+  omOrderFilter = null;
+  if(omCurrentView==='orders') renderOrders(1);
+  else renderItems(1);
+}
+
+function setQuickRange(range, el){
+  omQuickRange = range;
+  omHasCustom  = false;
+  omCustomFrom = '';
+  omCustomTo   = '';
+  document.querySelectorAll('.om-quick-dropdown div').forEach(function(d){ d.classList.remove('active-range'); });
+  el.classList.add('active-range');
+  document.getElementById('omQuickDropdown').classList.remove('show');
+  if(omCurrentView==='orders') renderOrders(1);
+  else renderItems(1);
+}
+
+/* Quick range toggle */
+// document.addEventListener('DOMContentLoaded', function(){
+//   var qr = document.getElementById('omQuickRange');
+//   if(qr) qr.addEventListener('click', function(e){
+//     e.stopPropagation();
+//     document.getElementById('omQuickDropdown').classList.toggle('show');
+//   });
+//   document.addEventListener('click', function(){
+//     var dd = document.getElementById('omQuickDropdown');
+//     if(dd) dd.classList.remove('show');
+//   });
+//   renderOrders(1);
+
+//   /* Nav */
+//   var salesBody  = document.getElementById('grp-sales');
+//   var salesArrow = document.getElementById('arrow-grp-sales');
+//   if(salesBody)  salesBody.style.display = 'block';
+//   if(salesArrow) salesArrow.classList.add('open');
+// });
+
+/* â•â•â•â•â•â•â•â• DATE MODAL â•â•â•â•â•â•â•â• */
+function openDateModal(){
+  document.getElementById('dateModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDateModal(e){
+  if(e && e.target!==document.getElementById('dateModal')) return;
+  document.getElementById('dateModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function applyCustomRange(){
+  omCustomFrom = document.getElementById('dateFrom').value;
+  omCustomTo   = document.getElementById('dateTo').value;
+  omHasCustom  = !!(omCustomFrom || omCustomTo);
+  closeDateModal();
+  if(omCurrentView==='orders') renderOrders(1);
+  else renderItems(1);
+}
+
+/* â•â•â•â•â•â•â•â• EXPORT EXCEL â•â•â•â•â•â•â•â• */
+function exportExcel(){
+  var loadXLSX = function(cb){
+    if(window.XLSX){ cb(); return; }
+    var s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+    s.onload=cb; document.head.appendChild(s);
+  };
+  loadXLSX(function(){
+    var rows=[['ORDER #','DATE','STATUS','SUBTOTAL','DISCOUNT','SHIPPING','TAXES','TOTAL']];
+    getFiltered().forEach(function(o){
+      rows.push([o.name,fmtDate(o.date),o.fulfillmentStatus,o.subtotal,o.discounts,o.shipping,o.taxes,o.total]);
+    });
+    var ws=XLSX.utils.aoa_to_sheet(rows);
+    var wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,'Orders');
+    XLSX.writeFile(wb,'orders.xlsx');
+  });
+}
+
+/* â•â•â•â•â•â•â•â• EXPORT PDF â•â•â•â•â•â•â•â• */
+function exportPDF(){
+  var load=function(src,cb){
+    if(document.querySelector('script[src="'+src+'"]')){ cb(); return; }
+    var s=document.createElement('script'); s.src=src; s.onload=cb; document.head.appendChild(s);
+  };
+  load('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',function(){
+    load('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js',function(){
+      var doc=new window.jspdf.jsPDF('landscape');
+      doc.setFontSize(16); doc.text('Order History',14,18);
+      doc.setFontSize(9); doc.text('Generated: '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),doc.internal.pageSize.getWidth()-14,18,{align:'right'});
+      var head=[['ORDER #','DATE','STATUS','SUBTOTAL','DISCOUNT','SHIPPING','TAXES','TOTAL']];
+      var body=getFiltered().map(function(o){
+        return [o.name,fmtDate(o.date),o.fulfillmentStatus,fmt(o.subtotal),o.discounts>0?'-'+fmt(o.discounts):'$0.00',fmt(o.shipping),fmt(o.taxes),fmt(o.total)];
+      });
+      doc.autoTable({ head:head, body:body, startY:25, headStyles:{fillColor:[171,160,110]}, styles:{fontSize:10} });
+      doc.save('orders.pdf');
+    });
+  });
+}
+
+/* â•â•â•â•â•â•â•â• SHARE â•â•â•â•â•â•â•â• */
+function shareOrders(){
+  if(navigator.share){ navigator.share({title:'My Orders',url:location.href}); }
+  else{ navigator.clipboard.writeText(location.href).then(function(){ showToast('Link copied!'); }); }
+}
+
+function showToast(msg){
+  var t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); },3000);
+}
+
+/* â•â•â•â•â•â•â•â• NAV â•â•â•â•â•â•â•â• */
+function toggleGroup(id){
+  var grp=document.getElementById(id), wasOpen=grp.classList.contains('open');
+  document.querySelectorAll('.nav-group').forEach(function(g){ if(g.id!==id&&!g.querySelector('.active')) g.classList.remove('open'); });
+  if(wasOpen&&!grp.querySelector('.active')) grp.classList.remove('open'); else grp.classList.add('open');
+}
+function toggleSubGroup(id){
+  var body=document.getElementById(id), arrow=document.getElementById('arrow-'+id);
+  var isOpen=body.style.display!=='none';
+  if(isOpen&&!body.querySelector('.active')){ body.style.display='none'; if(arrow) arrow.classList.remove('open'); }
+  else{ body.style.display='block'; if(arrow) arrow.classList.add('open'); }
+}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeDateModal(); });
+</script>
+
+<script>
+
+
+/* â•â•â•â•â•â•â•â• Quick range toggle + INIT â•â•â•â•â•â•â•â• */
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Quick range dropdown
+  var qr = document.getElementById('omQuickRange');
+  if (qr) qr.addEventListener('click', function(e) {
+    e.stopPropagation();
+    document.getElementById('omQuickDropdown').classList.toggle('show');
+  });
+  document.addEventListener('click', function() {
+    var dd = document.getElementById('omQuickDropdown');
+    if (dd) dd.classList.remove('show');
+  });
+
+  // Nav
+  var salesBody  = document.getElementById('grp-sales');
+  var salesArrow = document.getElementById('arrow-grp-sales');
+  if (salesBody)  salesBody.style.display = 'block';
+  if (salesArrow) salesArrow.classList.add('open');
+
+  // Marcar link activo
+  var currentPage = window.location.pathname.split('/').pop();
+  var activeLink  = document.querySelector('a[href*="' + currentPage + '"]');
+  if (activeLink) {
+    document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone')
+      .forEach(function(i) { i.classList.remove('active'); });
+    activeLink.classList.add('active');
+    var grp = activeLink.closest('.nav-group');
+    if (grp) grp.classList.add('open');
+    var subBody = activeLink.closest('.nav-sub-group-body');
+    if (subBody) {
+      subBody.style.display = 'block';
+      var header = subBody.previousElementSibling;
+      if (header) {
+        var arrow = header.querySelector('.nav-sub-arrow');
+        if (arrow) arrow.classList.add('open');
+      }
+    }
+  }
+
+
+
+// â”€â”€ Cargar datos de marca â”€â”€
+  var savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    applyOrdersBrand(savedBrand);
+  } else {
+    ordersData = BRAND_ORDERS_DATA['Brand Demo'];
+    omCurrentView = 'orders';
+    renderOrders(1);
+  }
+});
+
+</script>
+
+
+</body>
+</html>
+

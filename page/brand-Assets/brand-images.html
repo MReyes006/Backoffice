@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes â€“ Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/dashboard.css">
+  
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../../js/aside.js"></script>
+</head>
+<body>
+
+<!-- â•â•â•â•â•â•â•â•â•â• ASIDE â•â•â•â•â•â•â•â•â•â• -->
+<div id="aside-root"></div>
+
+<!-- â•â•â•â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â•â•â•â• -->
+<div class="main-wrap">
+    <header class="topbar">
+      <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+        <div class="topbar-actions">
+            <button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+            <button class="topbar-btn" title="Search"><i class="fas fa-search"></i></button>
+            <div class="topbar-avatar">FS</div>
+        </div>
+    </header>
+
+    <main class="content">
+
+        <!-- â•â• OVERVIEW â•â• -->
+        <div id="view-overview">
+            <div class="welcome-bar">
+                <div>
+                    <h2>Welcome back, <span id="welcomeName">Francis</span></h2>
+                    <p>Member since: <span id="welcomeDate">Mar 11, 2026</span></p>
+                </div>
+            </div>
+
+            <!-- â•â• IMAGES â•â• -->
+            <div id="view-images">
+
+            <style>
+                .img-search-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.5rem; }
+                .img-search-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+                .img-search-row { display: flex; }
+                .img-search-input { height: 36px; border-radius: var(--radius) 0 0 var(--radius); border: 1px solid var(--border); border-right: none; background: var(--card-bg); color: var(--text); padding: 0 12px; font-size: 13px; outline: none; width: 220px; }
+                .img-search-btn { height: 36px; width: 36px; border-radius: 0 var(--radius) var(--radius) 0; border: 1px solid var(--border); background: var(--sidebar-bg); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
+                .img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+                .img-card { background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+                .img-card:hover { border-color: var(--text-muted); }
+                .img-photo { width: 100%; aspect-ratio: 3/2.5; object-fit: cover; display: block; }
+                .img-body { padding: 14px 16px 0; }
+                .img-badge { display: inline-block; font-size: 10px; letter-spacing: .09em; text-transform: uppercase; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; background: #F5F0E8; color: #8C6E3F; }
+                .img-title { font-size: 15px; font-weight: 500; margin: 0 0 6px; }
+                .img-desc { font-size: 12px; color: var(--text-muted); line-height: 1.55; margin: 0 0 12px; }
+                .img-tag-row { display: flex; gap: 6px; margin-bottom: 12px; }
+                .img-tag { font-size: 10px; letter-spacing: .05em; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-muted); }
+                .img-footer { display: flex; gap: 8px; padding: 0 16px 14px; }
+                .img-btn-view { flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px; padding: 8px; background: #1a1a1a; color: #fff; border: none; border-radius: var(--radius); font-size: 12px; font-weight: 500; cursor: pointer; }
+                .img-btn-view:hover { background: #333; }
+                .img-btn-dl { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card-bg); cursor: pointer; color: var(--text-muted); }
+            </style>
+
+            <div class="img-search-group">
+                <span class="img-search-label">Search</span>
+                <div class="img-search-row">
+                <input class="img-search-input" id="img-search" type="text" placeholder="Search file..." />
+                <button class="img-search-btn">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                    <circle cx="6" cy="6" r="4"/><path d="M10 10l2.5 2.5"/>
+                    </svg>
+                </button>
+                </div>
+            </div>
+
+            <div class="img-grid" id="img-grid"></div>
+
+            <script>
+                // const imgItems = [
+                // {
+                //     badge: 'AUREA', title: 'Aurea',
+                //     img: '../../img/Aurea-Sise1.jpg',       /* â† ruta real de tu imagen */
+                //     tags: ['IMAGE'],
+                //     desc: 'Aurea es una fragancia elegante y luminosa que captura la esencia del lujo moderno...'
+                // },
+                // {
+                //     badge: 'DEMO2', title: 'Demo2',
+                //     img: '../../img/Brand_Demo.webp',      /* â† ruta real de tu imagen */
+                //     tags: ['IMAGE'],
+                //     desc: 'Demo2 es una fragancia refinada que encarna autenticidad, fuerza y elegancia...'
+                // },
+                // /* agrega mÃ¡s objetos aquÃ­ */
+                // ];
+
+                var imgItems = [];
+
+                // â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                const BRAND_IMG_ITEMS = {
+                'Brand Demo': [
+                    {
+                    badge: 'AUREA',   title: 'Demo1',  
+                    img:  '../../img/Brand_Demo.webp',
+                    tags: ['IMAGE'],
+                    desc: 'Demo1 es una fragancia elegante y luminosa que captura la esencia del lujo moderno...'
+                    },
+                    {
+                    badge: 'DEMO2', title: 'Demo2',
+                    img:  '../../img/Brand_Demo.webp',
+                    tags: ['IMAGE'],
+                    desc: 'Demo2 es una fragancia refinada que encarna autenticidad, fuerza y elegancia...'
+                    },
+                ],
+                'La Sabia Madrid': [
+                    {
+                    badge: 'VERDANZA', title: 'Verdanza',
+                    img:  '../../img/LaSabiaMadrid.webp',
+                    tags: ['IMAGE'],
+                    desc: 'Verdanza es una fragancia fresca y luminosa inspirada en los jardines de Madrid...'
+                    },
+                    {
+                    badge: 'PODERÃO',  title: 'Poderio',
+                    img:  '../../img/LaSabiaMadrid.webp',
+                    tags: ['IMAGE'],
+                    desc: 'Poderio es una fragancia poderosa y segura con una apertura especiada y una base de Ã¡mbar profundo...'
+                    },
+                ],
+                };
+
+                // â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                document.addEventListener('niche3ds:brandChanged', function(e) {
+                const brand = e.detail.brand;
+                document.getElementById('brandTitle').textContent = brand;
+                localStorage.setItem('selectedBrand', brand);
+                applyImgBrand(brand);
+                });
+
+                // â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                    function applyImgBrand(brand) {
+                    if (BRAND_IMG_ITEMS[brand]) {
+                        imgItems = BRAND_IMG_ITEMS[brand];
+                        imgRender(); // â† nombre correcto
+                    }
+                    }
+
+                    // â”€â”€ Un solo DOMContentLoaded â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                    document.addEventListener('DOMContentLoaded', function() {
+                    const savedBrand = localStorage.getItem('selectedBrand');
+                    if (savedBrand) {
+                        document.getElementById('brandTitle').textContent = savedBrand;
+                        applyImgBrand(savedBrand);
+                    } else {
+                        imgItems = BRAND_IMG_ITEMS['Brand Demo'];
+                        imgRender(); // â† nombre correcto
+                    }
+                    });
+
+                function imgRender() {
+                const q = document.getElementById('img-search').value.toLowerCase();
+                const list = imgItems.filter(v => !q || v.title.toLowerCase().includes(q));
+                const grid = document.getElementById('img-grid');
+                grid.innerHTML = list.length
+                    ? list.map(v => `
+                    <div class="img-card">
+                        <img class="img-photo" src="${v.img}" alt="${v.title}" />
+                        <div class="img-body">
+                        <span class="img-badge">${v.badge}</span>
+                        <p class="img-title">${v.title}</p>
+                        <p class="img-desc">${v.desc}</p>
+                        <div class="img-tag-row">${v.tags.map(t=>`<span class="img-tag">${t}</span>`).join('')}</div>
+                        </div>
+                        <div class="img-footer">
+                        <button class="img-btn-view">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                            <circle cx="7" cy="7" r="2.5"/>
+                            <path d="M1 7c1.5-3 3-4.5 6-4.5S11.5 4 13 7c-1.5 3-3 4.5-6 4.5S2.5 10 1 7z"/>
+                            </svg>
+                            View
+                        </button>
+                        <button class="img-btn-dl" title="Download">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                            <path d="M7 2v7M4 6.5l3 3 3-3"/><path d="M2 11h10"/>
+                            </svg>
+                        </button>
+                        </div>
+                    </div>`).join('')
+                    : '<p style="padding:2rem;text-align:center;font-size:13px;color:var(--text-muted)">No images found.</p>';
+                }
+
+                document.getElementById('img-search').addEventListener('input', imgRender);
+                imgRender();
+            </script>
+
+            </div><!-- /view-images -->
+          
+
+          
+        </div><!-- /view-overview -->
+
+      
+
+        <!-- Placeholder -->
+        <div id="view-placeholder" style="display:none;">
+            <div class="welcome-bar"><div><h2 id="placeholderTitle">Section</h2><p>Content coming soon.</p></div></div>
+            <div class="empty-state" style="background:var(--card-bg);border-radius:var(--radius);border:1px solid var(--border);">
+                <i class="fas fa-tools"></i><p>This section is under construction.</p>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- â•â• MODAL â•â• -->
+<div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closePaymentModal()">&times;</button>
+        <h2 id="modalTitle" class="modal-title">Paid Commissions</h2>
+        <div class="modal-divider"></div>
+        <div style="overflow-x:auto;">
+            <table class="responsive-table modal-table">
+                <thead><tr>
+                    <th>Date</th><th>Order #</th>
+                    <th class="tooltip-header">Sales<span class="tooltip-badge"><i class="fas fa-info-circle"></i></span></th>
+                    <th>Commission Rate</th><th>Commission</th><th>Status</th>
+                </tr></thead>
+                <tbody id="modalTableBody"></tbody>
+                <tfoot><tr class="modal-total-row">
+                    <td><strong>TOTAL</strong></td><td></td>
+                    <td id="modalTotalSales"><strong>$0.00</strong></td><td></td>
+                    <td id="modalTotalCommission"><strong>$0.00</strong></td><td></td>
+                </tr></tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* Accordion */
+    function toggleGroup(id) {
+        const grp = document.getElementById(id);
+        const wasOpen = grp.classList.contains('open');
+        document.querySelectorAll('.nav-group').forEach(g => g.classList.remove('open'));
+        if (!wasOpen) grp.classList.add('open');
+    }
+
+    /* View router */
+    // const VIEWS = {
+    //     overview:          { el:'view-overview',    title:'Dashboard <span>/ Overview</span>' },
+    //     salesByPerfumery:  { el:'view-placeholder', title:'Dashboard <span>/ Sales by Perfumery</span>',  ph:'Sales by Perfumery' },
+    //     salesByState:      { el:'view-placeholder', title:'Dashboard <span>/ Sales by State</span>',      ph:'Sales by State' },
+    //     salesByCity:       { el:'view-placeholder', title:'Dashboard <span>/ Sales by City</span>',       ph:'Sales by City' },
+    //     salesByCollection: { el:'view-placeholder', title:'Dashboard <span>/ Sales by Collection</span>', ph:'Sales by Collection' },
+    //     salesByMonth:      { el:'view-placeholder', title:'Dashboard <span>/ Sales by Month</span>',      ph:'Sales by Month' },
+    //     commissions:       { el:'view-commissions', title:'Dashboard <span>/ Clients</span>' },
+    // };
+
+    function showView(key, linkEl) {
+        document.querySelectorAll('.nav-sub-item').forEach(i => i.classList.remove('active'));
+        if (linkEl) { linkEl.classList.add('active'); linkEl.closest('.nav-group')?.classList.add('open'); }
+        const v = VIEWS[key] || VIEWS.overview;
+        ['view-overview','view-commissions','view-placeholder'].forEach(id => {
+            document.getElementById(id).style.display = 'none';
+        });
+        document.getElementById(v.el).style.display = 'block';
+        document.getElementById('topbarTitle').innerHTML = v.title;
+        if (v.ph) document.getElementById('placeholderTitle').textContent = v.ph;
+        return false;
+    }
+
+
+    /* Tabs */
+    const TAB_TITLES = {
+        clients:    'Dashboard <span>/ Clients</span>',
+        commission: 'Dashboard <span>/ Commissions</span>',
+        payments:   'Dashboard <span>/ Payments</span>',
+    };
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === tab));
+        const title = TAB_TITLES[tab];
+        if (title) document.getElementById('topbarTitle').innerHTML = title;
+    }
+    function applyFilter(f, section) {
+        const id = section === 'commission' ? 'commissionFilters' : 'clientFilters';
+        document.getElementById(id)?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    }
+    function applyPaymentFilter(f) {
+        document.getElementById('paymentHistoryFilters')?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    }
+    function changeTableView() {}
+    function exportMonthlyReferralsToPDF() { alert('Connect js/dashboard.js'); }
+    function exportPaymentHistoryToPDF()   { alert('Connect js/dashboard.js'); }
+    function updateGroupedChart()    {}
+    function updateCommissionChart() {}
+    function updatePaymentChart()    {}
+    function closePaymentModal(e) {
+        if (!e || e.target === document.getElementById('paymentDetailModal'))
+            document.getElementById('paymentDetailModal').classList.remove('active');
+    }
+</script>
+
+<!-- <script src="js/api.js"></script> -->
+<!-- <script src="js/dashboard.js"></script> -->
+
+</body>
+</html>
+

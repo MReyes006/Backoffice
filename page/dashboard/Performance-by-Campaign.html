@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motiv Perfumes – Campaign Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  <script src="../../js/aside.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
+.user-status span{font-size:14px;color:#aca68b;}
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.topbar-btn:hover{background:#f0f0f0;}
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+@media(max-width:768px){.main-wrap{margin-left:0;}}
+
+:root{
+  --gold:rgb(171,160,110);
+  --gold-dark:rgb(141,130,80);
+  --gold-light:rgba(171,160,110,0.12);
+  --card-bg:#fff;
+  --border:#E8E9E9;
+  --text:#1E2227;
+  --text-muted:#888;
+  --radius:10px;
+}
+
+.content{padding:28px;flex:1;}
+
+/* WELCOME */
+.welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
+.welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);}
+.welcome-bar h2 span{color:var(--gold);}
+.welcome-bar p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+
+/* FILTERS */
+.filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+.filter-container{display:flex;gap:8px;flex-wrap:wrap;}
+.filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold);}
+.filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* VIEW SELECTOR */
+.view-selector-wrap{position:relative;display:flex;align-items:center;gap:8px;}
+.view-selector-label{font-size:13px;color:var(--text-muted);white-space:nowrap;}
+.view-selector-btn{padding:9px 14px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;display:flex;align-items:center;gap:8px;min-width:200px;justify-content:space-between;transition:border-color .2s;}
+.view-selector-btn:hover{border-color:var(--gold);}
+.view-selector-btn.open{border-color:var(--gold);}
+.view-selector-btn .chevron{font-size:10px;transition:transform .2s;}
+.view-selector-btn.open .chevron{transform:rotate(180deg);}
+.view-dropdown{position:absolute;top:calc(100% + 5px);right:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);z-index:200;min-width:220px;display:none;flex-direction:column;overflow:hidden;}
+.view-dropdown.open{display:flex;}
+.view-option{padding:11px 15px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:9px;transition:background .15s;}
+.view-option:hover{background:#f5f5f5;}
+.view-option.active{background:var(--gold-light);color:var(--gold);}
+.view-option i{font-size:13px;width:16px;}
+
+/* SECTION TITLE */
+.section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+
+/* METRIC TABS */
+.metric-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+.metric-tab{padding:7px 14px;border:1px solid var(--border);background:#fff;border-radius:20px;cursor:pointer;font-size:12px;font-weight:500;color:#535255;transition:all .2s;white-space:nowrap;}
+.metric-tab:hover{border-color:var(--gold);color:var(--gold);}
+.metric-tab.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* TABLE */
+.table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
+.responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:12px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
+.responsive-table thead th:not(:first-child){text-align:center;}
+.responsive-table thead th.metric-group{background:var(--gold-dark);font-size:11px;letter-spacing:.5px;}
+.responsive-table tbody td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);vertical-align:middle;text-align:center;}
+.responsive-table tbody td:first-child{text-align:left;}
+.responsive-table tbody tr:last-child td{border-bottom:none;}
+.responsive-table tbody tr:hover{background:#fafafa;}
+.responsive-table .total-row{background:#f5f5f5;border-top:2px solid var(--gold);}
+.responsive-table .total-row td{font-weight:600;}
+
+.th-content{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.th-month{font-size:12px;font-weight:600;}
+.th-year{font-size:10px;font-weight:400;opacity:.8;}
+.th-year-header{font-size:13px;font-weight:600;}
+
+/* Campaign rows */
+.brand-row{background:rgba(171,160,110,.08);transition:background .15s;}
+.brand-row:hover{background:rgba(171,160,110,.15);}
+.brand-cell{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.brand-name-cell{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;}
+.toggle-icon{color:var(--gold);font-size:10px;transition:transform .2s;display:inline-block;}
+
+/* Campaign tag badge */
+.campaign-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:500;margin-left:8px;}
+.badge-awareness{background:rgba(102,126,153,.15);color:rgb(102,126,153);}
+.badge-seasonal{background:rgba(153,126,102,.15);color:rgb(153,126,102);}
+.badge-flash{background:rgba(153,102,102,.15);color:rgb(153,102,102);}
+.badge-promo{background:rgba(102,153,126,.15);color:rgb(102,153,126);}
+
+/* Metric rows (sub-rows) */
+.product-row{background:#fff;}
+.product-row:hover{background:#f9f9f9;}
+.product-cell{display:flex;align-items:center;gap:12px;padding-left:28px !important;}
+.metric-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;}
+.metric-icon.awareness{background:rgba(102,126,153,.12);color:rgb(102,126,153);}
+.metric-icon.engagement{background:rgba(171,160,110,.12);color:var(--gold);}
+.metric-icon.traffic{background:rgba(102,153,126,.12);color:rgb(102,153,126);}
+.metric-icon.conversions{background:rgba(153,102,102,.12);color:rgb(153,102,102);}
+.metric-icon.retention{background:rgba(126,102,153,.12);color:rgb(126,102,153);}
+.metric-icon.cost{background:rgba(153,153,102,.12);color:rgb(153,153,102);}
+.metric-icon.roas{background:rgba(102,153,153,.12);color:rgb(102,153,153);}
+.product-info{display:flex;flex-direction:column;gap:2px;}
+.product-name{font-weight:500;font-size:13px;}
+.product-sku{font-size:11px;color:var(--text-muted);}
+
+/* Metric group rows (nivel 2) */
+.metric-group-row{background:rgba(171,160,110,.04);transition:background .15s;}
+.metric-group-row:hover{background:rgba(171,160,110,.10);}
+.metric-group-label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text);}
+.metric-icon-inline{font-size:12px;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;border-radius:5px;}
+.metric-icon-inline.awareness{background:rgba(102,126,153,.12);color:rgb(102,126,153);}
+.metric-icon-inline.engagement{background:rgba(171,160,110,.12);color:var(--gold);}
+.metric-icon-inline.traffic{background:rgba(102,153,126,.12);color:rgb(102,153,126);}
+.metric-icon-inline.conversions{background:rgba(153,102,102,.12);color:rgb(153,102,102);}
+.metric-icon-inline.retention{background:rgba(126,102,153,.12);color:rgb(126,102,153);}
+.metric-icon-inline.cost{background:rgba(153,153,102,.12);color:rgb(153,153,102);}
+.metric-icon-inline.roas{background:rgba(102,153,153,.12);color:rgb(102,153,153);}
+.val-positive{color:#2d7a4f;font-weight:600;}
+.val-negative{color:#c0392b;font-weight:600;}
+.val-neutral{color:var(--text-muted);}
+
+.no-results{text-align:center;padding:40px;color:var(--text-muted);}
+.no-results i{font-size:40px;color:#ddd;margin-bottom:12px;display:block;}
+
+/* CHART */
+.chart-container{background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .content{padding:16px;}
+  .filters-row{flex-direction:column;align-items:flex-start;}
+  .metric-tabs{gap:4px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ASIDE -->
+<div id="aside-root"></div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+  <header class="topbar">
+    <div class="topbar-title" id="topbarTitle"><span>BRAND PORTAL</span><div id="brandTitle"></div></div>
+    <div class="topbar-actions">
+      <button class="topbar-btn"><i class="fas fa-bell"></i></button>
+      <button class="topbar-btn"><i class="fas fa-search"></i></button>
+      <div class="topbar-avatar">FS</div>
+    </div>
+  </header>
+
+  <main class="content">
+
+  <div class="welcome-bar">
+    <div>
+      <h2>Campaign Analytics – <span>Motiv Perfumes</span></h2>
+      <p>Track performance across all active and past marketing campaigns</p>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters-row">
+    <div class="filter-container" id="perfFilters">
+      <button class="filter-btn" data-filter="yearly" onclick="applyPerfFilter('yearly')">Yearly</button>
+      <button class="filter-btn active" data-filter="lastYear" onclick="applyPerfFilter('lastYear')">Last 13 months</button>
+      <button class="filter-btn" data-filter="currentMonth" onclick="applyPerfFilter('currentMonth')">Current Month</button>
+    </div>
+
+    <div class="view-selector-wrap">
+      <span class="view-selector-label">Metric Group</span>
+      <button class="view-selector-btn" id="perfViewBtn" onclick="togglePerfViewDropdown()">
+        <span><i class="fas fa-chart-pie" style="margin-right:6px;font-size:12px;"></i><span id="perfViewText">Awareness</span></span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </button>
+      <div class="view-dropdown" id="perfViewDropdown">
+        <div class="view-option active" data-view="awareness" onclick="changePerfView('awareness')">
+          <i class="fas fa-eye"></i> Awareness
+        </div>
+        <div class="view-option" data-view="engagement" onclick="changePerfView('engagement')">
+          <i class="fas fa-heart"></i> Engagement
+        </div>
+        <div class="view-option" data-view="traffic" onclick="changePerfView('traffic')">
+          <i class="fas fa-mouse-pointer"></i> Traffic
+        </div>
+        <div class="view-option" data-view="conversions" onclick="changePerfView('conversions')">
+          <i class="fas fa-funnel-dollar"></i> Conversions
+        </div>
+        <div class="view-option" data-view="retention" onclick="changePerfView('retention')">
+          <i class="fas fa-redo"></i> Retention
+        </div>
+        <div class="view-option" data-view="cost" onclick="changePerfView('cost')">
+          <i class="fas fa-coins"></i> Cost Efficiency
+        </div>
+        <div class="view-option" data-view="roas" onclick="changePerfView('roas')">
+          <i class="fas fa-percentage"></i> ROAS
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="section-title"><i class="fas fa-bullhorn"></i> Campaign Performance</h3>
+
+  <div class="table-wrapper">
+    <table class="responsive-table">
+      <thead id="perfumeryTableHead"></thead>
+      <tbody id="perfumeryTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- CHART -->
+  <div class="chart-container">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <h4 style="margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;">
+        <i class="fas fa-chart-area" style="color:var(--gold);"></i>
+        <span id="perfChartTitle">Awareness by Campaign</span>
+      </h4>
+      <div style="display:flex;gap:5px;background:#f5f5f5;padding:4px;border-radius:8px;">
+        <button class="chart-type-btn active" data-type="bar" onclick="changePerfChartType('bar')"
+          style="padding:7px 14px;border:none;background:white;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--gold);box-shadow:0 2px 4px rgba(0,0,0,.1);display:flex;align-items:center;gap:5px;">
+          <i class="fas fa-chart-bar"></i> Bar
+        </button>
+        <button class="chart-type-btn" data-type="line" onclick="changePerfChartType('line')"
+          style="padding:7px 14px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:#535255;display:flex;align-items:center;gap:5px;">
+          <i class="fas fa-chart-line"></i> Line
+        </button>
+      </div>
+    </div>
+    <div style="position:relative;height:320px;width:100%;">
+      <canvas id="perfChart"></canvas>
+    </div>
+    <div id="perfChartLegend" style="display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--border);"></div>
+  </div>
+
+</main>
+
+<script>
+// ─── CONFIG ─────────────────────────────────────────────────────────────────
+var perfCurrentFilter = "lastYear";
+var perfCurrentView   = "awareness";
+var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+var dayNames   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+var perfChart = null;
+var perfChartType = "bar";
+var perfHiddenSeries = [];
+var perfColors = [
+  'rgb(171,160,110)','rgb(102,126,153)','rgb(153,102,102)',
+  'rgb(102,153,126)','rgb(153,126,102)','rgb(126,102,153)',
+  'rgb(102,153,153)','rgb(153,153,102)'
+];
+
+// ─── METRIC DEFINITIONS ──────────────────────────────────────────────────────
+var METRIC_GROUPS = {
+  awareness:   { label:"Awareness",      icon:"fas fa-eye",            iconClass:"awareness",   metrics:["Impressions","Reach","CPM"] },
+  engagement:  { label:"Engagement",     icon:"fas fa-heart",          iconClass:"engagement",  metrics:["Eng. Rate","Interactions"] },
+  traffic:     { label:"Traffic",        icon:"fas fa-mouse-pointer",  iconClass:"traffic",     metrics:["CTR","Clicks","CPC"] },
+  conversions: { label:"Conversions",    icon:"fas fa-funnel-dollar",  iconClass:"conversions", metrics:["Conv. Rate","Revenue"] },
+  retention:   { label:"Retention",      icon:"fas fa-redo",           iconClass:"retention",   metrics:["CLV","Repeat Rate"] },
+  cost:        { label:"Cost Efficiency",icon:"fas fa-coins",          iconClass:"cost",        metrics:["Ad Spend","CPA","CPL"] },
+  roas:        { label:"ROAS",           icon:"fas fa-percentage",     iconClass:"roas",        metrics:["ROAS"] }
+};
+
+// ─── FORMAT HELPERS ─────────────────────────────────────────────────────────
+var METRIC_FORMAT = {
+  "Impressions":  function(v){ return v>=1000000 ? (v/1000000).toFixed(1)+"M" : v>=1000 ? (v/1000).toFixed(1)+"K" : v; },
+  "Reach":        function(v){ return v>=1000000 ? (v/1000000).toFixed(1)+"M" : v>=1000 ? (v/1000).toFixed(1)+"K" : v; },
+  "CPM":          function(v){ return "$"+v.toFixed(2); },
+  "Eng. Rate":    function(v){ return v.toFixed(2)+"%"; },
+  "Interactions": function(v){ return v>=1000 ? (v/1000).toFixed(1)+"K" : v; },
+  "CTR":          function(v){ return v.toFixed(2)+"%"; },
+  "Clicks":       function(v){ return v>=1000 ? (v/1000).toFixed(1)+"K" : v; },
+  "CPC":          function(v){ return "$"+v.toFixed(2); },
+  "Conv. Rate":   function(v){ return v.toFixed(2)+"%"; },
+  "Revenue":      function(v){ return "$"+(v).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); },
+  "CLV":          function(v){ return "$"+v.toFixed(2); },
+  "Repeat Rate":  function(v){ return v.toFixed(1)+"%"; },
+  "Ad Spend":     function(v){ return "$"+(v).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); },
+  "CPA":          function(v){ return "$"+v.toFixed(2); },
+  "CPL":          function(v){ return "$"+v.toFixed(2); },
+  "ROAS":         function(v){ return v.toFixed(2)+"x"; }
+};
+
+// ─── CAMPAIGN DATA ───────────────────────────────────────────────────────────
+// Each entry: campaign name, metric, date, value
+// Metrics: Impressions, Reach, CPM, Eng. Rate, Interactions, CTR, Clicks, CPC,
+//          Conv. Rate, Revenue, CLV, Repeat Rate, Ad Spend, CPA, CPL, ROAS
+
+var perfumeryData = [
+  // Spring Refresh
+  {campaign:"Spring Refresh",         metric:"Impressions",  date:"2026-03-01", value:850000},
+  {campaign:"Spring Refresh",         metric:"Reach",        date:"2026-03-01", value:620000},
+  {campaign:"Spring Refresh",         metric:"CPM",          date:"2026-03-01", value:4.80},
+  {campaign:"Spring Refresh",         metric:"Eng. Rate",    date:"2026-03-01", value:3.2},
+  {campaign:"Spring Refresh",         metric:"Interactions", date:"2026-03-01", value:27200},
+  {campaign:"Spring Refresh",         metric:"CTR",          date:"2026-03-01", value:2.1},
+  {campaign:"Spring Refresh",         metric:"Clicks",       date:"2026-03-01", value:17850},
+  {campaign:"Spring Refresh",         metric:"CPC",          date:"2026-03-01", value:0.92},
+  {campaign:"Spring Refresh",         metric:"Conv. Rate",   date:"2026-03-01", value:1.8},
+  {campaign:"Spring Refresh",         metric:"Revenue",      date:"2026-03-01", value:14200},
+  {campaign:"Spring Refresh",         metric:"CLV",          date:"2026-03-01", value:85.50},
+  {campaign:"Spring Refresh",         metric:"Repeat Rate",  date:"2026-03-01", value:22.5},
+  {campaign:"Spring Refresh",         metric:"Ad Spend",     date:"2026-03-01", value:4080},
+  {campaign:"Spring Refresh",         metric:"CPA",          date:"2026-03-01", value:14.20},
+  {campaign:"Spring Refresh",         metric:"CPL",          date:"2026-03-01", value:5.60},
+  {campaign:"Spring Refresh",         metric:"ROAS",         date:"2026-03-01", value:3.48},
+
+  // Back to You
+  {campaign:"Back to You",            metric:"Impressions",  date:"2026-02-01", value:710000},
+  {campaign:"Back to You",            metric:"Reach",        date:"2026-02-01", value:530000},
+  {campaign:"Back to You",            metric:"CPM",          date:"2026-02-01", value:5.20},
+  {campaign:"Back to You",            metric:"Eng. Rate",    date:"2026-02-01", value:4.5},
+  {campaign:"Back to You",            metric:"Interactions", date:"2026-02-01", value:31950},
+  {campaign:"Back to You",            metric:"CTR",          date:"2026-02-01", value:2.8},
+  {campaign:"Back to You",            metric:"Clicks",       date:"2026-02-01", value:19880},
+  {campaign:"Back to You",            metric:"CPC",          date:"2026-02-01", value:0.85},
+  {campaign:"Back to You",            metric:"Conv. Rate",   date:"2026-02-01", value:2.3},
+  {campaign:"Back to You",            metric:"Revenue",      date:"2026-02-01", value:19600},
+  {campaign:"Back to You",            metric:"CLV",          date:"2026-02-01", value:92.00},
+  {campaign:"Back to You",            metric:"Repeat Rate",  date:"2026-02-01", value:28.0},
+  {campaign:"Back to You",            metric:"Ad Spend",     date:"2026-02-01", value:3690},
+  {campaign:"Back to You",            metric:"CPA",          date:"2026-02-01", value:11.80},
+  {campaign:"Back to You",            metric:"CPL",          date:"2026-02-01", value:4.90},
+  {campaign:"Back to You",            metric:"ROAS",         date:"2026-02-01", value:5.31},
+
+  // Limited Drop
+  {campaign:"Limited Drop",           metric:"Impressions",  date:"2026-01-01", value:1200000},
+  {campaign:"Limited Drop",           metric:"Reach",        date:"2026-01-01", value:900000},
+  {campaign:"Limited Drop",           metric:"CPM",          date:"2026-01-01", value:6.10},
+  {campaign:"Limited Drop",           metric:"Eng. Rate",    date:"2026-01-01", value:5.8},
+  {campaign:"Limited Drop",           metric:"Interactions", date:"2026-01-01", value:69600},
+  {campaign:"Limited Drop",           metric:"CTR",          date:"2026-01-01", value:3.5},
+  {campaign:"Limited Drop",           metric:"Clicks",       date:"2026-01-01", value:42000},
+  {campaign:"Limited Drop",           metric:"CPC",          date:"2026-01-01", value:0.78},
+  {campaign:"Limited Drop",           metric:"Conv. Rate",   date:"2026-01-01", value:3.2},
+  {campaign:"Limited Drop",           metric:"Revenue",      date:"2026-01-01", value:42800},
+  {campaign:"Limited Drop",           metric:"CLV",          date:"2026-01-01", value:110.00},
+  {campaign:"Limited Drop",           metric:"Repeat Rate",  date:"2026-01-01", value:18.5},
+  {campaign:"Limited Drop",           metric:"Ad Spend",     date:"2026-01-01", value:7320},
+  {campaign:"Limited Drop",           metric:"CPA",          date:"2026-01-01", value:16.40},
+  {campaign:"Limited Drop",           metric:"CPL",          date:"2026-01-01", value:6.80},
+  {campaign:"Limited Drop",           metric:"ROAS",         date:"2026-01-01", value:5.85},
+
+//   // Weekend Flash Sale
+//   {campaign:"Weekend Flash Sale",     metric:"Impressions",  date:"2025-12-01", value:540000},
+//   {campaign:"Weekend Flash Sale",     metric:"Reach",        date:"2025-12-01", value:400000},
+//   {campaign:"Weekend Flash Sale",     metric:"CPM",          date:"2025-12-01", value:3.90},
+//   {campaign:"Weekend Flash Sale",     metric:"Eng. Rate",    date:"2025-12-01", value:6.1},
+//   {campaign:"Weekend Flash Sale",     metric:"Interactions", date:"2025-12-01", value:32940},
+//   {campaign:"Weekend Flash Sale",     metric:"CTR",          date:"2025-12-01", value:4.2},
+//   {campaign:"Weekend Flash Sale",     metric:"Clicks",       date:"2025-12-01", value:22680},
+//   {campaign:"Weekend Flash Sale",     metric:"CPC",          date:"2025-12-01", value:0.62},
+//   {campaign:"Weekend Flash Sale",     metric:"Conv. Rate",   date:"2025-12-01", value:4.5},
+//   {campaign:"Weekend Flash Sale",     metric:"Revenue",      date:"2025-12-01", value:31500},
+//   {campaign:"Weekend Flash Sale",     metric:"CLV",          date:"2025-12-01", value:78.00},
+//   {campaign:"Weekend Flash Sale",     metric:"Repeat Rate",  date:"2025-12-01", value:35.0},
+//   {campaign:"Weekend Flash Sale",     metric:"Ad Spend",     date:"2025-12-01", value:2100},
+//   {campaign:"Weekend Flash Sale",     metric:"CPA",          date:"2025-12-01", value:9.30},
+//   {campaign:"Weekend Flash Sale",     metric:"CPL",          date:"2025-12-01", value:3.80},
+//   {campaign:"Weekend Flash Sale",     metric:"ROAS",         date:"2025-12-01", value:15.00},
+
+//   // Best Sellers Reloaded
+//   {campaign:"Best Sellers Reloaded",  metric:"Impressions",  date:"2025-11-01", value:680000},
+//   {campaign:"Best Sellers Reloaded",  metric:"Reach",        date:"2025-11-01", value:510000},
+//   {campaign:"Best Sellers Reloaded",  metric:"CPM",          date:"2025-11-01", value:4.40},
+//   {campaign:"Best Sellers Reloaded",  metric:"Eng. Rate",    date:"2025-11-01", value:3.8},
+//   {campaign:"Best Sellers Reloaded",  metric:"Interactions", date:"2025-11-01", value:25840},
+//   {campaign:"Best Sellers Reloaded",  metric:"CTR",          date:"2025-11-01", value:2.5},
+//   {campaign:"Best Sellers Reloaded",  metric:"Clicks",       date:"2025-11-01", value:17000},
+//   {campaign:"Best Sellers Reloaded",  metric:"CPC",          date:"2025-11-01", value:0.88},
+//   {campaign:"Best Sellers Reloaded",  metric:"Conv. Rate",   date:"2025-11-01", value:2.1},
+//   {campaign:"Best Sellers Reloaded",  metric:"Revenue",      date:"2025-11-01", value:22400},
+//   {campaign:"Best Sellers Reloaded",  metric:"CLV",          date:"2025-11-01", value:95.00},
+//   {campaign:"Best Sellers Reloaded",  metric:"Repeat Rate",  date:"2025-11-01", value:30.5},
+//   {campaign:"Best Sellers Reloaded",  metric:"Ad Spend",     date:"2025-11-01", value:4950},
+//   {campaign:"Best Sellers Reloaded",  metric:"CPA",          date:"2025-11-01", value:13.40},
+//   {campaign:"Best Sellers Reloaded",  metric:"CPL",          date:"2025-11-01", value:5.20},
+//   {campaign:"Best Sellers Reloaded",  metric:"ROAS",         date:"2025-11-01", value:4.53},
+
+//   // Fall Signature Scents
+//   {campaign:"Fall Signature Scents",  metric:"Impressions",  date:"2025-10-01", value:920000},
+//   {campaign:"Fall Signature Scents",  metric:"Reach",        date:"2025-10-01", value:690000},
+//   {campaign:"Fall Signature Scents",  metric:"CPM",          date:"2025-10-01", value:5.50},
+//   {campaign:"Fall Signature Scents",  metric:"Eng. Rate",    date:"2025-10-01", value:4.2},
+//   {campaign:"Fall Signature Scents",  metric:"Interactions", date:"2025-10-01", value:38640},
+//   {campaign:"Fall Signature Scents",  metric:"CTR",          date:"2025-10-01", value:3.0},
+//   {campaign:"Fall Signature Scents",  metric:"Clicks",       date:"2025-10-01", value:27600},
+//   {campaign:"Fall Signature Scents",  metric:"CPC",          date:"2025-10-01", value:0.95},
+//   {campaign:"Fall Signature Scents",  metric:"Conv. Rate",   date:"2025-10-01", value:2.8},
+//   {campaign:"Fall Signature Scents",  metric:"Revenue",      date:"2025-10-01", value:36200},
+//   {campaign:"Fall Signature Scents",  metric:"CLV",          date:"2025-10-01", value:102.00},
+//   {campaign:"Fall Signature Scents",  metric:"Repeat Rate",  date:"2025-10-01", value:26.0},
+//   {campaign:"Fall Signature Scents",  metric:"Ad Spend",     date:"2025-10-01", value:6210},
+//   {campaign:"Fall Signature Scents",  metric:"CPA",          date:"2025-10-01", value:15.60},
+//   {campaign:"Fall Signature Scents",  metric:"CPL",          date:"2025-10-01", value:6.10},
+//   {campaign:"Fall Signature Scents",  metric:"ROAS",         date:"2025-10-01", value:5.83},
+
+//   // Black Friday Fragrance Event
+//   {campaign:"Black Friday Fragrance Event", metric:"Impressions",  date:"2025-11-15", value:3200000},
+//   {campaign:"Black Friday Fragrance Event", metric:"Reach",        date:"2025-11-15", value:2400000},
+//   {campaign:"Black Friday Fragrance Event", metric:"CPM",          date:"2025-11-15", value:7.80},
+//   {campaign:"Black Friday Fragrance Event", metric:"Eng. Rate",    date:"2025-11-15", value:7.5},
+//   {campaign:"Black Friday Fragrance Event", metric:"Interactions", date:"2025-11-15", value:240000},
+//   {campaign:"Black Friday Fragrance Event", metric:"CTR",          date:"2025-11-15", value:5.2},
+//   {campaign:"Black Friday Fragrance Event", metric:"Clicks",       date:"2025-11-15", value:166400},
+//   {campaign:"Black Friday Fragrance Event", metric:"CPC",          date:"2025-11-15", value:0.55},
+//   {campaign:"Black Friday Fragrance Event", metric:"Conv. Rate",   date:"2025-11-15", value:6.8},
+//   {campaign:"Black Friday Fragrance Event", metric:"Revenue",      date:"2025-11-15", value:215000},
+//   {campaign:"Black Friday Fragrance Event", metric:"CLV",          date:"2025-11-15", value:125.00},
+//   {campaign:"Black Friday Fragrance Event", metric:"Repeat Rate",  date:"2025-11-15", value:42.0},
+//   {campaign:"Black Friday Fragrance Event", metric:"Ad Spend",     date:"2025-11-15", value:24960},
+//   {campaign:"Black Friday Fragrance Event", metric:"CPA",          date:"2025-11-15", value:8.20},
+//   {campaign:"Black Friday Fragrance Event", metric:"CPL",          date:"2025-11-15", value:3.10},
+//   {campaign:"Black Friday Fragrance Event", metric:"ROAS",         date:"2025-11-15", value:8.61},
+];
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function generateLast13Months() {
+  var months = [], now = new Date();
+  var cy = now.getFullYear(), cm = now.getMonth() + 1;
+  for (var i = 1; i <= 13; i++) {
+    var m = cm - i, y = cy;
+    while (m <= 0) { m += 12; y--; }
+    months.push({ year:y, month:m, key: y+"-"+String(m).padStart(2,"0") });
+  }
+  return months;
+}
+
+function generateCurrentMonthDays() {
+  var days = [], now = new Date();
+  var cd = now.getDate();
+  for (var i = 0; i < cd; i++) {
+    var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+    days.push({
+      year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(),
+      dayName:dayNames[d.getDay()], monthName:monthNames[d.getMonth()],
+      key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),
+      isToday: i===0
+    });
+  }
+  return days;
+}
+
+function filterPerfByDate(data, filterType) {
+  var now = new Date();
+  var cy = now.getFullYear(), cm = now.getMonth()+1, cd = now.getDate();
+  return data.filter(function(item) {
+    var p = item.date.split('-');
+    var iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+    if (filterType === "yearly")       return iY===cy || iY===(cy-1);
+    if (filterType === "currentMonth") return iY===cy && iM===cm && iD<=cd;
+    if (filterType === "lastYear") {
+      var lm = cm-13, ly = cy;
+      while (lm <= 0) { lm+=12; ly--; }
+      return new Date(iY,iM-1,1) >= new Date(ly,lm-1,1);
+    }
+    return true;
+  });
+}
+
+// Groups ALL metrics by campaign > metric > dateKey (sin filtrar por grupo)
+function groupByCampaign(data, keyType) {
+  var result = {};
+  data.forEach(function(item) {
+    var p = item.date.split('-');
+    var iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+    var key = keyType==="day"  ? iY+"-"+String(iM).padStart(2,"0")+"-"+String(iD).padStart(2,"0")
+            : keyType==="year" ? String(iY)
+            : iY+"-"+String(iM).padStart(2,"0");
+
+    if (!result[item.campaign]) result[item.campaign] = { metrics:{} };
+    var camp = result[item.campaign];
+    if (!camp.metrics[item.metric]) camp.metrics[item.metric] = { data:{} };
+    camp.metrics[item.metric].data[key] = item.value;
+  });
+  return result;
+}
+
+// Para el chart: agrupa solo el metric seleccionado como "total" de campaña
+function groupByCampaignForChart(data, keyType, metricName) {
+  var result = {};
+  data.forEach(function(item) {
+    if (item.metric !== metricName) return;
+    var p = item.date.split('-');
+    var iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+    var key = keyType==="day"  ? iY+"-"+String(iM).padStart(2,"0")+"-"+String(iD).padStart(2,"0")
+            : keyType==="year" ? String(iY)
+            : iY+"-"+String(iM).padStart(2,"0");
+    if (!result[item.campaign]) result[item.campaign] = { totals:{} };
+    result[item.campaign].totals[key] = item.value;
+  });
+  return result;
+}
+
+function fmtMetricVal(metricName, v) {
+  if (v === 0 || v === undefined || v === null) return '<span class="val-neutral">—</span>';
+  var fn = METRIC_FORMAT[metricName];
+  return fn ? fn(v) : v;
+}
+
+function getMetricVal(grp, cName, mName, colKey) {
+  if (!grp || !grp[cName] || !grp[cName].metrics[mName]) return 0;
+  return grp[cName].metrics[mName].data[colKey] || 0;
+}
+
+function getMetricSum(grp, cName, mName) {
+  if (!grp || !grp[cName] || !grp[cName].metrics[mName]) return 0;
+  return Object.values(grp[cName].metrics[mName].data).reduce(function(a,b){return a+b;},0);
+}
+
+// ─── RENDER TABLE ─────────────────────────────────────────────────────────────
+function renderPerfumeryTable(filterType) {
+  var head = document.getElementById("perfumeryTableHead");
+  var body = document.getElementById("perfumeryTableBody");
+  if (!head || !body) return;
+
+  var now = new Date();
+  var cy = now.getFullYear(), cm = now.getMonth()+1;
+  var keyType = filterType==="currentMonth" ? "day" : filterType==="yearly" ? "year" : "month";
+
+  var filtered = filterPerfByDate(perfumeryData, filterType);
+  var grouped  = groupByCampaign(filtered, keyType);
+
+  var cols = [];
+  if (filterType === "yearly") {
+    cols = [{key:String(cy),label:String(cy)},{key:String(cy-1),label:String(cy-1)}];
+  } else if (filterType === "lastYear") {
+    cols = generateLast13Months();
+  } else {
+    cols = generateCurrentMonthDays();
+  }
+
+  // YTD / MTD
+  var ytdGrouped = null, mtdGrouped = null;
+  if (filterType !== "yearly") {
+    ytdGrouped = groupByCampaign(
+      perfumeryData.filter(function(i){ return parseInt(i.date.split('-')[0])===cy; }), "month"
+    );
+    mtdGrouped = groupByCampaign(
+      perfumeryData.filter(function(i){
+        var p=i.date.split('-');
+        return parseInt(p[0])===cy && parseInt(p[1])===cm;
+      }), "month"
+    );
+  }
+
+  /* ── HEADER ── */
+  var hr = "<tr><th style='min-width:260px;'>CAMPAIGN / METRIC</th>";
+  if (filterType !== "yearly") hr += "<th>YTD</th><th>MTD</th>";
+  cols.forEach(function(col) {
+    if (filterType === "currentMonth") {
+      var lbl = col.isToday ? "TODAY" : col.dayName;
+      hr += '<th><div class="th-content"><span class="th-month">'+lbl+'</span><span class="th-year">'+col.monthName+' '+col.day+'</span></div></th>';
+    } else if (filterType === "yearly") {
+      hr += '<th><div class="th-content"><span class="th-year-header">'+col.label+'</span></div></th>';
+    } else {
+      hr += '<th><div class="th-content"><span class="th-month">'+monthNames[col.month-1]+'</span><span class="th-year">'+col.year+'</span></div></th>';
+    }
+  });
+  hr += "</tr>";
+  head.innerHTML = hr;
+
+  var colSpan = (filterType==="yearly"?1:3) + cols.length;
+
+  if (Object.keys(grouped).length === 0) {
+    body.innerHTML = '<tr><td colspan="'+colSpan+'"><div class="no-results"><i class="fas fa-search"></i><p>No data for selected period</p></div></td></tr>';
+    renderPerfChart(filterType, {}, cols);
+    return;
+  }
+
+  var html = "";
+
+  Object.keys(grouped).sort().forEach(function(cName) {
+    var cSafeId = safeId(cName);
+    var cEsc    = cName.replace(/'/g,"\\'");
+
+    /* ── CAMPAIGN ROW (nivel 1) ── <i class="fas fa-bullhorn" style="color:var(--gold);font-size:13px;margin-right:4px;"></i> */
+    // Mostrar en la fila principal: Impressions como resumen (primer metric de awareness)
+    var summaryMetric = "Impressions";
+    html += '<tr class="brand-row">';
+    html += '<td><div class="brand-cell" onclick="toggleCampaign(\''+cEsc+'\')">';
+    html += '<div class="brand-name-cell">';
+    html += '<span class="toggle-icon" id="campicon_'+cSafeId+'">▶</span>';
+    html += ''+cName;
+    html += '</div></div></td>';
+    if (filterType !== "yearly") {
+      html += '<td>'+fmtMetricVal(summaryMetric, getMetricSum(ytdGrouped, cName, summaryMetric))+'</td>';
+      html += '<td>'+fmtMetricVal(summaryMetric, getMetricSum(mtdGrouped, cName, summaryMetric))+'</td>';
+    }
+    cols.forEach(function(col) {
+      html += '<td>'+fmtMetricVal(summaryMetric, getMetricVal(grouped, cName, summaryMetric, col.key))+'</td>';
+    });
+    html += '</tr>';
+
+    /* ── 7 METRIC GROUPS (nivel 2) ── */
+    Object.keys(METRIC_GROUPS).forEach(function(mgKey) {
+      var mgDef    = METRIC_GROUPS[mgKey];
+      var mgSafeId = safeId(cName+'_'+mgKey);
+      var mgEsc    = (cName+'__'+mgKey).replace(/'/g,"\\'");
+
+      // Fila de categoría (sub-grupo)
+      html += '<tr class="metric-group-row" data-camp="'+cName+'" style="display:none;">';
+      html += '<td style="padding-left:22px;">';
+      html += '<div class="brand-cell" onclick="toggleMetricGroup(\''+mgEsc+'\')">';
+      html += '<span class="toggle-icon" id="mgicon_'+mgSafeId+'">▶</span>';
+      html += '<span class="metric-group-label"><i class="'+mgDef.icon+' metric-icon-inline '+mgDef.iconClass+'"></i> '+mgDef.label+'</span>';
+      html += '</div></td>';
+      if (filterType !== "yearly") {
+        var firstM = mgDef.metrics[0];
+        html += '<td style="font-size:12px;color:var(--text-muted);">'+fmtMetricVal(firstM, getMetricSum(ytdGrouped, cName, firstM))+'</td>';
+        html += '<td style="font-size:12px;color:var(--text-muted);">'+fmtMetricVal(firstM, getMetricSum(mtdGrouped, cName, firstM))+'</td>';
+      }
+      cols.forEach(function(col) {
+        var firstM = mgDef.metrics[0];
+        html += '<td style="font-size:12px;color:var(--text-muted);">'+fmtMetricVal(firstM, getMetricVal(grouped, cName, firstM, col.key))+'</td>';
+      });
+      html += '</tr>';
+
+      /* ── MÉTRICAS INDIVIDUALES (nivel 3) ── */
+      mgDef.metrics.forEach(function(mName) {
+        html += '<tr class="product-row metric-leaf-row" data-camp="'+cName+'" data-mg="'+cName+'__'+mgKey+'" style="display:none;">';
+        html += '<td class="product-cell" style="padding-left:46px !important;">';
+        html += '<div class="metric-icon '+mgDef.iconClass+'"><i class="'+mgDef.icon+'"></i></div>';
+        html += '<div class="product-info"><span class="product-name">'+mName+'</span></div></td>';
+        if (filterType !== "yearly") {
+          html += '<td>'+fmtMetricVal(mName, getMetricSum(ytdGrouped, cName, mName))+'</td>';
+          html += '<td>'+fmtMetricVal(mName, getMetricSum(mtdGrouped, cName, mName))+'</td>';
+        }
+        cols.forEach(function(col) {
+          html += '<td>'+fmtMetricVal(mName, getMetricVal(grouped, cName, mName, col.key))+'</td>';
+        });
+        html += '</tr>';
+      });
+    });
+  });
+
+  body.innerHTML = html;
+
+  // Chart con el metric seleccionado en el dropdown
+  var chartMetric = METRIC_GROUPS[perfCurrentView].metrics[0];
+  var chartGrouped = groupByCampaignForChart(filtered, keyType, chartMetric);
+  var chartCols = cols.slice();
+  if (filterType === "lastYear") {
+    chartCols.unshift({ year:cy, month:cm, key:cy+"-"+String(cm).padStart(2,"0") });
+  }
+  renderPerfChart(filterType, chartGrouped, chartCols, chartMetric);
+}
+
+function safeId(s) {
+  return btoa(encodeURIComponent(s)).replace(/[^a-zA-Z0-9]/g,'').substring(0,20);
+}
+
+// Toggle nivel 1: campaña → muestra/oculta las filas de metric-group
+function toggleCampaign(cName) {
+  var rows = document.querySelectorAll('.metric-group-row[data-camp="'+cName+'"]');
+  var icon = document.getElementById('campicon_'+safeId(cName));
+  var collapsed = icon && icon.textContent === "▶";
+  rows.forEach(function(r){ r.style.display = collapsed ? "table-row" : "none"; });
+  // Al colapsar campaña, ocultar también las hojas
+  if (!collapsed) {
+    document.querySelectorAll('.metric-leaf-row[data-camp="'+cName+'"]')
+      .forEach(function(r){ r.style.display="none"; });
+    // Reset iconos de metric-groups
+    document.querySelectorAll('[id^="mgicon_"]').forEach(function(ic){
+      if (ic.id.indexOf(safeId(cName)) !== -1) ic.textContent = "▶";
+    });
+  }
+  if (icon) icon.textContent = collapsed ? "▼" : "▶";
+}
+
+// Toggle nivel 2: metric-group → muestra/oculta las métricas individuales
+function toggleMetricGroup(mgKey) {
+  var rows = document.querySelectorAll('.metric-leaf-row[data-mg="'+mgKey+'"]');
+  var parts = mgKey.split('__');
+  var cName = parts[0], grpKey = parts[1];
+  var mgSafeId = safeId(cName+'_'+grpKey);
+  var icon = document.getElementById('mgicon_'+mgSafeId);
+  var collapsed = icon && icon.textContent === "▶";
+  rows.forEach(function(r){ r.style.display = collapsed ? "table-row" : "none"; });
+  if (icon) icon.textContent = collapsed ? "▼" : "▶";
+}
+
+function applyPerfFilter(filterType) {
+  perfCurrentFilter = filterType;
+  document.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){
+    b.classList.toggle('active', b.dataset.filter === filterType);
+  });
+  renderPerfumeryTable(filterType);
+}
+
+function togglePerfViewDropdown() {
+  var dd = document.getElementById("perfViewDropdown");
+  var btn = document.getElementById("perfViewBtn");
+  dd.classList.toggle("open");
+  btn.classList.toggle("open");
+}
+
+function changePerfView(viewType) {
+  perfCurrentView = viewType;
+  document.getElementById("perfViewText").textContent = METRIC_GROUPS[viewType].label;
+  document.querySelectorAll('#perfViewDropdown .view-option').forEach(function(o){
+    o.classList.toggle('active', o.dataset.view === viewType);
+  });
+  document.getElementById("perfViewDropdown").classList.remove("open");
+  document.getElementById("perfViewBtn").classList.remove("open");
+  renderPerfumeryTable(perfCurrentFilter);
+}
+
+document.addEventListener("click", function(e) {
+  var wrap = document.querySelector(".view-selector-wrap");
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById("perfViewDropdown").classList.remove("open");
+    document.getElementById("perfViewBtn").classList.remove("open");
+  }
+});
+
+// ─── CHART ───────────────────────────────────────────────────────────────────
+function renderPerfChart(filterType, grouped, cols, chartMetric) {
+  var ctx = document.getElementById('perfChart');
+  if (!ctx) return;
+  if (perfChart) perfChart.destroy();
+
+  var labels = cols.map(function(col) {
+    if (filterType === "currentMonth")
+      return (col.isToday ? "TODAY" : col.dayName) + "\n" + col.monthName + " " + col.day;
+    if (filterType === "yearly") return col.label;
+    return monthNames[col.month - 1] + "\n" + col.year;
+  });
+
+  var firstMetric = chartMetric || METRIC_GROUPS[perfCurrentView].metrics[0];
+
+  var datasets = [];
+  Object.keys(grouped).sort().forEach(function(cName, index) {
+    var camp = grouped[cName];
+    var color = perfColors[index % perfColors.length];
+    var vals = cols.map(function(col) { return (camp && camp.totals && camp.totals[col.key]) || 0; });
+    datasets.push({
+      label: cName,
+      data: vals,
+      backgroundColor: perfChartType === "bar"
+        ? color.replace('rgb','rgba').replace(')', ',0.7)')
+        : color.replace('rgb','rgba').replace(')', ',0.1)'),
+      borderColor: color,
+      borderWidth: 2,
+      borderRadius: perfChartType === "bar" ? 4 : 0,
+      fill: perfChartType === "line",
+      tension: 0.4,
+      pointBackgroundColor: color,
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      pointRadius: 3,
+      pointHoverRadius: 5,
+      hidden: perfHiddenSeries.includes(cName)
+    });
+  });
+
+  var fmtFn = METRIC_FORMAT[firstMetric] || function(v){ return v; };
+
+  perfChart = new Chart(ctx, {
+    type: perfChartType,
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(30,34,39,0.95)',
+          titleColor: '#fff', bodyColor: '#fff',
+          borderColor: 'rgb(171,160,110)', borderWidth: 1,
+          cornerRadius: 8, padding: 12,
+          callbacks: {
+            label: function(ctx) {
+              return ctx.dataset.label + ": " + fmtFn(ctx.parsed.y);
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: '#888', font: { size: 10 }, maxRotation: 45 }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(0,0,0,0.05)' },
+          ticks: {
+            color: '#888', font: { size: 11 },
+            callback: function(v) { return fmtFn(v); }
+          }
+        }
+      }
+    }
+  });
+
+  var mgLabel = METRIC_GROUPS[perfCurrentView].label;
+  document.getElementById("perfChartTitle").textContent = mgLabel + " – " + firstMetric + " by Campaign";
+
+  var lc = document.getElementById("perfChartLegend");
+  lc.innerHTML = Object.keys(grouped).sort().map(function(cName, i) {
+    var color = perfColors[i % perfColors.length];
+    var disabled = perfHiddenSeries.includes(cName) ? 'opacity:0.4;' : '';
+    return '<div onclick="togglePerfChartSeries(\'' + cName.replace(/'/g,"\\'") + '\')" ' +
+      'style="display:flex;align-items:center;gap:6px;font-size:12px;color:#535255;cursor:pointer;padding:4px 8px;border-radius:6px;transition:background .2s;' + disabled + '">' +
+      '<span style="width:12px;height:12px;border-radius:3px;background:' + color + ';display:inline-block;"></span>' +
+      cName + '</div>';
+  }).join('');
+}
+
+function togglePerfChartSeries(cName) {
+  var idx = perfHiddenSeries.indexOf(cName);
+  if (idx > -1) perfHiddenSeries.splice(idx, 1);
+  else perfHiddenSeries.push(cName);
+  if (perfChart) {
+    var di = perfChart.data.datasets.findIndex(function(d){ return d.label === cName; });
+    if (di > -1) {
+      perfChart.data.datasets[di].hidden = perfHiddenSeries.includes(cName);
+      perfChart.update();
+    }
+  }
+  document.getElementById("perfChartLegend").querySelectorAll('div').forEach(function(el) {
+    var name = el.textContent.trim();
+    el.style.opacity = perfHiddenSeries.includes(name) ? '0.4' : '1';
+  });
+}
+
+function changePerfChartType(type) {
+  perfChartType = type;
+  document.querySelectorAll('.chart-type-btn').forEach(function(b) {
+    var isActive = b.dataset.type === type;
+    b.style.background = isActive ? 'white' : 'transparent';
+    b.style.color = isActive ? 'var(--gold)' : '#535255';
+    b.style.boxShadow = isActive ? '0 2px 4px rgba(0,0,0,.1)' : 'none';
+  });
+  renderPerfumeryTable(perfCurrentFilter);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  renderPerfumeryTable("lastYear");
+});
+</script>
+
+<script>
+// Brand changed event (igual al original)
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  var brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  var savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand;
+  }
+});
+
+// Marcar link activo según URL actual
+document.addEventListener("DOMContentLoaded", function() {
+  var currentPage = window.location.pathname.split('/').pop();
+  var activeLink = document.querySelector('a[href*="' + currentPage + '"]');
+  if (activeLink) {
+    document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone')
+      .forEach(function(i){ i.classList.remove('active'); });
+    activeLink.classList.add('active');
+    var grp = activeLink.closest('.nav-group');
+    if (grp) grp.classList.add('open');
+    var subBody = activeLink.closest('.nav-sub-group-body');
+    if (subBody) {
+      subBody.style.display = 'block';
+      var header = subBody.previousElementSibling;
+      if (header) {
+        var arrow = header.querySelector('.nav-sub-arrow');
+        if (arrow) arrow.classList.add('open');
+      }
+    }
+  }
+});
+</script>
+
+  </main>
+</div><!-- /main-wrap -->
+</body>
+</html>

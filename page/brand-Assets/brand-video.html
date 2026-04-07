@@ -1,0 +1,298 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes â€“ Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/dashboard.css">
+  
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../../js/aside.js"></script>
+</head>
+<body>
+
+<!-- â•â•â•â•â•â•â•â•â•â• ASIDE â•â•â•â•â•â•â•â•â•â• -->
+<div id="aside-root"></div>
+
+<!-- â•â•â•â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â•â•â•â• -->
+<div class="main-wrap">
+    <header class="topbar">
+   <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+        <div class="topbar-actions">
+            <button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+            <button class="topbar-btn" title="Search"><i class="fas fa-search"></i></button>
+            <div class="topbar-avatar">FS</div>
+        </div>
+    </header>
+
+    <main class="content">
+
+        <!-- â•â• OVERVIEW â•â• -->
+        <div id="view-overview">
+            <div class="welcome-bar">
+                <div>
+                    <h2>Welcome back, <span id="welcomeName">Francis</span></h2>
+                    <p>Member since: <span id="welcomeDate">Mar 11, 2026</span></p>
+                </div>
+            </div>
+
+            <!-- â•â• VIDEOS â•â• -->
+<div id="view-videos">
+
+  <style>
+    .demo-filters { display: flex; gap: 12px; margin-bottom: 1.5rem; align-items: flex-end; flex-wrap: wrap; }
+    .demo-filter-group { display: flex; flex-direction: column; gap: 6px; }
+    .demo-filter-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .demo-filter-group select,
+    .demo-filter-group input { height: 36px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--card-bg); color: var(--text); padding: 0 12px; font-size: 13px; outline: none; min-width: 140px; }
+    .demo-filter-group input { min-width: 220px; }
+    .demo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    .demo-card { background: var(--card-bg); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; transition: border-color .2s; }
+    .demo-card:hover { border-color: var(--text-muted); }
+    .demo-thumb { background: #111; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .demo-play { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.12); border: 1.5px solid rgba(255,255,255,.25); display: flex; align-items: center; justify-content: center; transition: background .2s; }
+    .demo-thumb:hover .demo-play { background: rgba(255,255,255,.22); }
+    .demo-play-icon { width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-left: 13px solid rgba(255,255,255,.8); margin-left: 3px; }
+    .demo-body { padding: 14px 16px 12px; }
+    .demo-badge { display: inline-block; font-size: 10px; letter-spacing: .09em; text-transform: uppercase; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; background: #F5F0E8; color: #8C6E3F; }
+    .demo-title { font-size: 16px; font-weight: 500; margin: 0 0 6px; }
+    .demo-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin: 0 0 14px; display: -webkit-box; line-clamp: 2; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .demo-actions { display: flex; gap: 8px; }
+    .demo-btn-watch { display: flex; align-items: center; gap: 6px; padding: 7px 14px; background: #1a1a1a; color: #fff; border: none; border-radius: var(--radius); font-size: 12px; font-weight: 500; cursor: pointer; }
+    .demo-btn-watch:hover { background: #333; }
+    .demo-btn-dl { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card-bg); cursor: pointer; color: var(--text-muted); }
+    .demo-btn-dl:hover { color: var(--text); }
+    .demo-empty { padding: 2rem; text-align: center; font-size: 13px; color: var(--text-muted); }
+  </style>
+
+  <div class="demo-filters">
+    <div class="demo-filter-group">
+      <span class="demo-filter-label">Category</span>
+      <select id="demo-cat">
+        <option value="">All</option>
+        <option>Woody &amp; Spicy</option>
+        <option>Demo1</option>
+        <option>Floral</option>
+        <option>Fresh</option>
+      </select>
+    </div>
+    <div class="demo-filter-group">
+      <span class="demo-filter-label">Search</span>
+      <input id="demo-search" type="text" placeholder="Search video..." />
+    </div>
+  </div>
+
+  <div class="demo-grid" id="demo-grid"></div>
+
+  <script>
+    // const demoVideos = [
+    //   { cat:"Woody & Spicy", title:"Incense Oudh",   desc:"A bold and sophisticated fragrance that celebrates the richness of traditional oud. Its deep aroma blends warm, woody, and subtly spicy notes, creating a luxurious and..." },
+    //   { cat:"Demo1", title:"Demo1",   desc:"Demo1 is a bold and sophisticated fragrance that celebrates the richness of traditional oud. Its deep aroma blends warm, woody, and subtly spicy notes, creating a..." },
+    //   { cat:"Floral",        title:"Rose Oud",       desc:"An elegant floral fusion where the softness of rose petals meets the depth of oud." },
+    //   { cat:"Fresh",         title:"Aqua Mystic",    desc:"A crisp, refreshing blend that opens with citrus and aquatic notes, grounded by a subtle musky base." },
+    // ];
+
+    // â”€â”€ Datos iniciales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+var demoVideos = [];
+
+// â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const BRAND_VIDEOS = {
+  'Brand Demo': [
+    { cat:"Woody & Spicy", title:"Demo",  desc:"A bold and sophisticated fragrance that celebrates the richness of traditional oud. Its deep aroma blends warm, woody, and subtly spicy notes, creating a luxurious and..." },
+    { cat:"Demo1",  title:"Demo1",  desc:"Demo1 is a bold and sophisticated fragrance that celebrates the richness of traditional oud. Its deep aroma blends warm, woody, and subtly spicy notes, creating a..." },
+    { cat:"Floral",        title:"Rose Oud",      desc:"An elegant floral fusion where the softness of rose petals meets the depth of oud." },
+    { cat:"Fresh",         title:"Aqua Mystic",   desc:"A crisp, refreshing blend that opens with citrus and aquatic notes, grounded by a subtle musky base." },
+  ],
+  'La Sabia Madrid': [
+    { cat:"Floral",        title:"Verdanza",      desc:"A fresh and luminous floral fragrance inspired by the gardens of Madrid, with notes of jasmine, green leaves, and a warm woody base." },
+    { cat:"Woody & Spicy", title:"Poderio",       desc:"A powerful and confident fragrance with bold spicy opening, rich oud heart, and a deep amber base." },
+    { cat:"Oriental",      title:"Dos Besos",     desc:"A warm and sensual oriental fragrance evoking the passion of Spanish culture, blending rose, saffron, and vanilla." },
+    { cat:"Fresh",         title:"Brisa Madrid",  desc:"A light and refreshing fragrance capturing the crisp morning air of Madrid, with citrus and aromatic herb notes." },
+  ],
+};
+
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyVideosBrand(brand);
+});
+
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function applyVideosBrand(brand) {
+  if (BRAND_VIDEOS[brand]) {
+    demoVideos = BRAND_VIDEOS[brand];
+    demoRender();
+  }
+}
+
+// â”€â”€ Un solo DOMContentLoaded â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('DOMContentLoaded', function() {
+  const savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand; // â† esta lÃ­nea
+    applyVideosBrand(savedBrand);
+  } else {
+    demoVideos = BRAND_VIDEOS['Brand Demo'];
+    demoRender();
+  }
+});
+
+
+    function demoRender() {
+      const cat = document.getElementById('demo-cat').value;
+      const q   = document.getElementById('demo-search').value.toLowerCase();
+      const list = demoVideos.filter(v =>
+        (!cat || v.cat === cat) && (!q || v.title.toLowerCase().includes(q))
+      );
+      const grid = document.getElementById('demo-grid');
+      grid.innerHTML = list.length
+        ? list.map(v => `
+          <div class="demo-card">
+            <div class="demo-thumb">
+              <div class="demo-play"><div class="demo-play-icon"></div></div>
+            </div>
+            <div class="demo-body">
+              <span class="demo-badge">${v.cat}</span>
+              <p class="demo-title">${v.title}</p>
+              <p class="demo-desc">${v.desc}</p>
+              <div class="demo-actions">
+                <button class="demo-btn-watch">
+                  <svg width="12" height="12" viewBox="0 0 12 12"><polygon points="2,1 11,6 2,11" fill="currentColor"/></svg>
+                  Watch
+                </button>
+                <button class="demo-btn-dl" title="Download">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                    <path d="M7 2v7M4 6.5l3 3 3-3"/><path d="M2 11h10"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>`).join('')
+        : '<p class="demo-empty">No videos found.</p>';
+    }
+
+    document.getElementById('demo-cat').addEventListener('change', demoRender);
+    document.getElementById('demo-search').addEventListener('input', demoRender);
+    demoRender();
+  </script>
+
+</div><!-- /view-videos -->
+          
+
+          
+        </div><!-- /view-overview -->
+
+      
+
+        <!-- Placeholder -->
+        <div id="view-placeholder" style="display:none;">
+            <div class="welcome-bar"><div><h2 id="placeholderTitle">Section</h2><p>Content coming soon.</p></div></div>
+            <div class="empty-state" style="background:var(--card-bg);border-radius:var(--radius);border:1px solid var(--border);">
+                <i class="fas fa-tools"></i><p>This section is under construction.</p>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- â•â• MODAL â•â• -->
+<div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closePaymentModal()">&times;</button>
+        <h2 id="modalTitle" class="modal-title">Paid Commissions</h2>
+        <div class="modal-divider"></div>
+        <div style="overflow-x:auto;">
+            <table class="responsive-table modal-table">
+                <thead><tr>
+                    <th>Date</th><th>Order #</th>
+                    <th class="tooltip-header">Sales<span class="tooltip-badge"><i class="fas fa-info-circle"></i></span></th>
+                    <th>Commission Rate</th><th>Commission</th><th>Status</th>
+                </tr></thead>
+                <tbody id="modalTableBody"></tbody>
+                <tfoot><tr class="modal-total-row">
+                    <td><strong>TOTAL</strong></td><td></td>
+                    <td id="modalTotalSales"><strong>$0.00</strong></td><td></td>
+                    <td id="modalTotalCommission"><strong>$0.00</strong></td><td></td>
+                </tr></tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* Accordion */
+    function toggleGroup(id) {
+        const grp = document.getElementById(id);
+        const wasOpen = grp.classList.contains('open');
+        document.querySelectorAll('.nav-group').forEach(g => g.classList.remove('open'));
+        if (!wasOpen) grp.classList.add('open');
+    }
+
+    /* View router */
+    const VIEWS = {
+        overview:          { el:'view-overview',    title:'Dashboard <span>/ Overview</span>' },
+        salesByPerfumery:  { el:'view-placeholder', title:'Dashboard <span>/ Sales by Perfumery</span>',  ph:'Sales by Perfumery' },
+        salesByState:      { el:'view-placeholder', title:'Dashboard <span>/ Sales by State</span>',      ph:'Sales by State' },
+        salesByCity:       { el:'view-placeholder', title:'Dashboard <span>/ Sales by City</span>',       ph:'Sales by City' },
+        salesByCollection: { el:'view-placeholder', title:'Dashboard <span>/ Sales by Collection</span>', ph:'Sales by Collection' },
+        salesByMonth:      { el:'view-placeholder', title:'Dashboard <span>/ Sales by Month</span>',      ph:'Sales by Month' },
+        commissions:       { el:'view-commissions', title:'Dashboard <span>/ Clients</span>' },
+    };
+
+    function showView(key, linkEl) {
+        document.querySelectorAll('.nav-sub-item').forEach(i => i.classList.remove('active'));
+        if (linkEl) { linkEl.classList.add('active'); linkEl.closest('.nav-group')?.classList.add('open'); }
+        const v = VIEWS[key] || VIEWS.overview;
+        ['view-overview','view-commissions','view-placeholder'].forEach(id => {
+            document.getElementById(id).style.display = 'none';
+        });
+        document.getElementById(v.el).style.display = 'block';
+        document.getElementById('topbarTitle').innerHTML = v.title;
+        if (v.ph) document.getElementById('placeholderTitle').textContent = v.ph;
+        return false;
+    }
+
+
+    /* Tabs */
+    const TAB_TITLES = {
+        clients:    'Dashboard <span>/ Clients</span>',
+        commission: 'Dashboard <span>/ Commissions</span>',
+        payments:   'Dashboard <span>/ Payments</span>',
+    };
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === tab));
+        const title = TAB_TITLES[tab];
+        if (title) document.getElementById('topbarTitle').innerHTML = title;
+    }
+    function applyFilter(f, section) {
+        const id = section === 'commission' ? 'commissionFilters' : 'clientFilters';
+        document.getElementById(id)?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    }
+    function applyPaymentFilter(f) {
+        document.getElementById('paymentHistoryFilters')?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    }
+    function changeTableView() {}
+    function exportMonthlyReferralsToPDF() { alert('Connect js/dashboard.js'); }
+    function exportPaymentHistoryToPDF()   { alert('Connect js/dashboard.js'); }
+    function updateGroupedChart()    {}
+    function updateCommissionChart() {}
+    function updatePaymentChart()    {}
+    function closePaymentModal(e) {
+        if (!e || e.target === document.getElementById('paymentDetailModal'))
+            document.getElementById('paymentDetailModal').classList.remove('active');
+    }
+</script>
+
+<!-- <script src="js/api.js"></script> -->
+<!-- <script src="js/dashboard.js"></script> -->
+
+</body>
+</html>
+

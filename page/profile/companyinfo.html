@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Info –  Perfumes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../../css/dashboard.css">
+<style>
+/* ── RESET & BASE ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
+
+/* ── CSS VARIABLES ── */
+:root{
+--gold:rgb(171,160,110);
+--gold-dark:rgb(141,130,80);
+--gold-light:rgba(171,160,110,0.12);
+--sidebar-bg:#1E2227;
+--sidebar-text:rgba(255,255,255,0.75);
+--card-bg:#fff;
+--border:#E8E9E9;
+--text:#1E2227;
+--text-muted:#888;
+--radius:10px;
+--shadow:0 2px 8px rgba(0,0,0,0.07);
+}
+
+/* ── ASIDE ── */
+/* .aside{width:240px;min-height:100vh;background:var(--sidebar-bg);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;}
+.aside-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.07);}
+.aside-logo img{width:140px;max-width:100%;}
+.aside-user{padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.07);} */
+.user-name{color:#fff;font-weight:600;font-size:14px;margin-bottom:6px;}
+.user-status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--sidebar-text);margin-bottom:4px;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#888;}
+.status-dot.active{background:#4CAF50;}
+.status-dot.inactive{background:#888;}
+.user-since{font-size:11px;color:rgba(255,255,255,.35);}
+/* .aside-nav{flex:1;overflow-y:auto;padding:12px 0;} */
+/* .nav-group-header{display:flex;justify-content:space-between;align-items:center;padding:11px 20px;cursor:pointer;color:rgba(255,255,255,.55);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
+.nav-group-header:hover{color:#fff;}
+.nav-group-arrow{font-size:10px;transition:transform .25s;}
+.nav-group.open .nav-group-arrow{transform:rotate(180deg);}
+.nav-group-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.nav-group.open .nav-group-body{max-height:500px;}
+.nav-sub-item,.nav-sub-sub-item{display:flex;align-items:center;gap:10px;padding:10px 20px 10px 50px;color:rgba(255,255,255,.65);font-size:13px;text-decoration:none;transition:all .2s;}
+.nav-sub-item:hover,.nav-sub-sub-item:hover{background:rgba(255,255,255,.05);color:#fff;}
+.nav-sub-item.active,.nav-sub-sub-item.active{background:var(--gold-light);color:var(--gold);border-left:3px solid var(--gold);} */
+/* .nav-sub-group-header{display:flex;justify-content:space-between;align-items:center;padding:10px 50px 10px 50px;cursor:pointer;color:rgba(255,255,255,.5);font-size:12px;transition:color .2s;}
+.nav-sub-group-header:hover{color:#fff;} */
+/* .nav-sub-arrow{font-size:9px;transition:transform .25s;}
+.nav-sub-arrow.open{transform:rotate(90deg);}
+.nav-sub-group-body{display:none;padding-left:20px;} */
+/* .aside-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07);}
+.aside-footer a{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:color .2s;}
+.aside-footer a:hover{color:#fff;} */
+
+/* ── MAIN ── */
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+/* .topbar-title{font-size:15px;font-weight:600;color:var(--text);}
+.topbar-title span{color:var(--text-muted);font-weight:400;} */
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.content{padding:28px;flex:1;}
+
+/* ── WELCOME BAR ── */
+.welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
+.welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+.welcome-bar h2 span{color:var(--gold);}
+.welcome-bar p{color:var(--text-muted);font-size:13px;}
+
+/* ── COMPANY INFO PAGE STYLES ── */
+/* .profile-container{max-width:900px;margin:0 auto;} */
+
+/* Profile Card */
+.profile-card{background:var(--card-bg);border-radius:var(--radius);padding:32px;border:1px solid var(--border);margin-bottom:24px;}
+
+/* Logo Section */
+.logo-section{display:flex;padding-bottom:32px; margin: 0 !important;}
+.logo-wrapper{width:160px;height:160px;position:relative;border:3px dashed var(--gold);border-radius:var(--radius);background:#fafafa;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.company-info-status{margin-left:22px;align-content: center;}
+.logo-wrapper.has-image{border-style:solid;border-color:var(--gold);}
+.logo-placeholder{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-muted);}
+.logo-placeholder i{font-size:48px;color:var(--gold);}
+.logo-placeholder span{font-size:13px;font-weight:600;}
+.logo-preview{width:100%;height:100%;object-fit:contain;display:none;}
+.logo-wrapper.has-image .logo-placeholder{display:none;}
+.logo-wrapper.has-image .logo-preview{display:block;}
+.logo-upload-btn{position:absolute;bottom:8px;right:8px;width:40px;height:40px;border-radius:50%;background:var(--gold);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;box-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.logo-upload-btn:hover{background:var(--gold-dark);transform:scale(1.05);}
+.logo-upload-input{display:none;}
+.company-name-title{font-size:26px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.company-status-badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;background:rgba(76,175,80,0.12);color:#4CAF50;margin-top:8px;}
+.registration-date{font-size:13px;color:var(--text-muted);margin-top:8px;}
+
+/* Form Styles */
+.form-section{margin-bottom:32px;}
+.section-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--gold-light);display:flex;align-items:center;gap:10px;}
+.section-title i{color:var(--gold);font-size:18px;}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.form-group{margin-bottom:20px;}
+.form-group.full-width{grid-column:1/-1;}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.form-label .required{color:#e74c3c;margin-left:2px;}
+.form-control{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--text);background:#fff;transition:all .25s;}
+.form-control:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light);}
+.form-control::placeholder{color:var(--text-muted);}
+select.form-control{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 9L1 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;}
+textarea.form-control{resize:vertical;min-height:100px;}
+
+/* Action Buttons */
+.form-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border);}
+.btn{padding:11px 24px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .25s;}
+.btn-primary{background:var(--gold);color:#fff;box-shadow:0 2px 4px rgba(171,160,110,0.3);}
+.btn-primary:hover{background:var(--gold-dark);transform:translateY(-1px);box-shadow:0 4px 8px rgba(171,160,110,0.4);}
+.btn-secondary{background:#fff;color:var(--text);border:1px solid var(--border);}
+.btn-secondary:hover{background:#f5f5f5;border-color:var(--text-muted);}
+
+/* Notification */
+.notification{position:fixed;top:20px;right:20px;background:var(--gold);color:#fff;padding:14px 24px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:9999;font-weight:600;display:none;animation:slideIn .3s ease;}
+.notification.show{display:block;}
+.notification.success{background:#4CAF50;}
+.notification.error{background:#e74c3c;}
+@keyframes slideIn{from{opacity:0;transform:translateX(400px);}to{opacity:1;transform:translateX(0);}}
+
+/* Responsive */
+@media(max-width:968px){
+.form-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+.aside{transform:translateX(-100%);}
+.main-wrap{margin-left:0;}
+.content{padding:16px;}
+.profile-card{padding:20px 16px;}
+}
+</style>
+<script src="../../js/aside.js"></script>
+
+<script>
+     document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  document.getElementById('displayCompanyName').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyLaunchesBrand(brand);
+});
+
+// ── Al cargar, aplica la marca guardada ───────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand;
+    applyLaunchesBrand(savedBrand);
+  } else {
+    launches = BRAND_LAUNCHES['Brand Demo'];
+    populateCollectionFilter();
+    renderTable();
+  }
+});
+</script>
+</head>
+<body>
+
+<!-- ASIDE -->
+<div id="aside-root"></div>
+
+<!-- MAIN WRAP -->
+<div class="main-wrap">
+<!-- TOPBAR -->
+<div class="topbar">
+<div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+<div class="topbar-avatar">FS</div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+<div class="welcome-bar">
+<h2>Company <span>Information</span></h2>
+<p>Manage your company profile and business details</p>
+</div>
+
+<div class="profile-container">
+<form id="companyForm" class="profile-card">
+<!-- Logo Section -->
+<div class="logo-section">
+<div class="logo-wrapper" id="logoWrapper">
+<div class="logo-placeholder">
+<i class="fas fa-building"></i>
+<span>Logo here</span>
+</div>
+<img src="" alt="Company Logo" class="logo-preview" id="logoPreview">
+<label for="logoUpload" class="logo-upload-btn" title="Upload logo">
+<i class="fas fa-camera"></i>
+</label>
+<input type="file" id="logoUpload" class="logo-upload-input" accept="image/*">
+</div>
+<div class="company-info-status">
+    <div class="company-name-title" id="displayCompanyName">Brand Demo</div>
+    <div class="registration-date">Registered: <span id="displayRegDate">Mar 11, 2026</span></div>
+    <span class="company-status-badge">Active</span>
+</div>
+</div>
+
+<!-- Company Details -->
+<div class="form-section">
+<h3 class="section-title">
+<i class="fas fa-building"></i>
+Company Details
+</h3>
+<div class="form-grid">
+<div class="form-group full-width">
+<label class="form-label">Company Name <span class="required">*</span></label>
+<input type="text" class="form-control" id="companyName" value="Company" required>
+</div>
+<div class="form-group full-width">
+<label class="form-label">Legal/Registered Name</label>
+<input type="text" class="form-control" id="legalName" placeholder="Official registered name">
+</div>
+<div class="form-group">
+<label class="form-label">Tax ID / VAT Number</label>
+<input type="text" class="form-control" id="taxId" placeholder="Tax identification number">
+</div>
+<div class="form-group">
+<label class="form-label">Registration Number</label>
+<input type="text" class="form-control" id="regNumber" placeholder="Company registration number">
+</div>
+<div class="form-group">
+<label class="form-label">Industry <span class="required">*</span></label>
+<select class="form-control" id="industry" required>
+<option value="">Select industry</option>
+<option value="perfume" selected>Perfume & Fragrance</option>
+<option value="cosmetics">Cosmetics & Beauty</option>
+<option value="retail">Retail</option>
+<option value="wholesale">Wholesale</option>
+<option value="distribution">Distribution</option>
+<option value="manufacturing">Manufacturing</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">Company Size</label>
+<select class="form-control" id="companySize">
+<option value="">Select size</option>
+<option value="1-10">1-10 employees</option>
+<option value="11-50">11-50 employees</option>
+<option value="51-200">51-200 employees</option>
+<option value="201-500">201-500 employees</option>
+<option value="500+">500+ employees</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">Year Founded</label>
+<input type="number" class="form-control" id="yearFounded" placeholder="YYYY" min="1800" max="2026">
+</div>
+<div class="form-group">
+<label class="form-label">Website</label>
+<input type="url" class="form-control" id="website" placeholder="www.company.com">
+</div>
+<div class="form-group full-width">
+<label class="form-label">Company Description</label>
+<textarea class="form-control" id="description" rows="3" placeholder="Tell us about your company..."></textarea>
+</div>
+</div>
+</div>
+
+<!-- Contact Information -->
+<div class="form-section">
+<h3 class="section-title">
+<i class="fas fa-address-card"></i>
+Contact Information
+</h3>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label">Business Email <span class="required">*</span></label>
+<input type="email" class="form-control" id="email" value="contact@88motivperfumes.com" required>
+</div>
+<div class="form-group">
+<label class="form-label">Phone Number</label>
+<input type="tel" class="form-control" id="phone" placeholder="+1 (555) 123-4567">
+</div>
+<div class="form-group">
+<label class="form-label">Mobile Number</label>
+<input type="tel" class="form-control" id="mobile" placeholder="+1 (555) 987-6543">
+</div>
+<div class="form-group">
+<label class="form-label">Fax Number</label>
+<input type="tel" class="form-control" id="fax" placeholder="+1 (555) 000-0000">
+</div>
+</div>
+</div>
+
+<!-- Address Information -->
+<div class="form-section">
+<h3 class="section-title">
+<i class="fas fa-map-marker-alt"></i>
+Business Address
+</h3>
+<div class="form-grid">
+<div class="form-group full-width">
+<label class="form-label">Street Address <span class="required">*</span></label>
+<input type="text" class="form-control" id="address" value="123 Fragrance Avenue, Suite 100" required>
+</div>
+<div class="form-group">
+<label class="form-label">City <span class="required">*</span></label>
+<input type="text" class="form-control" id="city" value="Miami" required>
+</div>
+<div class="form-group">
+<label class="form-label">State/Province <span class="required">*</span></label>
+<input type="text" class="form-control" id="state" value="Florida" required>
+</div>
+<div class="form-group">
+<label class="form-label">ZIP/Postal Code</label>
+<input type="text" class="form-control" id="zipCode" value="33101">
+</div>
+<div class="form-group">
+<label class="form-label">Country <span class="required">*</span></label>
+<select class="form-control" id="country" required>
+<option value="">Select country</option>
+<option value="US" selected>United States</option>
+<option value="CA">Canada</option>
+<option value="MX">Mexico</option>
+<option value="GB">United Kingdom</option>
+<option value="FR">France</option>
+<option value="DE">Germany</option>
+<option value="ES">Spain</option>
+<option value="IT">Italy</option>
+<option value="OTHER">Other</option>
+</select>
+</div>
+</div>
+</div>
+
+<!-- Social Media -->
+<div class="form-section">
+<h3 class="section-title">
+<i class="fas fa-share-alt"></i>
+Social Media & Online Presence
+</h3>
+<div class="form-grid">
+<div class="form-group">
+<label class="form-label">LinkedIn</label>
+<input type="url" class="form-control" id="linkedin" placeholder="linkedin.com/company/yourcompany">
+</div>
+<div class="form-group">
+<label class="form-label">Facebook</label>
+<input type="url" class="form-control" id="facebook" placeholder="facebook.com/yourcompany">
+</div>
+<div class="form-group">
+<label class="form-label">Instagram</label>
+<input type="text" class="form-control" id="instagram" placeholder="@yourcompany">
+</div>
+<div class="form-group">
+<label class="form-label">Twitter/X</label>
+<input type="text" class="form-control" id="twitter" placeholder="@yourcompany">
+</div>
+</div>
+</div>
+
+<!-- Action Buttons -->
+<div class="form-actions">
+<button type="button" class="btn btn-secondary" onclick="resetForm()">
+<i class="fas fa-undo"></i>
+Reset
+</button>
+<button type="submit" class="btn btn-primary">
+<i class="fas fa-save"></i>
+Save Changes
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Notification -->
+<div class="notification" id="notification"></div>
+
+<script>
+// Toggle Navigation
+function toggleGroup(id){
+const grp = document.getElementById(id);
+const wasOpen = grp.classList.contains('open');
+document.querySelectorAll('.nav-group').forEach(g=>g.classList.remove('open'));
+if(!wasOpen) grp.classList.add('open');
+}
+
+function toggleSubGroup(id){
+const body = document.getElementById(id);
+const arrow = document.getElementById('arrow-'+id);
+const isOpen = body.style.display !== 'none';
+body.style.display = isOpen ? 'none' : 'block';
+arrow.classList.toggle('open',!isOpen);
+}
+
+// Logo Upload
+document.getElementById('logoUpload').addEventListener('change', function(e){
+const file = e.target.files[0];
+if(file){
+const reader = new FileReader();
+reader.onload = function(e){
+document.getElementById('logoPreview').src = e.target.result;
+document.getElementById('logoWrapper').classList.add('has-image');
+showNotification('Logo uploaded successfully', 'success');
+};
+reader.readAsDataURL(file);
+}
+});
+
+// Form Submit
+document.getElementById('companyForm').addEventListener('submit', function(e){
+e.preventDefault();
+
+// Get form values
+const formData = {
+companyName: document.getElementById('companyName').value,
+legalName: document.getElementById('legalName').value,
+taxId: document.getElementById('taxId').value,
+regNumber: document.getElementById('regNumber').value,
+industry: document.getElementById('industry').value,
+companySize: document.getElementById('companySize').value,
+yearFounded: document.getElementById('yearFounded').value,
+website: document.getElementById('website').value,
+description: document.getElementById('description').value,
+email: document.getElementById('email').value,
+phone: document.getElementById('phone').value,
+mobile: document.getElementById('mobile').value,
+fax: document.getElementById('fax').value,
+address: document.getElementById('address').value,
+city: document.getElementById('city').value,
+state: document.getElementById('state').value,
+zipCode: document.getElementById('zipCode').value,
+country: document.getElementById('country').value,
+linkedin: document.getElementById('linkedin').value,
+facebook: document.getElementById('facebook').value,
+instagram: document.getElementById('instagram').value,
+twitter: document.getElementById('twitter').value
+};
+
+// Update display
+document.getElementById('displayCompanyName').textContent = formData.companyName;
+
+// Save to localStorage
+localStorage.setItem('companyInfo', JSON.stringify(formData));
+
+// Show success notification
+showNotification('Company information saved successfully!', 'success');
+});
+
+// Reset Form
+function resetForm(){
+if(confirm('Are you sure you want to reset all changes?')){
+document.getElementById('companyForm').reset();
+// Reset to default values
+document.getElementById('companyName').value = 'Brand Demo';
+document.getElementById('email').value = 'contact@8motivperfumes.com';
+document.getElementById('address').value = '123 Fragrance Avenue, Suite 100';
+document.getElementById('city').value = 'Miami';
+document.getElementById('state').value = 'Florida';
+document.getElementById('zipCode').value = '33101';
+document.getElementById('country').value = 'US';
+document.getElementById('industry').value = 'perfume';
+document.getElementById('displayCompanyName').textContent = 'Brand Demo';
+document.getElementById('logoWrapper').classList.remove('has-image');
+document.getElementById('logoPreview').src = '';
+showNotification('Form reset to default values', 'success');
+}
+}
+
+// Show Notification
+function showNotification(message, type = 'success'){
+const notification = document.getElementById('notification');
+notification.textContent = message;
+notification.className = 'notification show ' + type;
+
+setTimeout(() => {
+notification.classList.remove('show');
+}, 3000);
+}
+
+// Load saved data on page load
+document.addEventListener('DOMContentLoaded', function(){
+const savedData = localStorage.getItem('companyInfo');
+if(savedData){
+const data = JSON.parse(savedData);
+document.getElementById('companyName').value = data.companyName || '';
+document.getElementById('legalName').value = data.legalName || '';
+document.getElementById('taxId').value = data.taxId || '';
+document.getElementById('regNumber').value = data.regNumber || '';
+document.getElementById('industry').value = data.industry || '';
+document.getElementById('companySize').value = data.companySize || '';
+document.getElementById('yearFounded').value = data.yearFounded || '';
+document.getElementById('website').value = data.website || '';
+document.getElementById('description').value = data.description || '';
+document.getElementById('email').value = data.email || '';
+document.getElementById('phone').value = data.phone || '';
+document.getElementById('mobile').value = data.mobile || '';
+document.getElementById('fax').value = data.fax || '';
+document.getElementById('address').value = data.address || '';
+document.getElementById('city').value = data.city || '';
+document.getElementById('state').value = data.state || '';
+document.getElementById('zipCode').value = data.zipCode || '';
+document.getElementById('country').value = data.country || '';
+document.getElementById('linkedin').value = data.linkedin || '';
+document.getElementById('facebook').value = data.facebook || '';
+document.getElementById('instagram').value = data.instagram || '';
+document.getElementById('twitter').value = data.twitter || '';
+
+// Update display
+if(data.companyName){
+document.getElementById('displayCompanyName').textContent = data.companyName;
+}
+
+// Load logo if exists
+if(data.logo){
+document.getElementById('logoPreview').src = data.logo;
+document.getElementById('logoWrapper').classList.add('has-image');
+}
+}
+});
+</script>
+
+</body>
+</html>

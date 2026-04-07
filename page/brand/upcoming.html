@@ -1,0 +1,1312 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes â€“ Upcoming Launches</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <script src="../../js/aside.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:rgb(171,160,110);
+  --gold-dark:rgb(141,130,80);
+  --gold-light:rgba(171,160,110,0.12);
+  --gold-border:rgba(171,160,110,0.3);
+  --border:#E8E9E9;
+  --text:#1E2227;
+  --text-muted:#888;
+  --card-bg:#fff;
+  --radius:10px;
+}
+
+/* PAGE HEADER */
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.page-title-section h2{font-size:1.35rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.page-title-section h2 i{color:var(--gold);}
+.page-title-section p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+
+/* TABLE CARD */
+.table-card{background:var(--card-bg);border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden;border:1px solid var(--border);}
+.table-filter-row{display:flex;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;background:#fafafa;}
+.col-filter{padding:7px 10px;border:1px solid var(--border);border-radius:7px;background:#fff;font-size:12px;color:var(--text);outline:none;cursor:pointer;min-width:90px;transition:border-color .2s;}
+.col-filter:focus{border-color:var(--gold);}
+.results-count{margin-left:auto;font-size:12px;color:var(--text-muted);white-space:nowrap;}
+
+/* UPCOMING TABLE */
+.upcoming-table{width:100%;border-collapse:collapse;}
+.upcoming-table thead th{
+  background:var(--gold);color:#fff;
+  padding:12px 14px;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;
+  cursor:pointer;user-select:none;transition:background .15s;
+}
+.upcoming-table thead th:hover{background:var(--gold-dark);}
+.upcoming-table thead th.no-sort{cursor:default;}
+.upcoming-table thead th.no-sort:hover{background:var(--gold);}
+.upcoming-table thead th .sort-icon{font-size:9px;margin-left:4px;opacity:.6;}
+.upcoming-table tbody td{
+  padding:12px 14px;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--text);vertical-align:middle;
+}
+.upcoming-table tbody tr:last-child td{border-bottom:none;}
+.upcoming-table tbody tr:hover{background:#fafafa;}
+
+/* Photo cell */
+.promo-photo{width:60px;height:60px;border-radius:8px;object-fit:cover;border:1px solid var(--border);}
+.photo-placeholder{width:60px;height:60px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;border:1px solid var(--gold-border);}
+.photo-placeholder i{color:var(--gold);font-size:20px;}
+
+/* Badges */
+.collection-badge{display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:600;background:var(--gold-light);color:var(--gold);}
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.status-upcoming{background:#e8f0fe;color:#1a73e8;}
+.status-soon{background:#fff3e0;color:#e65100;}
+.status-launched{background:#e6f4ea;color:#1e8e3e;}
+
+/* Notify toggle */
+.notify-toggle{display:flex;align-items:center;justify-content:center;}
+.toggle-switch{position:relative;width:36px;height:20px;cursor:pointer;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:#ddd;border-radius:20px;transition:.3s;}
+.toggle-slider:before{content:'';position:absolute;width:14px;height:14px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;}
+.toggle-switch input:checked + .toggle-slider{background:var(--gold);}
+.toggle-switch input:checked + .toggle-slider:before{transform:translateX(16px);}
+
+/* Countdown chip */
+.countdown-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.chip-future{background:#e8f0fe;color:#1a73e8;}
+.chip-soon{background:#fff3e0;color:#e65100;}
+.chip-past{background:#f0f0f0;color:#888;}
+.chip-today{background:#e6f4ea;color:#1e8e3e;}
+
+/* Action buttons */
+.btn-action{width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;}
+.btn-view{background:#e8f0fe;color:#1a73e8;}
+.btn-view:hover{background:#1a73e8;color:#fff;}
+.btn-edit{background:var(--gold-light);color:var(--gold-dark);}
+.btn-edit:hover{background:var(--gold);color:#fff;}
+.btn-delete{background:#fce8e8;color:#d93025;}
+.btn-delete:hover{background:#d93025;color:#fff;}
+.btn-actions-group{display:flex;gap:6px;align-items:center;justify-content:center;}
+
+/* Empty */
+.empty-row td{text-align:center;padding:60px 20px;color:var(--text-muted);}
+.empty-row i{font-size:40px;color:#ddd;display:block;margin-bottom:12px;}
+
+/* ADD button */
+.btn-add{display:flex;align-items:center;gap:8px;padding:10px 22px;background:var(--gold);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;box-shadow:0 2px 8px rgba(171,160,110,.35);}
+.btn-add:hover{background:var(--gold-dark);transform:translateY(-1px);}
+
+/* Download buttons */
+.btn-dl-pdf{background:#fff0f0;color:#d93025;}
+.btn-dl-pdf:hover{background:#d93025;color:#fff;}
+.btn-dl-photo{background:#f0f7ff;color:#1a73e8;}
+.btn-dl-photo:hover{background:#1a73e8;color:#fff;}
+.btn-dl-photo.disabled{background:#f5f5f5;color:#ccc;cursor:not-allowed;}
+.btn-dl-photo.disabled:hover{background:#f5f5f5;color:#ccc;}
+
+/* Download buttons in view modal */
+.btn-dl{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;}
+.btn-dl-pdf-lg{background:#fce8e8;color:#d93025;}
+.btn-dl-pdf-lg:hover{background:#d93025;color:#fff;}
+.btn-dl-photo-lg{background:#e8f0fe;color:#1a73e8;}
+.btn-dl-photo-lg:hover{background:#1a73e8;color:#fff;}
+.btn-dl-photo-lg.disabled{background:#f5f5f5;color:#bbb;cursor:not-allowed;}
+.btn-dl-photo-lg.disabled:hover{background:#f5f5f5;color:#bbb;}
+
+/* â•â• MODAL â•â• */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.launch-modal{background:#fff;border-radius:16px;width:100%;max-width:700px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.28);}
+.modal-header{background:var(--gold);color:#fff;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.modal-header h3{font-size:15px;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;}
+.modal-close-btn{width:30px;height:30px;border:none;background:rgba(255,255,255,.2);border-radius:50%;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.modal-close-btn:hover{background:rgba(255,255,255,.35);}
+.modal-body{padding:24px;overflow-y:auto;flex:1;}
+.modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;flex-shrink:0;background:#fafafa;}
+
+/* Form */
+.form-section{margin-bottom:22px;}
+.form-section-title{font-size:11px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:7px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;}
+.form-label .required{color:#d93025;margin-left:2px;}
+.form-input,.form-select,.form-textarea{padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);outline:none;transition:border-color .2s;font-family:inherit;background:#fff;width:100%;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(171,160,110,.1);}
+.form-textarea{resize:vertical;min-height:80px;}
+
+/* Photo upload */
+.photo-upload-area{border:2px dashed var(--gold-border);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--gold-light);position:relative;}
+.photo-upload-area:hover{border-color:var(--gold);background:rgba(171,160,110,.18);}
+.photo-upload-area.has-photo{border-color:var(--gold);background:rgba(171,160,110,.15);}
+.photo-preview{width:80px;height:80px;border-radius:10px;object-fit:cover;margin:0 auto 8px;display:block;border:2px solid var(--gold);}
+.photo-upload-area i{font-size:26px;color:var(--gold);margin-bottom:8px;display:block;}
+.photo-upload-area p{font-size:12px;color:var(--text-muted);margin:0 0 4px;}
+.photo-file-name{font-size:12px;color:var(--gold);font-weight:600;word-break:break-all;}
+
+/* Notes tags */
+.notes-input-wrap{display:flex;gap:8px;flex-wrap:wrap;border:1px solid var(--border);border-radius:8px;padding:8px;background:#fff;min-height:44px;cursor:text;transition:border-color .2s;}
+.notes-input-wrap:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(171,160,110,.1);}
+.note-tag{display:inline-flex;align-items:center;gap:5px;background:var(--gold-light);color:var(--gold-dark);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:500;}
+.note-tag button{background:none;border:none;cursor:pointer;color:var(--gold-dark);font-size:11px;padding:0;line-height:1;display:flex;align-items:center;}
+.note-tag button:hover{color:#d93025;}
+.notes-add-input{border:none;outline:none;font-size:12px;color:var(--text);flex:1;min-width:80px;background:transparent;padding:2px 4px;}
+
+/* Notify checkbox fancy */
+.notify-check-wrap{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;transition:border-color .2s;}
+.notify-check-wrap:hover{border-color:var(--gold);}
+.notify-check-wrap input{width:16px;height:16px;accent-color:var(--gold);cursor:pointer;}
+.notify-check-label{font-size:13px;color:var(--text);cursor:pointer;}
+
+/* Btn */
+.btn-cancel{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-muted);transition:all .2s;}
+.btn-cancel:hover{border-color:var(--gold);color:var(--gold);}
+.btn-save{padding:9px 22px;background:var(--gold);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:7px;}
+.btn-save:hover{background:var(--gold-dark);}
+
+/* View modal */
+.view-modal-body{padding:0;}
+.view-hero{background:linear-gradient(135deg,#1E2227 0%,#2d3340 100%);padding:28px;display:flex;gap:22px;align-items:flex-start;}
+.view-hero-photo{width:100px;height:100px;border-radius:12px;object-fit:cover;border:3px solid var(--gold);flex-shrink:0;}
+.view-hero-placeholder{width:100px;height:100px;border-radius:12px;background:var(--gold-light);border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.view-hero-placeholder i{font-size:32px;color:var(--gold);}
+.view-hero-info{}
+.view-perfume-name{font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:4px;}
+.view-collection{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:10px;}
+.view-launch-date{display:inline-flex;align-items:center;gap:7px;background:rgba(171,160,110,.2);padding:6px 14px;border-radius:20px;color:var(--gold);font-size:13px;font-weight:600;}
+.view-content{padding:22px;}
+.view-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+.view-item{background:#f9f9f9;border-radius:8px;padding:11px 14px;}
+.view-item.full{grid-column:1/-1;}
+.view-item-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+.view-item-value{font-size:13px;font-weight:600;color:var(--text);}
+.view-notes-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+.view-note-chip{background:var(--gold-light);color:var(--gold-dark);border-radius:20px;padding:3px 10px;font-size:12px;}
+.view-actions{display:flex;gap:10px;padding:16px 22px;border-top:1px solid var(--border);background:#fafafa;}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:#1E2227;color:#fff;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;box-shadow:0 6px 20px rgba(0,0,0,.22);transform:translateY(60px);opacity:0;transition:all .28s ease;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast i{color:var(--gold);}
+
+@media(max-width:640px){
+  .form-grid{grid-template-columns:1fr;}
+  .form-group.full{grid-column:1;}
+  .view-hero{flex-direction:column;}
+  .view-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="aside-root"></div>
+
+<div class="main-wrap">
+  <header class="topbar">
+   <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+    <div class="topbar-actions">
+      <button class="topbar-btn"><i class="fas fa-bell"></i></button>
+      <button class="topbar-btn"><i class="fas fa-search"></i></button>
+      <div class="topbar-avatar">FS</div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div class="page-header">
+      <div class="page-title-section">
+        <h2> Upcoming </h2>
+        <!-- <p>Track and manage upcoming perfume releases</p> -->
+      </div>
+      <button class="btn-add" onclick="openAddModal()">
+        <i class="fas fa-plus"></i> Add Upcoming
+      </button>
+    </div>
+
+    <div class="table-card">
+      <div class="table-filter-row">
+        <input type="text" id="fSearch" oninput="renderTable()" placeholder="ðŸ” Search perfume or collection..." class="col-filter" style="min-width:220px;">
+        <select class="col-filter" id="fCollection" onchange="renderTable()">
+          <option value="">All Collections</option>
+        </select>
+        <select class="col-filter" id="fStatus" onchange="renderTable()">
+          <option value="">All Status</option>
+          <option value="upcoming">Upcoming</option>
+          <option value="soon">Launching Soon</option>
+          <option value="launched">Launched</option>
+        </select>
+        <select class="col-filter" id="fNotify" onchange="renderTable()">
+          <option value="">All Notifications</option>
+          <option value="1">Notify On</option>
+          <option value="0">Notify Off</option>
+        </select>
+        <span class="results-count" id="resultsCount">â€” launches</span>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="upcoming-table">
+          <thead>
+            <tr>
+              <th class="no-sort" style="width:70px;text-align:center;">PHOTO</th>
+              <th onclick="sortBy('perfume')">PERFUME NAME <i class="fas fa-sort sort-icon"></i></th>
+              <th onclick="sortBy('collection')">COLLECTION <i class="fas fa-sort sort-icon"></i></th>
+              <th onclick="sortBy('launchDate')">LAUNCH DATE <i class="fas fa-sort sort-icon"></i></th>
+              <th class="no-sort" style="text-align:center;">COUNTDOWN</th>
+              <th onclick="sortBy('description')" style="max-width:180px;">DESCRIPTION <i class="fas fa-sort sort-icon"></i></th>
+              <th class="no-sort" style="text-align:center;">NOTIFY</th>
+              <th class="no-sort" style="text-align:center;">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="launchTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- â•â• ADD / EDIT MODAL â•â• -->
+<div class="modal-overlay" id="formModal" onclick="closeFormModal(event)">
+  <div class="launch-modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="formModalTitle"><i class="fas fa-rocket"></i> Add Upcoming Launch</h3>
+      <button class="modal-close-btn" onclick="closeFormModal()">âœ•</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- SECTION: Promo Photo -->
+      <div class="form-section">
+        <div class="form-section-title"><i class="fas fa-image"></i> Promotional Photo</div>
+        <div class="photo-upload-area" id="photoUploadArea" onclick="document.getElementById('photoFileInput').click()">
+          <div id="photoPreviewWrap">
+            <i class="fas fa-camera" id="photoUploadIcon"></i>
+            <p>Click to upload promotional photo</p>
+            <span class="photo-file-name" id="photoFileName">No photo selected</span>
+          </div>
+        </div>
+        <input type="file" id="photoFileInput" accept="image/*" style="display:none;" onchange="handlePhotoSelect(this)">
+      </div>
+
+      <!-- SECTION: Basic Info -->
+      <div class="form-section">
+        <div class="form-section-title"><i class="fas fa-spray-can"></i> Perfume Information</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Perfume Name <span class="required">*</span></label>
+            <input type="text" class="form-input" id="fieldPerfume" placeholder="e.g. Demo1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Collection <span class="required">*</span></label>
+            <select class="form-select" id="fieldCollection">
+              <option value="">Select collection...</option>
+              <option value="Modern Oudh">Modern Oudh</option>
+              <option value="Artisan Collection">Artisan Collection</option>
+              <option value="Signature Series">Signature Series</option>
+              <option value="Limited Edition">Limited Edition</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fragrance Type</label>
+            <select class="form-select" id="fieldType">
+              <option value="">Select type...</option>
+              <option value="Eau de Parfum">Eau de Parfum</option>
+              <option value="Extrait de Parfum">Extrait de Parfum</option>
+              <option value="Eau de Toilette">Eau de Toilette</option>
+              <option value="Eau de Cologne">Eau de Cologne</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Size (ml)</label>
+            <input type="number" class="form-input" id="fieldMl" placeholder="e.g. 100">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Description</label>
+            <textarea class="form-textarea" id="fieldDescription" placeholder="Brief description of the fragrance..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: Notes -->
+      <div class="form-section">
+        <div class="form-section-title"><i class="fas fa-leaf"></i> Fragrance Notes</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Top Notes</label>
+            <div class="notes-input-wrap" id="topNotesWrap" onclick="focusNotesInput('topNoteInput')">
+              <input class="notes-add-input" id="topNoteInput" placeholder="Add note, press Enter" onkeydown="addNoteTag('topNotes','topNoteInput',event)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Middle Notes</label>
+            <div class="notes-input-wrap" id="midNotesWrap" onclick="focusNotesInput('midNoteInput')">
+              <input class="notes-add-input" id="midNoteInput" placeholder="Add note, press Enter" onkeydown="addNoteTag('midNotes','midNoteInput',event)">
+            </div>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Base Notes</label>
+            <div class="notes-input-wrap" id="baseNotesWrap" onclick="focusNotesInput('baseNoteInput')">
+              <input class="notes-add-input" id="baseNoteInput" placeholder="Add note, press Enter" onkeydown="addNoteTag('baseNotes','baseNoteInput',event)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: Perfume Details -->
+      <div class="form-section">
+        <div class="form-section-title"><i class="fas fa-info-circle"></i> Perfume Details</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Country of Origin</label>
+            <input type="text" class="form-input" id="fieldCountry" placeholder="e.g. Italy">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fragrance Family</label>
+            <select class="form-select" id="fieldFragFamily">
+              <option value="">Select family...</option>
+              <option value="Floral">Floral</option>
+              <option value="Oriental">Oriental</option>
+              <option value="Woods">Woods</option>
+              <option value="Fresh">Fresh</option>
+              <option value="Citrus">Citrus</option>
+              <option value="FougÃ¨re">FougÃ¨re</option>
+              <option value="Chypre">Chypre</option>
+              <option value="Gourmand">Gourmand</option>
+              <option value="Aquatic">Aquatic</option>
+              <option value="Spicy">Spicy</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sillage</label>
+            <select class="form-select" id="fieldSillage">
+              <option value="">Select sillage...</option>
+              <option value="Intimate">Intimate</option>
+              <option value="Moderate">Moderate</option>
+              <option value="Strong">Strong</option>
+              <option value="Enormous">Enormous</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Projection</label>
+            <select class="form-select" id="fieldProjection">
+              <option value="">Select projection...</option>
+              <option value="Soft">Soft</option>
+              <option value="Moderate">Moderate</option>
+              <option value="Moderate to Strong">Moderate to Strong</option>
+              <option value="Strong">Strong</option>
+              <option value="Very Strong">Very Strong</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Characteristics</label>
+            <div class="notes-input-wrap" id="charsWrap" onclick="focusNotesInput('charInput')">
+              <input class="notes-add-input" id="charInput" placeholder="Add characteristic, press Enter (e.g. Long-lasting, Unisex...)" onkeydown="addNoteTag('characteristics','charInput',event)">
+            </div>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Ingredients</label>
+            <textarea class="form-textarea" id="fieldIngredients" placeholder="List the ingredients or INCI formula..." style="min-height:64px;"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: Launch Details -->
+      <div class="form-section">
+        <div class="form-section-title"><i class="fas fa-calendar-alt"></i> Launch Details</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Launch Date <span class="required">*</span></label>
+            <input type="date" class="form-input" id="fieldLaunchDate">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expected Price (MSRP)</label>
+            <input type="number" class="form-input" id="fieldMsrp" placeholder="e.g. 320.00" step="0.01">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Wholesale Price</label>
+            <input type="number" class="form-input" id="fieldWholesale" placeholder="e.g. 200.00" step="0.01">
+          </div>
+          <div class="form-group">
+            <label class="form-label">SKU (optional)</label>
+            <input type="text" class="form-input" id="fieldSku" placeholder="e.g. MO-007-EDP-100ML">
+          </div>
+          <div class="form-group full">
+            <label class="form-label notify-check-wrap" for="fieldNotify" style="cursor:pointer;">
+              <input type="checkbox" id="fieldNotify">
+              <!-- <span class="notify-check-label"><i class="fas fa-bell" style="color:var(--gold);margin-right:6px;"></i> Notify partners about this upcoming launch</span> -->
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeFormModal()">Cancel</button>
+      <button class="btn-save" onclick="saveLaunch()"><i class="fas fa-rocket"></i> Save Launch</button>
+    </div>
+  </div>
+</div>
+
+<!-- â•â• VIEW MODAL â•â• -->
+<div class="modal-overlay" id="viewModal" onclick="closeViewModal(event)">
+  <div class="launch-modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-eye"></i> Launch Details</h3>
+      <button class="modal-close-btn" onclick="closeViewModal()">âœ•</button>
+    </div>
+    <div class="modal-body view-modal-body" id="viewModalContent"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<script>
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   DATA
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+// var launches = [
+//   {
+//     id: 1,
+//     perfume: "Demo1",
+//     collection: "Modern Oudh",
+//     type: "Extrait de Parfum",
+//     ml: 100,
+//     description: "A dark, celestial blend of oud and smoky resins that transports you to a starlit night.",
+//     country: "France",
+//     fragFamily: "Woods",
+//     sillage: "Strong",
+//     projection: "Strong",
+//     characteristics: ["Long-lasting","Unisex","Smoky","Intense"],
+//     ingredients: "Alcohol Denat., Parfum (Fragrance), Aqua (Water), Benzyl Salicylate, Linalool, Citronellol, Geraniol.",
+//     topNotes: ["Black Pepper","Bergamot","Saffron"],
+//     midNotes: ["Oud","Rose","Leather"],
+//     baseNotes: ["Amber","Vetiver","Musk"],
+//     launchDate: "2026-05-15",
+//     msrp: 420.00,
+//     wholesale: 265.00,
+//     sku: "MO-007-EXP-100ML",
+//     notify: true,
+//     photo: '../../img/Brand_Demo.webp'
+//   },
+//   {
+//     id: 2,
+//     perfume: "Demo2",
+//     collection: "Arcana",
+//     type: "Eau de Parfum",
+//     ml: 50,
+//     description: "A radiant, sun-kissed fragrance with golden citrus and warm florals.",
+//     country: "Italy",
+//     fragFamily: "Floral",
+//     sillage: "Moderate",
+//     projection: "Moderate to Strong",
+//     characteristics: ["Feminine","Fresh","Daytime","Spring/Summer"],
+//     ingredients: "Alcohol Denat., Parfum (Fragrance), Aqua (Water), Limonene, Linalool, Citral, Coumarin.",
+//     topNotes: ["Lemon","Mandarin","Pink Pepper"],
+//     midNotes: ["Jasmine","Mimosa","Freesia"],
+//     baseNotes: ["Sandalwood","Vanilla","White Musk"],
+//     launchDate: "2026-04-01",
+//     msrp: 195.00,
+//     wholesale: 120.00,
+//     sku: "AC-010-EDP-50ML",
+//     notify: true,
+//     photo: '../../img/Brand_Demo.webp'
+//   },
+//   {
+//     id: 3,
+//     perfume: "Demon3",
+//     collection: "Ancient Spirits",
+//     type: "Eau de Parfum",
+//     ml: 100,
+//     description: "A limited-edition masterpiece â€” bold, spicy and unforgettable.",
+//     country: "UAE",
+//     fragFamily: "Oriental",
+//     sillage: "Enormous",
+//     projection: "Very Strong",
+//     characteristics: ["Unisex","Bold","Evening","Limited Edition"],
+//     ingredients: "Alcohol Denat., Parfum (Fragrance), Aqua (Water), Eugenol, Isoeugenol, Benzyl Benzoate, Cinnamyl Alcohol.",
+//     topNotes: ["Cinnamon","Cardamom"],
+//     midNotes: ["Rose","Oud","Patchouli"],
+//     baseNotes: ["Labdanum","Benzoin","Amber"],
+//     launchDate: "2025-12-01",
+//     msrp: 380.00,
+//     wholesale: 240.00,
+//     sku: "LE-003-EDP-100ML",
+//     notify: false,
+//     photo: '../../img/Brand_Demo.webp'
+//   }
+// ];
+
+
+
+var launches = [];
+
+
+const BRAND_LAUNCHES = {
+  'Brand Demo': [
+    {
+      id:1, perfume:"Demo1", collection:"Collection1",
+      type:"Extrait de Parfum", ml:100,
+      description:"A dark, celestial blend of oud and smoky resins that transports you to a starlit night.",
+      country:"France", fragFamily:"Woods", sillage:"Strong", projection:"Strong",
+      characteristics:["Long-lasting","Unisex","Smoky","Intense"],
+      ingredients:"Alcohol Denat., Parfum (Fragrance), Aqua (Water), Benzyl Salicylate, Linalool, Citronellol, Geraniol.",
+      topNotes:["Black Pepper","Bergamot","Saffron"],
+      midNotes:["Oud","Rose","Leather"],
+      baseNotes:["Amber","Vetiver","Musk"],
+      launchDate:"2026-05-15", msrp:420.00, wholesale:265.00,
+      sku:"MO-007-EXP-100ML", notify:true, photo:'../../img/Brand_Demo.webp'
+    },
+    {
+      id:2, perfume:"Demo2", collection:"Collection2",
+      type:"Eau de Parfum", ml:50,
+      description:"A radiant, sun-kissed fragrance with golden citrus and warm florals.",
+      country:"Italy", fragFamily:"Floral", sillage:"Moderate", projection:"Moderate to Strong",
+      characteristics:["Feminine","Fresh","Daytime","Spring/Summer"],
+      ingredients:"Alcohol Denat., Parfum (Fragrance), Aqua (Water), Limonene, Linalool, Citral, Coumarin.",
+      topNotes:["Lemon","Mandarin","Pink Pepper"],
+      midNotes:["Jasmine","Mimosa","Freesia"],
+      baseNotes:["Sandalwood","Vanilla","White Musk"],
+      launchDate:"2026-04-01", msrp:195.00, wholesale:120.00,
+      sku:"AC-010-EDP-50ML", notify:true, photo:'../../img/Brand_Demo.webp'
+    },
+    {
+      id:3, perfume:"Demo3", collection:"Collection3",
+      type:"Eau de Parfum", ml:100,
+      description:"A limited-edition masterpiece â€” bold, spicy and unforgettable.",
+      country:"UAE", fragFamily:"Oriental", sillage:"Enormous", projection:"Very Strong",
+      characteristics:["Unisex","Bold","Evening","Limited Edition"],
+      ingredients:"Alcohol Denat., Parfum (Fragrance), Aqua (Water), Eugenol, Isoeugenol, Benzyl Benzoate, Cinnamyl Alcohol.",
+      topNotes:["Cinnamon","Cardamom"],
+      midNotes:["Rose","Oud","Patchouli"],
+      baseNotes:["Labdanum","Benzoin","Amber"],
+      launchDate:"2025-12-01", msrp:380.00, wholesale:240.00,
+      sku:"LE-003-EDP-100ML", notify:false, photo:'../../img/Brand_Demo.webp'
+    },
+  ],
+  'La Sabia Madrid': [
+    {
+      id:1, perfume:"Verdanza", collection:"Esencia",
+      type:"Eau de Parfum", ml:100,
+      description:"A fresh and luminous floral fragrance inspired by the gardens of Madrid.",
+      country:"Spain", fragFamily:"Floral", sillage:"Moderate", projection:"Moderate",
+      characteristics:["Feminine","Fresh","Daytime","Spring/Summer"],
+      ingredients:"Alcohol Denat., Parfum (Fragrance), Aqua (Water), Linalool, Limonene, Citronellol.",
+      topNotes:["Jasmine","Green Leaves","Citrus"],
+      midNotes:["Rose","Iris","Peony"],
+      baseNotes:["Cedar","Musk","Amber"],
+      launchDate:"2026-05-01", msrp:360.00, wholesale:220.00,
+      sku:"LSM-001-EDP-100ML", notify:true, photo:'../../img/LaSabiaMadrid.webp'
+    },
+    {
+      id:2, perfume:"Poderio", collection:"PasiÃ³n",
+      type:"Eau de Parfum", ml:100,
+      description:"A powerful and confident fragrance with bold spicy opening and deep amber base.",
+      country:"Spain", fragFamily:"Woods", sillage:"Strong", projection:"Strong",
+      characteristics:["Unisex","Bold","Evening","Long-lasting"],
+      ingredients:"Alcohol Denat., Parfum (Fragrance), Aqua (Water), Eugenol, Benzyl Salicylate, Coumarin.",
+      topNotes:["Black Pepper","Cardamom","Saffron"],
+      midNotes:["Oud","Rose","Leather"],
+      baseNotes:["Amber","Sandalwood","Musk"],
+      launchDate:"2026-06-01", msrp:360.00, wholesale:220.00,
+      sku:"LSM-002-EDP-100ML", notify:true, photo:'../../img/LaSabiaMadrid.webp'
+    },
+    {
+      id:3, perfume:"Dos Besos", collection:"PasiÃ³n",
+      type:"Extrait de Parfum", ml:100,
+      description:"A warm and sensual oriental fragrance evoking the passion of Spanish culture.",
+      country:"Spain", fragFamily:"Oriental", sillage:"Strong", projection:"Strong",
+      characteristics:["Feminine","Sensual","Evening","Limited Edition"],
+      ingredients:"Alcohol Denat., Parfum (Fragrance), Aqua (Water), Isoeugenol, Benzyl Benzoate, Linalool.",
+      topNotes:["Raspberry","Saffron","Rose"],
+      midNotes:["Jasmine","Iris","Vanilla"],
+      baseNotes:["Musk","Patchouli","Amber"],
+      launchDate:"2026-07-01", msrp:380.00, wholesale:240.00,
+      sku:"LSM-003-EXT-100ML", notify:false, photo:'../../img/LaSabiaMadrid.webp'
+    },
+  ],
+};
+
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyLaunchesBrand(brand);
+});
+
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('DOMContentLoaded', function() {
+  var savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand;
+    applyLaunchesBrand(savedBrand);
+  } else {
+    launches = BRAND_LAUNCHES['Brand Demo'];
+    populateCollectionFilter();
+    renderTable();
+  }
+});
+
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function applyLaunchesBrand(brand) {
+  if (BRAND_LAUNCHES[brand]) {
+    launches = BRAND_LAUNCHES[brand];
+    populateCollectionFilter(); // â† tambiÃ©n actualiza el filtro
+    renderTable();
+  }
+
+}
+
+var nextId = 4;
+var sortCol = null;
+var sortDir = 1;
+var editingId = null;
+var currentNotes = { topNotes: [], midNotes: [], baseNotes: [], characteristics: [] };
+var selectedPhotoFile = null;
+var selectedPhotoUrl = null;
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   HELPERS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function fmtDate(d) {
+  if (!d) return 'â€”';
+  var p = d.split('-');
+  var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return m[parseInt(p[1])-1] + ' ' + parseInt(p[2]) + ', ' + p[0];
+}
+
+function getCountdown(dateStr) {
+  if (!dateStr) return null;
+  var now = new Date(); now.setHours(0,0,0,0);
+  var d = new Date(dateStr); d.setHours(0,0,0,0);
+  var diff = Math.round((d - now) / 86400000);
+  return diff;
+}
+
+function getStatusInfo(dateStr) {
+  var diff = getCountdown(dateStr);
+  if (diff === null) return { label: 'Unknown', cls: 'status-upcoming', chipCls: 'chip-future', chip: 'â€”' };
+  if (diff < 0)  return { label: 'Launched',        cls: 'status-launched', chipCls: 'chip-past',   chip: 'Launched' };
+  if (diff === 0)return { label: 'Launching Today',  cls: 'status-today',   chipCls: 'chip-today',  chip: 'Today!' };
+  if (diff <= 30)return { label: 'Launching Soon',   cls: 'status-soon',    chipCls: 'chip-soon',   chip: diff + 'd left' };
+  return          { label: 'Upcoming',               cls: 'status-upcoming', chipCls: 'chip-future', chip: diff + ' days' };
+}
+
+function fmt(n) {
+  if (!n && n !== 0) return 'â€”';
+  return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   POPULATE FILTERS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function populateCollectionFilter() {
+  var sel = document.getElementById('fCollection');
+  var cols = [...new Set(launches.map(function(l){ return l.collection; }))].sort();
+  sel.innerHTML = '<option value="">All Collections</option>';
+  cols.forEach(function(c) {
+    var o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
+  });
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   RENDER TABLE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function renderTable() {
+  var tbody = document.getElementById('launchTbody');
+  var fSearch     = document.getElementById('fSearch').value.toLowerCase();
+  var fCollection = document.getElementById('fCollection').value;
+  var fStatus     = document.getElementById('fStatus').value;
+  var fNotify     = document.getElementById('fNotify').value;
+
+  var filtered = launches.filter(function(l) {
+    var si = getStatusInfo(l.launchDate);
+    var statusKey = si.label === 'Upcoming' ? 'upcoming' : si.label === 'Launching Soon' ? 'soon' : 'launched';
+    return (
+      (!fSearch     || l.perfume.toLowerCase().includes(fSearch) || l.collection.toLowerCase().includes(fSearch)) &&
+      (!fCollection || l.collection === fCollection) &&
+      (!fStatus     || statusKey === fStatus) &&
+      (!fNotify     || String(l.notify ? 1 : 0) === fNotify)
+    );
+  });
+
+  if (sortCol) {
+    filtered.sort(function(a, b) {
+      var av = a[sortCol] || '', bv = b[sortCol] || '';
+      if (typeof av === 'string') av = av.toLowerCase();
+      if (typeof bv === 'string') bv = bv.toLowerCase();
+      return av < bv ? -sortDir : av > bv ? sortDir : 0;
+    });
+  }
+
+  document.getElementById('resultsCount').textContent = filtered.length + ' launch' + (filtered.length !== 1 ? 'es' : '');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="8"><i class="fas fa-rocket"></i><p>No upcoming launches found.</p></td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(function(l) {
+    var si = getStatusInfo(l.launchDate);
+    var photoCell = l.photo
+      ? '<img src="' + l.photo + '" class="promo-photo" alt="' + l.perfume + '" onerror="this.parentElement.innerHTML=\'<div class=photo-placeholder><i class=fas fa-spray-can></i></div>\'">'
+      : '<div class="photo-placeholder"><i class="fas fa-spray-can"></i></div>';
+
+    var descSnippet = l.description
+      ? (l.description.length > 60 ? l.description.slice(0, 60) + 'â€¦' : l.description)
+      : '<span style="color:#ccc;">â€”</span>';
+
+    var notifyHtml = '<label class="toggle-switch"><input type="checkbox"' + (l.notify ? ' checked' : '') + ' onchange="toggleNotify(' + l.id + ',this)"><span class="toggle-slider"></span></label>';
+
+    return '<tr>'
+      + '<td style="text-align:center;">' + photoCell + '</td>'
+      + '<td style="font-weight:600;">' + l.perfume + (l.type ? '<div style="font-size:11px;color:var(--text-muted);font-weight:400;margin-top:2px;">' + l.type + (l.ml ? ' Â· ' + l.ml + 'ml' : '') + '</div>' : '') + '</td>'
+      + '<td><span class="collection-badge">' + l.collection + '</span></td>'
+      + '<td style="white-space:nowrap;font-size:13px;">' + fmtDate(l.launchDate) + '</td>'
+      + '<td style="text-align:center;"><span class="countdown-chip ' + si.chipCls + '">' + si.chip + '</span></td>'
+      + '<td style="font-size:12px;color:var(--text-muted);max-width:180px;">' + descSnippet + '</td>'
+      + '<td style="text-align:center;">' + notifyHtml + '</td>'
+      + '<td><div class="btn-actions-group">'
+        + '<button class="btn-action btn-view"     onclick="openViewModal(' + l.id + ')"  title="View details"><i class="fas fa-eye"></i></button>'
+        + '<button class="btn-action btn-edit"     onclick="openEditModal(' + l.id + ')"  title="Edit"><i class="fas fa-pen"></i></button>'
+        + '<button class="btn-action btn-dl-pdf"   onclick="downloadPDF(' + l.id + ')"   title="Download PDF"><i class="fas fa-file-pdf"></i></button>'
+        + '<button class="btn-action btn-dl-photo' + (l.photo ? '' : ' disabled') + '" onclick="downloadPhoto(' + l.id + ')" title="' + (l.photo ? 'Download photo' : 'No photo available') + '"><i class="fas fa-image"></i></button>'
+        + '<button class="btn-action btn-delete"   onclick="deleteLaunch(' + l.id + ')"  title="Delete"><i class="fas fa-trash"></i></button>'
+      + '</div></td>'
+      + '</tr>';
+  }).join('');
+}
+
+function sortBy(col) {
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = 1; }
+  renderTable();
+}
+
+function toggleNotify(id, el) {
+  var l = launches.find(function(x) { return x.id === id; });
+  if (l) { l.notify = el.checked; showToast(el.checked ? 'Notification enabled' : 'Notification disabled'); }
+}
+
+function deleteLaunch(id) {
+  if (!confirm('Delete this launch?')) return;
+  launches = launches.filter(function(l) { return l.id !== id; });
+  populateCollectionFilter();
+  renderTable();
+  showToast('Launch deleted');
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   NOTES TAGS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function focusNotesInput(inputId) {
+  document.getElementById(inputId).focus();
+}
+
+function addNoteTag(field, inputId, e) {
+  if (e.key !== 'Enter' && e.key !== ',') return;
+  e.preventDefault();
+  var input = document.getElementById(inputId);
+  var val = input.value.trim().replace(/,$/,'');
+  if (!val) return;
+  currentNotes[field].push(val);
+  input.value = '';
+  renderNoteTags(field, inputId);
+}
+
+function renderNoteTags(field, inputId) {
+  var wrapId = field === 'topNotes' ? 'topNotesWrap'
+             : field === 'midNotes' ? 'midNotesWrap'
+             : field === 'baseNotes' ? 'baseNotesWrap'
+             : 'charsWrap';
+  var wrap = document.getElementById(wrapId);
+  var input = document.getElementById(inputId);
+  // Remove existing tags
+  wrap.querySelectorAll('.note-tag').forEach(function(t) { t.remove(); });
+  // Re-insert tags before input
+  currentNotes[field].forEach(function(note, i) {
+    var tag = document.createElement('span');
+    tag.className = 'note-tag';
+    tag.innerHTML = note + '<button onclick="removeNoteTag(\'' + field + '\',' + i + ',\'' + inputId + '\')" type="button"><i class="fas fa-times"></i></button>';
+    wrap.insertBefore(tag, input);
+  });
+}
+
+function removeNoteTag(field, idx, inputId) {
+  currentNotes[field].splice(idx, 1);
+  renderNoteTags(field, inputId);
+}
+
+function clearAllNoteTags() {
+  currentNotes = { topNotes: [], midNotes: [], baseNotes: [], characteristics: [] };
+  ['topNotesWrap','midNotesWrap','baseNotesWrap','charsWrap'].forEach(function(wrapId) {
+    var wrap = document.getElementById(wrapId);
+    if (wrap) wrap.querySelectorAll('.note-tag').forEach(function(t) { t.remove(); });
+  });
+  document.getElementById('topNoteInput').value  = '';
+  document.getElementById('midNoteInput').value  = '';
+  document.getElementById('baseNoteInput').value = '';
+  document.getElementById('charInput').value     = '';
+}
+
+function loadNoteTagsFromData(l) {
+  currentNotes = {
+    topNotes:        (l.topNotes        || []).slice(),
+    midNotes:        (l.midNotes        || []).slice(),
+    baseNotes:       (l.baseNotes       || []).slice(),
+    characteristics: (l.characteristics || []).slice()
+  };
+  renderNoteTags('topNotes',        'topNoteInput');
+  renderNoteTags('midNotes',        'midNoteInput');
+  renderNoteTags('baseNotes',       'baseNoteInput');
+  renderNoteTags('characteristics', 'charInput');
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PHOTO UPLOAD
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function handlePhotoSelect(input) {
+  if (!input.files || !input.files[0]) return;
+  selectedPhotoFile = input.files[0];
+  selectedPhotoUrl  = URL.createObjectURL(selectedPhotoFile);
+  var area = document.getElementById('photoUploadArea');
+  area.classList.add('has-photo');
+  document.getElementById('photoPreviewWrap').innerHTML =
+    '<img src="' + selectedPhotoUrl + '" class="photo-preview" alt="Preview">' +
+    '<p style="font-size:11px;color:var(--gold);margin-top:4px;">Click to change photo</p>' +
+    '<span class="photo-file-name">' + selectedPhotoFile.name + '</span>';
+}
+
+function clearPhotoUI() {
+  selectedPhotoFile = null;
+  selectedPhotoUrl  = null;
+  document.getElementById('photoFileInput').value = '';
+  document.getElementById('photoUploadArea').classList.remove('has-photo');
+  document.getElementById('photoPreviewWrap').innerHTML =
+    '<i class="fas fa-camera" id="photoUploadIcon"></i>' +
+    '<p>Click to upload promotional photo</p>' +
+    '<span class="photo-file-name" id="photoFileName">No photo selected</span>';
+}
+
+function setPhotoFromUrl(url) {
+  if (!url) { clearPhotoUI(); return; }
+  selectedPhotoUrl = url;
+  var area = document.getElementById('photoUploadArea');
+  area.classList.add('has-photo');
+  document.getElementById('photoPreviewWrap').innerHTML =
+    '<img src="' + url + '" class="photo-preview" alt="Preview">' +
+    '<p style="font-size:11px;color:var(--gold);margin-top:4px;">Click to change photo</p>';
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ADD / EDIT MODAL
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function openAddModal() {
+  editingId = null;
+  clearFormFields();
+  document.getElementById('formModalTitle').innerHTML = '<i class="fas fa-rocket"></i> Add Upcoming Launch';
+  document.getElementById('formModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function openEditModal(id) {
+  editingId = id;
+  var l = launches.find(function(x) { return x.id === id; });
+  if (!l) return;
+  document.getElementById('formModalTitle').innerHTML = '<i class="fas fa-pen"></i> Edit Launch';
+
+  // Fill fields
+  document.getElementById('fieldPerfume').value     = l.perfume        || '';
+  document.getElementById('fieldCollection').value  = l.collection     || '';
+  document.getElementById('fieldType').value        = l.type           || '';
+  document.getElementById('fieldMl').value          = l.ml             || '';
+  document.getElementById('fieldDescription').value = l.description    || '';
+  document.getElementById('fieldCountry').value     = l.country        || '';
+  document.getElementById('fieldFragFamily').value  = l.fragFamily     || '';
+  document.getElementById('fieldSillage').value     = l.sillage        || '';
+  document.getElementById('fieldProjection').value  = l.projection     || '';
+  document.getElementById('fieldIngredients').value = l.ingredients    || '';
+  document.getElementById('fieldLaunchDate').value  = l.launchDate     || '';
+  document.getElementById('fieldMsrp').value        = l.msrp           || '';
+  document.getElementById('fieldWholesale').value   = l.wholesale      || '';
+  document.getElementById('fieldSku').value         = l.sku            || '';
+  document.getElementById('fieldNotify').checked    = !!l.notify;
+
+  loadNoteTagsFromData(l);
+  if (l.photo) setPhotoFromUrl(l.photo); else clearPhotoUI();
+
+  document.getElementById('formModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function clearFormFields() {
+  ['fieldPerfume','fieldCollection','fieldType','fieldMl','fieldDescription',
+   'fieldCountry','fieldFragFamily','fieldSillage','fieldProjection','fieldIngredients',
+   'fieldLaunchDate','fieldMsrp','fieldWholesale','fieldSku'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('fieldNotify').checked = false;
+  clearAllNoteTags();
+  clearPhotoUI();
+}
+
+function saveLaunch() {
+  var perfume    = document.getElementById('fieldPerfume').value.trim();
+  var collection = document.getElementById('fieldCollection').value;
+  var launchDate = document.getElementById('fieldLaunchDate').value;
+  if (!perfume)    { showToast('Please enter the perfume name.');   return; }
+  if (!collection) { showToast('Please select a collection.');      return; }
+  if (!launchDate) { showToast('Please enter the launch date.');    return; }
+
+  var obj = {
+    perfume:         perfume,
+    collection:      collection,
+    type:            document.getElementById('fieldType').value,
+    ml:              parseInt(document.getElementById('fieldMl').value) || null,
+    description:     document.getElementById('fieldDescription').value.trim(),
+    country:         document.getElementById('fieldCountry').value.trim(),
+    fragFamily:      document.getElementById('fieldFragFamily').value,
+    sillage:         document.getElementById('fieldSillage').value,
+    projection:      document.getElementById('fieldProjection').value,
+    ingredients:     document.getElementById('fieldIngredients').value.trim(),
+    topNotes:        currentNotes.topNotes.slice(),
+    midNotes:        currentNotes.midNotes.slice(),
+    baseNotes:       currentNotes.baseNotes.slice(),
+    characteristics: currentNotes.characteristics.slice(),
+    launchDate:      launchDate,
+    msrp:            parseFloat(document.getElementById('fieldMsrp').value) || null,
+    wholesale:       parseFloat(document.getElementById('fieldWholesale').value) || null,
+    sku:             document.getElementById('fieldSku').value.trim(),
+    notify:          document.getElementById('fieldNotify').checked,
+    photo:           selectedPhotoUrl || null
+  };
+
+  if (editingId) {
+    var idx = launches.findIndex(function(x) { return x.id === editingId; });
+    if (idx > -1) { obj.id = editingId; launches[idx] = obj; }
+    showToast('Launch updated!');
+  } else {
+    obj.id = nextId++;
+    launches.push(obj);
+    showToast('Launch added!');
+  }
+
+  closeFormModal();
+  populateCollectionFilter();
+  renderTable();
+}
+
+function closeFormModal(e) {
+  if (e && e.target !== document.getElementById('formModal')) return;
+  document.getElementById('formModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   VIEW MODAL
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function openViewModal(id) {
+  var l = launches.find(function(x) { return x.id === id; });
+  if (!l) return;
+  var si = getStatusInfo(l.launchDate);
+
+  var photoEl = l.photo
+    ? '<img src="' + l.photo + '" class="view-hero-photo" alt="' + l.perfume + '" onerror="this.outerHTML=\'<div class=view-hero-placeholder><i class=fas fa-spray-can></i></div>\'">'
+    : '<div class="view-hero-placeholder"><i class="fas fa-spray-can"></i></div>';
+
+  function noteChips(arr) {
+    if (!arr || !arr.length) return '<span style="color:rgba(200,200,200,.6);font-size:12px;">â€”</span>';
+    return arr.map(function(n) { return '<span class="view-note-chip">' + n + '</span>'; }).join('');
+  }
+  function viewChips(arr) {
+    if (!arr || !arr.length) return '<span style="font-size:12px;color:#bbb;">â€”</span>';
+    return arr.map(function(n) { return '<span class="view-note-chip" style="background:#f0f0f0;color:#555;">' + n + '</span>'; }).join('');
+  }
+  function val(v){ return v || '<span style="color:#bbb;">â€”</span>'; }
+
+  document.getElementById('viewModalContent').innerHTML =
+    '<div class="view-hero">'
+      + photoEl
+      + '<div class="view-hero-info">'
+        + '<div class="view-perfume-name">' + l.perfume + '</div>'
+        + '<div class="view-collection">' + l.collection + (l.type ? ' Â· ' + l.type : '') + (l.ml ? ' Â· ' + l.ml + 'ml' : '') + '</div>'
+        + '<div class="view-launch-date"><i class="fas fa-calendar-alt"></i>' + fmtDate(l.launchDate) + ' &nbsp;Â·&nbsp; <span class="countdown-chip ' + si.chipCls + '" style="background:rgba(255,255,255,.1);color:#fff;">' + si.chip + '</span></div>'
+      + '</div>'
+    + '</div>'
+    + '<div class="view-content">'
+      + '<div class="view-grid">'
+        + (l.description ? '<div class="view-item full"><div class="view-item-label">Description</div><div class="view-item-value" style="font-weight:400;line-height:1.5;">' + l.description + '</div></div>' : '')
+
+        + '<div class="view-item"><div class="view-item-label">Type of Perfume</div><div class="view-item-value">'  + val(l.type)       + '</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Country</div><div class="view-item-value">'          + val(l.country)    + '</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Collection</div><div class="view-item-value">'       + val(l.collection) + '</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Fragrance Family</div><div class="view-item-value">' + val(l.fragFamily) + '</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Sillage</div><div class="view-item-value">'          + val(l.sillage)    + '</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Projection</div><div class="view-item-value">'       + val(l.projection) + '</div></div>'
+
+        + '<div class="view-item"><div class="view-item-label">Top Notes</div><div class="view-notes-list">'    + noteChips(l.topNotes)  + '</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Middle Notes</div><div class="view-notes-list">' + noteChips(l.midNotes)  + '</div></div>'
+        + '<div class="view-item full"><div class="view-item-label">Base Notes</div><div class="view-notes-list">'          + noteChips(l.baseNotes)       + '</div></div>'
+        + '<div class="view-item full"><div class="view-item-label">Characteristics</div><div class="view-notes-list">'     + viewChips(l.characteristics) + '</div></div>'
+        + (l.ingredients ? '<div class="view-item full"><div class="view-item-label">Ingredients</div><div class="view-item-value" style="font-size:12px;font-weight:400;line-height:1.6;color:#555;">' + l.ingredients + '</div></div>' : '')
+
+        + '<div class="view-item"><div class="view-item-label">MSRP</div><div class="view-item-value">'      + fmt(l.msrp)      + '</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Wholesale</div><div class="view-item-value" style="color:var(--gold-dark);">' + fmt(l.wholesale) + '</div></div>'
+        + (l.sku ? '<div class="view-item full"><div class="view-item-label">SKU</div><div class="view-item-value" style="font-family:monospace;font-size:12px;">' + l.sku + '</div></div>' : '')
+        // + '<div class="view-item"><div class="view-item-label">Notify Partners</div><div class="view-item-value">' + (l.notify ? '<span style="color:#1e8e3e;"><i class="fas fa-bell"></i> Active</span>' : '<span style="color:#888;"><i class="fas fa-bell-slash"></i> Off</span>') + '</div></div>'
+      + '</div>'
+    + '</div>'
+    + '<div class="view-actions">'
+      + '<button class="btn-dl btn-dl-pdf-lg"   onclick="downloadPDF('   + l.id + ')"><i class="fas fa-file-pdf"></i> Download PDF</button>'
+      + '<button class="btn-dl btn-dl-photo-lg' + (l.photo ? '' : ' disabled') + '" onclick="downloadPhoto(' + l.id + ')" ' + (l.photo ? '' : 'disabled') + '><i class="fas fa-image"></i> Download Photo</button>'
+      + '<button class="btn-save" onclick="closeViewModal();openEditModal(' + l.id + ')"><i class="fas fa-pen"></i> Edit</button>'
+      + '<button class="btn-cancel" onclick="closeViewModal()">Close</button>'
+    + '</div>';
+
+  document.getElementById('viewModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeViewModal(e) {
+  if (e && e.target !== document.getElementById('viewModal')) return;
+  document.getElementById('viewModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   DOWNLOAD PDF
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function downloadPDF(id) {
+  var l = launches.find(function(x) { return x.id === id; });
+  if (!l) return;
+
+  /* Load jsPDF + autoTable then generate */
+  function loadScript(src, cb) {
+    if (document.querySelector('script[src="' + src + '"]')) { cb(); return; }
+    var s = document.createElement('script'); s.src = src;
+    s.onload = cb; document.head.appendChild(s);
+  }
+
+  loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', function() {
+    loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js', function() {
+      var doc = new window.jspdf.jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      var W = doc.internal.pageSize.getWidth();
+      var gold = [171, 160, 110];
+      var dark = [30, 34, 39];
+
+      /* â”€â”€ Header bar â”€â”€ */
+      doc.setFillColor(dark[0], dark[1], dark[2]);
+      doc.rect(0, 0, W, 32, 'F');
+      doc.setFontSize(18); doc.setFont('helvetica','bold');
+      doc.setTextColor(gold[0], gold[1], gold[2]);
+      doc.text('UPCOMING', 14, 14);
+      doc.setFontSize(10); doc.setFont('helvetica','normal');
+      doc.setTextColor(180, 180, 180);
+      doc.text('Niche305 Partner Portal  Â·  Generated ' + new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}), 14, 22);
+
+      /* â”€â”€ Gold accent line â”€â”€ */
+      doc.setDrawColor(gold[0], gold[1], gold[2]);
+      doc.setLineWidth(0.8);
+      doc.line(0, 32, W, 32);
+
+      var y = 44;
+
+      /* â”€â”€ Perfume name â”€â”€ */
+      doc.setFontSize(22); doc.setFont('helvetica','bold');
+      doc.setTextColor(dark[0], dark[1], dark[2]);
+      doc.text(l.perfume, 14, y); y += 8;
+
+      doc.setFontSize(11); doc.setFont('helvetica','normal');
+      doc.setTextColor(120, 120, 120);
+      var sub = [l.collection, l.type, l.ml ? l.ml + ' ml' : null].filter(Boolean).join('  Â·  ');
+      doc.text(sub, 14, y); y += 10;
+
+      /* â”€â”€ Gold separator â”€â”€ */
+      doc.setDrawColor(gold[0], gold[1], gold[2]);
+      doc.setLineWidth(0.4);
+      doc.line(14, y, W - 14, y); y += 8;
+
+      /* â”€â”€ Key info table â”€â”€ */
+      var si = getStatusInfo(l.launchDate);
+      doc.autoTable({
+        startY: y,
+        margin: { left: 14, right: 14 },
+        head: [['FIELD', 'VALUE']],
+        body: [
+          ['Launch Date',      fmtDate(l.launchDate)],
+          ['Countdown',        si.chip],
+          ['Type of Perfume',  l.type        || 'â€”'],
+          ['Country',          l.country     || 'â€”'],
+          ['Collection',       l.collection],
+          ['Fragrance Family', l.fragFamily  || 'â€”'],
+          ['Sillage',          l.sillage     || 'â€”'],
+          ['Projection',       l.projection  || 'â€”'],
+          ['Size',             l.ml ? l.ml + ' ml' : 'â€”'],
+          ['MSRP',             l.msrp     ? '$' + Number(l.msrp).toFixed(2)      : 'â€”'],
+          ['Wholesale',        l.wholesale ? '$' + Number(l.wholesale).toFixed(2) : 'â€”'],
+          ['SKU',              l.sku || 'â€”'],
+        //   ['Notify Partners',  l.notify ? 'Yes' : 'No'],
+        ],
+        headStyles: { fillColor: gold, textColor: [255,255,255], fontStyle: 'bold', fontSize: 10 },
+        bodyStyles: { fontSize: 10, textColor: dark },
+        alternateRowStyles: { fillColor: [250,249,246] },
+        columnStyles: { 0: { fontStyle: 'bold', cellWidth: 50 } },
+        theme: 'grid'
+      });
+      y = doc.lastAutoTable.finalY + 10;
+
+      /* â”€â”€ Characteristics â”€â”€ */
+      if (l.characteristics && l.characteristics.length) {
+        doc.setFontSize(11); doc.setFont('helvetica','bold');
+        doc.setTextColor(gold[0], gold[1], gold[2]);
+        doc.text('CHARACTERISTICS', 14, y); y += 6;
+        doc.setFont('helvetica','normal'); doc.setFontSize(10);
+        doc.setTextColor(60, 60, 60);
+        doc.text(l.characteristics.join('  Â·  '), 14, y); y += 10;
+      }
+
+      /* â”€â”€ Description â”€â”€ */
+      if (l.description) {
+        doc.setFontSize(11); doc.setFont('helvetica','bold');
+        doc.setTextColor(gold[0], gold[1], gold[2]);
+        doc.text('DESCRIPTION', 14, y); y += 6;
+        doc.setFont('helvetica','normal'); doc.setFontSize(10);
+        doc.setTextColor(60, 60, 60);
+        var lines = doc.splitTextToSize(l.description, W - 28);
+        doc.text(lines, 14, y); y += lines.length * 5 + 8;
+      }
+
+      /* â”€â”€ Fragrance Notes â”€â”€ */
+      var hasNotes = (l.topNotes && l.topNotes.length) || (l.midNotes && l.midNotes.length) || (l.baseNotes && l.baseNotes.length);
+      if (hasNotes) {
+        doc.setFontSize(11); doc.setFont('helvetica','bold');
+        doc.setTextColor(gold[0], gold[1], gold[2]);
+        doc.text('FRAGRANCE NOTES', 14, y); y += 6;
+        var noteRows = [];
+        if (l.topNotes  && l.topNotes.length)  noteRows.push(['Top Notes',    l.topNotes.join(', ')]);
+        if (l.midNotes  && l.midNotes.length)   noteRows.push(['Middle Notes', l.midNotes.join(', ')]);
+        if (l.baseNotes && l.baseNotes.length)  noteRows.push(['Base Notes',   l.baseNotes.join(', ')]);
+        doc.autoTable({
+          startY: y,
+          margin: { left: 14, right: 14 },
+          body: noteRows,
+          bodyStyles: { fontSize: 10, textColor: dark },
+          alternateRowStyles: { fillColor: [250,249,246] },
+          columnStyles: { 0: { fontStyle: 'bold', cellWidth: 36, textColor: [100,90,60] } },
+          theme: 'grid'
+        });
+        y = doc.lastAutoTable.finalY + 10;
+      }
+
+      /* â”€â”€ Ingredients â”€â”€ */
+      if (l.ingredients) {
+        doc.setFontSize(11); doc.setFont('helvetica','bold');
+        doc.setTextColor(gold[0], gold[1], gold[2]);
+        doc.text('INGREDIENTS', 14, y); y += 6;
+        doc.setFont('helvetica','normal'); doc.setFontSize(9);
+        doc.setTextColor(80, 80, 80);
+        var iLines = doc.splitTextToSize(l.ingredients, W - 28);
+        doc.text(iLines, 14, y); y += iLines.length * 4.5 + 8;
+      }
+
+      /* â”€â”€ Footer â”€â”€ */
+      var pageH = doc.internal.pageSize.getHeight();
+      doc.setFillColor(dark[0], dark[1], dark[2]);
+      doc.rect(0, pageH - 12, W, 12, 'F');
+      doc.setFontSize(8); doc.setFont('helvetica','normal');
+      doc.setTextColor(120, 120, 120);
+      doc.text('Niche3DS Partner Portal  â€”  Confidential', 14, pageH - 4);
+      doc.text('Page 1', W - 14, pageH - 4, { align: 'right' });
+
+      doc.save((l.sku || l.perfume.replace(/ /g,'_')) + '_launch.pdf');
+      showToast('PDF downloaded!');
+    });
+  });
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   DOWNLOAD PHOTO
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function downloadPhoto(id) {
+  var l = launches.find(function(x) { return x.id === id; });
+  if (!l || !l.photo) { showToast('No photo available for this launch.'); return; }
+
+  var fileName = l.perfume.replace(/ /g, '_') + '_promo';
+
+  /* Si ya es un blob: URL (foto subida localmente) â€” descarga directa */
+  if (l.photo.startsWith('blob:')) {
+    var a = document.createElement('a');
+    a.href = l.photo;
+    a.download = fileName + '.jpg';
+    a.click();
+    showToast('Photo downloaded!');
+    return;
+  }
+
+  /* Para URLs externas: fetch â†’ blob â†’ descarga como imagen */
+  showToast('Preparing downloadâ€¦');
+  fetch(l.photo)
+    .then(function(res) {
+      if (!res.ok) throw new Error('Network error');
+      return res.blob();
+    })
+    .then(function(blob) {
+      /* Detectar extensiÃ³n real desde el mime type */
+      var mime = blob.type || 'image/jpeg';
+      var extMap = { 'image/jpeg':'jpg', 'image/png':'png', 'image/webp':'webp', 'image/gif':'gif' };
+      var ext = extMap[mime] || 'jpg';
+
+      /* Forzar tipo image/* para que el navegador lo trate como imagen */
+      var imageBlob = new Blob([blob], { type: mime });
+      var url = URL.createObjectURL(imageBlob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = fileName + '.' + ext;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function() { URL.revokeObjectURL(url); }, 2000);
+      showToast('Photo downloaded!');
+    })
+    .catch(function() {
+      /* Fallback: abrir en nueva pestaÃ±a para que el usuario la guarde manualmente */
+      window.open(l.photo, '_blank');
+      showToast('Opening photo â€” right-click to save.');
+    });
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   TOAST
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   KEYBOARD
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeFormModal(); closeViewModal(); }
+});
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   INIT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+// document.addEventListener('DOMContentLoaded', function() {
+//   populateCollectionFilter();
+//   renderTable();
+// });
+</script>
+</body>
+</html>
+
+

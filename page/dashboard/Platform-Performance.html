@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motiv Perfumes – Social Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  <script src="../../js/aside.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
+.user-status span{font-size:14px;color:#aca68b;}
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.topbar-btn:hover{background:#f0f0f0;}
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+@media(max-width:768px){.main-wrap{margin-left:0;}}
+
+:root{
+  --gold:rgb(171,160,110);
+  --gold-dark:rgb(141,130,80);
+  --gold-light:rgba(171,160,110,0.12);
+  --card-bg:#fff;
+  --border:#E8E9E9;
+  --text:#1E2227;
+  --text-muted:#888;
+  --radius:10px;
+}
+
+.content{padding:28px;flex:1;}
+
+/* WELCOME */
+.welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
+.welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);}
+.welcome-bar h2 span{color:var(--gold);}
+.welcome-bar p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+
+/* FILTERS */
+.filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+.filter-container{display:flex;gap:8px;flex-wrap:wrap;}
+.filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold);}
+.filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* VIEW SELECTOR */
+.view-selector-wrap{position:relative;display:flex;align-items:center;gap:8px;}
+.view-selector-label{font-size:13px;color:var(--text-muted);white-space:nowrap;}
+.view-selector-btn{padding:9px 14px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;display:flex;align-items:center;gap:8px;min-width:200px;justify-content:space-between;transition:border-color .2s;}
+.view-selector-btn:hover{border-color:var(--gold);}
+.view-selector-btn.open{border-color:var(--gold);}
+.chevron{font-size:10px;transition:transform .2s;}
+.view-selector-btn.open .chevron{transform:rotate(180deg);}
+.view-dropdown{position:absolute;top:calc(100% + 5px);right:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);z-index:200;min-width:220px;display:none;flex-direction:column;overflow:hidden;}
+.view-dropdown.open{display:flex;}
+.view-option{padding:11px 15px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:9px;transition:background .15s;}
+.view-option:hover{background:#f5f5f5;}
+.view-option.active{background:var(--gold-light);color:var(--gold);}
+.view-option i{font-size:13px;width:16px;}
+
+/* SECTION TITLE */
+.section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+
+/* TABLE */
+.table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
+.responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:12px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
+.responsive-table thead th:not(:first-child){text-align:center;}
+.responsive-table tbody td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);vertical-align:middle;text-align:center;}
+.responsive-table tbody td:first-child{text-align:left;}
+.responsive-table tbody tr:last-child td{border-bottom:none;}
+.responsive-table tbody tr:hover{background:#fafafa;}
+.responsive-table .total-row{background:#f5f5f5;border-top:2px solid var(--gold);}
+.responsive-table .total-row td{font-weight:600;}
+
+.th-content{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.th-month{font-size:12px;font-weight:600;}
+.th-year{font-size:10px;font-weight:400;opacity:.8;}
+.th-year-header{font-size:13px;font-weight:600;}
+
+/* NIVEL 1 – Red Social */
+.social-main-row{background:rgba(171,160,110,.08);transition:background .15s;}
+.social-main-row:hover{background:rgba(171,160,110,.15);}
+.brand-cell{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.brand-name-cell{display:flex;align-items:center;gap:8px;}
+.toggle-icon{color:var(--gold);font-size:10px;display:inline-block;width:14px;}
+.social-label-pill{display:inline-flex;align-items:center;gap:7px;font-size:15px;font-weight:700;}
+
+/* NIVEL 2 – Grupo de métrica */
+.metric-group-row{background:rgba(171,160,110,.04);transition:background .15s;}
+.metric-group-row:hover{background:rgba(171,160,110,.10);}
+.metric-group-label{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--text);}
+.mg-icon{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;font-size:12px;}
+.mg-icon.awareness  {background:rgba(102,126,153,.15);color:rgb(102,126,153);}
+.mg-icon.engagement {background:rgba(171,160,110,.15);color:var(--gold-dark);}
+.mg-icon.traffic    {background:rgba(102,153,126,.15);color:rgb(72,133,96);}
+.mg-icon.conversions{background:rgba(153,102,102,.15);color:rgb(153,102,102);}
+.mg-icon.retention  {background:rgba(126,102,153,.15);color:rgb(126,102,153);}
+.mg-icon.cost       {background:rgba(153,153,102,.15);color:rgb(133,133,72);}
+.mg-icon.roas       {background:rgba(102,153,153,.15);color:rgb(72,133,133);}
+
+/* NIVEL 3 – Métrica individual */
+.metric-leaf-row{background:#fff;}
+.metric-leaf-row:hover{background:#f9f9f9;}
+.metric-cell{display:flex;align-items:center;gap:10px;}
+.metric-name{font-size:13px;font-weight:400;color:var(--text);}
+
+.val-neutral{color:#ccc;}
+
+/* GRAND TOTAL */
+.grand-total-row{background:#f0ede5;border-top:2px solid var(--gold);}
+.grand-total-row td{font-weight:700;font-size:13px;}
+
+.no-results{text-align:center;padding:40px;color:var(--text-muted);}
+.no-results i{font-size:40px;color:#ddd;margin-bottom:12px;display:block;}
+
+/* CHART */
+.chart-container{background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);}
+
+@media(max-width:768px){
+  .content{padding:16px;}
+  .filters-row{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<!-- ASIDE -->
+<div id="aside-root"></div>
+
+<!-- MAIN -->
+<div class="main-wrap">
+  <header class="topbar">
+    <div class="topbar-title" id="topbarTitle"><span>BRAND PORTAL</span><div id="brandTitle"></div></div>
+    <div class="topbar-actions">
+      <button class="topbar-btn"><i class="fas fa-bell"></i></button>
+      <button class="topbar-btn"><i class="fas fa-search"></i></button>
+      <div class="topbar-avatar">FS</div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div class="welcome-bar">
+      <h2>Social Media Analytics – <span>Motiv Perfumes</span></h2>
+      <p>Performance breakdown by platform across all metric categories</p>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters-row">
+      <div class="filter-container" id="perfFilters">
+        <button class="filter-btn" data-filter="yearly"       onclick="applyFilter('yearly')">Yearly</button>
+        <button class="filter-btn active" data-filter="lastYear"  onclick="applyFilter('lastYear')">Last 13 months</button>
+        <button class="filter-btn" data-filter="currentMonth" onclick="applyFilter('currentMonth')">Current Month</button>
+      </div>
+
+      <div class="view-selector-wrap">
+        <span class="view-selector-label">Chart Metric</span>
+        <button class="view-selector-btn" id="perfViewBtn" onclick="toggleViewDropdown()">
+          <span><i class="fas fa-chart-pie" style="margin-right:6px;font-size:12px;"></i><span id="perfViewText">Awareness</span></span>
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+        <div class="view-dropdown" id="perfViewDropdown">
+          <div class="view-option active" data-view="awareness"   onclick="changeView('awareness')"><i class="fas fa-eye"></i> Awareness</div>
+          <div class="view-option"        data-view="engagement"  onclick="changeView('engagement')"><i class="fas fa-heart"></i> Engagement</div>
+          <div class="view-option"        data-view="traffic"     onclick="changeView('traffic')"><i class="fas fa-mouse-pointer"></i> Traffic</div>
+          <div class="view-option"        data-view="conversions" onclick="changeView('conversions')"><i class="fas fa-funnel-dollar"></i> Conversions</div>
+          <div class="view-option"        data-view="retention"   onclick="changeView('retention')"><i class="fas fa-redo"></i> Retention</div>
+          <div class="view-option"        data-view="cost"        onclick="changeView('cost')"><i class="fas fa-coins"></i> Cost Efficiency</div>
+          <div class="view-option"        data-view="roas"        onclick="changeView('roas')"><i class="fas fa-percentage"></i> ROAS</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="section-title"><i class="fas fa-share-alt"></i> Sales by Social Platform</h3>
+
+    <div class="table-wrapper">
+      <table class="responsive-table">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-container">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+        <h4 style="margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;">
+          <i class="fas fa-chart-area" style="color:var(--gold);"></i>
+          <span id="chartTitle">Impressions by Platform</span>
+        </h4>
+        <div style="display:flex;gap:5px;background:#f5f5f5;padding:4px;border-radius:8px;">
+          <button class="chart-type-btn active" data-type="bar" onclick="changeChartType('bar')"
+            style="padding:7px 14px;border:none;background:white;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--gold);box-shadow:0 2px 4px rgba(0,0,0,.1);display:flex;align-items:center;gap:5px;">
+            <i class="fas fa-chart-bar"></i> Bar
+          </button>
+          <button class="chart-type-btn" data-type="line" onclick="changeChartType('line')"
+            style="padding:7px 14px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:#535255;display:flex;align-items:center;gap:5px;">
+            <i class="fas fa-chart-line"></i> Line
+          </button>
+        </div>
+      </div>
+      <div style="position:relative;height:320px;width:100%;"><canvas id="mainChart"></canvas></div>
+      <div id="chartLegend" style="display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--border);"></div>
+    </div>
+
+  </main>
+</div><!-- /main-wrap -->
+
+<script>
+// ─── STATE ────────────────────────────────────────────────────────────────────
+var currentFilter = "lastYear";
+var currentView   = "awareness";
+var chartType     = "bar";
+var hiddenSeries  = [];
+var mainChart     = null;
+
+var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+var dayNames   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+
+// ─── SOCIAL CONFIG ─────────────────────────────────────────────────────────────
+var SOCIALS = {
+  "Facebook":  { icon:"fab fa-facebook",  color:"#1877F2", bg:"rgba(24,119,242,0.12)",  rowBg:"rgba(24,119,242,0.07)"  },
+  "Instagram": { icon:"fab fa-instagram", color:"#C13584", bg:"rgba(193,53,132,0.12)",  rowBg:"rgba(193,53,132,0.07)"  },
+  "TikTok":    { icon:"fab fa-tiktok",    color:"#333",    bg:"rgba(0,0,0,0.07)",        rowBg:"rgba(0,0,0,0.04)"       },
+  "Google":    { icon:"fab fa-google",    color:"#EA4335", bg:"rgba(234,67,53,0.12)",   rowBg:"rgba(234,67,53,0.07)"   },
+  "YouTube":   { icon:"fab fa-youtube",   color:"#FF0000", bg:"rgba(255,0,0,0.10)",     rowBg:"rgba(255,0,0,0.05)"     },
+};
+var SOCIAL_ORDER = ["Facebook","Instagram","TikTok","Google","YouTube"];
+
+// ─── METRIC GROUPS ──────────────────────────────────────────────────────────────
+var METRIC_GROUPS = {
+  awareness:   { label:"Awareness",       icon:"fas fa-eye",           cls:"awareness",   metrics:["Impressions","Reach","CPM"] },
+  engagement:  { label:"Engagement",      icon:"fas fa-heart",         cls:"engagement",  metrics:["Eng. Rate","Interactions"] },
+  traffic:     { label:"Traffic",         icon:"fas fa-mouse-pointer", cls:"traffic",     metrics:["CTR","Clicks","CPC"] },
+  conversions: { label:"Conversions",     icon:"fas fa-funnel-dollar", cls:"conversions", metrics:["Conv. Rate","Revenue"] },
+  retention:   { label:"Retention",       icon:"fas fa-redo",          cls:"retention",   metrics:["CLV","Repeat Rate"] },
+  cost:        { label:"Cost Efficiency", icon:"fas fa-coins",         cls:"cost",        metrics:["Ad Spend","CPA","CPL"] },
+  roas:        { label:"ROAS",            icon:"fas fa-percentage",    cls:"roas",        metrics:["ROAS"] },
+};
+var MG_ORDER = ["awareness","engagement","traffic","conversions","retention","cost","roas"];
+
+// ─── FORMAT ────────────────────────────────────────────────────────────────────
+var FMT = {
+  "Impressions": function(v){ return v>=1000000?(v/1000000).toFixed(1)+"M":v>=1000?(v/1000).toFixed(1)+"K":v; },
+  "Reach":       function(v){ return v>=1000000?(v/1000000).toFixed(1)+"M":v>=1000?(v/1000).toFixed(1)+"K":v; },
+  "CPM":         function(v){ return "$"+v.toFixed(2); },
+  "Eng. Rate":   function(v){ return v.toFixed(2)+"%"; },
+  "Interactions":function(v){ return v>=1000?(v/1000).toFixed(1)+"K":v; },
+  "CTR":         function(v){ return v.toFixed(2)+"%"; },
+  "Clicks":      function(v){ return v>=1000?(v/1000).toFixed(1)+"K":v; },
+  "CPC":         function(v){ return "$"+v.toFixed(2); },
+  "Conv. Rate":  function(v){ return v.toFixed(2)+"%"; },
+  "Revenue":     function(v){ return "$"+v.toLocaleString("en-US",{minimumFractionDigits:2}); },
+  "CLV":         function(v){ return "$"+v.toFixed(2); },
+  "Repeat Rate": function(v){ return v.toFixed(1)+"%"; },
+  "Ad Spend":    function(v){ return "$"+v.toLocaleString("en-US",{minimumFractionDigits:2}); },
+  "CPA":         function(v){ return "$"+v.toFixed(2); },
+  "CPL":         function(v){ return "$"+v.toFixed(2); },
+  "ROAS":        function(v){ return v.toFixed(2)+"x"; },
+};
+function fmt(m, v) {
+  if (!v) return '<span class="val-neutral">—</span>';
+  return FMT[m] ? FMT[m](v) : v;
+}
+
+// ─── DATA ─────────────────────────────────────────────────────────────────────
+// social, metric, date, value
+var DATA = [
+  // ── FACEBOOK ────────────────────────────────────────────────────────────────
+  {social:"Facebook", metric:"Impressions",  date:"2026-03-01", value:480000},
+  {social:"Facebook", metric:"Reach",        date:"2026-03-01", value:350000},
+  {social:"Facebook", metric:"CPM",          date:"2026-03-01", value:5.10},
+  {social:"Facebook", metric:"Eng. Rate",    date:"2026-03-01", value:2.8},
+  {social:"Facebook", metric:"Interactions", date:"2026-03-01", value:13440},
+  {social:"Facebook", metric:"CTR",          date:"2026-03-01", value:1.9},
+  {social:"Facebook", metric:"Clicks",       date:"2026-03-01", value:9120},
+  {social:"Facebook", metric:"CPC",          date:"2026-03-01", value:1.05},
+  {social:"Facebook", metric:"Conv. Rate",   date:"2026-03-01", value:1.6},
+  {social:"Facebook", metric:"Revenue",      date:"2026-03-01", value:7800},
+  {social:"Facebook", metric:"CLV",          date:"2026-03-01", value:82.00},
+  {social:"Facebook", metric:"Repeat Rate",  date:"2026-03-01", value:20.0},
+  {social:"Facebook", metric:"Ad Spend",     date:"2026-03-01", value:2448},
+  {social:"Facebook", metric:"CPA",          date:"2026-03-01", value:15.30},
+  {social:"Facebook", metric:"CPL",          date:"2026-03-01", value:6.10},
+  {social:"Facebook", metric:"ROAS",         date:"2026-03-01", value:3.19},
+
+  {social:"Facebook", metric:"Impressions",  date:"2026-02-01", value:390000},
+  {social:"Facebook", metric:"Reach",        date:"2026-02-01", value:290000},
+  {social:"Facebook", metric:"CPM",          date:"2026-02-01", value:5.50},
+  {social:"Facebook", metric:"Eng. Rate",    date:"2026-02-01", value:3.9},
+  {social:"Facebook", metric:"Interactions", date:"2026-02-01", value:15210},
+  {social:"Facebook", metric:"CTR",          date:"2026-02-01", value:2.4},
+  {social:"Facebook", metric:"Clicks",       date:"2026-02-01", value:9360},
+  {social:"Facebook", metric:"CPC",          date:"2026-02-01", value:0.98},
+  {social:"Facebook", metric:"Conv. Rate",   date:"2026-02-01", value:2.0},
+  {social:"Facebook", metric:"Revenue",      date:"2026-02-01", value:9800},
+  {social:"Facebook", metric:"CLV",          date:"2026-02-01", value:88.00},
+  {social:"Facebook", metric:"Repeat Rate",  date:"2026-02-01", value:25.0},
+  {social:"Facebook", metric:"Ad Spend",     date:"2026-02-01", value:2145},
+  {social:"Facebook", metric:"CPA",          date:"2026-02-01", value:13.00},
+  {social:"Facebook", metric:"CPL",          date:"2026-02-01", value:5.30},
+  {social:"Facebook", metric:"ROAS",         date:"2026-02-01", value:4.57},
+
+  {social:"Facebook", metric:"Impressions",  date:"2026-01-01", value:650000},
+  {social:"Facebook", metric:"Reach",        date:"2026-01-01", value:490000},
+  {social:"Facebook", metric:"CPM",          date:"2026-01-01", value:6.50},
+  {social:"Facebook", metric:"Eng. Rate",    date:"2026-01-01", value:5.0},
+  {social:"Facebook", metric:"Interactions", date:"2026-01-01", value:32500},
+  {social:"Facebook", metric:"CTR",          date:"2026-01-01", value:3.0},
+  {social:"Facebook", metric:"Clicks",       date:"2026-01-01", value:19500},
+  {social:"Facebook", metric:"CPC",          date:"2026-01-01", value:0.88},
+  {social:"Facebook", metric:"Conv. Rate",   date:"2026-01-01", value:2.8},
+  {social:"Facebook", metric:"Revenue",      date:"2026-01-01", value:20800},
+  {social:"Facebook", metric:"CLV",          date:"2026-01-01", value:105.00},
+  {social:"Facebook", metric:"Repeat Rate",  date:"2026-01-01", value:16.0},
+  {social:"Facebook", metric:"Ad Spend",     date:"2026-01-01", value:4225},
+  {social:"Facebook", metric:"CPA",          date:"2026-01-01", value:17.50},
+  {social:"Facebook", metric:"CPL",          date:"2026-01-01", value:7.20},
+  {social:"Facebook", metric:"ROAS",         date:"2026-01-01", value:4.92},
+
+  {social:"Facebook", metric:"Impressions",  date:"2025-12-01", value:290000},
+  {social:"Facebook", metric:"Reach",        date:"2025-12-01", value:215000},
+  {social:"Facebook", metric:"CPM",          date:"2025-12-01", value:4.20},
+  {social:"Facebook", metric:"Eng. Rate",    date:"2025-12-01", value:5.5},
+  {social:"Facebook", metric:"Interactions", date:"2025-12-01", value:15950},
+  {social:"Facebook", metric:"CTR",          date:"2025-12-01", value:3.8},
+  {social:"Facebook", metric:"Clicks",       date:"2025-12-01", value:11020},
+  {social:"Facebook", metric:"CPC",          date:"2025-12-01", value:0.70},
+  {social:"Facebook", metric:"Conv. Rate",   date:"2025-12-01", value:4.1},
+  {social:"Facebook", metric:"Revenue",      date:"2025-12-01", value:16200},
+  {social:"Facebook", metric:"CLV",          date:"2025-12-01", value:75.00},
+  {social:"Facebook", metric:"Repeat Rate",  date:"2025-12-01", value:32.0},
+  {social:"Facebook", metric:"Ad Spend",     date:"2025-12-01", value:1218},
+  {social:"Facebook", metric:"CPA",          date:"2025-12-01", value:10.50},
+  {social:"Facebook", metric:"CPL",          date:"2025-12-01", value:4.20},
+  {social:"Facebook", metric:"ROAS",         date:"2025-12-01", value:13.30},
+
+  {social:"Facebook", metric:"Impressions",  date:"2025-11-01", value:1800000},
+  {social:"Facebook", metric:"Reach",        date:"2025-11-01", value:1350000},
+  {social:"Facebook", metric:"CPM",          date:"2025-11-01", value:8.20},
+  {social:"Facebook", metric:"Eng. Rate",    date:"2025-11-01", value:6.8},
+  {social:"Facebook", metric:"Interactions", date:"2025-11-01", value:122400},
+  {social:"Facebook", metric:"CTR",          date:"2025-11-01", value:4.5},
+  {social:"Facebook", metric:"Clicks",       date:"2025-11-01", value:81000},
+  {social:"Facebook", metric:"CPC",          date:"2025-11-01", value:0.62},
+  {social:"Facebook", metric:"Conv. Rate",   date:"2025-11-01", value:5.9},
+  {social:"Facebook", metric:"Revenue",      date:"2025-11-01", value:108500},
+  {social:"Facebook", metric:"CLV",          date:"2025-11-01", value:120.00},
+  {social:"Facebook", metric:"Repeat Rate",  date:"2025-11-01", value:38.0},
+  {social:"Facebook", metric:"Ad Spend",     date:"2025-11-01", value:14760},
+  {social:"Facebook", metric:"CPA",          date:"2025-11-01", value:9.20},
+  {social:"Facebook", metric:"CPL",          date:"2025-11-01", value:3.50},
+  {social:"Facebook", metric:"ROAS",         date:"2025-11-01", value:7.35},
+
+  {social:"Facebook", metric:"Impressions",  date:"2025-10-01", value:520000},
+  {social:"Facebook", metric:"Reach",        date:"2025-10-01", value:390000},
+  {social:"Facebook", metric:"CPM",          date:"2025-10-01", value:4.80},
+  {social:"Facebook", metric:"Eng. Rate",    date:"2025-10-01", value:3.5},
+  {social:"Facebook", metric:"Interactions", date:"2025-10-01", value:18200},
+  {social:"Facebook", metric:"CTR",          date:"2025-10-01", value:2.6},
+  {social:"Facebook", metric:"Clicks",       date:"2025-10-01", value:13520},
+  {social:"Facebook", metric:"CPC",          date:"2025-10-01", value:0.90},
+  {social:"Facebook", metric:"Conv. Rate",   date:"2025-10-01", value:2.3},
+  {social:"Facebook", metric:"Revenue",      date:"2025-10-01", value:17600},
+  {social:"Facebook", metric:"CLV",          date:"2025-10-01", value:93.00},
+  {social:"Facebook", metric:"Repeat Rate",  date:"2025-10-01", value:22.0},
+  {social:"Facebook", metric:"Ad Spend",     date:"2025-10-01", value:3120},
+  {social:"Facebook", metric:"CPA",          date:"2025-10-01", value:14.40},
+  {social:"Facebook", metric:"CPL",          date:"2025-10-01", value:5.80},
+  {social:"Facebook", metric:"ROAS",         date:"2025-10-01", value:5.64},
+
+  // ── INSTAGRAM ───────────────────────────────────────────────────────────────
+  {social:"Instagram", metric:"Impressions",  date:"2026-03-01", value:280000},
+  {social:"Instagram", metric:"Reach",        date:"2026-03-01", value:210000},
+  {social:"Instagram", metric:"CPM",          date:"2026-03-01", value:4.20},
+  {social:"Instagram", metric:"Eng. Rate",    date:"2026-03-01", value:4.1},
+  {social:"Instagram", metric:"Interactions", date:"2026-03-01", value:11480},
+  {social:"Instagram", metric:"CTR",          date:"2026-03-01", value:2.5},
+  {social:"Instagram", metric:"Clicks",       date:"2026-03-01", value:7000},
+  {social:"Instagram", metric:"CPC",          date:"2026-03-01", value:0.72},
+  {social:"Instagram", metric:"Conv. Rate",   date:"2026-03-01", value:2.1},
+  {social:"Instagram", metric:"Revenue",      date:"2026-03-01", value:5400},
+  {social:"Instagram", metric:"CLV",          date:"2026-03-01", value:90.00},
+  {social:"Instagram", metric:"Repeat Rate",  date:"2026-03-01", value:25.5},
+  {social:"Instagram", metric:"Ad Spend",     date:"2026-03-01", value:1176},
+  {social:"Instagram", metric:"CPA",          date:"2026-03-01", value:12.60},
+  {social:"Instagram", metric:"CPL",          date:"2026-03-01", value:4.90},
+  {social:"Instagram", metric:"ROAS",         date:"2026-03-01", value:4.59},
+
+  {social:"Instagram", metric:"Impressions",  date:"2026-02-01", value:220000},
+  {social:"Instagram", metric:"Reach",        date:"2026-02-01", value:165000},
+  {social:"Instagram", metric:"CPM",          date:"2026-02-01", value:4.80},
+  {social:"Instagram", metric:"Eng. Rate",    date:"2026-02-01", value:5.5},
+  {social:"Instagram", metric:"Interactions", date:"2026-02-01", value:12100},
+  {social:"Instagram", metric:"CTR",          date:"2026-02-01", value:3.2},
+  {social:"Instagram", metric:"Clicks",       date:"2026-02-01", value:7040},
+  {social:"Instagram", metric:"CPC",          date:"2026-02-01", value:0.68},
+  {social:"Instagram", metric:"Conv. Rate",   date:"2026-02-01", value:2.7},
+  {social:"Instagram", metric:"Revenue",      date:"2026-02-01", value:8200},
+  {social:"Instagram", metric:"CLV",          date:"2026-02-01", value:96.00},
+  {social:"Instagram", metric:"Repeat Rate",  date:"2026-02-01", value:31.0},
+  {social:"Instagram", metric:"Ad Spend",     date:"2026-02-01", value:1056},
+  {social:"Instagram", metric:"CPA",          date:"2026-02-01", value:10.20},
+  {social:"Instagram", metric:"CPL",          date:"2026-02-01", value:4.30},
+  {social:"Instagram", metric:"ROAS",         date:"2026-02-01", value:7.77},
+
+  {social:"Instagram", metric:"Impressions",  date:"2026-01-01", value:380000},
+  {social:"Instagram", metric:"Reach",        date:"2026-01-01", value:285000},
+  {social:"Instagram", metric:"CPM",          date:"2026-01-01", value:5.80},
+  {social:"Instagram", metric:"Eng. Rate",    date:"2026-01-01", value:6.9},
+  {social:"Instagram", metric:"Interactions", date:"2026-01-01", value:26220},
+  {social:"Instagram", metric:"CTR",          date:"2026-01-01", value:4.1},
+  {social:"Instagram", metric:"Clicks",       date:"2026-01-01", value:15580},
+  {social:"Instagram", metric:"CPC",          date:"2026-01-01", value:0.65},
+  {social:"Instagram", metric:"Conv. Rate",   date:"2026-01-01", value:3.8},
+  {social:"Instagram", metric:"Revenue",      date:"2026-01-01", value:18200},
+  {social:"Instagram", metric:"CLV",          date:"2026-01-01", value:118.00},
+  {social:"Instagram", metric:"Repeat Rate",  date:"2026-01-01", value:21.0},
+  {social:"Instagram", metric:"Ad Spend",     date:"2026-01-01", value:2204},
+  {social:"Instagram", metric:"CPA",          date:"2026-01-01", value:14.20},
+  {social:"Instagram", metric:"CPL",          date:"2026-01-01", value:5.90},
+  {social:"Instagram", metric:"ROAS",         date:"2026-01-01", value:8.26},
+
+  {social:"Instagram", metric:"Impressions",  date:"2025-12-01", value:180000},
+  {social:"Instagram", metric:"Reach",        date:"2025-12-01", value:135000},
+  {social:"Instagram", metric:"CPM",          date:"2025-12-01", value:3.60},
+  {social:"Instagram", metric:"Eng. Rate",    date:"2025-12-01", value:7.3},
+  {social:"Instagram", metric:"Interactions", date:"2025-12-01", value:13140},
+  {social:"Instagram", metric:"CTR",          date:"2025-12-01", value:5.0},
+  {social:"Instagram", metric:"Clicks",       date:"2025-12-01", value:9000},
+  {social:"Instagram", metric:"CPC",          date:"2025-12-01", value:0.52},
+  {social:"Instagram", metric:"Conv. Rate",   date:"2025-12-01", value:5.2},
+  {social:"Instagram", metric:"Revenue",      date:"2025-12-01", value:11800},
+  {social:"Instagram", metric:"CLV",          date:"2025-12-01", value:82.00},
+  {social:"Instagram", metric:"Repeat Rate",  date:"2025-12-01", value:38.5},
+  {social:"Instagram", metric:"Ad Spend",     date:"2025-12-01", value:648},
+  {social:"Instagram", metric:"CPA",          date:"2025-12-01", value:8.10},
+  {social:"Instagram", metric:"CPL",          date:"2025-12-01", value:3.20},
+  {social:"Instagram", metric:"ROAS",         date:"2025-12-01", value:18.21},
+
+  {social:"Instagram", metric:"Impressions",  date:"2025-11-01", value:980000},
+  {social:"Instagram", metric:"Reach",        date:"2025-11-01", value:740000},
+  {social:"Instagram", metric:"CPM",          date:"2025-11-01", value:7.40},
+  {social:"Instagram", metric:"Eng. Rate",    date:"2025-11-01", value:8.9},
+  {social:"Instagram", metric:"Interactions", date:"2025-11-01", value:87220},
+  {social:"Instagram", metric:"CTR",          date:"2025-11-01", value:6.1},
+  {social:"Instagram", metric:"Clicks",       date:"2025-11-01", value:59780},
+  {social:"Instagram", metric:"CPC",          date:"2025-11-01", value:0.48},
+  {social:"Instagram", metric:"Conv. Rate",   date:"2025-11-01", value:7.8},
+  {social:"Instagram", metric:"Revenue",      date:"2025-11-01", value:96200},
+  {social:"Instagram", metric:"CLV",          date:"2025-11-01", value:132.00},
+  {social:"Instagram", metric:"Repeat Rate",  date:"2025-11-01", value:46.0},
+  {social:"Instagram", metric:"Ad Spend",     date:"2025-11-01", value:7254},
+  {social:"Instagram", metric:"CPA",          date:"2025-11-01", value:6.80},
+  {social:"Instagram", metric:"CPL",          date:"2025-11-01", value:2.60},
+  {social:"Instagram", metric:"ROAS",         date:"2025-11-01", value:13.26},
+
+  {social:"Instagram", metric:"Impressions",  date:"2025-10-01", value:340000},
+  {social:"Instagram", metric:"Reach",        date:"2025-10-01", value:255000},
+  {social:"Instagram", metric:"CPM",          date:"2025-10-01", value:4.50},
+  {social:"Instagram", metric:"Eng. Rate",    date:"2025-10-01", value:5.8},
+  {social:"Instagram", metric:"Interactions", date:"2025-10-01", value:19720},
+  {social:"Instagram", metric:"CTR",          date:"2025-10-01", value:3.5},
+  {social:"Instagram", metric:"Clicks",       date:"2025-10-01", value:11900},
+  {social:"Instagram", metric:"CPC",          date:"2025-10-01", value:0.62},
+  {social:"Instagram", metric:"Conv. Rate",   date:"2025-10-01", value:3.2},
+  {social:"Instagram", metric:"Revenue",      date:"2025-10-01", value:14200},
+  {social:"Instagram", metric:"CLV",          date:"2025-10-01", value:108.00},
+  {social:"Instagram", metric:"Repeat Rate",  date:"2025-10-01", value:28.0},
+  {social:"Instagram", metric:"Ad Spend",     date:"2025-10-01", value:1530},
+  {social:"Instagram", metric:"CPA",          date:"2025-10-01", value:11.80},
+  {social:"Instagram", metric:"CPL",          date:"2025-10-01", value:4.60},
+  {social:"Instagram", metric:"ROAS",         date:"2025-10-01", value:9.28},
+
+  // ── TIKTOK ──────────────────────────────────────────────────────────────────
+  {social:"TikTok", metric:"Impressions",  date:"2026-03-01", value:520000},
+  {social:"TikTok", metric:"Reach",        date:"2026-03-01", value:390000},
+  {social:"TikTok", metric:"CPM",          date:"2026-03-01", value:3.60},
+  {social:"TikTok", metric:"Eng. Rate",    date:"2026-03-01", value:6.8},
+  {social:"TikTok", metric:"Interactions", date:"2026-03-01", value:35360},
+  {social:"TikTok", metric:"CTR",          date:"2026-03-01", value:3.2},
+  {social:"TikTok", metric:"Clicks",       date:"2026-03-01", value:16640},
+  {social:"TikTok", metric:"CPC",          date:"2026-03-01", value:0.58},
+  {social:"TikTok", metric:"Conv. Rate",   date:"2026-03-01", value:1.4},
+  {social:"TikTok", metric:"Revenue",      date:"2026-03-01", value:3900},
+  {social:"TikTok", metric:"CLV",          date:"2026-03-01", value:74.00},
+  {social:"TikTok", metric:"Repeat Rate",  date:"2026-03-01", value:15.0},
+  {social:"TikTok", metric:"Ad Spend",     date:"2026-03-01", value:1872},
+  {social:"TikTok", metric:"CPA",          date:"2026-03-01", value:13.80},
+  {social:"TikTok", metric:"CPL",          date:"2026-03-01", value:4.20},
+  {social:"TikTok", metric:"ROAS",         date:"2026-03-01", value:2.08},
+
+  {social:"TikTok", metric:"Impressions",  date:"2026-02-01", value:410000},
+  {social:"TikTok", metric:"Reach",        date:"2026-02-01", value:310000},
+  {social:"TikTok", metric:"CPM",          date:"2026-02-01", value:3.40},
+  {social:"TikTok", metric:"Eng. Rate",    date:"2026-02-01", value:7.2},
+  {social:"TikTok", metric:"Interactions", date:"2026-02-01", value:29520},
+  {social:"TikTok", metric:"CTR",          date:"2026-02-01", value:4.0},
+  {social:"TikTok", metric:"Clicks",       date:"2026-02-01", value:16400},
+  {social:"TikTok", metric:"CPC",          date:"2026-02-01", value:0.52},
+  {social:"TikTok", metric:"Conv. Rate",   date:"2026-02-01", value:1.8},
+  {social:"TikTok", metric:"Revenue",      date:"2026-02-01", value:6200},
+  {social:"TikTok", metric:"CLV",          date:"2026-02-01", value:70.00},
+  {social:"TikTok", metric:"Repeat Rate",  date:"2026-02-01", value:18.0},
+  {social:"TikTok", metric:"Ad Spend",     date:"2026-02-01", value:1476},
+  {social:"TikTok", metric:"CPA",          date:"2026-02-01", value:9.80},
+  {social:"TikTok", metric:"CPL",          date:"2026-02-01", value:3.50},
+  {social:"TikTok", metric:"ROAS",         date:"2026-02-01", value:4.20},
+
+  {social:"TikTok", metric:"Impressions",  date:"2026-01-01", value:780000},
+  {social:"TikTok", metric:"Reach",        date:"2026-01-01", value:590000},
+  {social:"TikTok", metric:"CPM",          date:"2026-01-01", value:4.10},
+  {social:"TikTok", metric:"Eng. Rate",    date:"2026-01-01", value:8.2},
+  {social:"TikTok", metric:"Interactions", date:"2026-01-01", value:63960},
+  {social:"TikTok", metric:"CTR",          date:"2026-01-01", value:5.0},
+  {social:"TikTok", metric:"Clicks",       date:"2026-01-01", value:39000},
+  {social:"TikTok", metric:"CPC",          date:"2026-01-01", value:0.58},
+  {social:"TikTok", metric:"Conv. Rate",   date:"2026-01-01", value:2.5},
+  {social:"TikTok", metric:"Revenue",      date:"2026-01-01", value:14200},
+  {social:"TikTok", metric:"CLV",          date:"2026-01-01", value:95.00},
+  {social:"TikTok", metric:"Repeat Rate",  date:"2026-01-01", value:12.0},
+  {social:"TikTok", metric:"Ad Spend",     date:"2026-01-01", value:3198},
+  {social:"TikTok", metric:"CPA",          date:"2026-01-01", value:15.80},
+  {social:"TikTok", metric:"CPL",          date:"2026-01-01", value:5.20},
+  {social:"TikTok", metric:"ROAS",         date:"2026-01-01", value:4.44},
+
+  {social:"TikTok", metric:"Impressions",  date:"2025-12-01", value:350000},
+  {social:"TikTok", metric:"Reach",        date:"2025-12-01", value:265000},
+  {social:"TikTok", metric:"CPM",          date:"2025-12-01", value:2.90},
+  {social:"TikTok", metric:"Eng. Rate",    date:"2025-12-01", value:9.1},
+  {social:"TikTok", metric:"Interactions", date:"2025-12-01", value:31850},
+  {social:"TikTok", metric:"CTR",          date:"2025-12-01", value:6.2},
+  {social:"TikTok", metric:"Clicks",       date:"2025-12-01", value:21700},
+  {social:"TikTok", metric:"CPC",          date:"2025-12-01", value:0.42},
+  {social:"TikTok", metric:"Conv. Rate",   date:"2025-12-01", value:3.8},
+  {social:"TikTok", metric:"Revenue",      date:"2025-12-01", value:9800},
+  {social:"TikTok", metric:"CLV",          date:"2025-12-01", value:68.00},
+  {social:"TikTok", metric:"Repeat Rate",  date:"2025-12-01", value:28.0},
+  {social:"TikTok", metric:"Ad Spend",     date:"2025-12-01", value:1015},
+  {social:"TikTok", metric:"CPA",          date:"2025-12-01", value:8.50},
+  {social:"TikTok", metric:"CPL",          date:"2025-12-01", value:3.10},
+  {social:"TikTok", metric:"ROAS",         date:"2025-12-01", value:9.66},
+
+  {social:"TikTok", metric:"Impressions",  date:"2025-11-01", value:2100000},
+  {social:"TikTok", metric:"Reach",        date:"2025-11-01", value:1580000},
+  {social:"TikTok", metric:"CPM",          date:"2025-11-01", value:5.90},
+  {social:"TikTok", metric:"Eng. Rate",    date:"2025-11-01", value:10.2},
+  {social:"TikTok", metric:"Interactions", date:"2025-11-01", value:214200},
+  {social:"TikTok", metric:"CTR",          date:"2025-11-01", value:7.3},
+  {social:"TikTok", metric:"Clicks",       date:"2025-11-01", value:153300},
+  {social:"TikTok", metric:"CPC",          date:"2025-11-01", value:0.38},
+  {social:"TikTok", metric:"Conv. Rate",   date:"2025-11-01", value:5.2},
+  {social:"TikTok", metric:"Revenue",      date:"2025-11-01", value:79500},
+  {social:"TikTok", metric:"CLV",          date:"2025-11-01", value:108.00},
+  {social:"TikTok", metric:"Repeat Rate",  date:"2025-11-01", value:35.0},
+  {social:"TikTok", metric:"Ad Spend",     date:"2025-11-01", value:12369},
+  {social:"TikTok", metric:"CPA",          date:"2025-11-01", value:7.80},
+  {social:"TikTok", metric:"CPL",          date:"2025-11-01", value:2.90},
+  {social:"TikTok", metric:"ROAS",         date:"2025-11-01", value:6.43},
+
+  {social:"TikTok", metric:"Impressions",  date:"2025-10-01", value:620000},
+  {social:"TikTok", metric:"Reach",        date:"2025-10-01", value:465000},
+  {social:"TikTok", metric:"CPM",          date:"2025-10-01", value:3.20},
+  {social:"TikTok", metric:"Eng. Rate",    date:"2025-10-01", value:8.8},
+  {social:"TikTok", metric:"Interactions", date:"2025-10-01", value:54560},
+  {social:"TikTok", metric:"CTR",          date:"2025-10-01", value:5.4},
+  {social:"TikTok", metric:"Clicks",       date:"2025-10-01", value:33480},
+  {social:"TikTok", metric:"CPC",          date:"2025-10-01", value:0.45},
+  {social:"TikTok", metric:"Conv. Rate",   date:"2025-10-01", value:2.9},
+  {social:"TikTok", metric:"Revenue",      date:"2025-10-01", value:18600},
+  {social:"TikTok", metric:"CLV",          date:"2025-10-01", value:85.00},
+  {social:"TikTok", metric:"Repeat Rate",  date:"2025-10-01", value:20.0},
+  {social:"TikTok", metric:"Ad Spend",     date:"2025-10-01", value:1984},
+  {social:"TikTok", metric:"CPA",          date:"2025-10-01", value:9.20},
+  {social:"TikTok", metric:"CPL",          date:"2025-10-01", value:3.40},
+  {social:"TikTok", metric:"ROAS",         date:"2025-10-01", value:9.38},
+];
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+function dateKey(item, keyType) {
+  var p = item.date.split('-');
+  var iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+  if (keyType==="day")  return iY+"-"+String(iM).padStart(2,"0")+"-"+String(iD).padStart(2,"0");
+  if (keyType==="year") return String(iY);
+  return iY+"-"+String(iM).padStart(2,"0");
+}
+
+function filterByDate(data, filterType) {
+  var now = new Date();
+  var cy=now.getFullYear(), cm=now.getMonth()+1, cd=now.getDate();
+  return data.filter(function(item){
+    var p=item.date.split('-');
+    var iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+    if (filterType==="yearly")       return iY===cy || iY===(cy-1);
+    if (filterType==="currentMonth") return iY===cy && iM===cm && iD<=cd;
+    if (filterType==="lastYear"){
+      var lm=cm-13, ly=cy;
+      while(lm<=0){lm+=12;ly--;}
+      return new Date(iY,iM-1,1) >= new Date(ly,lm-1,1);
+    }
+    return true;
+  });
+}
+
+// Group: social > metric > dateKey = value
+function groupData(data, keyType) {
+  var res = {};
+  data.forEach(function(item){
+    var k = dateKey(item, keyType);
+    if (!res[item.social]) res[item.social] = {};
+    if (!res[item.social][item.metric]) res[item.social][item.metric] = {};
+    res[item.social][item.metric][k] = (res[item.social][item.metric][k]||0) + item.value;
+  });
+  return res;
+}
+
+function getVal(g, soc, met, k){ try{ return g[soc][met][k]||0; }catch(e){return 0;} }
+function getSum(g, soc, met){
+  try{ return Object.values(g[soc][met]).reduce(function(a,b){return a+b;},0); }catch(e){return 0;}
+}
+
+function generateLast13Months(){
+  var months=[],now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
+  for(var i=1;i<=13;i++){var m=cm-i,y=cy;while(m<=0){m+=12;y--;}months.push({year:y,month:m,key:y+"-"+String(m).padStart(2,"0")});}
+  return months;
+}
+function generateCurrentMonthDays(){
+  var days=[],now=new Date(),cd=now.getDate();
+  for(var i=0;i<cd;i++){
+    var d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i);
+    days.push({year:d.getFullYear(),month:d.getMonth()+1,day:d.getDate(),
+      dayName:dayNames[d.getDay()],monthName:monthNames[d.getMonth()],
+      key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),
+      isToday:i===0});
+  }
+  return days;
+}
+function safeId(s){ return btoa(encodeURIComponent(s)).replace(/[^a-zA-Z0-9]/g,'').substring(0,20); }
+
+// ─── RENDER TABLE ─────────────────────────────────────────────────────────────
+function renderTable(filterType) {
+  var head = document.getElementById("tableHead");
+  var body = document.getElementById("tableBody");
+  if (!head||!body) return;
+
+  var now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1;
+  var keyType = filterType==="currentMonth"?"day": filterType==="yearly"?"year":"month";
+
+  var filtered  = filterByDate(DATA, filterType);
+  var grouped   = groupData(filtered, keyType);
+  var ytdG = filterType!=="yearly" ? groupData(filterByDate(DATA.filter(function(i){return parseInt(i.date.split('-')[0])===cy;}), filterType), "month") : null;
+  var mtdG = filterType!=="yearly" ? groupData(filterByDate(DATA.filter(function(i){var p=i.date.split('-');return parseInt(p[0])===cy&&parseInt(p[1])===cm;}), filterType), "month") : null;
+
+  var cols=[];
+  if (filterType==="yearly") cols=[{key:String(cy),label:String(cy)},{key:String(cy-1),label:String(cy-1)}];
+  else if (filterType==="lastYear") cols=generateLast13Months();
+  else cols=generateCurrentMonthDays();
+
+  // ── Header ──
+  var hr="<tr><th style='min-width:260px;'>PLATFORM / METRIC</th>";
+  if (filterType!=="yearly") hr+="<th>YTD</th><th>MTD</th>";
+  cols.forEach(function(col){
+    if (filterType==="currentMonth"){
+      var lbl=col.isToday?"TODAY":col.dayName;
+      hr+='<th><div class="th-content"><span class="th-month">'+lbl+'</span><span class="th-year">'+col.monthName+' '+col.day+'</span></div></th>';
+    } else if (filterType==="yearly"){
+      hr+='<th><div class="th-content"><span class="th-year-header">'+col.label+'</span></div></th>';
+    } else {
+      hr+='<th><div class="th-content"><span class="th-month">'+monthNames[col.month-1]+'</span><span class="th-year">'+col.year+'</span></div></th>';
+    }
+  });
+  hr+="</tr>";
+  head.innerHTML=hr;
+
+  var summaryM = "Impressions";
+  var html="";
+  var grandYTD=0, grandMTD=0, grandCols={};
+
+  SOCIAL_ORDER.forEach(function(sName){
+    if (!grouped[sName]) return;
+    var soc = SOCIALS[sName];
+    var sId  = safeId(sName);
+    var sEsc = sName.replace(/'/g,"\\'");
+
+    var socYTD = getSum(ytdG, sName, summaryM);
+    var socMTD = getSum(mtdG, sName, summaryM);
+    grandYTD += socYTD; grandMTD += socMTD;
+
+    // ── NIVEL 1: RED SOCIAL ──
+    html += '<tr class="social-main-row">';
+    html += '<td><div class="brand-cell" onclick="toggleSocial(\''+sEsc+'\')">';
+    html += '<span class="toggle-icon" id="si_'+sId+'">▶</span>';
+    html += '<span class="social-label-pill" style="color:'+soc.color+';">';
+    html += '<i class="'+soc.icon+'" style="font-size:15px;"></i> '+sName+'</span>';
+    html += '</div></td>';
+    if (filterType!=="yearly"){
+      html+='<td><strong>'+fmt(summaryM, socYTD)+'</strong></td>';
+      html+='<td>'+fmt(summaryM, socMTD)+'</td>';
+    }
+    cols.forEach(function(col){
+      var v=getVal(grouped,sName,summaryM,col.key);
+      grandCols[col.key]=(grandCols[col.key]||0)+v;
+      html+='<td>'+fmt(summaryM,v)+'</td>';
+    });
+    html+='</tr>';
+
+    // ── NIVEL 2: GRUPO DE MÉTRICA ──
+    MG_ORDER.forEach(function(mgKey){
+      var mg   = METRIC_GROUPS[mgKey];
+      var mgId = safeId(sName+'_'+mgKey);
+      var mgK  = sName+'__'+mgKey;
+      var mgEsc= mgK.replace(/'/g,"\\'");
+      var fm   = mg.metrics[0];
+
+      html+='<tr class="metric-group-row" data-soc="'+sName+'" style="display:none;">';
+      html+='<td style="padding-left:26px;"><div class="brand-cell" onclick="toggleMG(\''+mgEsc+'\')">';
+      html+='<span class="toggle-icon" id="mgi_'+mgId+'" style="color:var(--gold);">▶</span>';
+      html+='<span class="metric-group-label">';
+      html+='<span class="mg-icon '+mg.cls+'"><i class="'+mg.icon+'"></i></span> '+mg.label;
+      html+='</span></div></td>';
+      if (filterType!=="yearly"){
+        html+='<td style="font-size:12px;color:var(--text-muted);">'+fmt(fm,getSum(ytdG,sName,fm))+'</td>';
+        html+='<td style="font-size:12px;color:var(--text-muted);">'+fmt(fm,getSum(mtdG,sName,fm))+'</td>';
+      }
+      cols.forEach(function(col){
+        html+='<td style="font-size:12px;color:var(--text-muted);">'+fmt(fm,getVal(grouped,sName,fm,col.key))+'</td>';
+      });
+      html+='</tr>';
+
+      // ── NIVEL 3: MÉTRICA INDIVIDUAL ──
+      mg.metrics.forEach(function(mName){
+        html+='<tr class="metric-leaf-row" data-soc="'+sName+'" data-mg="'+mgK+'" style="display:none;">';
+        html+='<td style="padding-left:64px !important;"><div class="metric-cell">';
+        html+='<div class="mg-icon '+mg.cls+'" style="width:22px;height:22px;font-size:11px;flex-shrink:0;"><i class="'+mg.icon+'"></i></div>';
+        html+='<span class="metric-name">'+mName+'</span>';
+        html+='</div></td>';
+        if (filterType!=="yearly"){
+          html+='<td>'+fmt(mName,getSum(ytdG,sName,mName))+'</td>';
+          html+='<td>'+fmt(mName,getSum(mtdG,sName,mName))+'</td>';
+        }
+        cols.forEach(function(col){
+          html+='<td>'+fmt(mName,getVal(grouped,sName,mName,col.key))+'</td>';
+        });
+        html+='</tr>';
+      });
+    });
+  });
+
+  // Grand total
+//   html+='<tr class="grand-total-row"><td><strong>GRAND TOTAL</strong></td>';
+//   if (filterType!=="yearly"){
+//     html+='<td><strong>'+fmt(summaryM,grandYTD)+'</strong></td>';
+//     html+='<td><strong>'+fmt(summaryM,grandMTD)+'</strong></td>';
+//   }
+//   cols.forEach(function(col){ html+='<td><strong>'+fmt(summaryM,grandCols[col.key]||0)+'</strong></td>'; });
+//   html+='</tr>';
+
+  body.innerHTML=html;
+
+  // Chart
+  var chartM = METRIC_GROUPS[currentView].metrics[0];
+  var chartGrouped = groupData(filtered, keyType);
+  var chartCols = cols.slice();
+  if (filterType==="lastYear") chartCols.unshift({year:cy,month:cm,key:cy+"-"+String(cm).padStart(2,"0")});
+  renderChart(filterType, chartGrouped, chartCols, chartM);
+}
+
+// ─── TOGGLE FUNCTIONS ─────────────────────────────────────────────────────────
+function toggleSocial(sName){
+  var rows=document.querySelectorAll('.metric-group-row[data-soc="'+sName+'"]');
+  var icon=document.getElementById('si_'+safeId(sName));
+  var open=icon&&icon.textContent==="▶";
+  rows.forEach(function(r){r.style.display=open?"table-row":"none";});
+  if (!open){
+    document.querySelectorAll('.metric-leaf-row[data-soc="'+sName+'"]').forEach(function(r){r.style.display="none";});
+  }
+  if (icon) icon.textContent=open?"▼":"▶";
+}
+
+function toggleMG(mgK){
+  var rows=document.querySelectorAll('.metric-leaf-row[data-mg="'+mgK+'"]');
+  var parts=mgK.split('__');
+  var icon=document.getElementById('mgi_'+safeId(parts[0]+'_'+parts[1]));
+  var open=icon&&icon.textContent==="▶";
+  rows.forEach(function(r){r.style.display=open?"table-row":"none";});
+  if (icon) icon.textContent=open?"▼":"▶";
+}
+
+// ─── CHART ────────────────────────────────────────────────────────────────────
+var CHART_COLORS = {
+  "Facebook": 'rgb(24,119,242)',
+  "Instagram":'rgb(193,53,132)',
+  "TikTok":   'rgb(50,50,50)',
+  "Google":   'rgb(234,67,53)',
+  "YouTube":  'rgb(255,0,0)',
+};
+
+function renderChart(filterType, grouped, cols, chartMetric){
+  var ctx=document.getElementById('mainChart');
+  if (!ctx) return;
+  if (mainChart) mainChart.destroy();
+
+  var labels=cols.map(function(col){
+    if (filterType==="currentMonth") return (col.isToday?"TODAY":col.dayName)+"\n"+col.monthName+" "+col.day;
+    if (filterType==="yearly")       return col.label;
+    return monthNames[col.month-1]+"\n"+col.year;
+  });
+
+  var datasets=[];
+  SOCIAL_ORDER.forEach(function(sName){
+    if (!grouped[sName]) return;
+    var color=CHART_COLORS[sName]||'rgb(100,100,100)';
+    var vals=cols.map(function(col){return getVal(grouped,sName,chartMetric,col.key);});
+    datasets.push({
+      label:sName, data:vals,
+      backgroundColor:chartType==="bar"?color.replace('rgb','rgba').replace(')',',0.75)'):color.replace('rgb','rgba').replace(')',',0.1)'),
+      borderColor:color, borderWidth:2,
+      borderRadius:chartType==="bar"?4:0,
+      fill:chartType==="line", tension:0.4,
+      pointBackgroundColor:color, pointBorderColor:'#fff', pointBorderWidth:2, pointRadius:3, pointHoverRadius:5,
+      hidden:hiddenSeries.includes(sName)
+    });
+  });
+
+  var fmtFn = FMT[chartMetric]||function(v){return v;};
+
+  mainChart=new Chart(ctx,{
+    type:chartType,
+    data:{labels:labels,datasets:datasets},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{intersect:false,mode:'index'},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'rgba(30,34,39,0.95)',titleColor:'#fff',bodyColor:'#fff',
+          borderColor:'rgb(171,160,110)',borderWidth:1,cornerRadius:8,padding:12,
+          callbacks:{label:function(ctx){return ctx.dataset.label+": "+fmtFn(ctx.parsed.y);}}
+        }
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{color:'#888',font:{size:10},maxRotation:45}},
+        y:{beginAtZero:true,grid:{color:'rgba(0,0,0,0.05)'},
+          ticks:{color:'#888',font:{size:11},callback:function(v){return fmtFn(v);}}}
+      }
+    }
+  });
+
+  document.getElementById("chartTitle").textContent=METRIC_GROUPS[currentView].label+" – "+chartMetric+" by Platform";
+
+  var lc=document.getElementById("chartLegend");
+  lc.innerHTML=SOCIAL_ORDER.filter(function(s){return grouped[s];}).map(function(sName){
+    var color=CHART_COLORS[sName]||'rgb(100,100,100)';
+    var soc=SOCIALS[sName];
+    var dis=hiddenSeries.includes(sName)?'opacity:0.4;':'';
+    return '<div onclick="toggleSeries(\''+sName+'\')" style="display:flex;align-items:center;gap:6px;font-size:12px;color:#535255;cursor:pointer;padding:4px 8px;border-radius:6px;'+dis+'">'
+      +'<span style="width:12px;height:12px;border-radius:3px;background:'+color+';display:inline-block;"></span>'
+      +'<i class="'+soc.icon+'" style="color:'+soc.color+';font-size:11px;"></i> '+sName+'</div>';
+  }).join('');
+}
+
+function toggleSeries(sName){
+  var idx=hiddenSeries.indexOf(sName);
+  if (idx>-1) hiddenSeries.splice(idx,1); else hiddenSeries.push(sName);
+  if (mainChart){
+    var di=mainChart.data.datasets.findIndex(function(d){return d.label===sName;});
+    if (di>-1){mainChart.data.datasets[di].hidden=hiddenSeries.includes(sName);mainChart.update();}
+  }
+  document.getElementById("chartLegend").querySelectorAll('div').forEach(function(el){
+    el.style.opacity=hiddenSeries.includes(el.textContent.trim())?'0.4':'1';
+  });
+}
+
+function changeChartType(type){
+  chartType=type;
+  document.querySelectorAll('.chart-type-btn').forEach(function(b){
+    var a=b.dataset.type===type;
+    b.style.background=a?'white':'transparent';
+    b.style.color=a?'var(--gold)':'#535255';
+    b.style.boxShadow=a?'0 2px 4px rgba(0,0,0,.1)':'none';
+  });
+  renderTable(currentFilter);
+}
+
+// ─── FILTERS / VIEW ───────────────────────────────────────────────────────────
+function applyFilter(f){
+  currentFilter=f;
+  document.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){b.classList.toggle('active',b.dataset.filter===f);});
+  renderTable(f);
+}
+
+function toggleViewDropdown(){
+  document.getElementById("perfViewDropdown").classList.toggle("open");
+  document.getElementById("perfViewBtn").classList.toggle("open");
+}
+function changeView(v){
+  currentView=v;
+  document.getElementById("perfViewText").textContent=METRIC_GROUPS[v].label;
+  document.querySelectorAll('#perfViewDropdown .view-option').forEach(function(o){o.classList.toggle('active',o.dataset.view===v);});
+  document.getElementById("perfViewDropdown").classList.remove("open");
+  document.getElementById("perfViewBtn").classList.remove("open");
+  renderTable(currentFilter);
+}
+document.addEventListener("click",function(e){
+  var w=document.querySelector(".view-selector-wrap");
+  if (w&&!w.contains(e.target)){
+    document.getElementById("perfViewDropdown").classList.remove("open");
+    document.getElementById("perfViewBtn").classList.remove("open");
+  }
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded",function(){
+  renderTable("lastYear");
+
+  // Brand
+  var savedBrand=localStorage.getItem('selectedBrand');
+  if (savedBrand) document.getElementById('brandTitle').textContent=savedBrand;
+
+  document.addEventListener('niche3ds:brandChanged',function(e){
+    document.getElementById('brandTitle').textContent=e.detail.brand;
+    localStorage.setItem('selectedBrand',e.detail.brand);
+  });
+
+  // Active nav link
+  var currentPage=window.location.pathname.split('/').pop();
+  var activeLink=document.querySelector('a[href*="'+currentPage+'"]');
+  if (activeLink){
+    document.querySelectorAll('.nav-sub-item,.nav-sub-sub-item,.nav-item-standalone').forEach(function(i){i.classList.remove('active');});
+    activeLink.classList.add('active');
+    var grp=activeLink.closest('.nav-group');
+    if (grp) grp.classList.add('open');
+    var subBody=activeLink.closest('.nav-sub-group-body');
+    if (subBody){
+      subBody.style.display='block';
+      var header=subBody.previousElementSibling;
+      if (header){var arrow=header.querySelector('.nav-sub-arrow');if (arrow) arrow.classList.add('open');}
+    }
+  }
+});
+</script>
+</body>
+</html>

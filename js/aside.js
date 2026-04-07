@@ -81,32 +81,32 @@
       },
 
       /* ── ORDERS ── */
-      // {
-      //   id: "grp-orders",
-      //   label: "Brand Orders",
-      //   subGroups: [
-      //     {
-      //       id: "grp-view",
-      //       label: "Order by",
-      //       items: [
-      //         { href: "/page/orders/orders-by-collection.html", label: "Collection", key: "orders-collection" },
-      //         { href: "/page/orders/orders-by-perfumery.html",  label: "Perfume",    key: "orders-perfume" },
-      //         { href: "/page/orders/orders-by-season.html",     label: "Season",     key: "orders-season" }
-      //       ]
-      //     },
-      //     {
-      //       id: "grp-order-progress",
-      //       label: "Order in progress",
-      //       items: [
-      //         { href: "/page/orders/order-in-progress.html", label: "Pre Order", key: "order-pre-order" },
-      //         { href: "/page/orders/order.html", label: "Order", key: "order-in-progress" }
-      //       ]
-      //     }
-      //   ],
-      //   directItems: [
-      //     { href: "/page/orders/order-history.html", label: "Order History", key: "order-history" },
-      //   ]
-      // },
+      {
+        id: "grp-orders",
+        label: "Brand Orders",
+        subGroups: [
+          // {
+          //   id: "grp-view",
+          //   label: "Order by",
+          //   items: [
+          //     { href: "/page/orders/orders-by-collection.html", label: "Collection", key: "orders-collection" },
+          //     { href: "/page/orders/orders-by-perfumery.html",  label: "Perfume",    key: "orders-perfume" },
+          //     { href: "/page/orders/orders-by-season.html",     label: "Season",     key: "orders-season" }
+          //   ]
+          // },
+          {
+            id: "grp-order-progress",
+            label: "Order in progress",
+            items: [
+              { href: "/page/orders/order-in-progress.html", label: "Pre Order", key: "order-pre-order" },
+              { href: "/page/orders/order.html", label: "Order", key: "order-in-progress" }
+            ]
+          }
+        ],
+        // directItems: [
+        //   { href: "/page/orders/order-history.html", label: "Order History", key: "order-history" },
+        // ]
+      },
 
       /* ── BRAND ASSETS ── */
       // {

@@ -342,7 +342,7 @@
 
     h += '<div class="aside-logo">'
       + '<div class="logo-mark">'
-      + '<img src="' + root + 'img/logo2.png" alt="Niche Logo" style="width:180px;max-width:100%;">'
+      + '<img src="' + root + 'img/logo.png" alt="Niche Logo" style="width:180px;max-width:100%;">'
       + '</div></div>';
 
     h += '<div class="aside-user">'

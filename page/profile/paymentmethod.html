@@ -73,6 +73,21 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E222
 /* ── PAYMENT METHOD PAGE STYLES ── */
 .payment-container{max-width:1200px;margin:0 auto;}
 
+.payment-table-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+.table-card-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+.table-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.table-responsive{overflow-x:auto;}
+.payment-table{width:100%;border-collapse:collapse;min-width:980px;}
+.payment-table thead th{background:#fafafa;padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid var(--border);}
+.payment-table tbody td{padding:14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);vertical-align:top;}
+.payment-table tbody tr:hover{background:#fafafa;}
+.payment-table .method-badge{display:inline-block;padding:5px 10px;border-radius:20px;background:var(--gold-light);color:var(--gold);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
+
+.btn-icon-sm{width:32px;height:32px;border:1px solid var(--border);background:#fff;cursor:pointer;border-radius:7px;color:var(--text-muted);font-size:13px;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;}
+.btn-icon-sm:hover{background:#f7f7f7;color:var(--text);}
+.btn-icon-sm.delete:hover{color:#e74c3c;border-color:rgba(231,76,60,0.25);}
+.btn-icon-sm.edit:hover{color:var(--gold);}
+
 /* Payment Methods List */
 .payment-methods-list{margin-bottom:30px;}
 .method-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:16px;transition:all .25s;position:relative;}
@@ -156,6 +171,8 @@ select.form-control:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns=
 .content{padding:16px;}
 .modal-container{width:95%;}
 .form-grid{grid-template-columns:1fr;}
+.table-actions{width:100%;}
+.table-actions .btn{flex:1;justify-content:center;}
 }
 </style>
 <script src="../../js/aside.js"></script>
@@ -169,7 +186,7 @@ select.form-control:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns=
 <div class="main-wrap">
 <!-- TOPBAR -->
 <div class="topbar">
-<<div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span></div>
+<div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span></div>
 <div class="topbar-avatar">FS</div>
 </div>
 
@@ -181,17 +198,35 @@ select.form-control:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns=
 </div>
 
 <div class="payment-container">
-<!-- Payment Methods List -->
-<div class="payment-methods-list" id="paymentMethodsList">
-<!-- Methods will be dynamically inserted here -->
+<div class="payment-table-card">
+<div class="table-card-header">
+<h3 class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">
+<i class="fas fa-table"></i>
+Brands / Payment Methods Table
+</h3>
+<div class="table-actions">
+<button type="button" class="btn btn-primary" onclick="openModal()"><i class="fas fa-plus"></i>Create</button>
+<button type="button" class="btn btn-secondary" onclick="downloadPaymentExcel()"><i class="fas fa-file-excel"></i>Download Excel</button>
+<button type="button" class="btn btn-secondary" onclick="downloadPaymentPdf()"><i class="fas fa-file-pdf"></i>Download PDF</button>
 </div>
-
-<!-- Add Button -->
-<div style="text-align:center;margin-top:20px;">
-<button class="add-method-btn" onclick="openModal()">
-<i class="fas fa-plus"></i>
-Add Payment Method
-</button>
+</div>
+<div class="table-responsive">
+<table class="payment-table">
+<thead>
+<tr>
+<th>Brand</th>
+<th>Payment Method</th>
+<th>Currency</th>
+<th>Bank Name</th>
+<th>Account Holder</th>
+<th>Account Number</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="paymentTableBody"></tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -213,6 +248,14 @@ Add Payment Method
 </div>
 
 <div class="form-grid">
+<div class="form-group">
+<label class="form-label">Brand <span class="required">*</span></label>
+<select class="form-control" id="brand" required>
+<option value="La Sabia Madrid">La Sabia Madrid</option>
+<option value="Brand Demo">Brand Demo</option>
+</select>
+</div>
+
 <div class="form-group">
 <label class="form-label">Payment Method <span class="required">*</span></label>
 <select class="form-control" id="paymentMethod" required>
@@ -312,11 +355,16 @@ Save Changes
 </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+
 <script>
 // Sample data - In production, this would come from your backend
 let paymentMethods = [
 {
 id:1,
+brand:'La Sabia Madrid',
 type:'bank_transfer',
 typeName:'Bank Transfer',
 currency:'AMD',
@@ -333,9 +381,57 @@ status:'active'
 ];
 
 let editingId = null;
+const BRANDS = ['La Sabia Madrid', 'Brand Demo'];
+
+function getDefaultMethods(){
+return [
+{
+id:1,
+brand:'La Sabia Madrid',
+type:'bank_transfer',
+typeName:'Bank Transfer',
+currency:'EUR',
+currencyName:'EUR - Euro',
+accountType:'business',
+bankName:'Banco Santander',
+accountName:'La Sabia Madrid LLC',
+accountNumber:'****1122',
+branchCode:'45821',
+swiftCode:'BSCHESMM',
+isDefault:true,
+status:'active'
+},
+{
+id:2,
+brand:'Brand Demo',
+type:'wire_transfer',
+typeName:'Wire Transfer',
+currency:'USD',
+currencyName:'USD - US Dollar',
+accountType:'business',
+bankName:'Chase Bank',
+accountName:'Brand Demo Inc.',
+accountNumber:'****7789',
+branchCode:'90210',
+swiftCode:'CHASUS33',
+isDefault:true,
+status:'active'
+}
+];
+}
 
 // Initialize
 document.addEventListener('DOMContentLoaded',function(){
+const saved = localStorage.getItem('paymentMethods');
+if(saved){
+try {
+paymentMethods = JSON.parse(saved);
+} catch (error) {
+paymentMethods = getDefaultMethods();
+}
+} else {
+paymentMethods = getDefaultMethods();
+}
 renderPaymentMethods();
 });
 
@@ -357,53 +453,33 @@ arrow.classList.toggle('open',!isOpen);
 
 // Render Payment Methods
 function renderPaymentMethods(){
-const container = document.getElementById('paymentMethodsList');
+const container = document.getElementById('paymentTableBody');
 if(paymentMethods.length === 0){
 container.innerHTML = `
-<div class="empty-state">
-<i class="fas fa-credit-card"></i>
-<h3>No Payment Methods</h3>
-<p>You haven't added any payment methods yet. Click the button below to add one.</p>
-<button class="add-method-btn" onclick="openModal()">
-<i class="fas fa-plus"></i>
-Add Payment Method
-</button>
-</div>
+<tr>
+<td colspan="8">No payment methods available</td>
+</tr>
 `;
 return;
 }
 
 container.innerHTML = paymentMethods.map(method => `
-<div class="method-card ${method.isDefault ? 'active' : ''}" data-id="${method.id}">
-<div class="method-header">
-<div class="method-type">
-<div class="method-icon">
-<i class="fas fa-${getIconForType(method.type)}"></i>
-</div>
-<div class="method-info">
-<h3>${method.typeName}</h3>
-<div class="method-details">
-${method.bankName} • ${method.currencyName} • ${method.accountName}
-</div>
-</div>
-</div>
-<div class="method-status">
-<span class="badge ${method.isDefault ? 'badge-primary' : 'badge-muted'}">
-${method.isDefault ? 'Default' : 'Secondary'}
-</span>
-<span class="badge badge-success">Active</span>
-<div class="method-actions">
-<button class="btn-icon edit" onclick="editMethod(${method.id})" title="Edit">
-<i class="fas fa-pen"></i>
-</button>
-<button class="btn-icon delete" onclick="deleteMethod(${method.id})" title="Delete">
-<i class="fas fa-trash"></i>
-</button>
-</div>
-</div>
-</div>
-</div>
+<tr data-id="${method.id}">
+<td>${method.brand || '-'}</td>
+<td><span class="method-badge">${method.typeName}</span></td>
+<td>${method.currencyName}</td>
+<td>${method.bankName}</td>
+<td>${method.accountName}</td>
+<td>${method.accountNumber}</td>
+<td>${method.isDefault ? 'Default' : 'Active'}</td>
+<td>
+<button class="btn-icon-sm edit" onclick="editMethod(${method.id})" title="Edit"><i class="fas fa-pen"></i></button>
+<button class="btn-icon-sm delete" onclick="deleteMethod(${method.id})" title="Delete"><i class="fas fa-trash"></i></button>
+</td>
+</tr>
 `).join('');
+
+localStorage.setItem('paymentMethods', JSON.stringify(paymentMethods));
 }
 
 function getIconForType(type){
@@ -421,6 +497,7 @@ function openModal(){
 editingId = null;
 document.getElementById('modalTitle').textContent = 'Add Payment Method';
 document.getElementById('paymentForm').reset();
+document.getElementById('brand').value = localStorage.getItem('selectedBrand') || BRANDS[0];
 document.getElementById('paymentModal').classList.add('active');
 }
 
@@ -435,6 +512,7 @@ if(!method) return;
 
 editingId = id;
 document.getElementById('modalTitle').textContent = 'Edit Payment Method';
+document.getElementById('brand').value = method.brand || BRANDS[0];
 document.getElementById('paymentMethod').value = method.type;
 document.getElementById('currency').value = method.currency;
 document.getElementById('accountType').value = method.accountType;
@@ -459,6 +537,7 @@ return;
 }
 
 // Get form values
+const brand = document.getElementById('brand').value;
 const paymentMethod = document.getElementById('paymentMethod').value;
 const currency = document.getElementById('currency').value;
 const accountType = document.getElementById('accountType').value;
@@ -472,6 +551,7 @@ const bankAddress = document.getElementById('bankAddress').value;
 const isDefault = document.getElementById('isDefault').value === 'yes';
 
 const methodData = {
+brand:brand,
 type:paymentMethod,
 typeName:document.getElementById('paymentMethod').options[document.getElementById('paymentMethod').selectedIndex].text,
 currency:currency,
@@ -502,9 +582,11 @@ paymentMethods[index] = methodData;
 }else{
 // Add new
 methodData.id = Date.now();
-// If setting as default, remove default from others
+// If setting as default, remove default from same brand
 if(isDefault){
-paymentMethods.forEach(m => m.isDefault = false);
+paymentMethods.forEach(m => {
+if(m.brand === brand) m.isDefault = false;
+});
 }
 paymentMethods.push(methodData);
 }
@@ -546,6 +628,43 @@ setTimeout(() => {
 div.style.animation = 'slideOut .3s ease';
 setTimeout(() => div.remove(),300);
 },3000);
+}
+
+function downloadPaymentExcel(){
+const rows = paymentMethods.map(method => ({
+Brand: method.brand,
+PaymentMethod: method.typeName,
+Currency: method.currencyName,
+BankName: method.bankName,
+AccountHolder: method.accountName,
+AccountNumber: method.accountNumber,
+Status: method.isDefault ? 'Default' : 'Active'
+}));
+const worksheet = XLSX.utils.json_to_sheet(rows);
+const workbook = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(workbook, worksheet, 'PaymentMethods');
+XLSX.writeFile(workbook, 'payment-methods.xlsx');
+}
+
+function downloadPaymentPdf(){
+const doc = new window.jspdf.jsPDF({ orientation: 'landscape' });
+const rows = paymentMethods.map(method => [
+method.brand,
+method.typeName,
+method.currencyName,
+method.bankName,
+method.accountName,
+method.accountNumber,
+method.isDefault ? 'Default' : 'Active'
+]);
+doc.text('Brands / Payment Methods Table', 14, 14);
+doc.autoTable({
+head: [['Brand', 'Payment Method', 'Currency', 'Bank Name', 'Account Holder', 'Account Number', 'Status']],
+body: rows,
+startY: 20,
+styles: { fontSize: 8 }
+});
+doc.save('payment-methods.pdf');
 }
 
 // Close modal on outside click

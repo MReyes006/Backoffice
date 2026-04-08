@@ -211,6 +211,15 @@
           { href: "/page/security/users.html",  label: "Users",  key: "security-users" },
           { href: "/page/security/roles.html",  label: "Roles",  key: "security-roles" }
         ]
+      },
+
+      {
+        id: "grp-brand-portal",
+        label: "Brand Portal Security",
+        directItems: [
+          { href: "/page/brand-portal-security/users.html", label: "User",  key: "brand-portal-user" },
+          { href: "/page/brand-portal-security/roles.html", label: "Roles", key: "brand-portal-roles" }
+        ]
       }
 
     ]
@@ -237,8 +246,9 @@
       if (currentPath === hrefPath) {
         pathMatches = true;
       } else {
-        var fileName = hrefPath.split("/").pop();
-        pathMatches = !!fileName && currentPath.slice(-("/" + fileName).length) === "/" + fileName;
+        // Match by full href path suffix to avoid collisions like
+        // /page/security/users.html vs /page/brand-portal-security/users.html
+        pathMatches = currentPath.slice(-hrefPath.length) === hrefPath;
       }
 
       if (!pathMatches) return false;

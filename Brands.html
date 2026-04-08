@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes – Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/dashboard.css">
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <style>
+        .inv-dashboard {
+            padding: 20px;
+        }
+
+        .inv-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #222;
+        }
+
+        /* GRID */
+        .inv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+       
+
+        /* TITULO DEL DATO */
+        .inv-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        /* VALOR */
+        .inv-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #d4a017;
+        }
+
+        /* COLORES ESPECIALES */
+        .inv-card.warning .inv-icon,
+        .inv-card.warning .inv-value {
+            color: #ff8800;
+        }
+
+        .inv-card.info .inv-icon,
+        .inv-card.info .inv-value {
+            color: #1c8cff;
+        }
+    </style>
+
+
+    <style>
+        /* Título */
+        .brand-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        /* ===================== CARDS DE ESTADÍSTICA ===================== */
+        .brand-stats {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            width: 400px;
+            padding: 15px 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        .stat-label {
+            font-size: 15px;
+            color: #333;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .stat-green .stat-value {
+            color: #1c8f00;
+        }
+
+        .stat-orange .stat-value {
+            color: #d36200;
+        }
+
+        /* ===================== FILTROS ===================== */
+        /* .brand-filters {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .brand-select {
+            padding: 8px 12px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 14px;
+        } */
+
+        /* .brand-search {
+            display: flex;
+            align-items: center;
+           border: 1px solid #bbb; 
+            border-radius: 6px;
+            overflow: hidden;
+        } */
+/* 
+        .brand-search input {
+            border: none;
+            padding: 8px 10px;
+            width: 200px;
+        }
+
+        .brand-search button {
+            background: #e9e9e9;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .brand-view {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-btn {
+            background: #fff;
+            border: 1px solid #bbb;
+            padding: 6px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .view-list-text {
+            font-size: 14px;
+        } */
+
+        /* ===================== GRID DE BRANDS ===================== */
+        /* .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+        } */
+
+        /* .brand-card {
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            cursor: pointer;
+            transition: transform .2s;
+        }
+
+        .brand-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .brand-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+        } */
+
+        /* ===================== GRID DE BRANDS ===================== */
+.brand-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+    gap:20px;
+    padding:8px;
+}
+
+.brand-card-link{
+    text-decoration:none;
+    display:block;
+}
+
+.brand-card{
+    position:relative;
+    width:100%;
+    aspect-ratio:1;
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,0.07);
+    transition:all .3s ease;
+    cursor:pointer;
+}
+
+.brand-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 24px rgba(0,0,0,0.15);
+}
+
+.brand-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .3s ease;
+}
+
+.brand-card:hover img{
+    transform:scale(1.05);
+}
+
+/* Black gradient overlay at bottom */
+.brand-card::before{
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:40%;
+    background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.6) 40%,rgba(0,0,0,0.3) 70%,transparent 100%);
+    z-index:1;
+    pointer-events:none;
+}
+
+.brand-name{
+    position:absolute;
+    bottom:16px;
+    left:0;
+    right:0;
+    text-align:center;
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    z-index:2;
+    padding:0 12px;
+    text-shadow:0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Responsive */
+@media(max-width:968px){
+    .brand-grid{
+        grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+        gap:16px;
+    }
+}
+
+@media(max-width:768px){
+    .brand-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
+    
+    .brand-name{
+        font-size:12px;
+        bottom:12px;
+    }
+}
+
+@media(max-width:480px){
+    .brand-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+        /* CARDS CON FONDO BLANCO */
+.inv-card {
+    background: #ffffff;
+    /* padding: 25px 20px; */
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #e7e7e7;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    transition: all .25s ease;
+    width: 300px;
+    padding-bottom: 20px;
+}
+
+.inv-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* ICONOS */
+.inv-icon {
+    font-size: 36px;
+    color: #b5aa79;;
+    margin-bottom: 12px;
+}
+
+/* TITULO DEL DATO */
+.inv-label {
+    color: #ffffff;
+    margin-bottom: 6px;
+    background: rgb(181, 170, 121);
+    height: 40px;
+    border-radius: 12px 12px 0 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    align-content: center;
+}
+
+/* VALOR */
+.inv-value {
+    font-size: 32px;
+    font-weight: 600;
+    color: #000000;
+}
+
+/* estilos agregados */
+/* Brand Filters Container */
+.brand-filters{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:20px 24px;
+    background:var(--card-bg);
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    margin-bottom:24px;
+    flex-wrap:wrap;
+}
+
+/* Brand Select */
+.brand-select{
+    padding:12px 40px 12px 18px;
+    border:2px solid var(--gold);
+    border-radius:50px;
+    background:#fff;
+    color:var(--text);
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    min-width:200px;
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ab9a6e' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 16px center;
+    transition:all .25s;
+}
+
+.brand-select:hover{
+    border-color:var(--gold-dark);
+}
+
+.brand-select:focus{
+    outline:none;
+    border-color:var(--gold);
+    /* box-shadow:0 0 0 3px var(--gold-light); */
+}
+
+/* Brand Search */
+.brand-search{
+    flex:1;
+    max-width:500px;
+    position:relative;
+    display:flex;
+    align-items:center;
+}
+
+.brand-search input{
+    width:100%;
+    padding:12px 48px 12px 18px;
+    border:2px solid var(--gold);
+    border-radius:50px;
+    background:#fff;
+    color:var(--text);
+    font-size:14px;
+    transition:all .25s;
+}
+
+.brand-search input::placeholder{
+    color:var(--text-muted);
+}
+
+.brand-search input:focus{
+    outline:none;
+    border-color:var(--gold);
+    /* box-shadow:0 0 0 3px var(--gold-light); */
+}
+
+.brand-search button{
+    position:absolute;
+    right:4px;
+    top:50%;
+    transform:translateY(-50%);
+    width:38px;
+    height:38px;
+    border:none;
+    background:var(--gold);
+    color:#fff;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all .25s;
+}
+
+.brand-search button:hover{
+    background:var(--gold-dark);
+    transform:translateY(-50%) scale(1.05);
+}
+
+.brand-search button i{
+    font-size:14px;
+}
+
+/* Brand View */
+.brand-view{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:4px;
+    background:#f5f5f5;
+    border-radius:8px;
+}
+
+.view-btn{
+    width:40px;
+    height:40px;
+    border:2px solid transparent;
+    background:#fff;
+    color:var(--text-muted);
+    border-radius:8px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    transition:all .25s;
+}
+
+.view-btn:hover{
+    color:var(--gold);
+    transform:translateY(-1px);
+}
+
+.view-btn.active{
+    border-color:var(--gold);
+    color:var(--gold);
+    background:#fff;
+    box-shadow:0 2px 4px rgba(171,160,110,0.2);
+}
+
+.view-list-text{
+    padding:0 12px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+    white-space:nowrap;
+}
+
+/* Responsive */
+@media(max-width:968px){
+    .brand-filters{
+        flex-direction:column;
+        align-items:stretch;
+    }
+    
+    .brand-select,
+    .brand-search{
+        max-width:100%;
+        width:100%;
+    }
+    
+    .brand-view{
+        justify-content:center;
+    }
+}
+
+@media(max-width:768px){
+    .brand-filters{
+        padding:16px;
+    }
+    
+    .brand-select{
+        min-width:100%;
+    }
+}
+    </style>
+
+ 
+    <!-- ══════════ MAIN ══════════ -->
+    <div class="main-wrap">
+        <header class="topbar">
+            <div class="topbar-title" id="topbarTitle"> <span></span></div>
+            <div class="topbar-actions">
+                <button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+                <button class="topbar-btn" title="Search"><i class="fas fa-search"></i></button>
+                <div class="topbar-avatar">FS</div>
+            </div>
+        </header>
+
+        <main class="content">
+
+            <div class="brand-section">
+
+                <h1 class="brand-title">BRAND</h1>
+
+                <!-- ===================== CARDS DE RESUMEN ===================== -->
+                <div class="brand-stats">
+                    <div class="inv-card">
+                    <div class="inv-label"><h3>Total Brands</h3></div>
+                    <div>
+                        <div class="inv-value">358</div>
+                    </div>
+                    </div>
+                    <div class="inv-card">
+                    <div class="inv-label"><h3>Total Brands Contracted</h3></div>
+                    <div>
+                        <div class="inv-value">150</div>
+                    </div>
+                    </div>
+                    <div class="inv-card">
+                    <div class="inv-label"><h3>Total Brands No Contracted</h3></div>
+                    <div>
+                        <div class="inv-value">300</div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- ===================== FILTROS ===================== -->
+                <div class="brand-filters">
+
+                    <select class="brand-select">
+                        <option>World of Perfumes</option>
+                        <option>Luxury</option>
+                        <option>Niche</option>
+                        <option>Designer</option>
+                    </select>
+
+                    <div class="brand-search">
+                        <input type="text" placeholder="Search by brand">
+                        <button>
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div class="brand-view">
+                        <button class="view-btn"><i class="fas fa-th"></i></button>
+                        <button class="view-btn"><i class="fas fa-th-large"></i></button>
+                        <button class="view-btn"><i class="fas fa-th-list"></i></button>
+                        <span class="view-list-text">View List</span>
+                    </div>
+                </div>
+
+                <!-- ===================== GRID DE BRANDS ===================== -->
+                <div class="brand-grid">
+
+                    <!-- CARD -->
+                    <a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/1907.webp" alt="Brand">
+                            <div class="brand-name">1907</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/AcquaDiSardegna.webp" alt="Brand">
+                            <div class="brand-name">ACQUA DI SARDEGNA</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/Adamo_Parfum.webp" alt="Brand">
+                            <div class="brand-name">ADAMO PARFUM</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/agatho-parfum.webp" alt="Brand">
+                            <div class="brand-name">AGATHO PARFUM</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/akro-fragances.webp" alt="Brand">
+                            <div class="brand-name">AKRO FRAGANCES</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/alexandre-j.webp" alt="Brand">
+                            <div class="brand-name">ALEXANDRE.J</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/Alfred_Ritchy.webp" alt="Brand">
+                            <div class="brand-name">ALFRED RITCHY</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/amouage.webp" alt="Brand">
+                            <div class="brand-name">AMOAGE</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/ArabianOud.webp" alt="Brand">
+                            <div class="brand-name">ARABIAN OUD</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/Argos.webp" alt="Brand">
+                            <div class="brand-name">ARGOS</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/atelier_dors.webp" alt="Brand">
+                            <div class="brand-name">ATELIER D'ORS</div>
+                        </div>
+                    </a><a href="BrandDetail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="brands/BAMAINPARIS.webp" alt="Brand">
+                            <div class="brand-name">BALMAIN PARIS</div>
+                        </div>
+                    </a>
+                    <!-- DUPLICA ESTO PARA TODAS LAS BRANDS -->
+
+                </div>
+
+            </div>
+
+
+        </main>
+    </div>
+
+    <!-- ══ MODAL ══ -->
+    <div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closePaymentModal()">&times;</button>
+            <h2 id="modalTitle" class="modal-title">Paid Commissions</h2>
+            <div class="modal-divider"></div>
+            <div style="overflow-x:auto;">
+                <table class="responsive-table modal-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Order #</th>
+                            <th class="tooltip-header">Sales<span class="tooltip-badge"><i
+                                        class="fas fa-info-circle"></i></span></th>
+                            <th>Commission Rate</th>
+                            <th>Commission</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modalTableBody"></tbody>
+                    <tfoot>
+                        <tr class="modal-total-row">
+                            <td><strong>TOTAL</strong></td>
+                            <td></td>
+                            <td id="modalTotalSales"><strong>$0.00</strong></td>
+                            <td></td>
+                            <td id="modalTotalCommission"><strong>$0.00</strong></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function toggleSubGroup(id) {
+            var body = document.getElementById(id);
+            var arrow = document.getElementById('arrow-' + id);
+            var isOpen = body.style.display !== 'none';
+
+            // Solo cerrar si no tiene item activo dentro
+            if (isOpen && !body.querySelector('.active')) {
+                body.style.display = 'none';
+                if (arrow) arrow.classList.remove('open');
+            } else {
+                body.style.display = 'block';
+                if (arrow) arrow.classList.add('open');
+            }
+        }
+        /* Accordion */
+        // REEMPLAZA toggleGroup:
+        function toggleGroup(id) {
+            var grp = document.getElementById(id);
+            var wasOpen = grp.classList.contains('open');
+
+            // Cerrar otros grupos solo si no tienen item activo
+            document.querySelectorAll('.nav-group').forEach(function (g) {
+                if (g.id !== id && !g.querySelector('.active')) {
+                    g.classList.remove('open');
+                }
+            });
+
+            // Toggle el grupo clickeado
+            if (wasOpen && !grp.querySelector('.active')) {
+                grp.classList.remove('open');
+            } else {
+                grp.classList.add('open');
+            }
+        }
+
+        /* View router */
+        const VIEWS = {
+            overview: { el: 'view-overview', title: 'Dashboard <span>/ Overview</span>' },
+            salesByPerfumery: { el: 'view-placeholder', title: 'Dashboard <span>/ Sales by Perfumery</span>', ph: 'Sales by Perfumery' },
+            salesByState: { el: 'view-placeholder', title: 'Dashboard <span>/ Sales by State</span>', ph: 'Sales by State' },
+            salesByCity: { el: 'view-placeholder', title: 'Dashboard <span>/ Sales by City</span>', ph: 'Sales by City' },
+            salesByCollection: { el: 'view-placeholder', title: 'Dashboard <span>/ Sales by Collection</span>', ph: 'Sales by Collection' },
+            salesByMonth: { el: 'view-placeholder', title: 'Dashboard <span>/ Sales by Month</span>', ph: 'Sales by Month' },
+            commissions: { el: 'view-commissions', title: 'Dashboard <span>/ Clients</span>' },
+        };
+
+        // REEMPLAZA la función showView completa:
+        function showView(key, linkEl) {
+            // Quitar active de todos
+            document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone')
+                .forEach(function (i) { i.classList.remove('active'); });
+
+            // Poner active en el clickeado
+            if (linkEl) {
+                linkEl.classList.add('active');
+
+                // Mantener abierto el nav-group padre
+                var grp = linkEl.closest('.nav-group');
+                if (grp) grp.classList.add('open');
+
+                // Mantener abierto el nav-sub-group padre
+                var subBody = linkEl.closest('.nav-sub-group-body');
+                if (subBody) {
+                    subBody.style.display = 'block';
+                    var header = subBody.previousElementSibling;
+                    if (header) {
+                        var arrow = header.querySelector('.nav-sub-arrow');
+                        if (arrow) arrow.classList.add('open');
+                    }
+                }
+            }
+
+            const v = VIEWS[key] || VIEWS.overview;
+            ['view-overview', 'view-commissions', 'view-placeholder'].forEach(function (id) {
+                document.getElementById(id).style.display = 'none';
+            });
+            document.getElementById(v.el).style.display = 'block';
+            document.getElementById('topbarTitle').innerHTML = v.title;
+            if (v.ph) document.getElementById('placeholderTitle').textContent = v.ph;
+            return false;
+        }
+        /* Tabs */
+        const TAB_TITLES = {
+            clients: 'Dashboard <span>/ Clients</span>',
+            commission: 'Dashboard <span>/ Commissions</span>',
+            payments: 'Dashboard <span>/ Payments</span>',
+        };
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === tab));
+            const title = TAB_TITLES[tab];
+            if (title) document.getElementById('topbarTitle').innerHTML = title;
+        }
+        function applyFilter(f, section) {
+            const id = section === 'commission' ? 'commissionFilters' : 'clientFilters';
+            document.getElementById(id)?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+        }
+        function applyPaymentFilter(f) {
+            document.getElementById('paymentHistoryFilters')?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+        }
+        function changeTableView() { }
+        function exportMonthlyReferralsToPDF() { alert('Connect js/dashboard.js'); }
+        function exportPaymentHistoryToPDF() { alert('Connect js/dashboard.js'); }
+        function updateGroupedChart() { }
+        function updateCommissionChart() { }
+        function updatePaymentChart() { }
+        function closePaymentModal(e) {
+            if (!e || e.target === document.getElementById('paymentDetailModal'))
+                document.getElementById('paymentDetailModal').classList.remove('active');
+        }
+    </script>
+
+    <!-- <script src="js/api.js"></script> -->
+    <!-- <script src="js/dashboard.js"></script> -->
+
+</body>
+
+</html>

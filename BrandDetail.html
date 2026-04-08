@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Sabia Madrid – Motiv Perfumes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="css/dashboard.css">
+<style>
+/* ── RESET & BASE ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E2227;display:flex;min-height:100vh;}
+
+/* ── CSS VARIABLES ── */
+:root{
+--gold:rgb(181, 170, 121);
+--gold-dark:#A88638;
+--gold-light:rgba(203,160,69,0.12);
+--gold-bg:#F5E6C9;
+--sidebar-bg:#1E2227;
+--sidebar-text:rgba(255,255,255,0.75);
+--card-bg:#fff;
+--border:#E8E4D9;
+--text:#1E2227;
+--text-muted:#888;
+--radius:12px;
+--shadow:0 2px 12px rgba(0,0,0,0.08);
+--shadow-hover:0 6px 24px rgba(0,0,0,0.12);
+}
+
+── ASIDE ──
+/* .aside{width:240px;min-height:100vh;background:var(--sidebar-bg);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;}
+.aside-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.07);}
+.aside-logo img{width:180px;max-width:100%;}
+.aside-user{padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.07);}
+.user-name{color:#fff;font-weight:600;font-size:14px;margin-bottom:6px;}
+.user-status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--sidebar-text);margin-bottom:4px;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#888;}
+.status-dot.active{background:#4CAF50;}
+.status-dot.inactive{background:#888;}
+.user-since{font-size:11px;color:rgba(255,255,255,.35);}
+.aside-nav{flex:1;overflow-y:auto;padding:12px 0;}
+.nav-group-header{display:flex;justify-content:space-between;align-items:center;padding:11px 20px;cursor:pointer;color:rgba(255,255,255,.55);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
+.nav-group-header:hover{color:#fff;}
+.nav-group-arrow{font-size:10px;transition:transform .25s;}
+.nav-group.open .nav-group-arrow{transform:rotate(180deg);}
+.nav-group-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.nav-group.open .nav-group-body{max-height:500px;}
+.nav-sub-item,.nav-sub-sub-item{display:flex;align-items:center;gap:10px;padding:10px 20px 10px 50px;color:rgba(255,255,255,.65);font-size:13px;text-decoration:none;transition:all .2s;}
+.nav-sub-item:hover,.nav-sub-sub-item:hover{background:rgba(255,255,255,.05);color:#fff;}
+.nav-sub-item.active,.nav-sub-sub-item.active{background:var(--gold-light);color:var(--gold);border-left:3px solid var(--gold);}
+.nav-sub-group-header{display:flex;justify-content:space-between;align-items:center;padding:10px 50px 10px 50px;cursor:pointer;color:rgba(255,255,255,.5);font-size:12px;transition:color .2s;}
+.nav-sub-group-header:hover{color:#fff;}
+.nav-sub-arrow{font-size:9px;transition:transform .25s;}
+.nav-sub-arrow.open{transform:rotate(90deg);}
+.nav-sub-group-body{display:none;padding-left:20px;}
+.aside-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07);}
+.aside-footer a{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:color .2s;}
+.aside-footer a:hover{color:#fff;} */
+
+/* ── MAIN ── */
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:15px;font-weight:600;color:var(--text);}
+.topbar-title span{color:var(--text-muted);font-weight:400;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.topbar-btn:hover{background:#f5f5f5;color:var(--text);}
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.content{padding:28px;flex:1;}
+
+/* ── BRAND HEADER ── */
+.brand-header{background:var(--card-bg);border-radius:var(--radius);padding:28px 32px;margin-bottom:24px;border:1px solid var(--border);box-shadow:var(--shadow);}
+.brand-header-title{text-align:center;font-size:32px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.brand-subtitle{text-align:center;font-size:14px;color:var(--text-muted);}
+.brand-subtitle strong{color:var(--gold);}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:8px;border-bottom:2px solid var(--border);margin-bottom:28px;padding-bottom:0;}
+.tab{background:none;border:none;padding:14px 24px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text-muted);transition:all .25s;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;}
+.tab:hover{color:var(--gold);}
+.tab.active{color:var(--gold);background:white; border-bottom-color:var(--gold);}
+
+/* ── TAB CONTENT ── */
+.tab-content{display:none;animation:fadeIn .3s ease;}
+.tab-content.active{display:block; padding: 0;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── CARDS ── */
+.card{background:var(--card-bg);border-radius:var(--radius);padding:24px 28px;border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:24px;transition:all .25s;}
+.card:hover{box-shadow:var(--shadow-hover);}
+.card h3{font-size:17px;font-weight:700;color:var(--text);margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--gold-light);display:flex;align-items:center;gap:10px;}
+.card h3 i{color:var(--gold);font-size:16px;}
+
+/* ── INFO BOX ── */
+.info-box{line-height:1.8;color:var(--text-muted);font-size:14px;}
+.info-box strong{color:var(--text);display:block;margin-top:14px;margin-bottom:6px;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+
+/* ── TABLES ── */
+.table-responsive{overflow-x:auto;margin-top:16px;border-radius:8px;}
+.perfumes-table,.simple-table,.orders-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card-bg);}
+.perfumes-table th,.simple-table th,.orders-table th{background:linear-gradient(135deg,rgba(203,160,69,0.15) 0%,rgba(203,160,69,0.05) 100%);color:#3A2E12;padding:14px 12px;text-align:left;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid var(--gold);}
+.perfumes-table th:first-child,.simple-table th:first-child,.orders-table th:first-child{border-radius:8px 0 0 0;}
+.perfumes-table th:last-child,.simple-table th:last-child,.orders-table th:last-child{border-radius:0 8px 0 0;}
+.perfumes-table td,.simple-table td,.orders-table td{padding:14px 12px;border-bottom:1px solid #F0ECE3;color:var(--text);font-size:14px;transition:background .2s;}
+.perfumes-table tbody tr:hover td,.simple-table tbody tr:hover td,.orders-table tbody tr:hover td{background:rgba(203,160,69,0.05);}
+.perfumes-table tbody tr:last-child td,.simple-table tbody tr:last-child td,.orders-table tbody tr:last-child td{border-bottom:none;}
+
+/* Columnas específicas */
+.perfumes-table th:nth-child(1),.perfumes-table td:nth-child(1){min-width:150px;font-weight:600;}
+.perfumes-table th:nth-child(n+3),.perfumes-table td:nth-child(n+3){text-align:center;min-width:80px;}
+
+/* ── PERFUMES HEADER ── */
+.perfumes-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:12px 16px;background:rgba(203,160,69,0.08);border-radius:8px;border-left:3px solid var(--gold);}
+.perfumes-header a{color:var(--gold);text-decoration:none;font-weight:600;font-size:13px;transition:color .2s;}
+.perfumes-header a:hover{color:var(--gold-dark);text-decoration:underline;}
+
+/* ── OVERVIEW GRID ── */
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(600px,1fr));gap:24px;}
+
+/* ── ORDERS TABS ── */
+.orders-tabs{margin-bottom:20px;display:flex;gap:8px;}
+.subtab{padding:10px 20px;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:13px;font-weight:600;color:var(--text-muted);border-radius:8px;transition:all .25s;}
+.subtab:hover{border-color:var(--gold);color:var(--gold);}
+.subtab.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* ── ORDERS ACTIONS ── */
+.orders-actions{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.orders-actions input[type="text"]{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;min-width:250px;transition:all .25s;}
+.orders-actions input[type="text"]:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(203,160,69,0.1);}
+.orders-actions button{padding:10px 18px;border:1px solid var(--border);background:var(--card-bg);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);transition:all .25s;}
+.orders-actions button:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px);}
+.orders-actions button.primary{background:var(--gold);color:#fff;border-color:var(--gold);}
+.orders-actions button.primary:hover{background:var(--gold-dark);border-color:var(--gold-dark);}
+.orders-actions .right{margin-left:auto;}
+
+/* ── STATUS TAGS ── */
+.status{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;display:inline-block;}
+.status.blue{background:rgba(52,152,219,0.12);color:#3498db;}
+.status.yellow{background:rgba(241,196,15,0.12);color:#d4a017;}
+.status.green{background:rgba(76,175,80,0.12);color:#4CAF50;}
+
+/* ── IMAGEN PEQUEÑA ── */
+.img-sm{width:45px;height:45px;border-radius:8px;object-fit:cover;border:1px solid var(--border);}
+
+/* ── DOWNLOADS ── */
+.downloads{margin-top:20px;padding:16px;background:rgba(203,160,69,0.05);border-radius:8px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.downloads button{padding:8px 16px;border:1px solid var(--gold);background:var(--card-bg);border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;color:var(--gold);transition:all .25s;}
+.downloads button:hover{background:var(--gold);color:#fff;}
+
+/* ── PREMIUM BLOCKS ── */
+.premium-block{background:var(--card-bg);border-radius:var(--radius);margin-bottom:28px;border-left:5px solid var(--gold);box-shadow:var(--shadow);overflow:hidden;}
+.premium-header{background:white;padding:16px 22px;display:flex;align-items:center;gap:12px;font-weight:700;font-size:16px;color:#3A2E12;border-bottom:1px solid var(--border);}
+.premium-header i{color:var(--gold);font-size:20px;}
+.premium-body{padding:24px 28px;font-size:14px;color:var(--text);line-height:1.8;}
+
+/* ── PREMIUM INNER BLOCKS ── */
+.premium-inner-block{background:#FAF7F0;border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px;}
+.premium-inner-block:last-child{margin-bottom:0;}
+.premium-inner-icon-title{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.premium-inner-icon-title i{color:var(--gold);font-size:18px;}
+.premium-inner-icon-title h4{margin:0;font-size:15px;font-weight:700;color:#3A2E12;}
+
+/* ── BADGE HIGHLIGHT ── */
+.premium-highlight{background:rgba(203,160,69,0.15);padding:4px 8px;border-radius:6px;font-weight:600;color:var(--gold-dark);}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(30,34,39,0.6);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px);}
+.modal-overlay.active{display:flex;}
+.modal-content{background:var(--card-bg);border-radius:var(--radius);width:90%;max-width:800px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:modalSlideIn .3s ease;position:relative;}
+@keyframes modalSlideIn{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+.modal-close{position:absolute;top:20px;right:20px;width:34px;height:34px;border:none;background:rgba(0,0,0,0.05);border-radius:50%;cursor:pointer;font-size:18px;color:var(--text-muted);transition:all .2s;}
+.modal-close:hover{background:rgba(0,0,0,0.1);color:var(--text);}
+.modal-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.modal-divider{height:1px;background:var(--border);margin:16px 0;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:968px){
+.overview-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+.aside{transform:translateX(-100%);}
+.main-wrap{margin-left:0;}
+.content{padding:16px;}
+.brand-header-title{font-size:24px;}
+.tabs{gap:4px;}
+.tab{padding:12px 16px;font-size:13px;}
+.orders-actions{flex-direction:column;align-items:stretch;}
+.orders-actions input[type="text"],.orders-actions .right{min-width:100%;margin-left:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ ASIDE ══════════ -->
+ <!-- ══════════ ASIDE ══════════ -->
+   <aside class="aside">
+        <div class="aside-logo">
+            <div class="logo-mark">
+                <img src="img/logo.png" alt="Niche Logo" style="width:180px;max-width:100%;">
+            </div>
+        </div>
+
+        <div class="aside-user">
+            <!-- <div class="user-avatar" id="sidebarAvatar">FS</div> -->
+            <div class="user-name" id="sidebarName">Francis Santana</div>
+            <div class="user-status">
+                <div class="status-dot inactive"></div>
+                <span>Inactive</span>
+            </div>
+            <div class="user-since">Member since: <span id="sidebarDate">Mar 11, 2026</span></div>
+        </div>
+
+        <nav class="aside-nav">
+
+            <a href="dashboard.html" class="nav-item-standalone active" onclick="showView('overview',this)">
+                </i> Dashboard
+            </a>
+            <a href="Brands.html" class="nav-item-standalone inactive" onclick="showView('overview',this)">
+                </i> Brands
+            </a>
+
+            <a href="ActiveBrands.html" class="nav-item-standalone inactive" onclick="showView('overview',this)">
+                </i> 1. Active contracted Brands
+            </a>
+            <a href="BrandNoContracted.html" class="nav-item-standalone inactive" onclick="showView('overview',this)">
+                </i> 2. Brands no contracted
+            </a>
+
+           <div class="nav-group" id="grp-brand">
+                <div class="nav-group-header" onclick="toggleGroup('grp-brand')">
+                    <span class="nav-group-label">Reports</span>
+                    <i class="fas fa-chevron-down nav-group-arrow"></i>
+                </div>
+
+                   <div class="nav-group-body">
+
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1. Active contracted Brands</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.1 Historical orders</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.2 Sales by </a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.2.1 Brand</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.2.2 Perfume</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.2.3 Collection </a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.2.4 By ranking</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.2.5By Country</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.2.6 By state</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.2.7 By city </a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.2.8 By Store </a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.2.9 By Product</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.3 Inventory</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.3.1 Low inventory perfumes</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.3.2 Inventory</a>
+                    <a href="age/orders/orders-by-collection.html" class="nav-sub-item">1.4 Ranking </a>
+
+                </div>
+            </div>
+
+            <div class="nav-group" id="grp-profile">
+                <div class="nav-group-header" onclick="toggleGroup('grp-profile')">
+                    <span class="nav-group-label">Profile</span>
+                    <i class="fas fa-chevron-down nav-group-arrow"></i>
+                </div>
+                <div class="nav-group-body">
+                    <a href="#" class="nav-sub-item">Company Info</a>
+                    <a href="#" class="nav-sub-item">Users</a>
+                    <a href="#" class="nav-sub-item">Security</a>
+                    <a href="#" class="nav-sub-item">Payment method</a>
+                </div>
+            </div>
+
+        </nav>
+
+        <div class="aside-footer">
+            <a href="#" class="nav-item" onclick="return false;">
+                <div class="nav-icon"><i class="fas fa-sign-out-alt"></i></div>
+                <span class="nav-text">Log out</span>
+            </a>
+            <div
+                style="text-align:center;margin-top:8px;font-size:9px;color:rgba(255,255,255,.15);letter-spacing:.5px;">
+                Niche3DS Partner Portal</div>
+        </div>
+    </aside>
+
+
+<!-- ══════════ MAIN ══════════ -->
+<div class="main-wrap">
+<header class="topbar">
+<div class="topbar-title" id="topbarTitle">Brands <span>/ La Sabia Madrid</span></div>
+<div class="topbar-actions">
+<button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+<button class="topbar-btn" title="Search"><i class="fas fa-search"></i></button>
+<div class="topbar-avatar">FS</div>
+</div>
+</header>
+<main class="content">
+
+<div class="brand-tabs-container">
+<!-- Brand Header -->
+<div class="brand-header">
+<h1 class="brand-header-title">LA SABIA MADRID</h1>
+<div class="brand-subtitle">Contratada desde: <strong>Febrero 17 2026</strong></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+<button class="tab active" data-tab="overview">Overview</button>
+<button class="tab" data-tab="perfumes">Perfumes</button>
+<button class="tab" data-tab="analysis">Brand Analysis</button>
+<button class="tab" data-tab="orders">Orders</button>
+<button class="tab" data-tab="reports">Reports</button>
+</div>
+
+<!-- ===== TAB: OVERVIEW ===== -->
+<div class="tab-content active" id="overview">
+<div class="overview-grid">
+<!-- Contact Information -->
+<div class="card">
+<h3><i class="fas fa-address-card"></i> Contact Information</h3>
+<div class="info-box">
+Company Name<br>
+Initial contact date<br><br>
+<strong>Type</strong>
+Company phone<br>
+Company address<br>
+Website<br>
+Ciudad<br>
+Country<br><br>
+<strong>Contact person</strong>
+Name<br>
+Email<br>
+Phone<br>
+Ciudad<br>
+Country<br><br>
+<strong>Status de la cuenta</strong>
+Tipo de perfumes: Niche / Luxury / etc
+</div>
+</div>
+
+<!-- Perfumes Summary -->
+<div class="card">
+<h3><i class="fas fa-spray-can"></i> Perfumes</h3>
+<div class="perfumes-header">
+<span>Sort by:</span>
+<a href="#">Best Seller</a>
+</div>
+<div class="table-responsive">
+<table class="perfumes-table">
+<thead class="header-table" style="background: #b5aa79;">
+<tr>
+<th>Perfume</th>
+<th>Collection</th>
+<th>Coef.</th>
+<th>Stock</th>
+<th>Sold LM</th>
+<th>Current</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>4</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>5</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>6</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Próximas reuniones -->
+<div class="card">
+<h3><i class="fas fa-calendar-plus"></i> Próximas Reuniones Agendadas</h3>
+<div class="table-responsive">
+<table class="simple-table">
+<thead style="background: #b5aa79;">
+<tr>
+<th>Fecha</th>
+<th>Tipo</th>
+<th>Link</th>
+<th>Agenda</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Histórico reuniones -->
+<div class="card">
+<h3><i class="fas fa-history"></i> Histórico Reuniones Pasadas</h3>
+<div class="table-responsive">
+<table class="simple-table">
+<thead style="background: #b5aa79;">
+<tr>
+<th>Fecha</th>
+<th>Tipo</th>
+<th>Agenda</th>
+<th>Comentario</th>
+<th>Seguimiento</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB: PERFUMES ===== -->
+<div class="tab-content" id="perfumes">
+<div class="card">
+<h3><i class="fas fa-spray-can"></i> Perfumes</h3>
+<div class="table-responsive">
+<table class="perfumes-table full">
+<thead style="background: #b5aa79;">
+<tr>
+<th>Perfume</th>
+<th>Collection</th>
+<th>Fragrance Family</th>
+<th>Notes</th>
+<th>Actual Stock</th>
+<th>Wholesale Price</th>
+<th>Coef.</th>
+<th>MRSP</th>
+<th>Sold LM</th>
+<th>Sold Current</th>
+<th>Qty</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>10</td><td>$5,022</td></tr>
+<tr><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>8</td><td>$4,200</td></tr>
+<tr><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>5</td><td>$1,900</td></tr>
+</tbody>
+</table>
+</div>
+<div class="downloads">
+<span>Descargar orden en:</span>
+<button><i class="fas fa-file-excel"></i> Excel</button>
+<button><i class="fas fa-file-pdf"></i> PDF</button>
+<button><i class="fas fa-envelope"></i> Email</button>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB: BRAND ANALYSIS ===== -->
+<div class="tab-content" id="analysis">
+<!-- EXECUTIVE SUMMARY -->
+<div class="premium-block">
+<div class="premium-header">
+<i class="fas fa-file-contract"></i>
+<span>EXECUTIVE SUMMARY</span>
+</div>
+<div class="premium-body">
+<p>La Sabia Madrid operates as an independent Spanish niche house in the contemporary artistic segment, with retail prices ranging from €150 to $165 per 100ml. The brand is positioned as a high-artistic, emerging house centered around 'The Artisan's Collection', combining Mediterranean freshness, gourmand-leather contrasts, and woody-spicy depth rooted in Spanish cultural identity. It demonstrates strong early momentum as a 2026 launch, driven by recognized perfumers like Suzy Le Helley and Philippine Courtière, and rapid social traction across key SKUs like Dos Besos and Poderío.</p>
+</div>
+</div>
+
+<!-- BRAND DNA -->
+<div class="premium-block">
+<div class="premium-header">
+<i class="fas fa-fingerprint"></i>
+<span>1. BRAND DNA</span>
+</div>
+<div class="premium-body">
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-wind"></i>
+<h4>Olfactive Identity</h4>
+</div>
+<p>Descripción breve sobre la identidad olfativa…</p>
+</div>
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-chart-line"></i>
+<h4>Commercial Positioning</h4>
+</div>
+<p>Descripción sobre posicionamiento comercial…</p>
+</div>
+</div>
+</div>
+
+<!-- CONSOLIDATED RANKING -->
+<div class="premium-block">
+<div class="premium-header">
+<i class="fas fa-signal"></i>
+<span>2. CONSOLIDATED RANKING</span>
+</div>
+<div class="premium-body">
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-cogs"></i>
+<h4>Applied Methodology</h4>
+</div>
+<p>The ranking applies a 60% Artistic Score / 40% Commercial Score weighting. System A uses cumulative temporal windows (L12M / L24M / L36M) for momentum analysis, while System B uses non-overlapping periods (P1Y, P2Y, P3Y). As a 2026 launch, all SKUs are classified as <span class="premium-highlight">new_release ⚡</span>.</p>
+</div>
+</div>
+</div>
+
+<!-- STRATEGIC BLOCKS -->
+<div class="premium-block">
+<div class="premium-header">
+<i class="fas fa-chess"></i>
+<span>3. STRATEGIC BLOCKS</span>
+</div>
+<div class="premium-body">
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-fire"></i>
+<h4>Mandatory Core</h4>
+</div>
+<p>MANDATORY CORE (High Rotation & Traffic): Includes Poderío (by Suzy Le Helley) and Dos Besos (by Théo Belmas & Margherita Carini). These two SKUs represent an estimated 55–65% of total brand volume. Commercial insight: They hold the highest L12M mentions (25.1 and 29.5), strong longevity (9h), and combine viral traction with perfumer prestige for strong conversion. 🕊️</p>
+</div>
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-hand-holding-usd"></i>
+<h4>Profitable Complement</h4>
+</div>
+<p>PROFITABLE COMPLEMENT: Includes Floreal (by Philippine Courtière) and Conquista (by Théo Belmas). These expand usage occasions to daytime and spring/summer, support cross‑selling, and maintain a strong artistic‑commercial balance (scores 81–83). 🥇</p>
+</div>
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-gem"></i>
+<h4>Selective</h4>
+</div>
+<p>SELECTIVE (Image & Niche Depth): Includes Verdanzza (by Théo Belmas & Margherita Carini). Despite a lower Commercial Score (55) and low mentions (4.3/month), it maintains artistic credibility (78 Artistic Score) and is vital for collection completeness and brand.</p>
+</div>
+</div>
+</div>
+
+<!-- PURCHASE ORDER DECISION -->
+<div class="premium-block">
+<div class="premium-header">
+<i class="fas fa-shopping-bag"></i>
+<span>4. PURCHASE ORDER DECISION</span>
+</div>
+<div class="premium-body">
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-spray-can"></i>
+<h4>Perfume</h4>
+</div>
+<p><strong>Premium E‑commerce Scenario:</strong> Poderío, Dos Besos, Floreal, Conquista, Verdanzza.<br><br><strong>Conservative Scenario:</strong> Poderío, Dos Besos, Floreal.<br><br><strong>Avoid Overstocking:</strong> Verdanzza, Conquista, Floreal.</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB: ORDERS ===== -->
+<div class="tab-content" id="orders">
+<div class="card">
+<div class="orders-tabs">
+<button class="subtab active">Orders</button>
+<button class="subtab">Items</button>
+</div>
+<div class="orders-actions">
+<input type="text" placeholder="Search by Order Number">
+<button>Custom Range</button>
+<button>Quick Range</button>
+<button class="right primary"><i class="fas fa-file-excel"></i> Export to Excel</button>
+<button class="right"><i class="fas fa-file-pdf"></i> Export to PDF</button>
+<button class="right"><i class="fas fa-share"></i> Share</button>
+</div>
+<div class="table-responsive">
+<table class="orders-table">
+<thead>
+<tr style="background: #b5aa79;">
+<th></th>
+<th>No. Items</th>
+<th>Order #</th>
+<th>Order Date</th>
+<th>Status</th>
+<th>Delivery</th>
+<th>Subtotal</th>
+<th>Discount</th>
+<th>Shipping</th>
+<th>Taxes</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="img/perfume.png" class="img-sm" alt="Product"></td>
+<td>4 Products</td>
+<td>#1809</td>
+<td>Mar 20, 2026</td>
+<td><span class="status blue">Unfulfilled</span></td>
+<td><span class="status yellow">Pending</span></td>
+<td>$7,980.00</td>
+<td>$0.00</td>
+<td>$0.00</td>
+<td>$0.00</td>
+<td>$7,980.00</td>
+</tr>
+<tr>
+<td><img src="img/perfume.png" class="img-sm" alt="Product"></td>
+<td>4 Products</td>
+<td>#1808</td>
+<td>Mar 19, 2026</td>
+<td><span class="status blue">Unfulfilled</span></td>
+<td><span class="status yellow">Pending</span></td>
+<td>$8,645.00</td>
+<td>$0.00</td>
+<td>$0.00</td>
+<td>$0.00</td>
+<td>$8,645.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB: REPORTS ===== -->
+<div class="tab-content" id="reports">
+<div class="card">
+<h3><i class="fas fa-chart-bar"></i> Brand Reports</h3>
+<div class="info-box">
+<strong>Available Reports:</strong>
+• Métricas de crecimiento<br>
+• Análisis de ventas por país<br>
+• Penetración por retailers<br>
+• Alcance en redes sociales<br>
+• Descargas: Excel, PDF, etc.
+</div>
+</div>
+</div>
+
+</div>
+</main>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
+<div class="modal-content" onclick="event.stopPropagation()">
+<button class="modal-close" onclick="closePaymentModal()">&times;</button>
+<h2 id="modalTitle" class="modal-title">Paid Commissions</h2>
+<div class="modal-divider"></div>
+<div style="overflow-x:auto;">
+<table class="responsive-table modal-table">
+<thead>
+<tr>
+<th>Date</th>
+<th>Order #</th>
+<th>Sales</th>
+<th>Commission Rate</th>
+<th>Commission</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="modalTableBody"></tbody>
+<tfoot>
+<tr class="modal-total-row">
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td id="modalTotalSales"><strong>$0.00</strong></td>
+<td></td>
+<td id="modalTotalCommission"><strong>$0.00</strong></td>
+<td></td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+</div>
+
+<script>
+/* Toggle Navigation Groups */
+function toggleSubGroup(id){
+var body = document.getElementById(id);
+var arrow = document.getElementById('arrow-' + id);
+var isOpen = body.style.display !== 'none';
+if (isOpen && !body.querySelector('.active')) {
+body.style.display = 'none';
+if (arrow) arrow.classList.remove('open');
+} else {
+body.style.display = 'block';
+if (arrow) arrow.classList.add('open');
+}
+}
+
+function toggleGroup(id){
+var grp = document.getElementById(id);
+var wasOpen = grp.classList.contains('open');
+document.querySelectorAll('.nav-group').forEach(function (g) {
+if (g.id !== id && !g.querySelector('.active')) {
+g.classList.remove('open');
+}
+});
+if (wasOpen && !grp.querySelector('.active')) {
+grp.classList.remove('open');
+} else {
+grp.classList.add('open');
+}
+}
+
+/* View Router */
+function showView(key, linkEl){
+document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone').forEach(function (i) { i.classList.remove('active'); });
+if (linkEl) {
+linkEl.classList.add('active');
+var grp = linkEl.closest('.nav-group');
+if (grp) grp.classList.add('open');
+var subBody = linkEl.closest('.nav-sub-group-body');
+if (subBody) {
+subBody.style.display = 'block';
+var header = subBody.previousElementSibling;
+if (header) {
+var arrow = header.querySelector('.nav-sub-arrow');
+if (arrow) arrow.classList.add('open');
+}
+}
+}
+}
+
+/* Tabs Functionality */
+document.querySelectorAll(".tab").forEach(btn => {
+btn.addEventListener("click", () => {
+document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+btn.classList.add("active");
+document.getElementById(btn.dataset.tab).classList.add("active");
+});
+});
+
+/* Modal Functions */
+function closePaymentModal(e){
+if (!e || e.target === document.getElementById('paymentDetailModal'))
+document.getElementById('paymentDetailModal').classList.remove('active');
+}
+
+/* Auto-highlight active link based on URL */
+document.addEventListener("DOMContentLoaded", function() {
+var currentPage = window.location.pathname.split('/').pop();
+var activeLink = document.querySelector('a[href*="' + currentPage + '"]');
+if (activeLink) {
+document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone').forEach(function(i) { i.classList.remove('active'); });
+activeLink.classList.add('active');
+var grp = activeLink.closest('.nav-group');
+if (grp) grp.classList.add('open');
+var subBody = activeLink.closest('.nav-sub-group-body');
+if (subBody) {
+subBody.style.display = 'block';
+var header = subBody.previousElementSibling;
+if (header) {
+var arrow = header.querySelector('.nav-sub-arrow');
+if (arrow) arrow.classList.add('open');
+}
+}
+}
+});
+</script>
+
+</body>
+</html>

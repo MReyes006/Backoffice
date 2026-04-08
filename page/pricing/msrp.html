@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Score</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <script src="../../js/aside.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
+:root{
+  --gold:rgb(171,160,110);--gold-dark:rgb(141,130,80);--gold-light:rgba(171,160,110,0.12);
+  --card-bg:#fff;--border:#E8E9E9;--text:#1E2227;--text-muted:#888;--radius:10px;
+}
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.topbar-btn:hover{background:#f0f0f0;}
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.content{padding:28px;flex:1;}
+.welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
+.welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);}
+.welcome-bar h2 span{color:var(--gold);}
+.welcome-bar p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+.filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+.filter-container{display:flex;gap:8px;flex-wrap:wrap;}
+.filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold);}
+.filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+.view-selector-wrap{position:relative;display:flex;align-items:center;gap:8px;}
+.view-selector-label{font-size:13px;color:var(--text-muted);white-space:nowrap;}
+.view-selector-btn{padding:9px 14px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;display:flex;align-items:center;gap:8px;min-width:180px;justify-content:space-between;transition:border-color .2s;}
+.view-selector-btn:hover,.view-selector-btn.open{border-color:var(--gold);}
+.view-selector-btn .chevron{font-size:10px;transition:transform .2s;}
+.view-selector-btn.open .chevron{transform:rotate(180deg);}
+.view-dropdown{position:absolute;top:calc(100% + 5px);right:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);z-index:200;min-width:200px;display:none;flex-direction:column;overflow:hidden;}
+.view-dropdown.open{display:flex;}
+.view-option{padding:11px 15px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:9px;transition:background .15s;}
+.view-option:hover{background:#f5f5f5;}
+.view-option.active{background:var(--gold-light);color:var(--gold);}
+.view-option i{font-size:13px;width:16px;}
+.section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+.table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+.responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
+.responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
+.responsive-table thead th:not(:first-child){text-align:center;}
+.responsive-table tbody td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text);vertical-align:middle;text-align:center;}
+.responsive-table tbody td:first-child{text-align:left;}
+.responsive-table tbody tr:last-child td{border-bottom:none;}
+.responsive-table tbody tr:hover{background:#fafafa;}
+.th-content{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.th-month{font-size:13px;font-weight:600;}
+.th-year{font-size:11px;font-weight:400;opacity:.8;}
+.th-year-header{font-size:13px;font-weight:600;}
+
+/* NIVEL 1 – Producto */
+.brand-row{background:rgba(171,160,110,.08);transition:background .15s;}
+.brand-row:hover{background:rgba(171,160,110,.15);}
+.brand-cell{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.brand-name-cell{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;}
+.toggle-icon{color:var(--gold);font-size:10px;display:inline-block;}
+
+/* NIVEL 2 – Sub-filas (scores + precio) */
+.product-row{background:#fff;}
+.product-row:hover{background:#f9f9f9;}
+.product-cell{display:flex;align-items:center;gap:12px;padding-left:28px !important;}
+.product-image-placeholder{width:36px;height:36px;border-radius:8px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);flex-shrink:0;}
+.product-image-placeholder i{color:#ccc;font-size:14px;}
+.product-info{display:flex;flex-direction:column;gap:2px;}
+.product-name{font-weight:500;font-size:14px;}
+.product-sku{font-size:12px;color:var(--text-muted);}
+
+/* Fila de precio – estilo diferenciado */
+.price-row{background:rgba(102,153,126,.05);}
+.price-row:hover{background:rgba(102,153,126,.10);}
+.price-cell{display:flex;align-items:center;gap:10px;padding-left:28px !important;}
+.price-icon{width:36px;height:36px;border-radius:8px;background:rgba(102,153,126,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.price-icon i{color:rgb(72,133,96);font-size:14px;}
+.price-label{font-weight:500;font-size:14px;color:var(--text);}
+.price-val{color:rgb(72,133,96);font-weight:600;}
+.price-val-empty{color:#ccc;}
+
+.score-high{font-weight:600;}
+.score-mid{font-weight:600;}
+.score-low{font-weight:600;}
+.no-results{text-align:center;padding:40px;color:var(--text-muted);}
+.no-results i{font-size:40px;color:#ddd;margin-bottom:12px;display:block;}
+@media(max-width:768px){.main-wrap{margin-left:0;}.content{padding:16px;}.filters-row{flex-direction:column;align-items:flex-start;}}
+</style>
+</head>
+<body>
+
+<div id="aside-root"></div>
+
+<div class="main-wrap">
+  <header class="topbar">
+    <div class="topbar-title" id="topbarTitle"><span>BRAND PORTAL</span><div id="brandTitle">La Sabia Madrid</div></div>
+    <div class="topbar-actions">
+      <button class="topbar-btn"><i class="fas fa-bell"></i></button>
+      <button class="topbar-btn"><i class="fas fa-search"></i></button>
+      <div class="topbar-avatar">FS</div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div id="view-overview">
+      <div class="welcome-bar">
+        <div>
+          <h2>Welcome back, <span>Francis</span></h2>
+          <p>Member since: Mar 11, 2026</p>
+        </div>
+      </div>
+
+      <div class="filters-row">
+        <div class="filter-container" id="perfFilters">
+          <button class="filter-btn" data-filter="yearly"       onclick="applyPerfFilter('yearly')">Yearly</button>
+          <button class="filter-btn active" data-filter="lastYear" onclick="applyPerfFilter('lastYear')">Last 13 months</button>
+          <button class="filter-btn" data-filter="currentMonth" onclick="applyPerfFilter('currentMonth')">Current Month</button>
+        </div>
+        <div class="view-selector-wrap">
+          <span class="view-selector-label">View As</span>
+          <button class="view-selector-btn" id="perfViewBtn" onclick="togglePerfViewDropdown()">
+            <span><i class="fas fa-star" style="margin-right:6px;font-size:12px;"></i><span id="perfViewText">Artistic Score</span></span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="view-dropdown" id="perfViewDropdown">
+            <div class="view-option active" data-view="marketing"  onclick="changePerfView('marketing')"> <i class="fas fa-star"></i>       Artistic Score</div>
+            <div class="view-option"        data-view="commercial" onclick="changePerfView('commercial')"><i class="fas fa-chart-line"></i>  Commercial Score</div>
+            <div class="view-option"        data-view="combined"   onclick="changePerfView('combined')">  <i class="fas fa-layer-group"></i> Combined Score</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-title"><i class="fas fa-star-half-alt"></i> Scores</h3>
+      <div class="table-wrapper">
+        <table class="responsive-table">
+          <thead id="perfumeryTableHead"></thead>
+          <tbody id="perfumeryTableBody"></tbody>
+        </table>
+      </div>
+
+      <div style="background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+          <h4 style="margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-chart-area" style="color:var(--gold);"></i>
+            <span id="perfChartTitle">Artistic Score</span>
+          </h4>
+          <div style="display:flex;gap:5px;background:#f5f5f5;padding:4px;border-radius:8px;">
+            <button class="chart-type-btn active" data-type="bar" onclick="changePerfChartType('bar')"
+              style="padding:7px 14px;border:none;background:white;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--gold);box-shadow:0 2px 4px rgba(0,0,0,.1);display:flex;align-items:center;gap:5px;">
+              <i class="fas fa-chart-bar"></i> Bar
+            </button>
+            <button class="chart-type-btn" data-type="line" onclick="changePerfChartType('line')"
+              style="padding:7px 14px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:#535255;display:flex;align-items:center;gap:5px;">
+              <i class="fas fa-chart-line"></i> Line
+            </button>
+          </div>
+        </div>
+        <div style="position:relative;height:320px;width:100%;"><canvas id="perfChart"></canvas></div>
+        <div id="perfChartLegend" style="display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--border);"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ── GLOBALS ── */
+var perfCurrentFilter = "lastYear";
+var perfCurrentView   = "marketing";
+var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+var dayNames   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+var perfChart = null, perfChartType = "bar", perfHiddenSeries = [];
+var perfColors = [
+  'rgb(171,160,110)','rgb(102,126,153)','rgb(153,102,102)',
+  'rgb(102,153,126)','rgb(153,126,102)','rgb(126,102,153)',
+  'rgb(102,153,153)','rgb(153,153,102)'
+];
+
+/* ── DATA
+   Campos: perfumery, product, sku, date, marketing, commercial, combined, price, orderId
+   · price  = precio de venta del producto ese mes (en USD)
+   · Un registro por producto por mes (o por evento si hay variación en el mes)
+── */
+var perfumeryData = [];
+
+const BRAND_PERFUMERY_DATA = {
+
+  'Brand Demo': [
+    // product: "Perfume Demo 100ml"  –  precio varía mes a mes
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-03-01", marketing:85, commercial:72, combined:79, price:95.00,  orderId:9011 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-02-01", marketing:83, commercial:75, combined:79, price:95.00,  orderId:9025 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-01-01", marketing:77, commercial:88, combined:83, price:90.00,  orderId:9028 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-12-01", marketing:81, commercial:70, combined:76, price:89.00,  orderId:8901 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-11-01", marketing:75, commercial:62, combined:69, price:85.00,  orderId:8891 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-10-01", marketing:90, commercial:75, combined:82, price:85.00,  orderId:8881 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-09-01", marketing:70, commercial:84, combined:77, price:82.00,  orderId:8871 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-08-01", marketing:87, commercial:71, combined:79, price:80.00,  orderId:8861 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-07-01", marketing:71, commercial:65, combined:68, price:80.00,  orderId:8851 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-06-01", marketing:91, commercial:78, combined:85, price:78.00,  orderId:8841 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-05-01", marketing:50, commercial:86, combined:68, price:75.00,  orderId:8831 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-04-01", marketing:67, commercial:52, combined:60, price:75.00,  orderId:8821 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-03-01", marketing:43, commercial:65, combined:54, price:72.00,  orderId:8811 },
+  ],
+
+  'La Sabia Madrid': [
+    // product: "Verdanza 100ml"
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-01", marketing:80, commercial:75, combined:78, price:120.00, orderId:7001 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-02-01", marketing:78, commercial:70, combined:74, price:120.00, orderId:7004 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-01-01", marketing:75, commercial:65, combined:70, price:115.00, orderId:7010 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-12-01", marketing:78, commercial:70, combined:74, price:115.00, orderId:7004 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-11-01", marketing:62, commercial:85, combined:74, price:110.00, orderId:7005 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-10-01", marketing:85, commercial:72, combined:79, price:110.00, orderId:7006 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-09-01", marketing:70, commercial:80, combined:75, price:105.00, orderId:7007 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-08-01", marketing:58, commercial:75, combined:67, price:105.00, orderId:7008 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-07-01", marketing:61, commercial:73, combined:67, price:103.00, orderId:7023 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-06-01", marketing:64, commercial:76, combined:70, price:102.00, orderId:7024 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-05-01", marketing:90, commercial:78, combined:84, price:100.00, orderId:7009 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-04-01", marketing:75, commercial:65, combined:70, price:100.00, orderId:7010 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-03-01", marketing:72, commercial:63, combined:68, price:98.00, orderId:7025 },
+
+    // product: "Poderio 100ml"
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-03-01", marketing:65, commercial:88, combined:77, price:135.00, orderId:7002 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-02-01", marketing:68, commercial:84, combined:76, price:135.00, orderId:7011 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-01-01", marketing:70, commercial:80, combined:75, price:130.00, orderId:7012 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-12-01", marketing:66, commercial:82, combined:74, price:130.00, orderId:7013 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-11-01", marketing:62, commercial:85, combined:74, price:125.00, orderId:7005 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-10-01", marketing:60, commercial:78, combined:69, price:125.00, orderId:7014 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-09-01", marketing:55, commercial:76, combined:66, price:120.00, orderId:7015 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-08-01", marketing:58, commercial:75, combined:67, price:120.00, orderId:7008 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-07-01", marketing:57, commercial:74, combined:66, price:118.00, orderId:7026 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-06-01", marketing:56, commercial:72, combined:64, price:118.00, orderId:7027 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-05-01", marketing:59, commercial:75, combined:67, price:115.00, orderId:7028 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-04-01", marketing:54, commercial:70, combined:62, price:115.00, orderId:7029 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-03-01", marketing:52, commercial:68, combined:60, price:112.00, orderId:7030 },
+
+    // product: "Dos Besos 100ml"
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-03-01", marketing:72, commercial:68, combined:70, price:98.00,  orderId:7003 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-02-01", marketing:74, commercial:70, combined:72, price:98.00,  orderId:7016 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-01-01", marketing:76, commercial:72, combined:74, price:95.00,  orderId:7017 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-12-01", marketing:73, commercial:69, combined:71, price:95.00,  orderId:7018 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-11-01", marketing:70, commercial:66, combined:68, price:90.00,  orderId:7019 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-10-01", marketing:85, commercial:72, combined:79, price:90.00,  orderId:7006 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-09-01", marketing:80, commercial:68, combined:74, price:88.00,  orderId:7020 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-08-01", marketing:78, commercial:65, combined:72, price:88.00,  orderId:7021 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-07-01", marketing:76, commercial:64, combined:70, price:86.00,  orderId:7031 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-06-01", marketing:79, commercial:67, combined:73, price:86.00,  orderId:7032 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-05-01", marketing:90, commercial:78, combined:84, price:85.00,  orderId:7009 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-04-01", marketing:82, commercial:74, combined:78, price:85.00,  orderId:7022 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-03-01", marketing:77, commercial:69, combined:73, price:82.00,  orderId:7033 },
+  ],
+};
+
+/* ── BRAND EVENTS ── */
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  var brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyScoreBrand(brand);
+});
+
+function applyScoreBrand(brand) {
+  if (BRAND_PERFUMERY_DATA[brand]) {
+    perfumeryData = BRAND_PERFUMERY_DATA[brand];
+    renderPerfumeryTable(perfCurrentFilter);
+  }
+}
+
+/* ── HELPERS ── */
+function generateLast13Months() {
+  var months=[], now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1;
+  for (var i=0; i<=12; i++) {
+    var m=cm-i, y=cy;
+    while (m<=0){m+=12;y--;}
+    months.push({year:y, month:m, key:y+"-"+String(m).padStart(2,"0")});
+  }
+  return months;
+}
+function generateCurrentMonthDays() {
+  var days=[], now=new Date(), cd=now.getDate();
+  for (var i=0; i<cd; i++) {
+    var d=new Date(now.getFullYear(), now.getMonth(), now.getDate()-i);
+    days.push({
+      year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(),
+      dayName:dayNames[d.getDay()], monthName:monthNames[d.getMonth()],
+      key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),
+      isToday:i===0
+    });
+  }
+  return days;
+}
+function safeId(s){ return btoa(encodeURIComponent(s)).replace(/[^a-zA-Z0-9]/g,'').substring(0,20); }
+
+/* ── FILTER ── */
+function filterPerfByDate(data, filterType) {
+  var now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1, cd=now.getDate();
+  return data.filter(function(item){
+    var p=item.date.split('-'), iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+    if (filterType==="yearly")       return iY===cy || iY===(cy-1);
+    if (filterType==="currentMonth") return iY===cy && iM===cm && iD<=cd;
+    if (filterType==="lastYear"){
+      var lm=cm-13, ly=cy;
+      while(lm<=0){lm+=12;ly--;}
+      return new Date(iY,iM-1,1) >= new Date(ly,lm-1,1);
+    }
+    return true;
+  });
+}
+
+/* ── GROUP
+   result[perfumery][product] = {
+     name, sku,
+     marketing:  { "2026-03": 80, ... },
+     commercial: { ... },
+     combined:   { ... },
+     price:      { "2026-03": 120.00, ... }   ← NUEVO
+   }
+── */
+function groupByPerfumery(data, keyType) {
+  var result = {};
+  data.forEach(function(item){
+    var p=item.date.split('-'), iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+    var key = keyType==="day"  ? iY+"-"+String(iM).padStart(2,"0")+"-"+String(iD).padStart(2,"0")
+            : keyType==="year" ? String(iY)
+            : iY+"-"+String(iM).padStart(2,"0");
+
+    if (!result[item.perfumery]) result[item.perfumery] = { products:{} };
+
+    var pf = result[item.perfumery];
+    if (!pf.products[item.product])
+      pf.products[item.product] = {
+        name:item.product, sku:item.sku,
+        marketing:{}, commercial:{}, combined:{}, price:{}
+      };
+
+    var pr = pf.products[item.product];
+    pr.marketing[key]  = item.marketing;
+    pr.commercial[key] = item.commercial;
+    pr.combined[key]   = item.combined;
+    pr.price[key]      = item.price;      // precio histórico del mes
+  });
+  return result;
+}
+
+/* ── FORMAT ── */
+function fmtScore(v) {
+  if (!v) return '<span style="color:#ccc;">—</span>';
+  var n = parseFloat(v);
+  if (!n) return '<span style="color:#ccc;">—</span>';
+  return '<span style="font-weight:600;">'+n.toFixed(0)+'</span>';
+}
+function fmtPrice(v) {
+  if (!v) return '<span style="color:#ccc;">—</span>';
+  return '<span style="font-weight:600;color:var(--text);">'+parseFloat(v).toFixed(2)+'</span>';
+}
+
+/* ── RENDER TABLE ── */
+function renderPerfumeryTable(filterType) {
+  var head = document.getElementById("perfumeryTableHead");
+  var body = document.getElementById("perfumeryTableBody");
+  if (!head || !body) return;
+
+  var now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1;
+  var keyType = filterType==="currentMonth"?"day": filterType==="yearly"?"year":"month";
+
+  var filtered = filterPerfByDate(perfumeryData, filterType);
+  var grouped  = groupByPerfumery(filtered, keyType);
+
+  var cols = [];
+  if (filterType==="yearly")        cols = [{key:String(cy),label:String(cy)},{key:String(cy-1),label:String(cy-1)}];
+  else if (filterType==="lastYear") cols = generateLast13Months();
+  else                               cols = generateCurrentMonthDays();
+
+  /* ── Header ── */
+  var hr = "<tr><th style='min-width:260px;'>PRODUCT</th>";
+  cols.forEach(function(col){
+    if (filterType==="currentMonth"){
+      var lbl = col.isToday?"TODAY":col.dayName;
+      hr += '<th><div class="th-content"><span class="th-month">'+lbl+'</span><span class="th-year">'+col.monthName+' '+col.day+'</span></div></th>';
+    } else if (filterType==="yearly"){
+      hr += '<th><div class="th-content"><span class="th-year-header">'+col.label+'</span></div></th>';
+    } else {
+      hr += '<th><div class="th-content"><span class="th-month">'+monthNames[col.month-1]+'</span><span class="th-year">'+col.year+'</span></div></th>';
+    }
+  });
+  hr += "</tr>";
+  head.innerHTML = hr;
+
+  if (Object.keys(grouped).length === 0) {
+    body.innerHTML = '<tr><td colspan="'+(1+cols.length)+'"><div class="no-results"><i class="fas fa-search"></i><p>No results found</p></div></td></tr>';
+    return;
+  }
+
+  var scoreKey = perfCurrentView;
+  var html = "";
+
+  Object.keys(grouped).sort().forEach(function(pName){
+    var pf = grouped[pName];
+    Object.keys(pf.products).sort().forEach(function(prodKey){
+      var pr = pf.products[prodKey];
+
+      /* Fila única: nombre del perfume + precio por mes */
+      html += '<tr class="brand-row">';
+      html += '<td>';
+      html += '<div style="display:flex;align-items:center;gap:10px;">';
+      html += '<i class="fas fa-spray-can" style="color:var(--gold);font-size:13px;flex-shrink:0;"></i>';
+      html += '<div>';
+      html += '<div style="font-size:15px;font-weight:600;color:var(--text);">'+pr.name+'</div>';
+      if (pr.sku) html += '<div style="font-size:12px;color:var(--text-muted);">SKU: '+pr.sku+'</div>';
+      html += '</div>';
+      html += '</div>';
+      html += '</td>';
+      cols.forEach(function(col){
+        html += '<td>'+fmtPrice(pr.price[col.key])+'</td>';
+      });
+      html += '</tr>';
+    });
+  });
+
+  body.innerHTML = html;
+  renderPerfChart(filterType, grouped, cols);
+}
+
+/* ── TOGGLE ── */
+function toggleProductRows(pid) {
+  var rows  = document.querySelectorAll('[data-pid="'+pid+'"]');
+  var icon  = document.getElementById('icon_'+pid);
+  var open  = icon && icon.textContent === "▶";
+  rows.forEach(function(r){ r.style.display = open ? "table-row" : "none"; });
+  if (icon) icon.textContent = open ? "▼" : "▶";
+}
+
+/* ── FILTER / VIEW ── */
+function applyPerfFilter(filterType){
+  perfCurrentFilter = filterType;
+  document.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){
+    b.classList.toggle('active', b.dataset.filter===filterType);
+  });
+  renderPerfumeryTable(filterType);
+}
+function togglePerfViewDropdown(){
+  document.getElementById("perfViewDropdown").classList.toggle("open");
+  document.getElementById("perfViewBtn").classList.toggle("open");
+}
+function changePerfView(viewType){
+  perfCurrentView = viewType;
+  var labels = {marketing:"Artistic Score", commercial:"Commercial Score", combined:"Combined Score"};
+  document.getElementById("perfViewText").textContent = labels[viewType];
+  document.querySelectorAll('#perfViewDropdown .view-option').forEach(function(o){
+    o.classList.toggle('active', o.dataset.view===viewType);
+  });
+  document.getElementById("perfViewDropdown").classList.remove("open");
+  document.getElementById("perfViewBtn").classList.remove("open");
+  renderPerfumeryTable(perfCurrentFilter);
+}
+document.addEventListener("click", function(e){
+  var wrap = document.querySelector(".view-selector-wrap");
+  if (wrap && !wrap.contains(e.target)){
+    document.getElementById("perfViewDropdown").classList.remove("open");
+    document.getElementById("perfViewBtn").classList.remove("open");
+  }
+});
+
+/* ── CHART ── */
+function renderPerfChart(filterType, grouped, cols){
+  var ctx = document.getElementById('perfChart');
+  if (!ctx) return;
+  if (perfChart) perfChart.destroy();
+
+  var labels = cols.map(function(col){
+    if (filterType==="currentMonth") return (col.isToday?"TODAY":col.dayName)+"\n"+col.monthName+" "+col.day;
+    if (filterType==="yearly")       return col.label;
+    return monthNames[col.month-1]+"\n"+col.year;
+  });
+
+  var scoreKey = perfCurrentView;
+  var datasets = [];
+  var colorIdx = 0;
+
+  Object.keys(grouped).sort().forEach(function(pName){
+    Object.keys(grouped[pName].products).sort().forEach(function(prodKey){
+      var pr    = grouped[pName].products[prodKey];
+      var color = perfColors[colorIdx++ % perfColors.length];
+      var vals  = cols.map(function(col){ return pr[scoreKey][col.key] || 0; });
+      datasets.push({
+        label: pr.name,
+        data: vals,
+        backgroundColor: perfChartType==="bar" ? color.replace('rgb','rgba').replace(')',',0.7)') : color.replace('rgb','rgba').replace(')',',0.1)'),
+        borderColor: color, borderWidth:2,
+        borderRadius: perfChartType==="bar"?4:0,
+        fill: perfChartType==="line", tension:0.4,
+        pointBackgroundColor:color, pointBorderColor:'#fff', pointBorderWidth:2, pointRadius:3, pointHoverRadius:5,
+        hidden: perfHiddenSeries.includes(pr.name)
+      });
+    });
+  });
+
+  perfChart = new Chart(ctx, {
+    type: perfChartType,
+    data: { labels:labels, datasets:datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ intersect:false, mode:'index' },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          backgroundColor:'rgba(30,34,39,0.95)', titleColor:'#fff', bodyColor:'#fff',
+          borderColor:'rgb(171,160,110)', borderWidth:1, cornerRadius:8, padding:12,
+          callbacks:{ label:function(c){ return c.dataset.label+": "+c.parsed.y.toFixed(0); } }
+        }
+      },
+      scales:{
+        x:{ grid:{display:false}, ticks:{color:'#888',font:{size:10},maxRotation:45} },
+        y:{ min:0, max:100,
+            grid:{color:'rgba(0,0,0,0.05)'},
+            ticks:{color:'#888',font:{size:11},stepSize:20,callback:function(v){return v;}}
+          }
+      }
+    }
+  });
+
+  var titleMap = {marketing:"Artistic Score",commercial:"Commercial Score",combined:"Combined Score"};
+  document.getElementById("perfChartTitle").textContent = titleMap[perfCurrentView];
+
+  var lc = document.getElementById("perfChartLegend");
+  var idx = 0;
+  lc.innerHTML = Object.keys(grouped).sort().map(function(pName){
+    return Object.keys(grouped[pName].products).sort().map(function(prodKey){
+      var pr    = grouped[pName].products[prodKey];
+      var color = perfColors[idx++ % perfColors.length];
+      var dis   = perfHiddenSeries.includes(pr.name)?'opacity:0.4;':'';
+      return '<div onclick="togglePerfChartSeries(\''+pr.name.replace(/'/g,"\\'")+'\') " '+
+        'style="display:flex;align-items:center;gap:6px;font-size:12px;color:#535255;cursor:pointer;padding:4px 8px;border-radius:6px;'+dis+'">'+
+        '<span style="width:12px;height:12px;border-radius:3px;background:'+color+';display:inline-block;"></span>'+pr.name+'</div>';
+    }).join('');
+  }).join('');
+}
+
+function togglePerfChartSeries(pName){
+  var idx = perfHiddenSeries.indexOf(pName);
+  if (idx>-1) perfHiddenSeries.splice(idx,1); else perfHiddenSeries.push(pName);
+  if (perfChart){
+    var di = perfChart.data.datasets.findIndex(function(d){return d.label===pName;});
+    if (di>-1){perfChart.data.datasets[di].hidden=perfHiddenSeries.includes(pName);perfChart.update();}
+  }
+  document.getElementById("perfChartLegend").querySelectorAll('div').forEach(function(el){
+    el.style.opacity = perfHiddenSeries.includes(el.textContent.trim())?'0.4':'1';
+  });
+}
+
+function changePerfChartType(type){
+  perfChartType = type;
+  document.querySelectorAll('.chart-type-btn').forEach(function(b){
+    var a = b.dataset.type===type;
+    b.style.background=a?'white':'transparent';
+    b.style.color=a?'var(--gold)':'#535255';
+    b.style.boxShadow=a?'0 2px 4px rgba(0,0,0,.1)':'none';
+  });
+  renderPerfumeryTable(perfCurrentFilter);
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', function(){
+  var defaultBrand = 'La Sabia Madrid';
+  var savedBrand   = localStorage.getItem('selectedBrand');
+  var initialBrand = (savedBrand && BRAND_PERFUMERY_DATA[savedBrand]) ? savedBrand : defaultBrand;
+  document.getElementById('brandTitle').textContent = initialBrand;
+  localStorage.setItem('selectedBrand', initialBrand);
+  applyScoreBrand(initialBrand);
+
+  var savedView = localStorage.getItem('scoreView');
+  if (savedView && ['marketing','commercial','combined'].includes(savedView)){
+    setTimeout(function(){
+      changePerfView(savedView);
+      localStorage.removeItem('scoreView');
+    }, 150);
+  }
+
+  // Active nav link
+  var currentPage = window.location.pathname.split('/').pop();
+  var activeLink  = document.querySelector('a[href*="'+currentPage+'"]');
+  if (activeLink){
+    document.querySelectorAll('.nav-sub-item,.nav-sub-sub-item,.nav-item-standalone').forEach(function(i){i.classList.remove('active');});
+    activeLink.classList.add('active');
+    var grp = activeLink.closest('.nav-group');
+    if (grp) grp.classList.add('open');
+    var subBody = activeLink.closest('.nav-sub-group-body');
+    if (subBody){
+      subBody.style.display='block';
+      var header = subBody.previousElementSibling;
+      if (header){var arrow=header.querySelector('.nav-sub-arrow');if(arrow)arrow.classList.add('open');}
+    }
+  }
+});
+</script>
+</body>
+</html>

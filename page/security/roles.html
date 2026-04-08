@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1067,4 +1068,1075 @@ document.getElementById('roleModal').addEventListener('click', function(e){ if(e
 document.getElementById('viewModal').addEventListener('click', function(e){ if(e.target===this) closeViewModal(); });
 </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roles – Motiv Perfumes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="../../css/dashboard.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
+:root{
+--gold:rgb(171,160,110);
+--gold-dark:rgb(141,130,80);
+--gold-light:rgba(171,160,110,0.12);
+--sidebar-bg:#1E2227;
+--sidebar-text:rgba(255,255,255,0.75);
+--card-bg:#fff;
+--border:#E8E9E9;
+--text:#1E2227;
+--text-muted:#888;
+--radius:10px;
+--shadow:0 2px 8px rgba(0,0,0,0.07);
+}
+
+/* MAIN */
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.content{padding:28px;flex:1;}
+
+/* WELCOME */
+.welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
+.welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+.welcome-bar h2 span{color:var(--gold);}
+.welcome-bar p{color:var(--text-muted);font-size:13px;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;}
+.stat-card{background:var(--card-bg);border-radius:var(--radius);padding:20px 24px;border:1px solid var(--border);display:flex;align-items:center;gap:16px;}
+.stat-icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.stat-icon.blue{background:rgba(52,152,219,0.12);color:#3498db;}
+.stat-icon.green{background:rgba(76,175,80,0.12);color:#4CAF50;}
+.stat-icon.gold{background:var(--gold-light);color:var(--gold);}
+.stat-icon.red{background:rgba(231,76,60,0.12);color:#e74c3c;}
+.stat-info h3{font-size:24px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.stat-info p{font-size:13px;color:var(--text-muted);}
+
+/* ROLES SECTION */
+.roles-section{background:var(--card-bg);border-radius:var(--radius);border:1px solid var(--border);margin-bottom:24px;}
+.section-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.section-title{font-size:16px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.section-title i{color:var(--gold);font-size:18px;}
+.section-actions{display:flex;gap:12px;align-items:center;}
+
+/* SEARCH */
+.search-box{position:relative;}
+.search-input{width:280px;padding:10px 14px 10px 40px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--text);background:#fff;transition:all .25s;}
+.search-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:14px;}
+
+/* ADD BUTTON */
+.add-role-btn{background:var(--gold);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .25s;}
+.add-role-btn:hover{background:var(--gold-dark);transform:translateY(-1px);}
+
+/* ROLES TABLE */
+.table-responsive{overflow-x:auto;}
+.roles-table{width:100%;border-collapse:collapse;}
+.roles-table thead th{background:#fafafa;padding:14px 16px;text-align:left;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border);}
+.roles-table tbody td{padding:16px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text);}
+.roles-table tbody tr:hover{background:#fafafa;}
+.roles-table tbody tr:last-child td{border-bottom:none;}
+
+/* ROLE INFO CELL */
+.role-info{display:flex;align-items:center;gap:12px;}
+.role-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.role-details{display:flex;flex-direction:column;gap:2px;}
+.role-name-cell{font-weight:600;color:var(--text);}
+.role-desc{font-size:13px;color:var(--text-muted);}
+
+/* BADGES */
+.role-badge{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;display:inline-block;}
+.role-system{background:rgba(231,76,60,0.12);color:#e74c3c;}
+.role-custom{background:var(--gold-light);color:var(--gold);}
+
+.users-count{display:inline-flex;align-items:center;gap:6px;background:#f5f5f5;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;color:var(--text-muted);}
+.users-count i{font-size:11px;}
+
+/* PERMISSIONS MINI */
+.perms-mini{display:flex;flex-wrap:wrap;gap:4px;}
+.perm-chip{padding:3px 9px;border-radius:12px;font-size:11px;font-weight:600;background:#f5f5f5;color:var(--text-muted);display:inline-flex;align-items:center;gap:4px;}
+.perm-chip i{font-size:9px;}
+.perm-chip.has{background:var(--gold-light);color:var(--gold-dark);}
+
+/* ACTION BUTTONS */
+.action-btns{display:flex;gap:8px;}
+.action-btn{width:32px;height:32px;border:none;background:transparent;cursor:pointer;border-radius:6px;color:var(--text-muted);font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.action-btn:hover{background:#f0f0f0;color:var(--text);}
+.action-btn.edit:hover{color:var(--gold);}
+.action-btn.delete:hover{color:#e74c3c;background:rgba(231,76,60,0.1);}
+.action-btn.view:hover{color:#3498db;background:rgba(52,152,219,0.1);}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:60px 20px;}
+.empty-state i{font-size:56px;color:#ddd;margin-bottom:16px;display:block;}
+.empty-state h3{font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.empty-state p{color:var(--text-muted);font-size:14px;margin-bottom:20px;}
+
+/* MODAL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(30,34,39,0.6);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px);}
+.modal-overlay.active{display:flex;}
+.modal-container{background:#fff;border-radius:var(--radius);width:90%;max-width:900px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:modalSlideIn .3s ease;}
+@keyframes modalSlideIn{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+.modal-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.modal-header h2{font-size:18px;font-weight:700;color:var(--text);}
+.modal-close{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.modal-close:hover{background:#f0f0f0;color:var(--text);}
+.modal-body{padding:28px;}
+.modal-footer{padding:20px 28px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:12px;}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.form-group{margin-bottom:20px;}
+.form-group.full-width{grid-column:1/-1;}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.form-label .required{color:#e74c3c;margin-left:2px;}
+.form-control{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--text);background:#fff;transition:all .25s;}
+.form-control:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-light);}
+.form-control::placeholder{color:var(--text-muted);}
+select.form-control{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 9L1 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;}
+
+/* PERMISSIONS MATRIX */
+.perms-matrix{background:#fafafa;border-radius:8px;border:1px solid var(--border);overflow:hidden;}
+.perms-matrix-header{display:grid;grid-template-columns:1fr repeat(4, 80px);gap:0;background:#f0f0f0;padding:10px 16px;font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;}
+.perms-matrix-header span:not(:first-child){text-align:center;}
+
+/* BASE ROWS */
+.perms-row{display:grid;grid-template-columns:1fr repeat(4, 80px);gap:0;padding:12px 16px;border-bottom:1px solid var(--border);align-items:center;transition:background .2s;}
+.perms-row:last-child{border-bottom:none;}
+.perms-row:hover{background:#f5f5f5;}
+.perms-row-label{display:flex;align-items:center;gap:10px;}
+.perms-row-label i{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;background:var(--gold-light);color:var(--gold);}
+.perms-row-label span{font-size:13px;font-weight:600;color:var(--text);}
+.perms-row-label small{display:block;font-size:11px;color:var(--text-muted);font-weight:400;}
+.perm-check{display:flex;justify-content:center;align-items:center;}
+.perm-check input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:var(--gold);}
+
+/* ALL TOGGLE */
+.perms-section-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.perms-section-title i{color:var(--gold);}
+.toggle-all-row{display:grid;grid-template-columns:1fr repeat(4, 80px);gap:0;padding:8px 16px;border-bottom:2px solid var(--border);background:#fafafa;align-items:center;}
+.toggle-all-row .toggle-label{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;}
+.toggle-all-row .perm-check{display:flex;justify-content:center;}
+
+/* ═══════════════════════════════════════════════════════════════
+   GRUPOS COLAPSABLES EN MATRIZ DE PERMISOS (CORREGIDO)
+   ═══════════════════════════════════════════════════════════════ */
+
+.perms-group-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 5;
+}
+
+.perms-group-header:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.perms-group-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: all .2s;
+  font-size: 13px;
+  outline: none;
+}
+
+.perms-group-toggle:hover {
+  background: rgba(171,160,110,0.08);
+}
+
+.perms-group-toggle.active {
+  background: rgba(171,160,110,0.12);
+  font-weight: 700;
+}
+
+.perms-group-toggle .toggle-icon {
+  font-size: 10px;
+  color: var(--text-muted);
+  transition: transform .2s;
+  width: 16px;
+  display: inline-block;
+}
+
+.perms-group-toggle.active .toggle-icon {
+  transform: rotate(90deg);
+  color: var(--gold);
+}
+
+.perms-group-content {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  display: none;
+}
+
+.perms-item-row {
+  background: #fff;
+  transition: background .2s;
+}
+
+.perms-item-row:hover {
+  background: #fafafa;
+}
+
+/* Indentación visual */
+.perms-row-label i {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  background: var(--gold-light);
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+/* Grupo de nivel superior (Dashboard, Brand Orders, etc.) */
+.perms-group-header[style*="padding-left: 0px"] .perms-group-toggle {
+  font-weight: 700;
+  font-size: 14px;
+  background: linear-gradient(to right, rgba(171,160,110,0.1), transparent);
+}
+
+/* Subgrupos (Sales, Marketing, etc.) */
+.perms-group-header[style*="padding-left: 20px"] {
+  background: #fcfcfc;
+}
+
+/* Items hoja */
+.perms-item-row[style*="padding-left: 36px"] .perms-row-label i {
+  background: rgba(171,160,110,0.08);
+  font-size: 12px;
+}
+
+.perms-item-row[style*="padding-left: 56px"] .perms-row-label i {
+  background: rgba(171,160,110,0.05);
+  font-size: 11px;
+}
+
+/* Toggle All en header */
+.toggle-all-row {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f5f5f5;
+  font-weight: 700;
+}
+
+/* Responsive */
+@media(max-width: 968px){.form-grid{grid-template-columns:1fr;}.search-input{width:200px;}.perms-matrix-header,.perms-row,.toggle-all-row{grid-template-columns:1fr repeat(4,60px);}.perms-matrix-header span,.perm-check{font-size:10px;}}
+@media(max-width:768px){.main-wrap{margin-left:0;}.content{padding:16px;}.modal-container{width:95%;}.stats-grid{grid-template-columns:1fr 1fr;}.section-header{flex-direction:column;align-items:flex-start;}.search-input{width:100%;}.perms-matrix-header,.perms-row,.toggle-all-row{grid-template-columns:1fr repeat(4,50px);}.perms-group-toggle{padding:12px 14px;font-size:12px;}.perms-row{padding-left:10px !important;}}
+
+/* BTNS */
+.btn{padding:11px 24px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .25s;}
+.btn-primary{background:var(--gold);color:#fff;box-shadow:0 2px 4px rgba(171,160,110,0.3);}
+.btn-primary:hover{background:var(--gold-dark);transform:translateY(-1px);}
+.btn-secondary{background:#fff;color:var(--text);border:1px solid var(--border);}
+.btn-secondary:hover{background:#f5f5f5;}
+.btn-danger{background:#e74c3c;color:#fff;}
+.btn-danger:hover{background:#c0392b;}
+
+/* NOTIFICATION */
+.notification{position:fixed;top:20px;right:20px;background:var(--gold);color:#fff;padding:14px 24px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:9999;font-weight:600;display:none;animation:slideIn .3s ease;}
+.notification.show{display:block;}
+.notification.success{background:#4CAF50;}
+.notification.error{background:#e74c3c;}
+@keyframes slideIn{from{opacity:0;transform:translateX(400px);}to{opacity:1;transform:translateX(0);}}
+
+/* VIEW MODAL */
+.view-section{margin-bottom:24px;}
+.view-section-title{font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.view-perms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;}
+.view-perm-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;border:1px solid var(--border);font-size:13px;}
+.view-perm-item.granted{background:rgba(76,175,80,0.06);border-color:rgba(76,175,80,0.3);}
+.view-perm-item.denied{background:#fafafa;opacity:.5;}
+.view-perm-item i.check{color:#4CAF50;font-size:12px;}
+.view-perm-item i.cross{color:#ccc;font-size:12px;}
+.view-perm-actions{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);}
+.view-perm-actions i{font-size:10px;}
+</style>
+<script src="../../js/aside.js"></script>
+<script>
+    document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyScoreBrand(brand);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand;
+    applyScoreBrand(savedBrand);
+  } else {
+    perfumeryData = BRAND_PERFUMERY_DATA['Brand Demo'];
+    renderTable();
+  }
+});
+</script>
+</head>
+<body>
+
+<div id="aside-root"></div>
+
+<div class="main-wrap">
+<div class="topbar">
+<div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+  <div class="topbar-avatar">FS</div>
+</div>
+
+<div class="content">
+  <div class="welcome-bar">
+    <h2>Roles & <span>Permissions</span></h2>
+    <p>Define roles and control what each team member can view, create, edit or delete across all sections</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon blue"><i class="fas fa-user-tag"></i></div>
+      <div class="stat-info"><h3 id="totalRoles">0</h3><p>Total Roles</p></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon red"><i class="fas fa-shield-halved"></i></div>
+      <div class="stat-info"><h3 id="systemRoles">0</h3><p>System Roles</p></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon gold"><i class="fas fa-sliders"></i></div>
+      <div class="stat-info"><h3 id="customRoles">0</h3><p>Custom Roles</p></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green"><i class="fas fa-users"></i></div>
+      <div class="stat-info"><h3 id="assignedUsers">0</h3><p>Users Assigned</p></div>
+    </div>
+  </div>
+
+  <!-- ROLES TABLE -->
+  <div class="roles-section">
+    <div class="section-header">
+      <div class="section-title">
+        <i class="fas fa-user-tag"></i>
+        Role Management
+      </div>
+      <div class="section-actions">
+        <div class="search-box">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" class="search-input" id="searchRoles" placeholder="Search roles..." onkeyup="filterRoles()">
+        </div>
+        <button class="add-role-btn" onclick="openModal()">
+          <i class="fas fa-plus"></i> Add Role
+        </button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="roles-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Type</th>
+            <th>Users</th>
+            <th>Permissions Summary</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="rolesTableBody"></tbody>
+      </table>
+    </div>
+    <div id="emptyState" class="empty-state" style="display:none;">
+      <i class="fas fa-user-tag"></i>
+      <h3>No Roles Found</h3>
+      <p>No roles match your search. Click "Add Role" to create one.</p>
+      <button class="add-role-btn" onclick="openModal()"><i class="fas fa-plus"></i> Add Role</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="modal-overlay" id="roleModal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 id="modalTitle">Add New Role</h2>
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="roleForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Role Name <span class="required">*</span></label>
+            <input type="text" class="form-control" id="roleName" placeholder="e.g., Sales Manager" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Color / Icon</label>
+            <select class="form-control" id="roleColor">
+              <option value="gold">Gold</option>
+              <option value="blue">Blue</option>
+              <option value="green">Green</option>
+              <option value="red">Red</option>
+              <option value="purple">Purple</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" id="roleDescription" rows="2" placeholder="Brief description of this role's responsibilities..."></textarea>
+          </div>
+        </div>
+
+        <!-- PERMISSIONS MATRIX -->
+        <div class="perms-section-title"><i class="fas fa-lock"></i> Section Permissions</div>
+        <div class="perms-matrix">
+          <div class="perms-matrix-header">
+            <span>Section</span>
+            <span>View</span>
+            <span>Create</span>
+            <span>Edit</span>
+            <span>Delete</span>
+          </div>
+          <!-- Toggle All Row -->
+          <div class="toggle-all-row">
+            <div class="toggle-label">Toggle All</div>
+            <div class="perm-check"><input type="checkbox" id="toggleAllView" onchange="toggleAllCol('view')" title="All View"></div>
+            <div class="perm-check"><input type="checkbox" id="toggleAllCreate" onchange="toggleAllCol('create')" title="All Create"></div>
+            <div class="perm-check"><input type="checkbox" id="toggleAllEdit" onchange="toggleAllCol('edit')" title="All Edit"></div>
+            <div class="perm-check"><input type="checkbox" id="toggleAllDelete" onchange="toggleAllCol('delete')" title="All Delete"></div>
+          </div>
+          <div id="permissionsMatrix"></div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRole()"><i class="fas fa-save"></i> Save Role</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW MODAL -->
+<div class="modal-overlay" id="viewModal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 id="viewModalTitle">Role Details</h2>
+      <button class="modal-close" onclick="closeViewModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="viewModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeViewModal()">Close</button>
+      <button class="btn btn-primary" id="viewEditBtn"><i class="fas fa-pen"></i> Edit Role</button>
+    </div>
+  </div>
+</div>
+
+<div class="notification" id="notification"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   SECTIONS HIERÁRQUICO - Estructura de árbol según MENU
+   Overview está FUERA de Dashboard (standalone)
+   ═══════════════════════════════════════════════════════════════ */
+const SECTIONS_TREE = [
+  /* ── STANDALONE: Overview (FUERA de Dashboard) ── */
+  { key: 'overview', label: 'Overview', icon: 'fas fa-chart-line' },
+
+  /* ── DASHBOARD (GRUPO COLAPSABLE) ── */
+  {
+    id: 'grp-dashboard',
+    label: 'Dashboard',
+    icon: 'fas fa-chart-pie',
+    children: [
+      /* ── Sales ── */
+      {
+        id: 'grp-sales',
+        label: 'Sales',
+        icon: 'fas fa-chart-bar',
+        children: [
+          { key: 'sales-country',    label: 'By Country',        icon: 'fas fa-globe-americas' },
+          { key: 'sales-state',      label: 'By State',          icon: 'fas fa-map-marked-alt' },
+          { key: 'sales-city',       label: 'By City',           icon: 'fas fa-city' },
+          { key: 'sales-collection', label: 'By Collection',     icon: 'fas fa-layer-group' },
+          { key: 'sales-store',      label: 'By Store',          icon: 'fas fa-store' },
+          { key: 'sales-product',    label: 'By Product',        icon: 'fas fa-spray-can' },
+          { key: 'sales-season',     label: 'By Season',         icon: 'fas fa-sun' },
+          { key: 'sales-social',     label: 'By Social Network', icon: 'fas fa-share-alt' }
+        ]
+      },
+      /* ── Marketing ── */
+      {
+        id: 'grp-mkt-main',
+        label: 'Marketing',
+        icon: 'fas fa-bullhorn',
+        children: [
+          {
+            label: 'Social Networks',
+            icon: 'fas fa-hashtag',
+            children: [
+              { key: 'mkt-social-platform',  label: 'By Platform',     icon: 'fas fa-hashtag' },
+              { key: 'mkt-social-content',   label: 'By Content Type', icon: 'fas fa-file-alt' },
+              { key: 'mkt-social-location',  label: 'By Country',      icon: 'fas fa-map-marker-alt' },
+              { key: 'mkt-social-metrics',   label: 'By Metrics',      icon: 'fas fa-chart-pie' }
+            ]
+          },
+          {
+            label: 'Followers',
+            icon: 'fas fa-users',
+            children: [
+              { key: 'mkt-aud-gender',   label: 'By Gender',  icon: 'fas fa-venus-mars' },
+              { key: 'mkt-aud-age',      label: 'By Age',     icon: 'fas fa-birthday-cake' },
+              { key: 'mkt-aud-country',  label: 'By Country', icon: 'fas fa-users-world' }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+
+  /* ── BRAND ORDERS ── */
+  {
+    id: 'grp-orders',
+    label: 'Brand Orders',
+    icon: 'fas fa-box',
+    children: [
+      {
+        id: 'grp-view',
+        label: 'Order by',
+        icon: 'fas fa-filter',
+        children: [
+          { key: 'orders-collection', label: 'Collection', icon: 'fas fa-layer-group' },
+          { key: 'orders-perfume',    label: 'Perfume',    icon: 'fas fa-wine-bottle' },
+          { key: 'orders-season',     label: 'Season',     icon: 'fas fa-calendar-season' }
+        ]
+      },
+      { key: 'order-history', label: 'Order History', icon: 'fas fa-clock-rotate-left' }
+    ]
+  },
+
+  /* ── BRAND ASSETS ── */
+  {
+    id: 'grp-brand-assets',
+    label: 'Brand Assets',
+    icon: 'fas fa-photo-film',
+    children: [
+      { key: 'brand-assets', label: 'Assets', icon: 'fas fa-photo-film' },
+      {
+        id: 'grp-assets-view',
+        label: 'Views',
+        icon: 'fas fa-eye',
+        children: [
+          { key: 'assets-document', label: 'Document', icon: 'fas fa-file-pdf' },
+          { key: 'assets-video',    label: 'Video',    icon: 'fas fa-video' },
+          { key: 'assets-images',   label: 'Images',   icon: 'fas fa-images' }
+        ]
+      }
+    ]
+  },
+
+  /* ── BRAND ─ */
+  {
+    id: 'grp-brand',
+    label: 'Brand',
+    icon: 'fas fa-tag',
+    children: [
+      { key: 'brand-products',        label: 'Products',            icon: 'fas fa-tag' },
+      { key: 'brand-legal',           label: 'Legal Documentation', icon: 'fas fa-file-contract' },
+      { key: 'brand-upcoming',        label: 'Upcoming',            icon: 'fas fa-calendar-plus' },
+      {
+        id: 'grp-brand-pricing',
+        label: 'Brand Pricing',
+        icon: 'fas fa-dollar-sign',
+        children: [
+          { key: 'brand-pricing-msrp', label: 'MSRP / Pricing Policy', icon: 'fas fa-dollar-sign' }
+        ]
+      }
+    ]
+  },
+
+  /* ── BRAND SCORE ── */
+  {
+    id: 'grp-brand-score',
+    label: 'Brand Score',
+    icon: 'fas fa-star',
+    children: [
+      {
+        id: 'grp-brand-score-score',
+        label: 'Score',
+        icon: 'fas fa-star-half-alt',
+        children: [
+          { key: 'brand-score', label: 'Brand', icon: 'fas fa-star' }
+        ]
+      }
+    ]
+  },
+
+  /* ── PROFILE ── */
+  {
+    id: 'grp-profile',
+    label: 'Profile',
+    icon: 'fas fa-building',
+    children: [
+      { key: 'profile-company',  label: 'Company Info',   icon: 'fas fa-building' },
+      { key: 'profile-payment',  label: 'Payment Method', icon: 'fas fa-credit-card' }
+    ]
+  },
+
+  /* ── SECURITY ── */
+  {
+    id: 'grp-security',
+    label: 'Security',
+    icon: 'fas fa-shield-alt',
+    children: [
+      { key: 'security-users', label: 'Users', icon: 'fas fa-users' },
+      { key: 'security-roles', label: 'Roles', icon: 'fas fa-user-tag' }
+    ]
+  }
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   HELPER: Aplanar árbol para compatibilidad con matriz de permisos
+   ═══════════════════════════════════════════════════════════════ */
+function flattenSections(tree = SECTIONS_TREE) {
+  const result = [];
+  function walk(nodes) {
+    nodes.forEach(node => {
+      if (node.key) {
+        result.push({ key: node.key, label: node.label, icon: node.icon });
+      }
+      if (node.children) {
+        walk(node.children);
+      }
+    });
+  }
+  walk(tree);
+  return result;
+}
+
+// Array plano para usar en la matriz de permisos (compatibilidad total)
+const SECTIONS = flattenSections(SECTIONS_TREE);
+const ACTIONS = ['view','create','edit','delete'];
+
+const COLOR_MAP = {
+  gold:   { bg:'var(--gold-light)', color:'var(--gold)', icon:'fas fa-crown' },
+  blue:   { bg:'rgba(52,152,219,0.12)', color:'#3498db', icon:'fas fa-user-tie' },
+  green:  { bg:'rgba(76,175,80,0.12)', color:'#4CAF50', icon:'fas fa-user-check' },
+  red:    { bg:'rgba(231,76,60,0.12)', color:'#e74c3c', icon:'fas fa-shield-halved' },
+  purple: { bg:'rgba(142,68,173,0.12)', color:'#8e44ad', icon:'fas fa-user-gear' },
+};
+
+/* ── DEFAULT ROLES ── */
+function allPerms() {
+  const p = {};
+  SECTIONS.forEach(s => { p[s.key] = { view:true, create:true, edit:true, delete:true }; });
+  return p;
+}
+function viewOnly() {
+  const p = {};
+  SECTIONS.forEach(s => { p[s.key] = { view:true, create:false, edit:false, delete:false }; });
+  return p;
+}
+function managerPerms() {
+  const p = allPerms();
+  ['security-users','security-roles','brand-pricing-msrp'].forEach(k => {
+    if(p[k]) p[k] = { view:true, create:false, edit:false, delete:false };
+  });
+  return p;
+}
+function employeePerms() {
+  const p = {};
+  SECTIONS.forEach(s => {
+    const full = ['overview','orders-collection','orders-perfume','orders-season','order-history','brand-assets','brand-products'].includes(s.key);
+    p[s.key] = { view:true, create:full, edit:full, delete:false };
+  });
+  return p;
+}
+
+let roles = [
+  { id:1, name:'Administrator', description:'Full access to all sections and settings', color:'red', type:'system', usersCount:1, created:'2026-03-11', permissions: allPerms() },
+  { id:2, name:'Manager',       description:'Manages operations, limited admin access',  color:'blue', type:'system', usersCount:1, created:'2026-03-11', permissions: managerPerms() },
+  { id:3, name:'Employee',      description:'Day-to-day operational access',            color:'gold', type:'system', usersCount:1, created:'2026-03-11', permissions: employeePerms() },
+  { id:4, name:'Viewer',        description:'Read-only access to reports and dashboards',color:'green', type:'system', usersCount:1, created:'2026-03-11', permissions: viewOnly() },
+];
+
+let editingId = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderRoles();
+  updateStats();
+});
+
+/* ── STATS ── */
+function updateStats() {
+  document.getElementById('totalRoles').textContent   = roles.length;
+  document.getElementById('systemRoles').textContent  = roles.filter(r=>r.type==='system').length;
+  document.getElementById('customRoles').textContent  = roles.filter(r=>r.type==='custom').length;
+  document.getElementById('assignedUsers').textContent= roles.reduce((a,r)=>a+r.usersCount,0);
+}
+
+/* ── PERMISSIONS SUMMARY ── */
+function countPerms(perms) {
+  let total=0, granted=0;
+  SECTIONS.forEach(s => {
+    ACTIONS.forEach(a => { total++; if(perms[s.key]?.[a]) granted++; });
+  });
+  return { total, granted };
+}
+
+function renderPermsSummary(perms) {
+  const { total, granted } = countPerms(perms);
+  const pct = Math.round((granted/total)*100);
+  const sampleSections = SECTIONS.slice(0,4);
+  return `
+    <div class="perms-mini">
+      ${sampleSections.map(s => {
+        const sp = perms[s.key] || {};
+        const acts = ACTIONS.filter(a=>sp[a]).map(a=>a[0].toUpperCase()).join('');
+        return acts ? `<span class="perm-chip has"><i class="${s.icon}"></i>${s.label.split(' ')[0]} ${acts}</span>` : '';
+      }).filter(Boolean).join('')}
+      <span class="perm-chip" style="background:#e8f5e9;color:#2e7d32;">${granted}/${total} (${pct}%)</span>
+    </div>`;
+}
+
+/* ── RENDER TABLE ── */
+function renderRoles(filterText='') {
+  const tbody = document.getElementById('rolesTableBody');
+  const empty = document.getElementById('emptyState');
+  let filtered = roles.filter(r => r.name.toLowerCase().includes(filterText.toLowerCase()) || (r.description||'').toLowerCase().includes(filterText.toLowerCase()));
+  if(!filtered.length) { tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  const cm = COLOR_MAP;
+  tbody.innerHTML = filtered.map(r => {
+    const c = cm[r.color] || cm.gold;
+    return `<tr>
+      <td>
+        <div class="role-info">
+          <div class="role-icon" style="background:${c.bg};color:${c.color};"><i class="${c.icon}"></i></div>
+          <div class="role-details">
+            <div class="role-name-cell">${r.name}</div>
+            <div class="role-desc">${r.description||'No description'}</div>
+          </div>
+        </div>
+      </td>
+      <td><span class="role-badge ${r.type==='system'?'role-system':'role-custom'}">${r.type}</span></td>
+      <td><span class="users-count"><i class="fas fa-user"></i>${r.usersCount}</span></td>
+      <td>${renderPermsSummary(r.permissions)}</td>
+      <td>${formatDate(r.created)}</td>
+      <td>
+        <div class="action-btns">
+          <button class="action-btn view" onclick="viewRole(${r.id})" title="View"><i class="fas fa-eye"></i></button>
+          <button class="action-btn edit" onclick="editRole(${r.id})" title="Edit"><i class="fas fa-pen"></i></button>
+          ${r.type==='custom'?`<button class="action-btn delete" onclick="deleteRole(${r.id})" title="Delete"><i class="fas fa-trash"></i></button>`:'<button class="action-btn" title="System role (locked)" disabled style="cursor:not-allowed;opacity:.35;"><i class="fas fa-lock"></i></button>'}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterRoles() {
+  renderRoles(document.getElementById('searchRoles').value);
+}
+
+function formatDate(d) {
+  return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUILD MATRIX CON GRUPOS COLAPSABLES (CORREGIDO)
+   ═══════════════════════════════════════════════════════════════ */
+function buildMatrix(existingPerms={}) {
+  const container = document.getElementById('permissionsMatrix');
+  container.innerHTML = '';
+  
+  // Función recursiva para construir grupos
+  function buildGroupItems(nodes, level = 0) {
+    nodes.forEach(node => {
+      const hasChildren = node.children && node.children.length > 0;
+      const isLeaf = !!node.key;
+      
+      if (hasChildren) {
+        // ── GRUPO PADRE (COLAPSABLE) ──
+        const groupId = `group_${node.id || node.label.replace(/\s+/g, '-').toLowerCase()}`;
+        const groupHeader = document.createElement('div');
+        groupHeader.className = 'perms-group-header';
+        groupHeader.style.paddingLeft = `${level * 20}px`;
+        
+        // HTML del header <i class="fas fa-chevron-right toggle-icon"></i>
+        groupHeader.innerHTML = `
+          <button type="button" class="perms-group-toggle" data-target="${groupId}">
+            
+            <i class="${node.icon || 'fas fa-folder'}" style="margin-right:10px;color:var(--gold);"></i>
+            <span style="font-weight:700;font-size:13px;color:var(--text);">${node.label}</span>
+            <span class="perms-group-count" style="margin-left:auto;font-size:11px;color:var(--text-muted);"></span>
+          </button>
+        `;
+        container.appendChild(groupHeader);
+        
+        // Contenedor de items del grupo
+        const groupContent = document.createElement('div');
+        groupContent.id = groupId;
+        groupContent.className = 'perms-group-content';
+        groupContent.style.display = 'none'; 
+        container.appendChild(groupContent);
+        
+        // Construir hijos recursivamente
+        buildGroupItems(node.children, level + 1);
+        
+        // ── EVENTO TOGGLE (CORREGIDO) ──
+        const toggleBtn = groupHeader.querySelector('.perms-group-toggle');
+        toggleBtn.addEventListener('click', (e) => {
+          e.stopPropagation(); // ⛔ EVITA QUE EL CLICK AFECTE AL PADRE
+          
+          const target = document.getElementById(groupId);
+          const icon = toggleBtn.querySelector('.toggle-icon');
+          
+          // Alternar visibilidad
+          if (target.style.display === 'none') {
+            target.style.display = 'block';
+            icon.classList.remove('fa-chevron-right');
+            icon.classList.add('fa-chevron-down');
+            toggleBtn.classList.add('active');
+          } else {
+            target.style.display = 'none';
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-right');
+            toggleBtn.classList.remove('active');
+          }
+        });
+        
+      } else if (isLeaf) {
+        // ── ITEM HOJA (CON CHECKBOXES) ──
+        const sp = existingPerms[node.key] || { view:false, create:false, edit:false, delete:false };
+        const row = document.createElement('div');
+        row.className = 'perms-row perms-item-row';
+        row.style.paddingLeft = `${level * 20 + 16}px`;
+        row.innerHTML = `
+          <div class="perms-row-label">
+            <i class="${node.icon || 'fas fa-circle'}"></i>
+            <div><span>${node.label}</span></div>
+          </div>
+          ${ACTIONS.map(a => `
+            <div class="perm-check">
+              <input type="checkbox" id="perm_${node.key}_${a}" data-section="${node.key}" data-action="${a}" ${sp[a]?'checked':''}>
+            </div>
+          `).join('')}
+        `;
+        container.appendChild(row);
+        
+        // Actualizar contador del grupo padre
+        updateGroupCount(row);
+      }
+    });
+  }
+  
+  // 1. Construir desde la raíz
+  buildGroupItems(SECTIONS_TREE);
+  
+  // 2. EXPANDIR TODOS LOS GRUPOS POR DEFECTO (Al final de la creación)
+  setTimeout(() => {
+    document.querySelectorAll('.perms-group-content').forEach(el => {
+      el.style.display = 'block';
+      const header = el.previousElementSibling;
+      if(header) {
+        const btn = header.querySelector('.perms-group-toggle');
+        const icon = btn.querySelector('.toggle-icon');
+        icon.classList.remove('fa-chevron-right');
+        icon.classList.add('fa-chevron-down');
+        btn.classList.add('active');
+      }
+    });
+  }, 0);
+}
+
+/* ── ACTUALIZAR CONTADOR DE PERMISOS POR GRUPO ── */
+function updateGroupCount(row) {
+  const groupContent = row.closest('.perms-group-content');
+  if(!groupContent) return;
+  
+  const groupHeader = groupContent.previousElementSibling;
+  if(!groupHeader) return;
+  
+  const countEl = groupHeader.querySelector('.perms-group-count');
+  if(!countEl) return;
+  
+  const items = groupContent.querySelectorAll('.perms-item-row');
+  const checkedItems = Array.from(items).filter(item => {
+    const checkboxes = item.querySelectorAll('input[type="checkbox"]:checked');
+    return checkboxes.length > 0;
+  });
+  
+  countEl.textContent = `(${checkedItems.length}/${items.length})`;
+}
+
+/* ── TOGGLE ALL CON GRUPOS ── */
+function toggleAllCol(action) {
+  const master = document.getElementById(`toggleAll${action.charAt(0).toUpperCase()+action.slice(1)}`);
+  const checkboxes = document.querySelectorAll(`[data-action="${action}"]`);
+  
+  checkboxes.forEach(cb => {
+    const row = cb.closest('.perms-row');
+    const groupContent = cb.closest('.perms-group-content');
+    if(row && (!groupContent || groupContent.style.display !== 'none')) {
+      cb.checked = master.checked;
+    }
+  });
+  
+  // Actualizar todos los contadores
+  document.querySelectorAll('.perms-group-content').forEach(gc => {
+    updateGroupCount(gc.querySelector('.perms-item-row'));
+  });
+}
+
+/* ── MODAL ── */
+function openModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Add New Role';
+  document.getElementById('roleForm').reset();
+  buildMatrix();
+  ['View','Create','Edit','Delete'].forEach(a => document.getElementById('toggleAll'+a).checked=false);
+  document.getElementById('roleModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('roleModal').classList.remove('active');
+  editingId = null;
+}
+
+function editRole(id) {
+  const role = roles.find(r=>r.id===id);
+  if(!role) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = 'Edit Role – ' + role.name;
+  document.getElementById('roleName').value = role.name;
+  document.getElementById('roleColor').value = role.color;
+  document.getElementById('roleDescription').value = role.description||'';
+  buildMatrix(role.permissions);
+  ACTIONS.forEach(a => {
+    const allChecked = SECTIONS.every(s => role.permissions[s.key]?.[a]);
+    document.getElementById(`toggleAll${a.charAt(0).toUpperCase()+a.slice(1)}`).checked = allChecked;
+  });
+  document.getElementById('roleModal').classList.add('active');
+}
+
+function saveRole() {
+  const form = document.getElementById('roleForm');
+  if(!form.checkValidity()) { form.reportValidity(); return; }
+  const name = document.getElementById('roleName').value.trim();
+  const color = document.getElementById('roleColor').value;
+  const description = document.getElementById('roleDescription').value.trim();
+  const permissions = {};
+  SECTIONS.forEach(s => {
+    permissions[s.key] = {};
+    ACTIONS.forEach(a => {
+      permissions[s.key][a] = document.getElementById(`perm_${s.key}_${a}`)?.checked || false;
+    });
+  });
+  if(editingId) {
+    const idx = roles.findIndex(r=>r.id===editingId);
+    if(idx>-1) roles[idx] = { ...roles[idx], name, color, description, permissions };
+    showNotification('Role updated successfully!','success');
+  } else {
+    roles.push({ id:Date.now(), name, color, description, type:'custom', usersCount:0, created:new Date().toISOString().split('T')[0], permissions });
+    showNotification('Role created successfully!','success');
+  }
+  renderRoles();
+  updateStats();
+  closeModal();
+}
+
+function deleteRole(id) {
+  const role = roles.find(r=>r.id===id);
+  if(!role) return;
+  if(confirm(`Delete role "${role.name}"? Users assigned to this role will need to be reassigned.`)) {
+    roles = roles.filter(r=>r.id!==id);
+    renderRoles();
+    updateStats();
+    showNotification('Role deleted','success');
+  }
+}
+
+/* ── VIEW MODAL ── */
+function viewRole(id) {
+  const role = roles.find(r=>r.id===id);
+  if(!role) return;
+  const c = COLOR_MAP[role.color]||COLOR_MAP.gold;
+  document.getElementById('viewModalTitle').textContent = role.name;
+  document.getElementById('viewEditBtn').onclick = () => { closeViewModal(); editRole(id); };
+  const body = document.getElementById('viewModalBody');
+  body.innerHTML = `
+    <div class="view-section">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+        <div style="width:52px;height:52px;border-radius:12px;background:${c.bg};color:${c.color};display:flex;align-items:center;justify-content:center;font-size:22px;"><i class="${c.icon}"></i></div>
+        <div>
+          <div style="font-size:18px;font-weight:700;color:var(--text);">${role.name}</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:2px;">${role.description||'No description'}</div>
+          <div style="margin-top:6px;display:flex;gap:8px;">
+            <span class="role-badge ${role.type==='system'?'role-system':'role-custom'}">${role.type}</span>
+            <span class="users-count"><i class="fas fa-user"></i>${role.usersCount} users</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="view-section">
+      <div class="view-section-title">Permissions by Section</div>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="background:#fafafa;">
+              <th style="padding:10px 14px;text-align:left;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border);">Section</th>
+              ${ACTIONS.map(a=>`<th style="padding:10px 14px;text-align:center;font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border);">${a}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>
+            ${SECTIONS.map(s => {
+              const sp = role.permissions[s.key]||{};
+              const hasAny = ACTIONS.some(a=>sp[a]);
+              return `<tr style="${hasAny?'':'opacity:.4'}">
+                <td style="padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+                  <i class="${s.icon}" style="color:var(--gold);font-size:13px;width:16px;"></i>${s.label}
+                </td>
+                ${ACTIONS.map(a=>`<td style="padding:10px 14px;text-align:center;border-bottom:1px solid var(--border);">
+                  ${sp[a]?'<i class="fas fa-check" style="color:#4CAF50;font-size:13px;"></i>':'<i class="fas fa-minus" style="color:#ddd;font-size:13px;"></i>'}
+                </td>`).join('')}
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  document.getElementById('viewModal').classList.add('active');
+}
+
+function closeViewModal() {
+  document.getElementById('viewModal').classList.remove('active');
+}
+
+/* ── NOTIFICATION ── */
+function showNotification(msg, type='success') {
+  const n = document.getElementById('notification');
+  n.textContent = msg;
+  n.className = 'notification show ' + type;
+  setTimeout(()=>n.classList.remove('show'),3000);
+}
+
+/* ── CLOSE ON OUTSIDE CLICK ── */
+document.getElementById('roleModal').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+document.getElementById('viewModal').addEventListener('click', function(e){ if(e.target===this) closeViewModal(); });
+</script>
+</body>
+>>>>>>> c10c9a3d80c9b285c61c48beeb028ec2ec3391c2
 </html>

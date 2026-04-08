@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -787,3 +788,794 @@ document.addEventListener("DOMContentLoaded", function() {
 </body>
 </html>
 
+=======
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Networks â€“ By Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <link rel="stylesheet" href="../../css/dashboard.css">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
+
+    :root{
+      --gold:rgb(171,160,110);
+      --gold-dark:rgb(141,130,80);
+      --gold-light:rgba(171,160,110,0.12);
+      --sidebar-bg:#1E2227;
+      --sidebar-text:rgba(255,255,255,0.75);
+      --card-bg:#fff;
+      --border:#E8E9E9;
+      --text:#1E2227;
+      --text-muted:#888;
+      --radius:10px;
+      --ig: #E1306C;
+      --fb: #1877F2;
+      --tt: #010101;
+      --yt: #FF0000;
+      --pt: #E60023;
+    }
+
+    /* â”€â”€ SIDEBAR (idÃ©ntico al dashboard) â”€â”€ */
+    /* .nav-group-header{display:flex;justify-content:space-between;align-items:center;padding:11px 20px;cursor:pointer;color:rgba(255,255,255,.55);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
+    .nav-group-header:hover{color:#fff;}
+    .nav-group-arrow{font-size:10px;transition:transform .25s;}
+    .nav-group.open .nav-group-arrow{transform:rotate(180deg);}
+    .nav-group-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+    .nav-group.open .nav-group-body{max-height:600px;}
+    .aside-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07);}
+    .aside-footer a{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:color .2s;}
+    .aside-footer a:hover{color:#fff;} */
+
+    /* â”€â”€ MAIN â”€â”€ */
+    .main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+    .topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+    /* .topbar-title{font-size:15px;font-weight:600;color:var(--text);}
+    .topbar-title span{color:var(--text-muted);font-weight:400;} */
+    .topbar-actions{display:flex;align-items:center;gap:10px;}
+    .topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+    .topbar-btn:hover{background:#f0f0f0;}
+    .topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+    .content{padding:28px;flex:1;}
+
+    /* â”€â”€ WELCOME â”€â”€ */
+    .welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+    .welcome-bar h2{font-size:1.4rem;font-weight:700;color:var(--text);}
+    .welcome-bar h2 span{color:var(--gold);}
+    .welcome-bar p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+    .breadcrumb{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:6px;}
+    .breadcrumb span{color:var(--gold);}
+
+    /* â”€â”€ PLATFORM CARDS â”€â”€ */
+    .platform-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
+    .platform-card{background:#fff;border-radius:12px;padding:16px 18px;border:1px solid var(--border);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+    .platform-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);}
+    .platform-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);transform:translateY(-1px);}
+    /* .platform-card.active{border-color:var(--gold);;box-shadow:0 0 0 1px var(--gold);} */
+    .platform-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .platform-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;background:var(--platform-color);}
+    .platform-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent;transition:all .2s;}
+    .platform-card.active .platform-check{background:var(--platform-color);border-color:var(--platform-color);color:#fff;}
+    .platform-name{font-size:13px;font-weight:600;color:var(--text);}
+    .platform-followers{font-size:20px;font-weight:700;color:var(--text);margin:2px 0;}
+    .platform-growth{font-size:14px;color:#4CAF50;display:flex;align-items:center;gap:3px;}
+    .platform-growth.down{color:#e53935;}
+
+    /* â”€â”€ FILTERS â”€â”€ */
+    .filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+    .filter-container{display:flex;gap:8px;flex-wrap:wrap;}
+    .filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
+    .filter-btn:hover{border-color:var(--gold);color:var(--gold);}
+    .filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+    /* Metric Selector */
+    .view-selector-wrap{position:relative;display:flex;align-items:center;gap:8px;}
+    .view-selector-label{font-size:13px;color:var(--text-muted);white-space:nowrap;}
+    .view-selector-btn{padding:9px 14px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;display:flex;align-items:center;gap:8px;min-width:190px;justify-content:space-between;transition:border-color .2s;}
+    .view-selector-btn:hover,.view-selector-btn.open{border-color:var(--gold);}
+    .view-selector-btn .chevron{font-size:10px;transition:transform .2s;}
+    .view-selector-btn.open .chevron{transform:rotate(180deg);}
+    .view-dropdown{position:absolute;top:calc(100%+5px);right:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);z-index:200;min-width:200px;display:none;flex-direction:column;overflow:hidden;}
+    .view-dropdown.open{display:flex;}
+    .view-option{padding:11px 15px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:9px;transition:background .15s;}
+    .view-option:hover{background:#f5f5f5;}
+    .view-option.active{background:var(--gold-light);color:var(--gold);}
+    .view-option i{font-size:13px;width:16px;}
+
+    /* â”€â”€ SECTION TITLE â”€â”€ */
+    .section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+
+    /* â”€â”€ TABLE â”€â”€ */
+    .table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+    .responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
+    .responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
+    .responsive-table thead th:not(:first-child){text-align:center;}
+    .responsive-table tbody td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text);vertical-align:middle;text-align:center;}
+    .responsive-table tbody td:first-child{text-align:left;}
+    .responsive-table tbody tr:last-child td{border-bottom:none;}
+    .responsive-table tbody tr:hover{background:#fafafa;}
+    .responsive-table .total-row{background:#f5f5f5;border-top:2px solid var(--gold);}
+    .responsive-table .total-row td{font-weight:600;}
+
+    .th-content{display:flex;flex-direction:column;align-items:center;gap:1px;}
+    .th-month{font-size:13px;font-weight:600;}
+    .th-year{font-size:11px;font-weight:400;opacity:.8;}
+
+    /* Platform rows */
+    .platform-row{transition:background .15s;}
+    .platform-row:hover{background:#fafafa;}
+    .platform-cell{display:flex;align-items:center;gap:10px;}
+    .platform-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;flex-shrink:0;}
+    .platform-label{font-size:14px;font-weight:600;}
+
+    /* metric rows */
+    .metric-row{background:#fff;}
+    .metric-row:hover{background:#f9f9f9;}
+    .metric-cell{display:flex;align-items:center;gap:10px;padding-left:28px!important;}
+    .metric-icon{width:28px;height:28px;border-radius:6px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#888;}
+    .metric-name{font-size:13px;font-weight:500;color:var(--text);}
+    .toggle-icon{color:var(--gold);font-size:10px;transition:transform .2s;display:inline-block;margin-right:4px;}
+
+    /* â”€â”€ CHART â”€â”€ */
+    .chart-container{background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);}
+    .chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+    .chart-title{margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;}
+    .chart-type-wrap{display:flex;gap:5px;background:#f5f5f5;padding:4px;border-radius:8px;}
+    .chart-type-btn{padding:7px 14px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:#535255;display:flex;align-items:center;gap:5px;transition:all .2s;}
+    .chart-type-btn.active{background:white;color:var(--gold);box-shadow:0 2px 4px rgba(0,0,0,.1);}
+    .chart-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--border);}
+
+    /* â”€â”€ RESPONSIVE â”€â”€ */
+    @media(max-width:1100px){.platform-cards{grid-template-columns:repeat(3,1fr);}}
+    @media(max-width:768px){
+      .main-wrap{margin-left:0;}
+      .content{padding:16px;}
+      .platform-cards{grid-template-columns:repeat(2,1fr);}
+      .filters-row{flex-direction:column;align-items:flex-start;}
+    }
+
+    .view-selector-wrap{position:relative;display:flex;align-items:center;gap:8px;}
+.view-selector-label{font-size:13px;color:var(--text-muted);white-space:nowrap;}
+.view-selector-btn{padding:9px 14px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;display:flex;align-items:center;gap:8px;min-width:180px;justify-content:space-between;transition:border-color .2s;}
+.view-selector-btn:hover,.view-selector-btn.open{border-color:var(--gold);}
+.chevron{font-size:10px;transition:transform .2s;}
+.view-selector-btn.open .chevron{transform:rotate(180deg);}
+.view-dropdown{position:absolute;top:calc(100%+5px);right:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);z-index:200;min-width:200px;display:none;flex-direction:column;overflow:hidden;}
+.view-dropdown.open{display:flex;}
+.view-option{padding:11px 15px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:9px;transition:background .15s;}
+.view-option:hover{background:#f5f5f5;}
+.view-option.active{background:var(--gold-light);color:var(--gold);}
+.view-option i{font-size:13px;width:16px;}
+  </style>
+  <script src="../../js/aside.js"></script>
+
+  <script>
+    document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyScoreBrand(brand);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand;
+    applyScoreBrand(savedBrand);
+  } else {
+    perfumeryData = BRAND_PERFUMERY_DATA['Brand Demo'];
+    renderTable();
+  }
+});
+</script>
+</head>
+<body>
+
+<div id="aside-root"></div>
+
+<div class="main-wrap">
+  <header class="topbar">
+    <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+    <div class="topbar-actions">
+      <button class="topbar-btn"><i class="fas fa-bell"></i></button>
+      <button class="topbar-btn"><i class="fas fa-search"></i></button>
+      <div class="topbar-avatar">FS</div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- WELCOME -->
+    <div class="welcome-bar">
+      <div>
+        <h2>Social Networks â€” <span>By Platform</span></h2>
+        <!-- <p>Track followers, reach, impressions, engagement and sales across all platforms.</p> -->
+      </div>
+      <!-- <div class="breadcrumb">
+        Dashboard <i class="fas fa-chevron-right" style="font-size:10px;"></i>
+        Marketing <i class="fas fa-chevron-right" style="font-size:10px;"></i>
+        Social Networks <i class="fas fa-chevron-right" style="font-size:10px;"></i>
+        <span>By Platform</span>
+      </div> -->
+    </div>
+
+    <!-- PLATFORM SUMMARY CARDS -->
+    <div class="platform-cards" id="platformCards"></div>
+
+    <!-- FILTERS -->
+    <div class="filters-row">
+      <div class="filter-container" id="dateFilters">
+        <button class="filter-btn" data-filter="yearly"       onclick="applyFilter('yearly')">Yearly</button>
+        <button class="filter-btn active" data-filter="lastYear" onclick="applyFilter('lastYear')">Last 13 months</button>
+        <button class="filter-btn" data-filter="currentMonth" onclick="applyFilter('currentMonth')">Current Month</button>
+      </div>
+
+      <div class="view-selector-wrap">
+        <span class="view-selector-label">Metric on Top</span>
+        <button class="view-selector-btn" id="metricBtn" onclick="toggleMetricDropdown()">
+          <span><i class="fas fa-users" style="margin-right:6px;font-size:12px;"></i><span id="metricText">Followers</span></span>
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+        <div class="view-dropdown" id="metricDropdown">
+          <div class="view-option active" data-metric="followers"   onclick="changeMetric('followers')">  <i class="fas fa-users"></i>        Followers</div>
+          <div class="view-option"        data-metric="reach"       onclick="changeMetric('reach')">      <i class="fas fa-broadcast-tower"></i> Reach</div>
+          <!-- <div class="view-option"        data-metric="impressions" onclick="changeMetric('impressions')"><i class="fas fa-eye"></i>           Impressions</div> -->
+          <div class="view-option"        data-metric="engagement"  onclick="changeMetric('engagement')"> <i class="fas fa-heart"></i>         Engagement</div>
+          <div class="view-option"        data-metric="views"       onclick="changeMetric('views')">      <i class="fas fa-play-circle"></i>   Views</div>
+          <div class="view-option"        data-metric="sales"       onclick="changeMetric('sales')">      <i class="fas fa-dollar-sign"></i>   Sales generated</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <h3 class="section-title"><i class="fas fa-chart-bar"></i> Performance by Platform</h3>
+    <div class="table-wrapper">
+      <table class="responsive-table">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <h4 class="chart-title">
+          <i class="fas fa-chart-area" style="color:var(--gold);"></i>
+          <span id="chartTitle">Followers by Platform</span>
+        </h4>
+        <div class="chart-type-wrap">
+          <button class="chart-type-btn active" data-type="bar"  onclick="changeChartType('bar')">
+            <i class="fas fa-chart-bar"></i> Bar
+          </button>
+          <button class="chart-type-btn" data-type="line" onclick="changeChartType('line')">
+            <i class="fas fa-chart-line"></i> Line
+          </button>
+        </div>
+      </div>
+      <div style="position:relative;height:320px;width:100%;">
+        <canvas id="mainChart"></canvas>
+      </div>
+      <div class="chart-legend" id="chartLegend"></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CONFIG
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+var PLATFORMS = [
+  { key:"instagram", label:"Instagram", icon:"fab fa-instagram", color:"#E1306C" },
+  { key:"facebook",  label:"Facebook",  icon:"fab fa-facebook-f", color:"#1877F2" },
+  { key:"tiktok",    label:"TikTok",    icon:"fab fa-tiktok",     color:"#010101" },
+  { key:"youtube",   label:"YouTube",   icon:"fab fa-youtube",    color:"#FF0000" },
+  { key:"pinterest", label:"Pinterest", icon:"fab fa-pinterest-p",color:"#E60023" }
+];
+
+var METRICS = [
+  { key:"followers",   label:"Followers",        icon:"fas fa-users",          fmt: fmtNum },
+  { key:"reach",       label:"Reach",            icon:"fas fa-broadcast-tower",fmt: fmtNum },
+//   { key:"impressions", label:"Impressions",       icon:"fas fa-eye",            fmt: fmtNum },
+  { key:"engagement",  label:"Engagement (%)",    icon:"fas fa-heart",          fmt: fmtPct },
+  { key:"views",       label:"Views",     icon:"fas fa-play-circle",    fmt: fmtNum },
+  { key:"sales",       label:"Sales Generated",   icon:"fas fa-dollar-sign",    fmt: fmtCur }
+];
+
+var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+var dayNames   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FAKE DATA  (seed per platform Ã— month)
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function seedData(platform) {
+  // Base values per platform
+  var bases = {
+  instagram: { followers:142000, reach:85000,  impressions:310000, engagement:4.2, views:920000,  sales:18400 },
+  facebook:  { followers:98000,  reach:62000,  impressions:198000, engagement:2.1, views:540000,  sales:11200 },
+  tiktok:    { followers:220000, reach:190000, impressions:540000, engagement:7.8, views:2800000, sales:9800  },
+  youtube:   { followers:54000,  reach:38000,  impressions:125000, engagement:3.5, views:1400000, sales:6500  },
+  pinterest: { followers:31000,  reach:22000,  impressions:87000,  engagement:1.9, views:180000,  sales:4200  }
+};
+  var b = bases[platform];
+  var data = [];
+  var now = new Date();
+  // Generate 24 months of data
+  for (var i = 23; i >= 0; i--) {
+    var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    var noise = function(base, pct) {
+      return Math.round(base * (1 + (Math.random() - 0.5) * pct));
+    };
+    var trend = 1 + (23 - i) * 0.008; // slight upward trend
+    data.push({
+      platform: platform,
+      year:  d.getFullYear(),
+      month: d.getMonth() + 1,
+      day:   1,
+      key:   d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0"),
+      followers:   noise(b.followers   * trend, 0.12),
+      reach:       noise(b.reach       * trend, 0.18),
+      impressions: noise(b.impressions * trend, 0.20),
+      engagement:  parseFloat((b.engagement * (1 + (Math.random()-0.5)*0.15)).toFixed(2)),
+      views:       noise(b.views * trend, 0.25), 
+      sales:       noise(b.sales       * trend, 0.22)
+    });
+  }
+  // Also add current month daily data
+  var cd = now.getDate();
+  for (var d2 = 1; d2 <= cd; d2++) {
+    var dayNoise = function(base, pct) { return Math.round(base / 30 * (1 + (Math.random()-0.5)*pct)); };
+    data.push({
+      platform: platform,
+      year: now.getFullYear(), month: now.getMonth()+1, day: d2,
+      key: now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(d2).padStart(2,"0"),
+      followers:   dayNoise(b.followers, 0.3),
+      reach:       dayNoise(b.reach, 0.4),
+      impressions: dayNoise(b.impressions, 0.4),
+      engagement:  parseFloat((b.engagement*(1+(Math.random()-0.5)*0.2)).toFixed(2)),
+      views:       noise(b.views * trend, 0.25), 
+      sales:       dayNoise(b.sales, 0.4)
+    //   views: dayNoise(b.views, 0.4),
+    });
+  }
+  return data;
+}
+
+var allData = [];
+PLATFORMS.forEach(function(p){ allData = allData.concat(seedData(p.key)); });
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   STATE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+var currentFilter  = "lastYear";
+var currentMetric  = "followers";
+var currentChartType = "bar";
+var hiddenSeries   = [];
+var activePlatforms = PLATFORMS.map(function(p){ return p.key; }); // all active
+var mainChart = null;
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FORMAT HELPERS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function fmtNum(v) {
+  if (v >= 1000000) return (v/1000000).toFixed(1)+"M";
+  if (v >= 1000)    return (v/1000).toFixed(1)+"K";
+  return v.toString();
+}
+function fmtPct(v)  { return v.toFixed(2)+"%"; }
+function fmtCur(v)  { return "$"+(v||0).toLocaleString("en-US",{minimumFractionDigits:0}); }
+function metricFmt(v){ return getMetric().fmt(v); }
+function getMetric() { return METRICS.find(function(m){return m.key===currentMetric;}); }
+
+function generateLast13Months() {
+  var months=[],now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
+  for(var i=1;i<=13;i++){
+    var m=cm-i,y=cy;
+    while(m<=0){m+=12;y--;}
+    months.push({year:y,month:m,key:y+"-"+String(m).padStart(2,"0")});
+  }
+  return months;
+}
+
+function generateCurrentMonthDays(){
+  var days=[],now=new Date(),cd=now.getDate();
+  for(var i=0;i<cd;i++){
+    var d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i);
+    days.push({
+      year:d.getFullYear(),month:d.getMonth()+1,day:d.getDate(),
+      dayName:dayNames[d.getDay()],monthName:monthNames[d.getMonth()],
+      key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),
+      isToday:i===0
+    });
+  }
+  return days;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   PLATFORM SUMMARY CARDS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function renderPlatformCards() {
+  var now = new Date();
+  var cy = now.getFullYear(), cm = now.getMonth()+1;
+  var curKey = cy+"-"+String(cm).padStart(2,"0");
+  var prevM = cm-1 <= 0 ? 12 : cm-1;
+  var prevY = cm-1 <= 0 ? cy-1 : cy;
+  var prevKey = prevY+"-"+String(prevM).padStart(2,"0");
+
+  var html = "";
+  PLATFORMS.forEach(function(p) {
+    var curRow  = allData.find(function(d){return d.platform===p.key && d.key===curKey;});
+    var prevRow = allData.find(function(d){return d.platform===p.key && d.key===prevKey;});
+    var curVal  = curRow  ? curRow[currentMetric]  : 0;
+    var prevVal = prevRow ? prevRow[currentMetric] : 1;
+    var growth  = ((curVal - prevVal) / prevVal * 100).toFixed(1);
+    var isActive = activePlatforms.includes(p.key);
+    var growthUp = parseFloat(growth) >= 0;
+
+    html += '<div class="platform-card'+(isActive?" active":"")+'" style="--platform-color:'+p.color+'" onclick="togglePlatform(\''+p.key+'\')">';
+    html += '<div class="platform-card-header">';
+    html += '<div class="platform-icon"><i class="'+p.icon+'"></i></div>';
+    html += '<div class="platform-check"><i class="fas fa-check"></i></div>';
+    html += '</div>';
+    // html += '<div class="platform-name">'+p.label+'</div>';
+    // html += '<div class="platform-followers">'+fmtNum(curVal)+'</div>';
+    // html += '<div class="platform-growth'+(growthUp?"":" down")+'">';
+        var m = METRICS.find(function(x){ return x.key === currentMetric; });
+        var mLabel = m ? m.label : "Followers";
+      var fLabel = currentFilter === "yearly"       ? "YTD"
+           : currentFilter === "currentMonth" ? "MTD"
+           : "MTD";
+
+        html += '<div class="platform-name">'+p.label+'</div>';
+        html += '<div class="platform-followers">'+fmtNum(curVal)+'</div>';
+        html += '<div style="font-size:14px;color:var(--text-muted);margin-bottom:6px;display:flex;align-items:center;gap:4px;">'
+            + '<i class="'+(m?m.icon:'fas fa-users')+'" style="font-size:10px;"></i>'
+            + ' '+mLabel+' &nbsp;&nbsp; '+fLabel
+            + '</div>';
+        html += '<div class="platform-growth'+(growthUp?"":" down")+'">';
+    html += '<i class="fas fa-arrow-'+(growthUp?"up":"down")+'"></i> '+Math.abs(growth)+'% vs last month';
+    html += '</div></div>';
+  });
+  document.getElementById("platformCards").innerHTML = html;
+}
+
+function togglePlatform(key) {
+  var idx = activePlatforms.indexOf(key);
+  if (idx > -1) {
+    if (activePlatforms.length === 1) return; // keep at least one
+    activePlatforms.splice(idx, 1);
+  } else {
+    activePlatforms.push(key);
+  }
+  renderPlatformCards();
+  renderTable(currentFilter);
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   TABLE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function renderTable(filterType) {
+  var head = document.getElementById("tableHead");
+  var body = document.getElementById("tableBody");
+  if (!head || !body) return;
+
+  var now = new Date();
+  var cy = now.getFullYear(), cm = now.getMonth()+1;
+  var isDay = filterType === "currentMonth";
+  var isYear = filterType === "yearly";
+
+  var cols = [];
+  if (isYear) {
+    cols = [{key:String(cy),label:String(cy)},{key:String(cy-1),label:String(cy-1)}];
+  } else if (filterType === "lastYear") {
+    cols = generateLast13Months();
+  } else {
+    cols = generateCurrentMonthDays();
+  }
+
+  /* HEADER */
+  var hr = "<tr><th style='min-width:220px;'>PLATFORM / METRIC</th>";
+  if (!isYear) hr += "<th>YTD</th><th>MTD</th>";
+  cols.forEach(function(col) {
+    if (isDay) {
+      var lbl = col.isToday ? "TODAY" : col.dayName;
+      hr += '<th><div class="th-content"><span class="th-month">'+lbl+'</span><span class="th-year">'+col.monthName+' '+col.day+'</span></div></th>';
+    } else if (isYear) {
+      hr += '<th><div class="th-content"><span class="th-month">'+col.label+'</span></div></th>';
+    } else {
+      hr += '<th><div class="th-content"><span class="th-month">'+monthNames[col.month-1]+'</span><span class="th-year">'+col.year+'</span></div></th>';
+    }
+  });
+  hr += "</tr>";
+  head.innerHTML = hr;
+
+  /* Compute YTD / MTD data lookup */
+  function getVal(platform, key, metric) {
+    // For yearly cols, sum all months of that year
+    if (isYear) {
+      return allData.filter(function(d){
+        return d.platform===platform && String(d.year)===key && d.key.length===7; // monthly rows only
+      }).reduce(function(acc,d){
+        return acc + (metric==="engagement" ? d[metric] : d[metric]);
+      }, 0) / (metric==="engagement" ? Math.max(1, allData.filter(function(d){return d.platform===platform&&String(d.year)===key&&d.key.length===7;}).length) : 1);
+    }
+    var row = allData.find(function(d){ return d.platform===platform && d.key===key; });
+    return row ? row[metric] : 0;
+  }
+
+  function getYTD(platform, metric) {
+    var rows = allData.filter(function(d){
+      return d.platform===platform && d.year===cy && d.key.length===7;
+    });
+    if (metric==="engagement") {
+      var sum=0; rows.forEach(function(d){sum+=d[metric];}); return rows.length?sum/rows.length:0;
+    }
+    return rows.reduce(function(a,d){return a+d[metric];},0);
+  }
+  function getMTD(platform, metric) {
+    var rows = allData.filter(function(d){
+      return d.platform===platform && d.year===cy && d.month===cm && d.key.length===7;
+    });
+    if (!rows.length) {
+      // fallback daily
+      rows = allData.filter(function(d){ return d.platform===platform && d.year===cy && d.month===cm && d.key.length>7; });
+    }
+    if (metric==="engagement") {
+      var sum=0; rows.forEach(function(d){sum+=d[metric];}); return rows.length?sum/rows.length:0;
+    }
+    return rows.reduce(function(a,d){return a+d[metric];},0);
+  }
+
+  /* BODY */
+  var html = "";
+  var grandYTD=0, grandMTD=0, grandCols={};
+
+  var activePlatformList = PLATFORMS.filter(function(p){ return activePlatforms.includes(p.key); });
+
+  activePlatformList.forEach(function(p) {
+    var pYTD = getYTD(p.key, currentMetric);
+    var pMTD = getMTD(p.key, currentMetric);
+    grandYTD += currentMetric==="engagement" ? 0 : pYTD;
+    grandMTD += currentMetric==="engagement" ? 0 : pMTD;
+
+    var iconId = "icon_"+p.key;
+    html += '<tr class="platform-row" data-platform="'+p.key+'">';
+    html += '<td><div class="platform-cell">';
+    html += '<div class="platform-badge" style="background:'+p.color+'"><i class="'+p.icon+'"></i></div>';
+    html += '<span class="toggle-icon" id="'+iconId+'" onclick="toggleMetricRows(\''+p.key+'\')">▶</span>';
+    html += '<strong onclick="toggleMetricRows(\''+p.key+'\')" style="cursor:pointer;">'+p.label+'</strong>';
+    html += '</div></td>';
+
+    if (!isYear) {
+      html += '<td><strong>'+metricFmt(pYTD)+'</strong></td>';
+      html += '<td>'+metricFmt(pMTD)+'</td>';
+    }
+    cols.forEach(function(col) {
+      var keyType = isYear ? (col.key.length===4 ? "year" : "month") : (isDay ? "day" : "month");
+      var v = getVal(p.key, col.key, currentMetric);
+      html += '<td>'+metricFmt(v)+'</td>';
+      if (currentMetric!=="engagement") grandCols[col.key]=(grandCols[col.key]||0)+v;
+    });
+    html += '</tr>';
+
+    /* Metric sub-rows */
+    METRICS.forEach(function(m) {
+      var mYTD = getYTD(p.key, m.key);
+      var mMTD = getMTD(p.key, m.key);
+    //   html += '<tr class="metric-row" data-platform="'+p.key+'" style="display:none;">';
+    //   html += '<td><div class="metric-cell"><div class="metric-icon"><i class="'+m.icon+'"></i></div>';
+    //   html += '<span class="metric-name">'+m.label+'</span></div></td>';
+    var isActiveMetric = m.key === currentMetric;
+    
+    var activeStyle = isActiveMetric
+    ? 'background:rgb(225,220,197);border-left:3px solid var(--gold);'
+    : '';
+
+    html += '<tr class="metric-row" data-platform="'+p.key+'" style="display:none;'+activeStyle+'">';
+    html += '<td><div class="metric-cell"><div class="metric-icon" style="'+(isActiveMetric?'background:rgba(171,160,110,0.25);color:var(--gold-dark);':'')+'"><i class="'+m.icon+'"></i></div>';
+    html += '<span class="metric-name" style="'+(isActiveMetric?'font-weight:600;color:#1e2227;':'')+'">'+m.label+'</span></div></td>';
+      if (!isYear) {
+        html += '<td><strong>'+m.fmt(mYTD)+'</strong></td>';
+        html += '<td>'+m.fmt(mMTD)+'</td>';
+      }
+      cols.forEach(function(col) {
+        var v = getVal(p.key, col.key, m.key);
+        html += '<td>'+m.fmt(v)+'</td>';
+      });
+      html += '</tr>';
+    });
+  });
+
+  /* GRAND TOTAL */
+  html += '<tr class="total-row"><td><strong>TOTAL / AVG</strong></td>';
+  if (!isYear) {
+    html += '<td><strong>'+(currentMetric==="engagement"?"â€”":metricFmt(grandYTD))+'</strong></td>';
+    html += '<td><strong>'+(currentMetric==="engagement"?"â€”":metricFmt(grandMTD))+'</strong></td>';
+  }
+  cols.forEach(function(col){
+    html += '<td><strong>'+(currentMetric==="engagement"?"â€”":metricFmt(grandCols[col.key]||0))+'</strong></td>';
+  });
+  html += '</tr>';
+
+  body.innerHTML = html;
+
+  // Chart cols
+  var chartCols = cols.slice();
+  if (filterType==="lastYear") {
+    chartCols.unshift({year:cy,month:cm,key:cy+"-"+String(cm).padStart(2,"0")});
+  }
+  renderChart(filterType, chartCols);
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   TOGGLE METRIC ROWS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function toggleMetricRows(platform) {
+  var rows = document.querySelectorAll('.metric-row[data-platform="'+platform+'"]');
+  var icon = document.getElementById("icon_"+platform);
+  var collapsed = icon && icon.textContent==="▶";
+  rows.forEach(function(r){ r.style.display = collapsed?"table-row":"none"; });
+  if (icon) icon.textContent = collapsed?"▼":"▶";
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CHART
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function renderChart(filterType, cols) {
+  var ctx = document.getElementById("mainChart");
+  if (!ctx) return;
+  if (mainChart) mainChart.destroy();
+
+  var labels = cols.map(function(col) {
+    if (filterType==="currentMonth")
+      return (col.isToday?"TODAY":col.dayName)+"\n"+col.monthName+" "+col.day;
+    if (filterType==="yearly") return col.label||col.key;
+    return monthNames[col.month-1]+"\n"+col.year;
+  });
+
+  var datasets = [];
+  PLATFORMS.filter(function(p){ return activePlatforms.includes(p.key); }).forEach(function(p) {
+    var vals = cols.map(function(col) {
+      var row = allData.find(function(d){ return d.platform===p.key && d.key===col.key; });
+      return row ? row[currentMetric] : 0;
+    });
+    datasets.push({
+      label: p.label,
+      data: vals,
+      backgroundColor: currentChartType==="bar"
+        ? p.color+"BB"
+        : p.color+"22",
+      borderColor: p.color,
+      borderWidth: 2,
+      borderRadius: currentChartType==="bar"?4:0,
+      fill: currentChartType==="line",
+      tension: 0.4,
+      pointBackgroundColor: p.color,
+      pointBorderColor:'#fff',
+      pointBorderWidth:2,
+      pointRadius:3,
+      pointHoverRadius:5,
+      hidden: hiddenSeries.includes(p.key)
+    });
+  });
+
+  mainChart = new Chart(ctx, {
+    type: currentChartType,
+    data: { labels:labels, datasets:datasets },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{intersect:false, mode:'index'},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'rgba(30,34,39,0.95)',
+          titleColor:'#fff', bodyColor:'#fff',
+          borderColor:'rgb(171,160,110)', borderWidth:1,
+          cornerRadius:8, padding:12,
+          callbacks:{
+            label:function(c){
+              return c.dataset.label+": "+metricFmt(c.parsed.y);
+            }
+          }
+        }
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{color:'#888',font:{size:10},maxRotation:45}},
+        y:{
+          beginAtZero:true,
+          grid:{color:'rgba(0,0,0,0.05)'},
+          ticks:{color:'#888',font:{size:11},callback:function(v){return metricFmt(v);}}
+        }
+      }
+    }
+  });
+
+  // Title
+  var m = getMetric();
+  document.getElementById("chartTitle").textContent = (m?m.label:"Metric")+" by Platform";
+
+  // Legend
+  var lc = document.getElementById("chartLegend");
+  lc.innerHTML = PLATFORMS.filter(function(p){return activePlatforms.includes(p.key);}).map(function(p){
+    var dis = hiddenSeries.includes(p.key)?"opacity:0.4;":"";
+    return '<div onclick="toggleChartSeries(\''+p.key+'\')" style="display:flex;align-items:center;gap:6px;font-size:12px;color:#535255;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all .2s;'+dis+'">'
+      +'<span style="width:12px;height:12px;border-radius:3px;background:'+p.color+';display:inline-block;"></span>'
+      +p.label+'</div>';
+  }).join('');
+}
+
+function toggleChartSeries(key) {
+  var idx = hiddenSeries.indexOf(key);
+  if (idx>-1) hiddenSeries.splice(idx,1); else hiddenSeries.push(key);
+  if (mainChart) {
+    var di = mainChart.data.datasets.findIndex(function(d){ return d.label===PLATFORMS.find(function(p){return p.key===key;}).label; });
+    if (di>-1) { mainChart.data.datasets[di].hidden=hiddenSeries.includes(key); mainChart.update(); }
+  }
+  document.getElementById("chartLegend").querySelectorAll("div").forEach(function(el){
+    var name = el.textContent.trim();
+    var p = PLATFORMS.find(function(p){return p.label===name;});
+    if (p) el.style.opacity = hiddenSeries.includes(p.key)?"0.4":"1";
+  });
+}
+
+function changeChartType(type) {
+  currentChartType = type;
+  document.querySelectorAll(".chart-type-btn").forEach(function(b){
+    b.classList.toggle("active", b.dataset.type===type);
+  });
+  renderTable(currentFilter);
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CONTROLS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function applyFilter(filterType) {
+  currentFilter = filterType;
+  document.querySelectorAll("#dateFilters .filter-btn").forEach(function(b){
+    b.classList.toggle("active", b.dataset.filter===filterType);
+  });
+  renderTable(filterType);
+}
+
+function toggleMetricDropdown() {
+  document.getElementById("metricDropdown").classList.toggle("open");
+  document.getElementById("metricBtn").classList.toggle("open");
+}
+
+function changeMetric(metric) {
+  currentMetric = metric;
+  var m = getMetric();
+  document.getElementById("metricText").textContent = m?m.label:"Metric";
+  document.querySelectorAll("#metricDropdown .view-option").forEach(function(o){
+    o.classList.toggle("active", o.dataset.metric===metric);
+  });
+  document.getElementById("metricDropdown").classList.remove("open");
+  document.getElementById("metricBtn").classList.remove("open");
+  renderPlatformCards();
+  renderTable(currentFilter);
+}
+
+document.addEventListener("click", function(e) {
+  var wrap = document.querySelector(".view-selector-wrap");
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById("metricDropdown").classList.remove("open");
+    document.getElementById("metricBtn").classList.remove("open");
+  }
+});
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   INIT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+document.addEventListener("DOMContentLoaded", function() {
+  renderPlatformCards();
+  renderTable("lastYear");
+});
+</script>
+</body>
+</html>
+
+>>>>>>> c10c9a3d80c9b285c61c48beeb028ec2ec3391c2

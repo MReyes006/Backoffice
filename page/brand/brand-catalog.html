@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes â€“ By Product</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --gold:rgb(171,160,110);
+  --gold-dark:rgb(141,130,80);
+  --gold-light:rgba(171,160,110,0.12);
+  --gold-border:rgba(171,160,110,0.3);
+  --border:#E8E9E9;
+  --text:#1E2227;
+  --text-muted:#888;
+  --card-bg:#fff;
+  --radius:10px;
+}
+
+/* â”€â”€ PAGE HEADER â”€â”€ */
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.page-title-section h2{font-size:1.35rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.page-title-section h2 i{color:var(--gold);}
+.page-title-section p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+
+/* â”€â”€ TABLE CARD â”€â”€ */
+.table-card{background:var(--card-bg);border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden;border:1px solid var(--border);}
+
+/* â”€â”€ FILTER ROW inside table â”€â”€ */
+.table-filter-row{display:flex;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;background:#fafafa;}
+.col-filter{padding:7px 10px;border:1px solid var(--border);border-radius:7px;background:#fff;font-size:12px;color:var(--text);outline:none;cursor:pointer;min-width:90px;transition:border-color .2s;}
+.col-filter:focus{border-color:var(--gold);}
+.results-count{margin-left:auto;font-size:12px;color:var(--text-muted);white-space:nowrap;}
+
+/* â”€â”€ PRODUCTS TABLE â”€â”€ */
+.products-table{width:100%;border-collapse:collapse;}
+.products-table thead th{
+  background:var(--gold);color:#fff;
+  padding:11px 14px;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;
+  cursor:pointer;user-select:none;
+  transition:background .15s;
+}
+.products-table thead th:hover{background:var(--gold-dark);}
+.products-table thead th .sort-icon{font-size:9px;margin-left:4px;opacity:.6;}
+.products-table tbody td{
+  padding:11px 14px;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--text);vertical-align:middle;
+}
+.products-table tbody tr:last-child td{border-bottom:none;}
+.products-table tbody tr:hover{background:#fafafa;}
+
+/* Photo cell */
+.photo-cell{width:56px;height:56px;border-radius:8px;object-fit:cover;border:1px solid var(--border);background:#f5f5f5;display:block;}
+.photo-placeholder{width:56px;height:56px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;border:1px solid var(--gold-border);}
+.photo-placeholder i{color:var(--gold);font-size:18px;}
+
+/* SKU */
+.sku-cell{font-family:'Courier New',monospace;font-size:11px;color:var(--text-muted);letter-spacing:.03em;}
+
+/* Stock badge */
+/* .stock-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.stock-ok{background:#e6f4ea;color:#1e8e3e;}
+.stock-low{background:#fff3e0;color:#e65100;}
+.stock-out{background:#fce8e8;color:#d93025;} */
+
+/* Collection badge */
+.collection-badge{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:600;background:var(--gold-light);color:var(--gold);}
+
+/* Type badge */
+.type-badge{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:500;background:#f0f0f0;color:#555;}
+
+/* Price */
+.price-msrp{font-size:13px;color:var(--text-muted);}
+.price-wholesale{font-size:13px;font-weight:700;color:var(--gold-dark);}
+.price-zero{color:#ccc;}
+
+/* View button */
+.btn-view-product{width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:#e8f0fe;color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;}
+.btn-view-product:hover{background: var(--gold);color:#fff;}
+
+/* Empty */
+.empty-row td{text-align:center;padding:50px 20px;color:var(--text-muted);}
+.empty-row i{font-size:36px;color:#ddd;display:block;margin-bottom:10px;}
+
+/* â”€â”€ MODAL â”€â”€ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.product-modal{background:#fff;border-radius:16px;width:100%;max-width:680px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.28);}
+.product-modal-header{background:var(--gold);color:#fff;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;}
+.product-modal-header h3{font-size:15px;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;}
+.modal-close-btn{width:30px;height:30px;border:none;background:rgba(255,255,255,.2);border-radius:50%;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.modal-close-btn:hover{background:rgba(255,255,255,.35);}
+.product-modal-body{padding:24px;overflow-y:auto;flex:1;}
+
+/* Modal layout */
+.modal-product-layout{display:grid;grid-template-columns:200px 1fr;gap:24px;}
+.modal-photos{display:flex;flex-direction:column;gap:10px;}
+.modal-main-photo{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--border);background:#f5f5f5;}
+.modal-main-photo-placeholder{width:100%;aspect-ratio:1;border-radius:10px;background:var(--gold-light);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;}
+.modal-main-photo-placeholder i{font-size:40px;color:var(--gold);}
+.modal-thumbs{display:flex;gap:6px;}
+.modal-thumb{width:44px;height:44px;border-radius:7px;object-fit:cover;border:2px solid transparent;cursor:pointer;transition:border-color .2s;}
+.modal-thumb.active,.modal-thumb:hover{border-color:var(--gold);}
+
+.modal-product-name{font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+.modal-product-sub{font-size:13px;color:var(--text-muted);margin-bottom:14px;}
+.modal-price{font-size:1.4rem;font-weight:700;color:var(--gold);margin-bottom:16px;}
+.modal-description{font-size:13px;color:#444;line-height:1.6;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+
+.modal-notes{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+.note-row{display:flex;gap:6px;margin-bottom:6px;font-size:12px;}
+.note-label{font-weight:700;color:var(--text);min-width:90px;}
+.note-value{color:#555;}
+
+.modal-specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.spec-item{background:#f9f9f9;border-radius:8px;padding:10px 13px;}
+.spec-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;}
+.spec-value{font-size:13px;font-weight:600;color:var(--text);}
+
+.modal-guidelines{background:var(--gold-light);border-radius:8px;padding:14px 16px;}
+.modal-guidelines-title{font-size:12px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;}
+.guideline-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;}
+.guideline-label{color:var(--text-muted);}
+.guideline-value{font-weight:600;color:var(--text);}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;z-index:3000;background:#1E2227;color:#fff;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;box-shadow:0 6px 20px rgba(0,0,0,.22);transform:translateY(60px);opacity:0;transition:all .28s ease;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast i{color:var(--gold);}
+
+@media(max-width:620px){
+  .modal-product-layout{grid-template-columns:1fr;}
+  .modal-photos{flex-direction:row;align-items:flex-start;}
+  .modal-main-photo,.modal-main-photo-placeholder{width:120px;flex-shrink:0;}
+  .modal-specs-grid{grid-template-columns:1fr;}
+}
+
+/* En el <style> */
+.btn-download-product{width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:#fff;color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;margin:0 auto;}
+.btn-download-product:hover{background:var(--gold);color:#fff;}
+.products-table thead th select option {
+  background: #1E2227;
+  color: #fff;
+}
+.products-table thead th {
+  vertical-align: top;
+}
+</style>
+<style>
+        .inv-dashboard {
+            padding: 20px;
+        }
+
+        .inv-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #222;
+        }
+
+        /* GRID */
+        .inv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+       
+
+        /* TITULO DEL DATO */
+        .inv-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        /* VALOR */
+        .inv-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #d4a017;
+        }
+
+        /* COLORES ESPECIALES */
+        .inv-card.warning .inv-icon,
+        .inv-card.warning .inv-value {
+            color: #ff8800;
+        }
+
+        .inv-card.info .inv-icon,
+        .inv-card.info .inv-value {
+            color: #1c8cff;
+        }
+    </style>
+
+
+    <style>
+        /* Título */
+        .brand-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        /* ===================== CARDS DE ESTADÍSTICA ===================== */
+        .brand-stats {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            width: 400px;
+            padding: 15px 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        .stat-label {
+            font-size: 15px;
+            color: #333;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .stat-green .stat-value {
+            color: #1c8f00;
+        }
+
+        .stat-orange .stat-value {
+            color: #d36200;
+        }
+
+        /* ===================== FILTROS ===================== */
+        /* .brand-filters {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .brand-select {
+            padding: 8px 12px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 14px;
+        } */
+
+        /* .brand-search {
+            display: flex;
+            align-items: center;
+           border: 1px solid #bbb; 
+            border-radius: 6px;
+            overflow: hidden;
+        } */
+/* 
+        .brand-search input {
+            border: none;
+            padding: 8px 10px;
+            width: 200px;
+        }
+
+        .brand-search button {
+            background: #e9e9e9;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .brand-view {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-btn {
+            background: #fff;
+            border: 1px solid #bbb;
+            padding: 6px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .view-list-text {
+            font-size: 14px;
+        } */
+
+        /* ===================== GRID DE BRANDS ===================== */
+        /* .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+        } */
+
+        /* .brand-card {
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            cursor: pointer;
+            transition: transform .2s;
+        }
+
+        .brand-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .brand-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+        } */
+
+        /* ===================== GRID DE BRANDS ===================== */
+.brand-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+    gap:20px;
+    padding:8px;
+}
+
+.brand-card-link{
+    text-decoration:none;
+    display:block;
+}
+
+.brand-card{
+    position:relative;
+    width:100%;
+    aspect-ratio:1;
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,0.07);
+    transition:all .3s ease;
+    cursor:pointer;
+}
+
+.brand-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 24px rgba(0,0,0,0.15);
+}
+
+.brand-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .3s ease;
+}
+
+.brand-card:hover img{
+    transform:scale(1.05);
+}
+
+/* Black gradient overlay at bottom */
+.brand-card::before{
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:40%;
+    background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.6) 40%,rgba(0,0,0,0.3) 70%,transparent 100%);
+    z-index:1;
+    pointer-events:none;
+}
+
+.brand-name{
+    position:absolute;
+    bottom:16px;
+    left:0;
+    right:0;
+    text-align:center;
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    z-index:2;
+    padding:0 12px;
+    text-shadow:0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Responsive */
+@media(max-width:968px){
+    .brand-grid{
+        grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+        gap:16px;
+    }
+}
+
+@media(max-width:768px){
+    .brand-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
+    
+    .brand-name{
+        font-size:12px;
+        bottom:12px;
+    }
+}
+
+@media(max-width:480px){
+    .brand-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+        /* CARDS CON FONDO BLANCO */
+.inv-card {
+    background: #ffffff;
+    /* padding: 25px 20px; */
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #e7e7e7;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    transition: all .25s ease;
+    width: 300px;
+    padding-bottom: 20px;
+}
+
+.inv-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* ICONOS */
+.inv-icon {
+    font-size: 36px;
+    color: #b5aa79;;
+    margin-bottom: 12px;
+}
+
+/* TITULO DEL DATO */
+.inv-label {
+    color: #ffffff;
+    margin-bottom: 6px;
+    background: rgb(181, 170, 121);
+    height: 40px;
+    border-radius: 12px 12px 0 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    align-content: center;
+}
+
+/* VALOR */
+.inv-value {
+    font-size: 32px;
+    font-weight: 600;
+    color: #000000;
+}
+
+/* estilos agregados */
+/* Brand Filters Container */
+.brand-filters{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:20px 24px;
+    background:var(--card-bg);
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    margin-bottom:24px;
+    flex-wrap:wrap;
+}
+
+/* Brand Select */
+.brand-select{
+    padding:12px 40px 12px 18px;
+    border:2px solid var(--gold);
+    border-radius:50px;
+    background:#fff;
+    color:var(--text);
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    min-width:200px;
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ab9a6e' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 16px center;
+    transition:all .25s;
+}
+
+.brand-select:hover{
+    border-color:var(--gold-dark);
+}
+
+.brand-select:focus{
+    outline:none;
+    border-color:var(--gold);
+    /* box-shadow:0 0 0 3px var(--gold-light); */
+}
+
+/* Brand Search */
+.brand-search{
+    flex:1;
+    max-width:500px;
+    position:relative;
+    display:flex;
+    align-items:center;
+}
+
+.brand-search input{
+    width:100%;
+    padding:12px 48px 12px 18px;
+    border:2px solid var(--gold);
+    border-radius:50px;
+    background:#fff;
+    color:var(--text);
+    font-size:14px;
+    transition:all .25s;
+}
+
+.brand-search input::placeholder{
+    color:var(--text-muted);
+}
+
+.brand-search input:focus{
+    outline:none;
+    border-color:var(--gold);
+    /* box-shadow:0 0 0 3px var(--gold-light); */
+}
+
+.brand-search button{
+    position:absolute;
+    right:4px;
+    top:50%;
+    transform:translateY(-50%);
+    width:38px;
+    height:38px;
+    border:none;
+    background:var(--gold);
+    color:#fff;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all .25s;
+}
+
+.brand-search button:hover{
+    background:var(--gold-dark);
+    transform:translateY(-50%) scale(1.05);
+}
+
+.brand-search button i{
+    font-size:14px;
+}
+
+/* Brand View */
+.brand-view{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:4px;
+    background:#f5f5f5;
+    border-radius:8px;
+}
+
+.view-btn{
+    width:40px;
+    height:40px;
+    border:2px solid transparent;
+    background:#fff;
+    color:var(--text-muted);
+    border-radius:8px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    transition:all .25s;
+}
+
+.view-btn:hover{
+    color:var(--gold);
+    transform:translateY(-1px);
+}
+
+.view-btn.active{
+    border-color:var(--gold);
+    color:var(--gold);
+    background:#fff;
+    box-shadow:0 2px 4px rgba(171,160,110,0.2);
+}
+
+.view-list-text{
+    padding:0 12px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+    white-space:nowrap;
+}
+
+/* Responsive */
+@media(max-width:968px){
+    .brand-filters{
+        flex-direction:column;
+        align-items:stretch;
+    }
+    
+    .brand-select,
+    .brand-search{
+        max-width:100%;
+        width:100%;
+    }
+    
+    .brand-view{
+        justify-content:center;
+    }
+}
+
+@media(max-width:768px){
+    .brand-filters{
+        padding:16px;
+    }
+    
+    .brand-select{
+        min-width:100%;
+    }
+}
+    </style>
+<script src="../../js/aside.js"></script>
+</head>
+<body>
+
+<!-- â•â•â•â•â•â•â•â•â•â• ASIDE â•â•â•â•â•â•â•â•â•â• -->
+<div id="aside-root"></div>
+
+<!-- â•â•â•â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â•â•â•â• -->
+<div class="main-wrap">
+    <header class="topbar">
+       <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+        <div class="topbar-actions">
+            <button class="topbar-btn"><i class="fas fa-bell"></i></button>
+            <button class="topbar-btn"><i class="fas fa-search"></i></button>
+            <div class="topbar-avatar">FS</div>
+        </div>
+    </header>
+
+    <main class="content">
+    <!-- ══════════ MAIN ══════════ -->
+    
+        <!-- <header class="topbar">
+            <div class="topbar-title" id="topbarTitle"> <span></span></div>
+            <div class="topbar-actions">
+                <button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+                <button class="topbar-btn" title="Search"><i class="fas fa-search"></i></button>
+                <div class="topbar-avatar">FS</div>
+            </div>
+        </header> -->
+
+
+            <div class="brand-section">
+
+                <h1 class="brand-title">BRAND</h1>
+
+                <!-- ===================== CARDS DE RESUMEN ===================== -->
+                <div class="brand-stats">
+                    <div class="inv-card">
+                    <div class="inv-label"><h3>Total Brands</h3></div>
+                    <div>
+                        <div class="inv-value">358</div>
+                    </div>
+                    </div>
+                    <div class="inv-card">
+                    <div class="inv-label"><h3>Total Brands Contracted</h3></div>
+                    <div>
+                        <div class="inv-value">150</div>
+                    </div>
+                    </div>
+                    <div class="inv-card">
+                    <div class="inv-label"><h3>Total Brands No Contracted</h3></div>
+                    <div>
+                        <div class="inv-value">300</div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- ===================== FILTROS ===================== -->
+                <div class="brand-filters">
+
+                    <select class="brand-select">
+                        <option>World of Perfumes</option>
+                        <option>Luxury</option>
+                        <option>Niche</option>
+                        <option>Designer</option>
+                    </select>
+
+                    <div class="brand-search">
+                        <input type="text" placeholder="Search by brand">
+                        <button>
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div class="brand-view">
+                        <button class="view-btn"><i class="fas fa-th"></i></button>
+                        <button class="view-btn"><i class="fas fa-th-large"></i></button>
+                        <button class="view-btn"><i class="fas fa-th-list"></i></button>
+                        <span class="view-list-text">View List</span>
+                    </div>
+                </div>
+
+                <!-- ===================== GRID DE BRANDS ===================== -->
+                <div class="brand-grid">
+
+                    <!-- CARD -->
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../../../Brands/1907.webp" alt="Brand">
+                            <div class="brand-name">1907</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/AcquaDiSardegna.webp" alt="Brand">
+                            <div class="brand-name">ACQUA DI SARDEGNA</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/Adamo_Parfum.webp" alt="Brand">
+                            <div class="brand-name">ADAMO PARFUM</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/agatho-parfum.webp" alt="Brand">
+                            <div class="brand-name">AGATHO PARFUM</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/akro-fragances.webp" alt="Brand">
+                            <div class="brand-name">AKRO FRAGANCES</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/alexandre-j.webp" alt="Brand">
+                            <div class="brand-name">ALEXANDRE.J</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/Alfred_Ritchy.webp" alt="Brand">
+                            <div class="brand-name">ALFRED RITCHY</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/amouage.webp" alt="Brand">
+                            <div class="brand-name">AMOAGE</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/ArabianOud.webp" alt="Brand">
+                            <div class="brand-name">ARABIAN OUD</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/Argos.webp" alt="Brand">
+                            <div class="brand-name">ARGOS</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/atelier_dors.webp" alt="Brand">
+                            <div class="brand-name">ATELIER D'ORS</div>
+                        </div>
+                    </a>
+                    <a href="../../brand-detail.html" class="brand-card-link">
+                        <div class="brand-card">
+                            <img src="../../Brands/BAMAINPARIS.webp" alt="Brand">
+                            <div class="brand-name">BALMAIN PARIS</div>
+                        </div>
+                    </a>
+                    <!-- DUPLICA ESTO PARA TODAS LAS BRANDS -->
+
+                </div>
+
+            </div>
+
+    
+
+    <!-- ══ MODAL ══ -->
+    <div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closePaymentModal()">&times;</button>
+            <h2 id="modalTitle" class="modal-title">Paid Commissions</h2>
+            <div class="modal-divider"></div>
+            <div style="overflow-x:auto;">
+                <table class="responsive-table modal-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Order #</th>
+                            <th class="tooltip-header">Sales<span class="tooltip-badge"><i
+                                        class="fas fa-info-circle"></i></span></th>
+                            <th>Commission Rate</th>
+                            <th>Commission</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modalTableBody"></tbody>
+                    <tfoot>
+                        <tr class="modal-total-row">
+                            <td><strong>TOTAL</strong></td>
+                            <td></td>
+                            <td id="modalTotalSales"><strong>$0.00</strong></td>
+                            <td></td>
+                            <td id="modalTotalCommission"><strong>$0.00</strong></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function toggleSubGroup(id) {
+            var body = document.getElementById(id);
+            var arrow = document.getElementById('arrow-' + id);
+            var isOpen = body.style.display !== 'none';
+
+            // Solo cerrar si no tiene item activo dentro
+            if (isOpen && !body.querySelector('.active')) {
+                body.style.display = 'none';
+                if (arrow) arrow.classList.remove('open');
+            } else {
+                body.style.display = 'block';
+                if (arrow) arrow.classList.add('open');
+            }
+        }
+        /* Accordion */
+        // REEMPLAZA toggleGroup:
+        function toggleGroup(id) {
+            var grp = document.getElementById(id);
+            var wasOpen = grp.classList.contains('open');
+
+            // Cerrar otros grupos solo si no tienen item activo
+            document.querySelectorAll('.nav-group').forEach(function (g) {
+                if (g.id !== id && !g.querySelector('.active')) {
+                    g.classList.remove('open');
+                }
+            });
+
+            // Toggle el grupo clickeado
+            if (wasOpen && !grp.querySelector('.active')) {
+                grp.classList.remove('open');
+            } else {
+                grp.classList.add('open');
+            }
+        }
+
+        /* View router */
+        const VIEWS = {
+            overview: { el: 'view-overview', title: 'Dashboard <span>/ Overview</span>' },
+            salesByPerfumery: { el: 'view-placeholder', title: 'Dashboard <span>/ Sales by Perfumery</span>', ph: 'Sales by Perfumery' },
+            salesByState: { el: 'view-placeholder', title: 'Dashboard <span>/ Sales by State</span>', ph: 'Sales by State' },
+            salesByCity: { el: 'view-placeholder', title: 'Dashboard <span>/ Sales by City</span>', ph: 'Sales by City' },
+            salesByCollection: { el: 'view-placeholder', title: 'Dashboard <span>/ Sales by Collection</span>', ph: 'Sales by Collection' },
+            salesByMonth: { el: 'view-placeholder', title: 'Dashboard <span>/ Sales by Month</span>', ph: 'Sales by Month' },
+            commissions: { el: 'view-commissions', title: 'Dashboard <span>/ Clients</span>' },
+        };
+
+        // REEMPLAZA la función showView completa:
+        function showView(key, linkEl) {
+            // Quitar active de todos
+            document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone')
+                .forEach(function (i) { i.classList.remove('active'); });
+
+            // Poner active en el clickeado
+            if (linkEl) {
+                linkEl.classList.add('active');
+
+                // Mantener abierto el nav-group padre
+                var grp = linkEl.closest('.nav-group');
+                if (grp) grp.classList.add('open');
+
+                // Mantener abierto el nav-sub-group padre
+                var subBody = linkEl.closest('.nav-sub-group-body');
+                if (subBody) {
+                    subBody.style.display = 'block';
+                    var header = subBody.previousElementSibling;
+                    if (header) {
+                        var arrow = header.querySelector('.nav-sub-arrow');
+                        if (arrow) arrow.classList.add('open');
+                    }
+                }
+            }
+
+            const v = VIEWS[key] || VIEWS.overview;
+            ['view-overview', 'view-commissions', 'view-placeholder'].forEach(function (id) {
+                document.getElementById(id).style.display = 'none';
+            });
+            document.getElementById(v.el).style.display = 'block';
+            document.getElementById('topbarTitle').innerHTML = v.title;
+            if (v.ph) document.getElementById('placeholderTitle').textContent = v.ph;
+            return false;
+        }
+        /* Tabs */
+        const TAB_TITLES = {
+            clients: 'Dashboard <span>/ Clients</span>',
+            commission: 'Dashboard <span>/ Commissions</span>',
+            payments: 'Dashboard <span>/ Payments</span>',
+        };
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === tab));
+            const title = TAB_TITLES[tab];
+            if (title) document.getElementById('topbarTitle').innerHTML = title;
+        }
+        function applyFilter(f, section) {
+            const id = section === 'commission' ? 'commissionFilters' : 'clientFilters';
+            document.getElementById(id)?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+        }
+        function applyPaymentFilter(f) {
+            document.getElementById('paymentHistoryFilters')?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+        }
+        function changeTableView() { }
+        function exportMonthlyReferralsToPDF() { alert('Connect js/dashboard.js'); }
+        function exportPaymentHistoryToPDF() { alert('Connect js/dashboard.js'); }
+        function updateGroupedChart() { }
+        function updateCommissionChart() { }
+        function updatePaymentChart() { }
+        function closePaymentModal(e) {
+            if (!e || e.target === document.getElementById('paymentDetailModal'))
+                document.getElementById('paymentDetailModal').classList.remove('active');
+        }
+    </script>
+
+
+    </main>
+</div>
+
+<!-- â•â• PRODUCT DETAIL MODAL â•â• -->
+<div class="modal-overlay" id="productModal" onclick="closeProductModal(event)">
+    <div class="product-modal" onclick="event.stopPropagation()">
+        <div class="product-modal-header">
+            <h3><i class="fas fa-spray-can"></i> Product Details</h3>
+            <button class="modal-close-btn" onclick="closeProductModal()">âœ•</button>
+        </div>
+        <div class="product-modal-body">
+            <div class="modal-product-layout">
+                <!-- Left: photos -->
+                <div class="modal-photos">
+                    <div id="modalMainPhoto"></div>
+                    <div class="modal-thumbs" id="modalThumbs"></div>
+                </div>
+                <!-- Right: info -->
+                <div class="modal-info">
+                    <div class="modal-product-name" id="modalName"></div>
+                    <div class="modal-product-sub" id="modalSub"></div>
+                    <div class="modal-price" id="modalPrice" style="display: none;"></div>
+                    <div class="modal-description" id="modalDesc"></div>
+                    <div class="modal-notes" id="modalNotes"></div>
+                    <div class="modal-specs-grid" id="modalSpecs"></div>
+                    <div class="modal-guidelines" id="modalGuidelines"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="fas fa-info-circle"></i><span id="toastMsg"></span></div>
+
+<script>
+/* â•â•â•â•â•â•â•â• PRODUCT DATA â•â•â•â•â•â•â•â• */
+// var products = [
+//   {
+//     id:1, sku:"07H-0067F-EDP-100ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:["https://images.unsplash.com/photo-1541643600914-78b084683702?w=300&q=80","https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
+//      collection:"Artisan Collection", perfume:"Poderio",
+//     type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
+//     description:"A bold and powerful fragrance that commands attention. Poderio captures strength and elegance in every spray.",
+//     topNotes:["Bergamot","Black Pepper","Cardamom"],
+//     middleNotes:["Rose","Oud","Leather"],
+//     baseNotes:["Amber","Sandalwood","Musk"],
+//     firstOrder:1, nextOrder:"â€”",active:true,  niche:false 
+//   },
+//   {
+//     id:2, sku:"07H-0067G-EDP-100ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
+//      collection:"Artisan Collection", perfume:"Dos Besos",
+//     type:"Extrait de Parfum", ml:100, msrp:200, wholesale:171.95,
+//     description:"An intimate and romantic fragrance. Dos Besos evokes warmth, passion and closeness.",
+//     topNotes:["Raspberry","Peach","Saffron"],
+//     middleNotes:["Rose","Jasmine","Iris"],
+//     baseNotes:["Musk","Vanilla","Patchouli"],
+//     firstOrder:1, nextOrder:"12 units",active:false, niche:false
+//   },
+//   {
+//     id:3, sku:"07H-0067E-EDP-100ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:["https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&q=80"],
+//      collection:"Artisan Collection", perfume:"Verdanza",
+//     type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
+//     description:"A fresh and vibrant fragrance inspired by lush green landscapes.",
+//     topNotes:["Green Apple","Mint","Citrus"],
+//     middleNotes:["Jasmine","Vetiver","Geranium"],
+//     baseNotes:["Cedar","Oakmoss","Musk"],
+//     firstOrder:1, nextOrder:"â€”",active:false, niche:false
+//   },
+//   {
+//     id:4, sku:"MO-001-EDP-100ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:["https://images.unsplash.com/photo-1547887538-047f814a9892?w=300&q=80"],
+//     collection:"Modern Oudh", perfume:"Demo1",
+//     type:"Eau de Parfum", ml:100, msrp:332.50, wholesale:210.00,
+//     description:"A luxurious modern oudh fragrance with rosewood, lavender, and sandalwood.",
+//     topNotes:["Rosewood","Lavender","Cinnamon"],
+//     middleNotes:["Lily-Of-The-Valley","Rose"],
+//     baseNotes:["Amber","West Indian Bay","Agarwood"],
+//     firstOrder:1, nextOrder:"â€”",active:false, niche:false
+//   },
+//   {
+//     id:5, sku:"MO-002-EXP-50ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=300&q=80"],
+//     collection:"Modern Oudh", perfume:"Demo2",
+//     type:"Extrait de Parfum", ml:50, msrp:280.00, wholesale:175.00,
+//     description:"Truth and elegance distilled into a single fragrance. Demo2 is pure, transparent and unforgettable.",
+//     topNotes:["Lemon","Bergamot","Pink Pepper"],
+//     middleNotes:["Neroli","Jasmine","Orris"],
+//     baseNotes:["Sandalwood","White Musk","Amber"],
+//     firstOrder:1, nextOrder:"6 units",active:true,  niche:true
+//   },
+//   {
+//     id:6, sku:"AC-003-EDT-30ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:[],
+//     collection:"Artisan Collection", perfume:"Alba",
+//     type:"Eau de Toilette", ml:30, msrp:95.00, wholesale:58.00,
+//     description:"A delicate morning fragrance inspired by the first light of dawn.",
+//     topNotes:["White Peach","Mandarin","Dew"],
+//     middleNotes:["Magnolia","Freesia","Muguet"],
+//     baseNotes:["White Sandalwood","Musk","Cashmere"],
+//     firstOrder:2, nextOrder:"12 units",active:true,  niche:true
+//   }
+// ];
+
+// â”€â”€ Datos iniciales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+var products = [];
+
+// â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const BRAND_PRODUCTS = {
+  'Brand Demo': [
+    // {
+    //   id:1, sku:"07H-0067F-EDP-100ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:["https://images.unsplash.com/photo-1541643600914-78b084683702?w=300&q=80","https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
+    //   collection:"Artisan Collection", perfume:"Poderio",
+    //   type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
+    //   description:"A bold and powerful fragrance that commands attention. Poderio captures strength and elegance in every spray.",
+    //   topNotes:["Bergamot","Black Pepper","Cardamom"],
+    //   middleNotes:["Rose","Oud","Leather"],
+    //   baseNotes:["Amber","Sandalwood","Musk"],
+    //   firstOrder:1, nextOrder:"â€”", active:true, niche:false
+    // },
+    // {
+    //   id:2, sku:"07H-0067G-EDP-100ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
+    //   collection:"Artisan Collection", perfume:"Dos Besos",
+    //   type:"Extrait de Parfum", ml:100, msrp:200, wholesale:171.95,
+    //   description:"An intimate and romantic fragrance. Dos Besos evokes warmth, passion and closeness.",
+    //   topNotes:["Raspberry","Peach","Saffron"],
+    //   middleNotes:["Rose","Jasmine","Iris"],
+    //   baseNotes:["Musk","Vanilla","Patchouli"],
+    //   firstOrder:1, nextOrder:"12 units", active:false, niche:false
+    // },
+    // {
+    //   id:3, sku:"07H-0067E-EDP-100ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:["https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&q=80"],
+    //   collection:"Artisan Collection", perfume:"Verdanza",
+    //   type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
+    //   description:"A fresh and vibrant fragrance inspired by lush green landscapes.",
+    //   topNotes:["Green Apple","Mint","Citrus"],
+    //   middleNotes:["Jasmine","Vetiver","Geranium"],
+    //   baseNotes:["Cedar","Oakmoss","Musk"],
+    //   firstOrder:1, nextOrder:"â€”", active:false, niche:false
+    // },
+    {
+      id:4, sku:"MO-001-EDP-100ML",
+      photo:"../../img/Brand_Demo.webp",
+      photos:["https://images.unsplash.com/photo-1547887538-047f814a9892?w=300&q=80"],
+      collection:"Collection Demo", perfume:"Demo1",
+      type:"Eau de Parfum", ml:100, msrp:332.50, wholesale:210.00,
+      description:"A luxurious modern oudh fragrance with rosewood, lavender, and sandalwood.",
+      topNotes:["Rosewood","Lavender","Cinnamon"],
+      middleNotes:["Lily-Of-The-Valley","Rose"],
+      baseNotes:["Amber","West Indian Bay","Agarwood"],
+      firstOrder:1, nextOrder:"â€”", active:false, niche:false
+    },
+    {
+      id:5, sku:"MO-002-EXP-50ML",
+      photo:"../../img/Brand_Demo.webp",
+      photos:["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=300&q=80"],
+      collection:"Collection Demo", perfume:"Demo2",
+      type:"Extrait de Parfum", ml:50, msrp:280.00, wholesale:175.00,
+      description:"Truth and elegance distilled into a single fragrance. Demo2 is pure, transparent and unforgettable.",
+      topNotes:["Lemon","Bergamot","Pink Pepper"],
+      middleNotes:["Neroli","Jasmine","Orris"],
+      baseNotes:["Sandalwood","White Musk","Amber"],
+      firstOrder:1, nextOrder:"6 units", active:true, niche:true
+    },
+    // {
+    //   id:6, sku:"AC-003-EDT-30ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:[],
+    //   collection:"Artisan Collection", perfume:"Alba",
+    //   type:"Eau de Toilette", ml:30, msrp:95.00, wholesale:58.00,
+    //   description:"A delicate morning fragrance inspired by the first light of dawn.",
+    //   topNotes:["White Peach","Mandarin","Dew"],
+    //   middleNotes:["Magnolia","Freesia","Muguet"],
+    //   baseNotes:["White Sandalwood","Musk","Cashmere"],
+    //   firstOrder:2, nextOrder:"12 units", active:true, niche:true
+    // },
+  ],
+  'La Sabia Madrid': [
+    {
+      id:1, sku:"LSM-001-EDP-100ML",
+      photo:"../../img/LaSabiaMadrid.webp",
+      photos:[],
+      collection:"Esencia", perfume:"Verdanza",
+      type:"Eau de Parfum", ml:100, msrp:360.00, wholesale:220.00,
+      description:"A fresh and luminous floral fragrance inspired by the gardens of Madrid.",
+      topNotes:["Jasmine","Green Leaves","Citrus"],
+      middleNotes:["Rose","Iris","Peony"],
+      baseNotes:["Cedar","Musk","Amber"],
+      firstOrder:1, nextOrder:"â€”", active:true, niche:false
+    },
+    {
+      id:2, sku:"LSM-002-EDP-100ML",
+      photo:"../../img/LaSabiaMadrid.webp",
+      photos:[],
+      collection:"PasiÃ³n", perfume:"Poderio",
+      type:"Eau de Parfum", ml:100, msrp:360.00, wholesale:220.00,
+      description:"A powerful and confident fragrance with bold spicy opening, rich oud heart, and a deep amber base.",
+      topNotes:["Black Pepper","Cardamom","Saffron"],
+      middleNotes:["Oud","Rose","Leather"],
+      baseNotes:["Amber","Sandalwood","Musk"],
+      firstOrder:1, nextOrder:"â€”", active:true, niche:false
+    },
+    {
+      id:3, sku:"LSM-003-EXT-100ML",
+      photo:"../../img/LaSabiaMadrid.webp",
+      photos:[],
+      collection:"PasiÃ³n", perfume:"Dos Besos",
+      type:"Extrait de Parfum", ml:100, msrp:380.00, wholesale:240.00,
+      description:"A warm and sensual oriental fragrance evoking the passion of Spanish culture.",
+      topNotes:["Raspberry","Saffron","Rose"],
+      middleNotes:["Jasmine","Iris","Vanilla"],
+      baseNotes:["Musk","Patchouli","Amber"],
+      firstOrder:1, nextOrder:"6 units", active:false, niche:true
+    },
+  ],
+};
+
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyProductsBrand(brand);
+});
+
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('DOMContentLoaded', function() {
+  const savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand;
+    applyProductsBrand(savedBrand);
+  } else {
+    products = BRAND_PRODUCTS['Brand Demo'];
+    renderProducts(); // â† verifica el nombre real de tu funciÃ³n
+  }
+});
+
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function applyProductsBrand(brand) {
+  if (BRAND_PRODUCTS[brand]) {
+    products = BRAND_PRODUCTS[brand];
+    renderProducts(); // â† verifica el nombre real de tu funciÃ³n
+  }
+}
+
+var sortCol = null;
+var sortDir = 1;
+var viewingProduct = null;
+
+/* â•â•â•â•â•â•â•â• POPULATE FILTERS â•â•â•â•â•â•â•â• */
+function populateFilters() {
+  var collections = [...new Set(products.map(function(p){ return p.collection; }))].sort();
+  var perfumes    = [...new Set(products.map(function(p){ return p.perfume; }))].sort();
+  var types       = [...new Set(products.map(function(p){ return p.type; }))].sort();
+  var mls         = [...new Set(products.map(function(p){ return p.ml; }))].sort(function(a,b){return a-b;});
+  var wholesales  = [...new Set(products.map(function(p){ return p.wholesale; }))].sort(function(a,b){return a-b;});
+
+  function fillSelect(id, values, prefix) {
+    var sel = document.getElementById(id);
+    values.forEach(function(v) {
+      var o = document.createElement('option');
+      o.value = v; o.textContent = (prefix||'') + v;
+      sel.appendChild(o);
+    });
+  }
+  fillSelect('fCollection', collections);
+  fillSelect('fPerfume', perfumes);
+  fillSelect('fType', types);
+  fillSelect('fMl', mls, '');
+  fillSelect('fWholesale', wholesales, '$');
+}
+
+/* â•â•â•â•â•â•â•â• RENDER TABLE â•â•â•â•â•â•â•â• */
+function renderProducts() {
+  var tbody = document.getElementById('productsTableBody');
+  var fSku        = document.getElementById('fSku') ? document.getElementById('fSku').value.toLowerCase() : '';
+  var fCollection = document.getElementById('fCollection').value;
+  var fPerfume    = document.getElementById('fPerfume').value;
+  var fType       = document.getElementById('fType').value;
+  var fMl         = document.getElementById('fMl').value;
+  var fMsrp       = document.getElementById('fMsrp').value;
+  var fWholesale  = document.getElementById('fWholesale').value;
+
+  var filtered = products.filter(function(p) {
+    var msrpOk = !fMsrp ||
+      (fMsrp==='0'   && p.msrp === 0) ||
+      (fMsrp==='gt0' && p.msrp > 0);
+    return (!fSku        || p.sku.toLowerCase().includes(fSku))
+      && (!fCollection || p.collection === fCollection)
+      && (!fPerfume    || p.perfume    === fPerfume)
+      && (!fType       || p.type       === fType)
+      && (!fMl         || String(p.ml) === String(fMl))
+      && msrpOk
+      && (!fWholesale  || String(p.wholesale) === String(fWholesale));
+  });
+
+  if (sortCol) {
+    filtered.sort(function(a,b) {
+      var av = a[sortCol], bv = b[sortCol];
+      if (typeof av === 'string') av = av.toLowerCase();
+      if (typeof bv === 'string') bv = bv.toLowerCase();
+      return av < bv ? -sortDir : av > bv ? sortDir : 0;
+    });
+  }
+
+  document.getElementById('resultsCount').textContent = filtered.length + ' product' + (filtered.length!==1?'s':'');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="10"><i class="fas fa-search"></i><p>No products match the selected filters.</p></td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(function(p) {
+    var photoHtml = p.photo
+      ? '<img src="'+p.photo+'" class="photo-cell" alt="'+p.perfume+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="photo-placeholder" style="display:none;"><i class="fas fa-spray-can"></i></div>'
+      : '<div class="photo-placeholder"><i class="fas fa-spray-can"></i></div>';
+    var msrpHtml = p.msrp > 0
+      ? '<span class="price-msrp">$'+p.msrp.toFixed(2)+'</span>'
+      : '<span class="price-zero">$0</span>';
+    return '<tr>' +
+      '<td style="text-align:center;"><button class="btn-view-product" onclick="openProductModal('+p.id+')" title="View details"><i class="fas fa-eye"></i></button></td>' +
+      '<td><span class="sku-cell">'+p.sku+'</span></td>' +
+      '<td style="text-align:center;">'+photoHtml+'</td>' +
+      '<td><span class="collection-badge">'+p.collection+'</span></td>' +
+      '<td style="font-weight:500;">'+p.perfume+'</td>' +
+      '<td><span class="type-badge">'+p.type+'</span></td>' +
+      '<td style="text-align:center;font-size:13px;">'+p.ml+' ml</td>' +
+      '<td>'+msrpHtml+'</td>' +
+      '<td><span class="price-wholesale">$'+p.wholesale.toFixed(2)+'</span></td>' +
+      '<td style="text-align:center;">'+
+  (p.active
+    ? '<span style="background:#e6f4ea;color:#1e8e3e;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;">Yes</span>'
+    : '<span style="background:#fce8e8;color:#d93025;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;">No</span>')+
+'</td>' +
+'<td style="text-align:center;">'+
+  (p.niche
+    ? '<span style="background:#e8f0fe;color:#1a73e8;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;">Yes</span>'
+    : '<span style="background:#f0f0f0;color:#888;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;">No</span>')+
+'</td>' +
+      '<td style="text-align:center;"><button class="btn-download-product" onclick="downloadProduct('+p.id+')" title="Download info"><i class="fas fa-download"></i></button></td>' +
+    '</tr>';
+  }).join('');
+}
+/* â•â•â•â•â•â•â•â• SORT â•â•â•â•â•â•â•â• */
+function sortProducts(col) {
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = 1; }
+  renderProducts();
+}
+
+/* â•â•â•â•â•â•â•â• PRODUCT MODAL â•â•â•â•â•â•â•â• */
+function openProductModal(id) {
+  viewingProduct = products.find(function(p){ return p.id === id; });
+  if (!viewingProduct) return;
+  var p = viewingProduct;
+
+  /* Main photo */
+  var mainPhotoEl = document.getElementById('modalMainPhoto');
+  if (p.photo) {
+    mainPhotoEl.innerHTML = '<img src="'+p.photo+'" class="modal-main-photo" id="modalMainImg" alt="'+p.perfume+'" onerror="this.parentElement.innerHTML=\'<div class=modal-main-photo-placeholder><i class=fas fa-spray-can></i></div>\'">';
+  } else {
+    mainPhotoEl.innerHTML = '<div class="modal-main-photo-placeholder"><i class="fas fa-spray-can"></i></div>';
+  }
+
+  /* Thumbs */
+  var thumbsEl = document.getElementById('modalThumbs');
+  if (p.photos && p.photos.length > 1) {
+    thumbsEl.innerHTML = p.photos.map(function(src, i) {
+      return '<img src="'+src+'" class="modal-thumb'+(i===0?' active':'')+'" onclick="switchPhoto(this,\''+src+'\')" onerror="this.style.display=\'none\'">';
+    }).join('');
+  } else {
+    thumbsEl.innerHTML = '';
+  }
+
+  /* Info */
+  document.getElementById('modalName').textContent = p.perfume;
+  document.getElementById('modalSub').textContent = p.collection + ' | ' + p.ml + ' ml';
+  document.getElementById('modalPrice').textContent = p.wholesale > 0 ? '$'+p.wholesale.toFixed(2) : 'Price on request';
+  document.getElementById('modalDesc').textContent = p.description || '';
+
+  /* Notes */
+  var notesHtml = '';
+  if (p.topNotes && p.topNotes.length)    notesHtml += '<div class="note-row"><span class="note-label">Top Notes:</span><span class="note-value">'+p.topNotes.join(', ')+'</span></div>';
+  if (p.middleNotes && p.middleNotes.length) notesHtml += '<div class="note-row"><span class="note-label">Middle Notes:</span><span class="note-value">'+p.middleNotes.join(', ')+'</span></div>';
+  if (p.baseNotes && p.baseNotes.length)  notesHtml += '<div class="note-row"><span class="note-label">Base Notes:</span><span class="note-value">'+p.baseNotes.join(', ')+'</span></div>';
+  document.getElementById('modalNotes').innerHTML = notesHtml || '';
+  document.getElementById('modalNotes').style.display = notesHtml ? '' : 'none';
+
+  /* Specs */
+  var stockClass = p.stock > 20 ? '#1e8e3e' : p.stock > 0 ? '#e65100' : '#d93025';
+  document.getElementById('modalSpecs').innerHTML =
+    '<div class="spec-item"><div class="spec-label">SKU</div><div class="spec-value" style="font-size:11px;font-family:monospace;">'+p.sku+'</div></div>' +
+    '<div class="spec-item"><div class="spec-label">Type</div><div class="spec-value">'+p.type+'</div></div>' +
+    '<div class="spec-item"><div class="spec-label">Size</div><div class="spec-value">'+p.ml+' ml</div></div>' +
+    '<div class="spec-item"><div class="spec-label">MSRP</div><div class="spec-value">'+(p.msrp > 0 ? '$'+p.msrp.toFixed(2) : 'â€”')+'</div></div>' +
+    '<div class="spec-item"><div class="spec-label">Wholesale</div><div class="spec-value" style="color:var(--gold-dark);">$'+p.wholesale.toFixed(2)+'</div></div>';
+
+  /* Guidelines */
+//   document.getElementById('modalGuidelines').innerHTML =
+//     '<div class="modal-guidelines-title"><i class="fas fa-clipboard-list" style="margin-right:6px;"></i>Product Guidelines</div>' +
+//     '<div class="guideline-row"><span class="guideline-label">First Order:</span><span class="guideline-value">'+p.firstOrder+' Unit'+(p.firstOrder!==1?'s':'')+'</span></div>' +
+//     '<div class="guideline-row"><span class="guideline-label">Next Order:</span><span class="guideline-value">'+(p.nextOrder||'â€”')+'</span></div>';
+
+  document.getElementById('productModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function switchPhoto(thumb, src) {
+  document.getElementById('modalMainImg') && (document.getElementById('modalMainImg').src = src);
+  document.querySelectorAll('.modal-thumb').forEach(function(t){ t.classList.remove('active'); });
+  thumb.classList.add('active');
+}
+
+function closeProductModal(e) {
+  if (e && e.target !== document.getElementById('productModal')) return;
+  document.getElementById('productModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* â•â•â•â•â•â•â•â• NAV â•â•â•â•â•â•â•â• */
+function toggleGroup(id) {
+  var grp = document.getElementById(id);
+  var wasOpen = grp.classList.contains('open');
+  document.querySelectorAll('.nav-group').forEach(function(g){
+    if (g.id!==id && !g.querySelector('.active')) g.classList.remove('open');
+  });
+  if (wasOpen && !grp.querySelector('.active')) grp.classList.remove('open');
+  else grp.classList.add('open');
+}
+
+function toggleSubGroup(id) {
+  var body = document.getElementById(id);
+  var arrow = document.getElementById('arrow-'+id);
+  var isOpen = body.style.display !== 'none';
+  if (isOpen && !body.querySelector('.active')) {
+    body.style.display='none';
+    if(arrow) arrow.classList.remove('open');
+  } else {
+    body.style.display='block';
+    if(arrow) arrow.classList.add('open');
+  }
+}
+
+/* â•â•â•â•â•â•â•â• ESC â•â•â•â•â•â•â•â• */
+document.addEventListener('keydown', function(e) {
+  if (e.key==='Escape') closeProductModal();
+});
+
+/* â•â•â•â•â•â•â•â• INIT â•â•â•â•â•â•â•â• */
+document.addEventListener('DOMContentLoaded', function() {
+  populateFilters();
+  renderProducts();
+
+  // Open Sales sub-group since this page is inside it
+  var salesBody = document.getElementById('grp-sales');
+  var salesArrow = document.getElementById('arrow-grp-sales');
+  if (salesBody) { salesBody.style.display = 'block'; }
+  if (salesArrow) { salesArrow.classList.add('open'); }
+});
+
+/* En el <script> */
+function downloadProduct(id) {
+  var p = products.find(function(x){ return x.id === id; });
+  if (!p) return;
+  var content = [
+    'SKU: ' + p.sku,
+    'Perfume: ' + p.perfume,
+    'Collection: ' + p.collection,
+    'Type: ' + p.type,
+    'Size: ' + p.ml + ' ml',
+    'MSRP: ' + (p.msrp > 0 ? '$' + p.msrp.toFixed(2) : '$0'),
+    'Wholesale Price: $' + p.wholesale.toFixed(2),
+    '',
+    'Description:',
+    p.description || '',
+    '',
+    'Top Notes: ' + (p.topNotes ? p.topNotes.join(', ') : 'â€”'),
+    'Middle Notes: ' + (p.middleNotes ? p.middleNotes.join(', ') : 'â€”'),
+    'Base Notes: ' + (p.baseNotes ? p.baseNotes.join(', ') : 'â€”'),
+    '',
+    'First Order: ' + p.firstOrder + ' unit(s)',
+    'Next Order: ' + (p.nextOrder || 'â€”')
+  ].join('\n');
+
+  var blob = new Blob([content], { type: 'text/plain' });
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href = url;
+  a.download = p.sku + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
+
+

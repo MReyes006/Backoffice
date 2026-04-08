@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 <!DOCTYPE html>
@@ -238,4 +239,246 @@
         });
     </script>
 </body>
+=======
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="img/logo-fondo-claro.png" alt="UpPromote Logo" style="width: 210px;">
+        </div>
+
+        <h3 style="text-align: center; font-weight: 600;color: #000; font-size: 25px;">Login</h3>
+        
+        <div class="content">
+            <!-- Loading Screen -->
+            <div id="loadingScreen" class="loading">
+                <div class="spinner"></div>
+                <p>Verifying credentials...</p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="login-form">
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                        <div class="error-message" id="emailError">Invalid Email</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="affiliateId">Password</label>
+                        <input type="password" id="affiliateId" name="affiliateId" required placeholder="••••••••">
+                        <div class="error-message" id="idError">Invalid ID</div>
+                    </div>
+
+
+                    <button type="submit" class="login-btn" id="submitBtn">Log In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de credenciales incorrectas -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Incorrect Credentials</h2>
+            <p>The affiliate ID and email do not match. Please verify that you are using the correct credentials.</p>
+            <button class="modal-btn" id="retryBtn">Try Again</button>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        // Elementos del DOM
+        const loadingScreen = document.getElementById('loadingScreen');
+        const loginForm = document.getElementById('loginForm');
+        const loginFormElement = document.getElementById('loginFormElement');
+        const affiliateIdInput = document.getElementById('affiliateId');
+        const emailInput = document.getElementById('email');
+        const submitBtn = document.getElementById('submitBtn');
+        const idError = document.getElementById('idError');
+        const emailError = document.getElementById('emailError');
+        const errorModal = document.getElementById('errorModal');
+        const closeModalBtn = document.querySelector('.close');
+        const retryBtn = document.getElementById('retryBtn');
+
+        // Validar ID de afiliado (debe ser numérico)
+        function isValidAffiliateId(id) {
+            return /^\d+$/.test(id.trim());
+        }
+
+        // Validar email
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Verificar credenciales con la API
+        // Esta función ahora llama a tu backend
+          async function verifyCredentials(affiliateId, email) {
+    // 🔧 HARDCODED CREDENTIALS - SOLO PARA DESARROLLO
+    const DEV_CREDENTIALS = {
+        email: 'example@8motiv.com',
+        password: '1234',  // En tu formulario, el campo "password" es affiliateId
+        affiliateId: '123456'  // ID ficticio para simular datos del afiliado
+    };
+
+    // Verificar credenciales de desarrollo
+        if (email === DEV_CREDENTIALS.email && affiliateId === DEV_CREDENTIALS.password) {
+            console.log('🔓 Acceso con credenciales de desarrollo');
+            
+            // Simular respuesta exitosa con datos mock
+            return {
+                id: DEV_CREDENTIALS.affiliateId,
+                email: DEV_CREDENTIALS.email,
+                name: 'Demo Affiliate',
+                status: 'active',
+                // Agrega aquí más campos que espere tu dashboard
+                referrals: [],
+                payments: [],
+                totalEarnings: 0
+            };
+        }
+
+        
+    }
+
+        // Redirigir al dashboard con los datos
+        function redirectToDashboard(affiliateData) {
+            // Guardar datos en localStorage
+            localStorage.setItem('affiliate_data', JSON.stringify(affiliateData));
+            localStorage.setItem('affiliate_logged_in', 'true');
+            
+            // Redirigir al dashboard
+            window.location.href = 'dashboard2.html';
+        }
+
+        // Cerrar el modal
+        closeModalBtn.addEventListener('click', () => {
+            document.querySelector('.modal-content').classList.remove('show');
+            setTimeout(() => {
+                errorModal.style.display = 'none';
+            }, 300);
+        });
+
+        // Intentar de nuevo
+        retryBtn.addEventListener('click', () => {
+            document.querySelector('.modal-content').classList.remove('show');
+            setTimeout(() => {
+                errorModal.style.display = 'none';
+            }, 300);
+        });
+
+        // Manejar el formulario de login
+        loginFormElement.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const affiliateId = affiliateIdInput.value.trim();
+            const email = emailInput.value.trim();
+
+            // Validar ID de afiliado
+            if (!isValidAffiliateId(affiliateId)) {
+                idError.classList.add('show');
+                return;
+            } else {
+                idError.classList.remove('show');
+            }
+
+            // Validar email
+            if (!isValidEmail(email)) {
+                emailError.classList.add('show');
+                return;
+            } else {
+                emailError.classList.remove('show');
+            }
+
+            // Deshabilitar botón y mostrar loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Verificando...';
+            loadingScreen.style.display = 'block';
+            loginForm.style.display = 'none';
+
+            try {
+                // Verificar credenciales
+                const affiliateData = await verifyCredentials(affiliateId, email);
+                redirectToDashboard(affiliateData);
+            } catch (error) {
+                console.error('Error de autenticación:', error);
+                
+                // Mostrar modal de error
+                loadingScreen.style.display = 'none';
+                loginForm.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Iniciar Sesión';
+                
+                // Mostrar modal de credenciales incorrectas
+                errorModal.style.display = 'block';
+                setTimeout(() => {
+                    document.querySelector('.modal-content').classList.add('show');
+                }, 10);
+            }
+        });
+
+        // Manejar autologin desde parámetros URL
+        function handleAutoLogin() {
+            const params = new URLSearchParams(window.location.search);
+            const affiliateId = params.get('affiliate_id');
+            const email = params.get('email');
+
+            if (affiliateId && email) {
+                // Rellenar el formulario automáticamente
+                affiliateIdInput.value = affiliateId;
+                emailInput.value = email;
+
+                // Validar ID
+                if (isValidAffiliateId(affiliateId)) {
+                    // Mostrar loading
+                    loadingScreen.style.display = 'block';
+                    loginForm.style.display = 'none';
+
+                    // Verificar con la API
+                    verifyCredentials(affiliateId, email)
+                        .then(affiliateData => {
+                            redirectToDashboard(affiliateData);
+                        })
+                        .catch(error => {
+                            console.error('Error en autologin:', error);
+                            loadingScreen.style.display = 'none';
+                            loginForm.style.display = 'block';
+                            
+                            // Mostrar modal de error
+                            errorModal.style.display = 'block';
+                            setTimeout(() => {
+                                document.querySelector('.modal-content').classList.add('show');
+                            }, 10);
+                        });
+                } else {
+                    // Mostrar formulario si el ID no es válido
+                    loadingScreen.style.display = 'none';
+                    loginForm.style.display = 'block';
+                }
+            } else {
+                // Mostrar formulario normalmente
+                loadingScreen.style.display = 'none';
+                loginForm.style.display = 'block';
+            }
+        }
+
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            handleAutoLogin();
+        });
+    </script>
+</body>
+>>>>>>> c10c9a3d80c9b285c61c48beeb028ec2ec3391c2
 </html>

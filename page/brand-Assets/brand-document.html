@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -503,3 +504,510 @@ function applyDocBrand(brand) {
 </body>
 </html>
 
+=======
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes â€“ Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/dashboard.css">
+  
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+.nav-group-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.nav-group.open .nav-group-body { max-height: 600px; }
+.nav-group-arrow { font-size: 10px; transition: transform .25s; }
+.nav-group.open .nav-group-arrow { transform: rotate(180deg); }
+.nav-sub-arrow { font-size: 10px; transition: transform .25s; }
+.nav-sub-arrow.open { transform: rotate(90deg); }
+</style>
+<script src="../../js/aside.js"></script>
+</head>
+<body>
+
+<!-- â•â•â•â•â•â•â•â•â•â• ASIDE â•â•â•â•â•â•â•â•â•â• -->
+<div id="aside-root"></div>
+
+<!-- â•â•â•â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â•â•â•â• -->
+<div class="main-wrap">
+    <header class="topbar">
+       <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+        <div class="topbar-actions">
+            <button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+            <button class="topbar-btn" title="Search"><i class="fas fa-search"></i></button>
+            <div class="topbar-avatar">FS</div>
+        </div>
+    </header>
+
+    <main class="content">
+
+        <!-- â•â• OVERVIEW â•â• -->
+        <div id="view-overview">
+            <div class="welcome-bar">
+                <div>
+                    <h2>Welcome back, <span id="welcomeName">Francis</span></h2>
+                    <p>Member since: <span id="welcomeDate">Mar 11, 2026</span></p>
+                </div>
+            </div>
+
+            <!-- â•â• DOCUMENTS â•â• -->
+<div id="view-documents">
+
+<style>
+    /* === BÃºsqueda === */
+    .doc-search-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.5rem; }
+    .doc-search-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+    .doc-search-row { display: flex; }
+    .doc-search-input { height: 36px; border-radius: var(--radius) 0 0 var(--radius); border: 1px solid var(--border); border-right: none; background: var(--card-bg); color: var(--text); padding: 0 12px; font-size: 13px; outline: none; width: 220px; }
+    .doc-search-btn { height: 36px; width: 36px; border-radius: 0 var(--radius) var(--radius) 0; border: 1px solid var(--border); background: var(--sidebar-bg); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-muted); }
+    
+    /* === Grid de documentos === */
+    .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    
+    /* === Tarjeta de documento === */
+    .doc-card { 
+        background: var(--card-bg); 
+        border-radius: var(--radius); 
+        border: 1px solid var(--border); 
+        overflow: hidden; 
+        display: flex; 
+        flex-direction: column;
+        transition: border-color 0.2s, transform 0.2s;
+    }
+    .doc-card:hover { 
+        border-color: var(--text-muted); 
+        transform: translateY(-2px);
+    }
+    
+    /* === Icono de documento === */
+    .doc-icon-wrapper { 
+        width: 100%; 
+        aspect-ratio: 3/2.5; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-bottom: 1px solid var(--border);
+    }
+    .doc-icon { 
+        width: 64px; 
+        height: 80px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center;
+        color: #8C6E3F;
+    }
+    .doc-icon svg { width: 48px; height: 60px; }
+    .doc-type-badge {
+        margin-top: 8px;
+        font-size: 9px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        color: #666;
+        background: #fff;
+        padding: 2px 8px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+    }
+    
+    /* === Cuerpo de la tarjeta === */
+    .doc-body { padding: 14px 16px 0; }
+    .doc-badge { display: inline-block; font-size: 10px; letter-spacing: .09em; text-transform: uppercase; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; background: #F5F0E8; color: #8C6E3F; }
+    .doc-title { font-size: 15px; font-weight: 500; margin: 0 0 6px; }
+    .doc-desc { font-size: 12px; color: var(--text-muted); line-height: 1.55; margin: 0 0 12px; }
+    .doc-meta { display: flex; gap: 12px; font-size: 10px; color: var(--text-muted); margin-bottom: 12px; }
+    .doc-meta span { display: flex; align-items: center; gap: 4px; }
+    
+    .doc-tag-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+    .doc-tag { font-size: 10px; letter-spacing: .05em; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border); color: var(--text-muted); }
+    
+    /* === Footer de la tarjeta === */
+    .doc-footer { display: flex; gap: 8px; padding: 0 16px 14px; margin-top: auto; }
+    .doc-btn-view { flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px; padding: 8px; background: #1a1a1a; color: #fff; border: none; border-radius: var(--radius); font-size: 12px; font-weight: 500; cursor: pointer; }
+    .doc-btn-view:hover { background: #333; }
+    .doc-btn-dl { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card-bg); cursor: pointer; color: var(--text-muted); }
+    .doc-btn-dl:hover { color: var(--gold); border-color: var(--gold); }
+</style>
+
+<!-- === Barra de bÃºsqueda === -->
+<div class="doc-search-group">
+    <span class="doc-search-label">Search Documents</span>
+    <div class="doc-search-row">
+        <input class="doc-search-input" id="doc-search" type="text" placeholder="Search file name..." />
+        <button class="doc-search-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <circle cx="6" cy="6" r="4"/><path d="M10 10l2.5 2.5"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- === Grid de documentos === -->
+<div class="doc-grid" id="doc-grid"></div>
+
+<script>
+    // === Datos de documentos ===
+//    const docItems = [
+//     {
+//         badge: 'AUREA', 
+//         title: 'Brand Guidelines - Aurea',
+//         type: 'PDF',
+//         size: '2.4 MB',
+//         updated: 'Mar 10, 2026',
+//         tags: ['BRAND', 'GUIDELINES'],
+//         desc: 'Complete visual identity guide for the Aurea line: logos, color palettes, typography, and approved usage guidelines.'
+//     },
+//     {
+//         badge: 'DEMO2', 
+//         title: 'Product Sheet - Demo2',
+//         type: 'PDF',
+//         size: '1.8 MB',
+//         updated: 'Mar 08, 2026',
+//         tags: ['PRODUCT', 'SHEET'],
+//         desc: 'Technical specification sheet featuring olfactory notes, ingredient list, packaging details, and sales recommendations.'
+//     },
+//     {
+//         badge: 'LEGAL', 
+//         title: 'Terms & Conditions',
+//         type: 'DOCX',
+//         size: '456 KB',
+//         updated: 'Feb 28, 2026',
+//         tags: ['LEGAL', 'CONTRACT'],
+//         desc: 'Legal document outlining partnership terms, return policies, and commercial conditions for brand collaboration.'
+//     },
+//     {
+//         badge: 'MARKETING', 
+//         title: 'Campaign Assets Q2',
+//         type: 'ZIP',
+//         size: '18.2 MB',
+//         updated: 'Mar 12, 2026',
+//         tags: ['ASSETS', 'CAMPAIGN'],
+//         desc: 'Complete marketing pack including banners, ad copy, high-resolution images, and video assets for the Q2 campaign.'
+//     }
+// ];
+
+
+// â”€â”€ Datos iniciales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+var docItems = [];
+
+// â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const BRAND_DOC_ITEMS = {
+  'Brand Demo': [
+    {
+      badge: 'AUREA',
+      title: 'Brand Guidelines - Demo',
+      type: 'PDF', size: '2.4 MB', updated: 'Mar 10, 2026',
+      tags: ['BRAND', 'GUIDELINES'],
+      desc: 'Complete visual identity guide for the Aurea line: logos, color palettes, typography, and approved usage guidelines.'
+    },
+    {
+      badge: 'DEMO2',
+      title: 'Product Sheet - Demo2',
+      type: 'PDF', size: '1.8 MB', updated: 'Mar 08, 2026',
+      tags: ['PRODUCT', 'SHEET'],
+      desc: 'Technical specification sheet featuring olfactory notes, ingredient list, packaging details, and sales recommendations.'
+    },
+    {
+      badge: 'LEGAL',
+      title: 'Terms & Conditions',
+      type: 'DOCX', size: '456 KB', updated: 'Feb 28, 2026',
+      tags: ['LEGAL', 'CONTRACT'],
+      desc: 'Legal document outlining partnership terms, return policies, and commercial conditions for brand collaboration.'
+    },
+    {
+      badge: 'MARKETING',
+      title: 'Campaign Assets Q2',
+      type: 'ZIP', size: '18.2 MB', updated: 'Mar 12, 2026',
+      tags: ['ASSETS', 'CAMPAIGN'],
+      desc: 'Complete marketing pack including banners, ad copy, high-resolution images, and video assets for the Q2 campaign.'
+    },
+  ],
+  'La Sabia Madrid': [
+    {
+      badge: 'VERDANZA',
+      title: 'Brand Guidelines - La Sabia Madrid',
+      type: 'PDF', size: '2.1 MB', updated: 'Mar 10, 2026',
+      tags: ['BRAND', 'GUIDELINES'],
+      desc: 'Complete visual identity guide for La Sabia Madrid: logos, color palettes, typography, and approved usage guidelines.'
+    },
+    {
+      badge: 'PODERÃO',
+      title: 'Product Sheet - Poderio',
+      type: 'PDF', size: '1.5 MB', updated: 'Mar 08, 2026',
+      tags: ['PRODUCT', 'SHEET'],
+      desc: 'Technical specification sheet featuring olfactory notes, ingredient list, packaging details, and sales recommendations.'
+    },
+    {
+      badge: 'LEGAL',
+      title: 'Terms & Conditions',
+      type: 'DOCX', size: '412 KB', updated: 'Feb 28, 2026',
+      tags: ['LEGAL', 'CONTRACT'],
+      desc: 'Legal document outlining partnership terms, return policies, and commercial conditions for brand collaboration.'
+    },
+    {
+      badge: 'MARKETING',
+      title: 'Campaign Assets Q2',
+      type: 'ZIP', size: '15.8 MB', updated: 'Mar 12, 2026',
+      tags: ['ASSETS', 'CAMPAIGN'],
+      desc: 'Complete marketing pack including banners, ad copy, high-resolution images, and video assets for the Q2 campaign.'
+    },
+  ],
+};
+
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyDocBrand(brand);
+});
+
+// // â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// document.addEventListener('DOMContentLoaded', function() {
+//   const savedBrand = localStorage.getItem('selectedBrand');
+//   if (savedBrand) {
+//     applyDocBrand(savedBrand);
+//   } else {
+//     docItems = BRAND_DOC_ITEMS['Brand Demo'];
+//     renderDocs(); // â† verifica el nombre real de tu funciÃ³n
+//   }
+// });
+
+// // â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// function applyDocBrand(brand) {
+//   if (BRAND_DOC_ITEMS[brand]) {
+//     docItems = BRAND_DOC_ITEMS[brand];
+//     renderDocs(); // â† verifica el nombre real de tu funciÃ³n
+//   }
+// }
+
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('DOMContentLoaded', function() {
+  const savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand; // â† esta lÃ­nea
+    applyDocBrand(savedBrand);
+  } else {
+    docItems = BRAND_DOC_ITEMS['Brand Demo'];
+    docRender(); // â† nombre correcto
+  }
+});
+
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function applyDocBrand(brand) {
+  if (BRAND_DOC_ITEMS[brand]) {
+    docItems = BRAND_DOC_ITEMS[brand];
+    docRender(); // â† nombre correcto
+  }
+}
+
+
+    // === FunciÃ³n para obtener icono segÃºn tipo de archivo ===
+    function getDocIcon(type) {
+        const icons = {
+            'PDF': `<svg viewBox="0 0 48 60" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2h14l8 8v48H14z"/><path d="M28 2v8h8"/><path d="M18 32h4a4 4 0 0 0 0-8h-4v16"/><path d="M30 32h4a4 4 0 0 0 0-8h-4"/><path d="M18 40h12"/></svg>`,
+            'DOCX': `<svg viewBox="0 0 48 60" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2h14l8 8v48H14z"/><path d="M28 2v8h8"/><path d="M18 28h12M18 36h12M18 44h8"/></svg>`,
+            'XLSX': `<svg viewBox="0 0 48 60" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2h14l8 8v48H14z"/><path d="M28 2v8h8"/><path d="M20 32l4 6 4-6M20 44l4-6 4 6"/></svg>`,
+            'ZIP': `<svg viewBox="0 0 48 60" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2h14l8 8v48H14z"/><path d="M28 2v8h8"/><rect x="20" y="26" width="8" height="12" rx="1"/><path d="M24 24v2M24 38v2"/></svg>`,
+            'IMG': `<svg viewBox="0 0 48 60" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2h14l8 8v48H14z"/><path d="M28 2v8h8"/><circle cx="24" cy="32" r="4"/><path d="M18 44l6-6 4 4 6-6"/></svg>`,
+            'DEFAULT': `<svg viewBox="0 0 48 60" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2h14l8 8v48H14z"/><path d="M28 2v8h8"/><path d="M18 32h12M18 40h12"/></svg>`
+        };
+        return icons[type] || icons['DEFAULT'];
+    }
+
+    // === Renderizado de documentos ===
+    function docRender() {
+        const q = document.getElementById('doc-search').value.toLowerCase();
+        const list = docItems.filter(v => 
+            !q || 
+            v.title.toLowerCase().includes(q) || 
+            v.badge.toLowerCase().includes(q) ||
+            v.tags.some(t => t.toLowerCase().includes(q))
+        );
+        
+        const grid = document.getElementById('doc-grid');
+        
+        grid.innerHTML = list.length
+            ? list.map(v => `
+                <div class="doc-card">
+                    <div class="doc-icon-wrapper">
+                        <div class="doc-icon">
+                            ${getDocIcon(v.type)}
+                            <span class="doc-type-badge">${v.type}</span>
+                        </div>
+                    </div>
+                    <div class="doc-body">
+                        <span class="doc-badge">${v.badge}</span>
+                        <p class="doc-title">${v.title}</p>
+                        <p class="doc-desc">${v.desc}</p>
+                        <div class="doc-meta">
+                            <span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 1v8M1 5h8"/></svg>${v.size}</span>
+                            <span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5" cy="5" r="3"/><path d="M5 1v2"/></svg>${v.updated}</span>
+                        </div>
+                        <div class="doc-tag-row">${v.tags.map(t=>`<span class="doc-tag">${t}</span>`).join('')}</div>
+                    </div>
+                    <div class="doc-footer">
+                        <button class="doc-btn-view">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                                <path d="M1 7c1.5-3 3-4.5 6-4.5S11.5 4 13 7c-1.5 3-3 4.5-6 4.5S2.5 10 1 7z"/><circle cx="7" cy="7" r="2.5"/>
+                            </svg>
+                            Preview
+                        </button>
+                        <button class="doc-btn-dl" title="Download">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+                                <path d="M7 2v7M4 6.5l3 3 3-3"/><path d="M2 11h10"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>`).join('')
+            : '<p style="padding:2rem;text-align:center;font-size:13px;color:var(--text-muted);grid-column:1/-1">No documents found.</p>';
+    }
+
+    // === Event listeners ===
+    document.getElementById('doc-search').addEventListener('input', docRender);
+    docRender();
+</script>
+
+</div><!-- /view-documents -->
+          
+        </div><!-- /view-overview -->
+
+      
+
+        <!-- Placeholder -->
+        <div id="view-placeholder" style="display:none;">
+            <div class="welcome-bar"><div><h2 id="placeholderTitle">Section</h2><p>Content coming soon.</p></div></div>
+            <div class="empty-state" style="background:var(--card-bg);border-radius:var(--radius);border:1px solid var(--border);">
+                <i class="fas fa-tools"></i><p>This section is under construction.</p>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- â•â• MODAL â•â• -->
+<div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closePaymentModal()">&times;</button>
+        <h2 id="modalTitle" class="modal-title">Paid Commissions</h2>
+        <div class="modal-divider"></div>
+        <div style="overflow-x:auto;">
+            <table class="responsive-table modal-table">
+                <thead><tr>
+                    <th>Date</th><th>Order #</th>
+                    <th class="tooltip-header">Sales<span class="tooltip-badge"><i class="fas fa-info-circle"></i></span></th>
+                    <th>Commission Rate</th><th>Commission</th><th>Status</th>
+                </tr></thead>
+                <tbody id="modalTableBody"></tbody>
+                <tfoot><tr class="modal-total-row">
+                    <td><strong>TOTAL</strong></td><td></td>
+                    <td id="modalTotalSales"><strong>$0.00</strong></td><td></td>
+                    <td id="modalTotalCommission"><strong>$0.00</strong></td><td></td>
+                </tr></tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* Accordion */
+   
+
+    function toggleSubGroup(id) {
+    var body = document.getElementById(id);
+    var arrow = document.getElementById('arrow-' + id);
+    var isOpen = body.style.display !== 'none';
+
+    var parentGroup = body.closest('.nav-group');
+    if (parentGroup) {
+        parentGroup.querySelectorAll('.nav-sub-group-body').forEach(function(otherBody) {
+            if (otherBody !== body) {
+                otherBody.style.display = 'none';
+                var otherHeader = otherBody.previousElementSibling;
+                if (otherHeader) {
+                    var otherArrow = otherHeader.querySelector('.nav-sub-arrow');
+                    if (otherArrow) otherArrow.classList.remove('open');
+                }
+            }
+        });
+    }
+
+    if (isOpen) {
+        body.style.display = 'none';
+        if (arrow) arrow.classList.remove('open');
+    } else {
+        body.style.display = 'block';
+        if (arrow) arrow.classList.add('open');
+    }
+}
+
+    /* View router */
+    const VIEWS = {
+        overview:          { el:'view-overview',    title:'Dashboard <span>/ Overview</span>' },
+        salesByPerfumery:  { el:'view-placeholder', title:'Dashboard <span>/ Sales by Perfumery</span>',  ph:'Sales by Perfumery' },
+        salesByState:      { el:'view-placeholder', title:'Dashboard <span>/ Sales by State</span>',      ph:'Sales by State' },
+        salesByCity:       { el:'view-placeholder', title:'Dashboard <span>/ Sales by City</span>',       ph:'Sales by City' },
+        salesByCollection: { el:'view-placeholder', title:'Dashboard <span>/ Sales by Collection</span>', ph:'Sales by Collection' },
+        salesByMonth:      { el:'view-placeholder', title:'Dashboard <span>/ Sales by Month</span>',      ph:'Sales by Month' },
+        commissions:       { el:'view-commissions', title:'Dashboard <span>/ Clients</span>' },
+    };
+
+    function showView(key, linkEl) {
+        document.querySelectorAll('.nav-sub-item').forEach(i => i.classList.remove('active'));
+        if (linkEl) { linkEl.classList.add('active'); linkEl.closest('.nav-group')?.classList.add('open'); }
+        const v = VIEWS[key] || VIEWS.overview;
+        ['view-overview','view-commissions','view-placeholder'].forEach(id => {
+            document.getElementById(id).style.display = 'none';
+        });
+        document.getElementById(v.el).style.display = 'block';
+        document.getElementById('topbarTitle').innerHTML = v.title;
+        if (v.ph) document.getElementById('placeholderTitle').textContent = v.ph;
+        return false;
+    }
+
+
+    /* Tabs */
+    const TAB_TITLES = {
+        clients:    'Dashboard <span>/ Clients</span>',
+        commission: 'Dashboard <span>/ Commissions</span>',
+        payments:   'Dashboard <span>/ Payments</span>',
+    };
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === tab));
+        const title = TAB_TITLES[tab];
+        if (title) document.getElementById('topbarTitle').innerHTML = title;
+    }
+    function applyFilter(f, section) {
+        const id = section === 'commission' ? 'commissionFilters' : 'clientFilters';
+        document.getElementById(id)?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    }
+    function applyPaymentFilter(f) {
+        document.getElementById('paymentHistoryFilters')?.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+    }
+    function changeTableView() {}
+    function exportMonthlyReferralsToPDF() { alert('Connect js/dashboard.js'); }
+    function exportPaymentHistoryToPDF()   { alert('Connect js/dashboard.js'); }
+    function updateGroupedChart()    {}
+    function updateCommissionChart() {}
+    function updatePaymentChart()    {}
+    function closePaymentModal(e) {
+        if (!e || e.target === document.getElementById('paymentDetailModal'))
+            document.getElementById('paymentDetailModal').classList.remove('active');
+    }
+</script>
+
+<!-- <script src="js/api.js"></script> -->
+<!-- <script src="js/dashboard.js"></script> -->
+
+</body>
+</html>
+
+>>>>>>> c10c9a3d80c9b285c61c48beeb028ec2ec3391c2

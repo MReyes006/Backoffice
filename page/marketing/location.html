@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -555,4 +556,563 @@ window.onload = function(){
 };
 </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Networks – By Audience</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;background:#F4F4F2;color:#1E2227;display:flex;min-height:100vh;}
+    :root{
+      --gold:rgb(171,160,110);
+      --gold-dark:rgb(141,130,80);
+      --gold-light:rgba(171,160,110,0.12);
+      --sidebar-bg:#1E2227;
+      --card-bg:#fff;
+      --border:#E8E9E9;
+      --text:#1E2227;
+      --text-muted:#888;
+      --radius:10px;
+    }
+    .main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+    .topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+    /* .topbar-title{font-size:15px;font-weight:600;color:var(--text);}
+    .topbar-title span{color:var(--text-muted);font-weight:400;} */
+    .topbar-actions{display:flex;align-items:center;gap:10px;}
+    .topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+    .topbar-btn:hover{background:#f0f0f0;}
+    .topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+    .content{padding:28px;flex:1;}
+    .welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+    .welcome-bar h2{font-size:1.4rem;font-weight:700;color:var(--text);}
+    .welcome-bar h2 span{color:var(--gold);}
+    .platform-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+    .platform-card{background:#fff;border-radius:12px;padding:16px 18px;border:1px solid var(--border);cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+    .platform-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);}
+    .platform-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1);transform:translateY(-1px);}
+    .platform-card.active{border-color:var(--gold);}
+    .platform-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .platform-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;background:var(--platform-color);}
+    .platform-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent;transition:all .2s;}
+    .platform-card.active .platform-check{background:var(--platform-color);border-color:var(--platform-color);color:#fff;}
+    .platform-name{font-size:13px;font-weight:600;color:var(--text);}
+    .platform-followers{font-size:20px;font-weight:700;color:var(--text);margin:2px 0;}
+    .platform-growth{font-size:14px;color:#4CAF50;display:flex;align-items:center;gap:3px;}
+    .platform-growth.down{color:#e53935;}
+    .filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+    .filter-container{display:flex;gap:8px;flex-wrap:wrap;}
+    .filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
+    .filter-btn:hover{border-color:var(--gold);color:var(--gold);}
+    .filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+    .view-selector-wrap{position:relative;display:flex;align-items:center;gap:8px;}
+    .view-selector-label{font-size:13px;color:var(--text-muted);white-space:nowrap;}
+    .view-selector-btn{padding:9px 14px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;display:flex;align-items:center;gap:8px;min-width:200px;justify-content:space-between;transition:border-color .2s;}
+    .view-selector-btn:hover,.view-selector-btn.open{border-color:var(--gold);}
+    .view-selector-btn .chevron{font-size:10px;transition:transform .2s;}
+    .view-selector-btn.open .chevron{transform:rotate(180deg);}
+    .view-dropdown{position:absolute;top:calc(100%+5px);left:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);z-index:1000;min-width:220px;display:none;flex-direction:column;overflow:hidden;}
+    .view-dropdown.open{display:flex;}
+    .view-option{padding:11px 15px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:9px;transition:background .15s;}
+    .view-option:hover{background:#f5f5f5;}
+    .view-option.active{background:var(--gold-light);color:var(--gold);}
+    .view-option i{font-size:13px;width:16px;}
+    .section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+    .table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+    .responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
+    .responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
+    .responsive-table thead th:not(:first-child){text-align:center;}
+    .responsive-table tbody td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text);vertical-align:middle;text-align:center;}
+    .responsive-table tbody td:first-child{text-align:left;}
+    .responsive-table tbody tr:last-child td{border-bottom:none;}
+    .responsive-table tbody tr:hover{background:#fafafa;}
+    .responsive-table .total-row{background:#f5f5f5;border-top:2px solid var(--gold);}
+    .responsive-table .total-row td{font-weight:600;}
+    .th-content{display:flex;flex-direction:column;align-items:center;gap:1px;}
+    .th-month{font-size:13px;font-weight:600;}
+    .th-year{font-size:11px;font-weight:400;opacity:.8;}
+    .platform-row{transition:background .15s;}
+    .platform-row:hover{background:#fafafa;}
+    .platform-cell{display:flex;align-items:center;gap:10px;}
+    .platform-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;flex-shrink:0;}
+    .chart-container{background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);}
+    .chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+    .chart-title{margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;}
+    .chart-type-wrap{display:flex;gap:5px;background:#f5f5f5;padding:4px;border-radius:8px;}
+    .chart-type-btn{padding:7px 14px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:#535255;display:flex;align-items:center;gap:5px;transition:all .2s;}
+    .chart-type-btn.active{background:white;color:var(--gold);box-shadow:0 2px 4px rgba(0,0,0,.1);}
+    .chart-legend{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--border);}
+    @media(max-width:1100px){.platform-cards{grid-template-columns:repeat(3,1fr);}}
+    @media(max-width:768px){.main-wrap{margin-left:0;}.content{padding:16px;}.platform-cards{grid-template-columns:repeat(2,1fr);}.filters-row{flex-direction:column;align-items:flex-start;}}
+  </style>
+  <script src="../../js/aside.js"></script>
+  <script>
+    document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyScoreBrand(brand);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand;
+    applyScoreBrand(savedBrand);
+  } else {
+    perfumeryData = BRAND_PERFUMERY_DATA['Brand Demo'];
+    renderTable();
+  }
+});
+</script>
+</head>
+<body>
+
+<div id="aside-root"></div>
+
+<div class="main-wrap">
+  <header class="topbar">
+   <div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
+    <div class="topbar-actions">
+      <button class="topbar-btn"><i class="fas fa-bell"></i></button>
+      <button class="topbar-btn"><i class="fas fa-search"></i></button>
+      <div class="topbar-avatar">FS</div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="welcome-bar">
+      <div>
+        <h2>Social Networks — <span>By Country</span></h2>
+      </div>
+    </div>
+
+    <!-- PLATFORM SUMMARY CARDS -->
+    <div class="platform-cards" id="platformCards"></div>
+
+    <!-- FILTERS -->
+    <div class="filters-row">
+      <!-- Date Filters -->
+      <div class="filter-container" id="dateFilters">
+        <button class="filter-btn" data-filter="yearly" onclick="applyFilter('yearly')">Yearly</button>
+        <button class="filter-btn active" data-filter="lastYear" onclick="applyFilter('lastYear')">Last 13 months</button>
+        <button class="filter-btn" data-filter="currentMonth" onclick="applyFilter('currentMonth')">Current Month</button>
+      </div>
+
+      <!-- Country & Metric Filters -->
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        
+        <!-- COUNTRY FILTER -->
+        <div class="view-selector-wrap">
+          <span class="view-selector-label">Filter by Country</span>
+          <button class="view-selector-btn" id="countryBtn" onclick="toggleCountryDropdown()">
+            <span style="display:flex;align-items:center;gap:6px;">
+              <i class="fas fa-globe-americas" style="font-size:12px;"></i>
+              <span id="countryText">All Countries</span>
+            </span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="view-dropdown" id="countryDropdown">
+            <div class="view-option active" data-country="all" onclick="selectCountry('all',this)">
+              <i class="fas fa-globe"></i> All Countries
+            </div>
+            <div class="view-option" data-country="dom" onclick="selectCountry('dom',this)">
+              <i class="fas fa-flag" style="color:#002D62"></i> Dominican Republic
+            </div>
+            <div class="view-option" data-country="usa" onclick="selectCountry('usa',this)">
+              <i class="fas fa-flag" style="color:#3C3B6E"></i> United States
+            </div>
+            <div class="view-option" data-country="esp" onclick="selectCountry('esp',this)">
+              <i class="fas fa-flag" style="color:#c60b1e"></i> Spain
+            </div>
+            <div class="view-option" data-country="mex" onclick="selectCountry('mex',this)">
+              <i class="fas fa-flag" style="color:#006847"></i> Mexico
+            </div>
+            <div class="view-option" data-country="col" onclick="selectCountry('col',this)">
+              <i class="fas fa-flag" style="color:#c8a800"></i> Colombia
+            </div>
+            <div class="view-option" data-country="arg" onclick="selectCountry('arg',this)">
+              <i class="fas fa-flag" style="color:#74acdf"></i> Argentina
+            </div>
+            <div class="view-option" data-country="can" onclick="selectCountry('can',this)">
+              <i class="fas fa-flag" style="color:#D52B1E"></i> Canada
+            </div>
+          </div>
+        </div>
+
+        <!-- METRIC FILTER -->
+        <div class="view-selector-wrap">
+          <span class="view-selector-label">Metric</span>
+          <button class="view-selector-btn" id="metricBtn" onclick="toggleMetricDropdown()" style="min-width:160px;">
+            <span id="metricText">Followers</span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="view-dropdown" id="metricDropdown">
+            <div class="view-option active" data-metric="followers" onclick="selectMetric('followers',this)">
+              <i class="fas fa-users"></i> Followers
+            </div>
+            <div class="view-option" data-metric="reach" onclick="selectMetric('reach',this)">
+              <i class="fas fa-broadcast-tower"></i> Reach
+            </div>
+            <div class="view-option" data-metric="engagement" onclick="selectMetric('engagement',this)">
+              <i class="fas fa-heart"></i> Engagement
+            </div>
+            <div class="view-option" data-metric="views" onclick="selectMetric('views',this)">
+              <i class="fas fa-play-circle"></i> Views
+            </div>
+            <div class="view-option" data-metric="sales" onclick="selectMetric('sales',this)">
+              <i class="fas fa-dollar-sign"></i> Sales
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <h3 class="section-title"><i class="fas fa-chart-bar"></i> Performance by Country</h3>
+    <div class="table-wrapper">
+      <table class="responsive-table">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <h4 class="chart-title">
+          <i class="fas fa-chart-area" style="color:var(--gold);"></i>
+          <span id="chartTitle">Followers by Country</span>
+        </h4>
+        <div class="chart-type-wrap">
+          <button class="chart-type-btn active" data-type="bar" onclick="changeChartType('bar')">
+            <i class="fas fa-chart-bar"></i> Bar
+          </button>
+          <button class="chart-type-btn" data-type="line" onclick="changeChartType('line')">
+            <i class="fas fa-chart-line"></i> Line
+          </button>
+        </div>
+      </div>
+      <div style="position:relative;height:320px;width:100%;">
+        <canvas id="mainChart"></canvas>
+      </div>
+      <div class="chart-legend" id="chartLegend"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ════════════════════════════════ CONFIG ════════════════════════════════ */
+var PLATFORMS = [
+  {key:"dom",label:"Dominican Republic",icon:"fas fa-flag",color:"#002D62"},
+  {key:"usa",label:"United States",icon:"fas fa-flag",color:"#3C3B6E"},
+  {key:"esp",label:"Spain",icon:"fas fa-flag",color:"#c60b1e"},
+  {key:"mex",label:"Mexico",icon:"fas fa-flag",color:"#006847"},
+  {key:"col",label:"Colombia",icon:"fas fa-flag",color:"#c8a800"},
+  {key:"arg",label:"Argentina",icon:"fas fa-flag",color:"#74acdf"},
+  {key:"can",label:"Canada",icon:"fas fa-flag",color:"#D52B1E"}
+];
+
+var METRICS = {
+  followers:{label:"Followers",fmt:function(v){return v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":v}},
+  reach:{label:"Reach",fmt:function(v){return v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":v}},
+  engagement:{label:"Engagement",fmt:function(v){return v.toFixed(2)+"%"}},
+  views:{label:"Views",fmt:function(v){return v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?(v/1e3).toFixed(1)+"K":v}},
+  sales:{label:"Sales",fmt:function(v){return "$"+v.toLocaleString()}}
+};
+
+var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+var dayNames = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+
+/* ════════════════════════════════ DATA ════════════════════════════════ */
+var allData = [];
+function generateData(){
+  var now = new Date();
+  PLATFORMS.forEach(function(p){
+    var base = {dom:1200000,usa:920000,esp:260000,mex:480000,col:310000,arg:190000,can:140000}[p.key];
+    for(var i=23; i>=0; i--){
+      var d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+      var trend = 1 + (23-i) * 0.02;
+      allData.push({
+        platform:p.key,
+        year:d.getFullYear(),
+        month:d.getMonth()+1,
+        day:1,
+        key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"),
+        followers:Math.round(base * trend * (0.9+Math.random()*0.2)),
+        reach:Math.round(base * 0.06 * trend),
+        engagement:3+Math.random()*3,
+        views:Math.round(base * 2 * trend),
+        sales:Math.round(base * 0.02 * trend)
+      });
+    }
+    // Daily data for current month
+    var cd = now.getDate();
+    for(var d2=1; d2<=cd; d2++){
+      allData.push({
+        platform:p.key,
+        year:now.getFullYear(),
+        month:now.getMonth()+1,
+        day:d2,
+        key:now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(d2).padStart(2,"0"),
+        followers:Math.round(base/30 * (0.8+Math.random()*0.4)),
+        reach:Math.round(base * 0.002 * (0.8+Math.random()*0.4)),
+        engagement:3+Math.random()*3,
+        views:Math.round(base * 0.07 * (0.8+Math.random()*0.4)),
+        sales:Math.round(base * 0.0007 * (0.8+Math.random()*0.4))
+      });
+    }
+  });
+}
+
+/* ════════════════════════════════ STATE ════════════════════════════════ */
+var currentFilter = "lastYear";
+var currentMetric = "followers";
+var currentChartType = "bar";
+var selectedCountry = "all";
+var mainChart = null;
+
+/* ═══════════════════════════════ DROPDOWN FUNCTIONS ════════════════════ */
+function toggleCountryDropdown(){
+  var dropdown = document.getElementById("countryDropdown");
+  var btn = document.getElementById("countryBtn");
+  if(dropdown && btn){
+    dropdown.classList.toggle("open");
+    btn.classList.toggle("open");
+  }
+}
+
+function toggleMetricDropdown(){
+  var dropdown = document.getElementById("metricDropdown");
+  var btn = document.getElementById("metricBtn");
+  if(dropdown && btn){
+    dropdown.classList.toggle("open");
+    btn.classList.toggle("open");
+  }
+}
+
+function selectCountry(country, el){
+  selectedCountry = country;
+  var name = country === "all" ? "All Countries" : PLATFORMS.find(function(p){return p.key===country;}).label;
+  document.getElementById("countryText").textContent = name;
+  document.querySelectorAll("#countryDropdown .view-option").forEach(function(o){o.classList.remove("active");});
+  el.classList.add("active");
+  document.getElementById("countryDropdown").classList.remove("open");
+  document.getElementById("countryBtn").classList.remove("open");
+  renderAll();
+}
+
+function selectMetric(metric, el){
+  currentMetric = metric;
+  document.getElementById("metricText").textContent = METRICS[metric].label;
+  document.querySelectorAll("#metricDropdown .view-option").forEach(function(o){o.classList.remove("active");});
+  el.classList.add("active");
+  document.getElementById("metricDropdown").classList.remove("open");
+  document.getElementById("metricBtn").classList.remove("open");
+  renderAll();
+}
+
+function applyFilter(filterType){
+  currentFilter = filterType;
+  document.querySelectorAll("#dateFilters .filter-btn").forEach(function(b){
+    b.classList.toggle("active", b.dataset.filter===filterType);
+  });
+  renderAll();
+}
+
+/* ═══════════════════════════════ RENDER FUNCTIONS ════════════════════ */
+function renderCards(){
+  var now = new Date();
+  var curKey = now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0");
+  var html = "";
+  var platformsToShow = selectedCountry==="all" ? PLATFORMS : PLATFORMS.filter(function(p){return p.key===selectedCountry;});
+  
+  platformsToShow.forEach(function(p){
+    var data = allData.find(function(d){return d.platform===p.key && d.key===curKey;});
+    var val = data ? data[currentMetric] : 0;
+    html += '<div class="platform-card" style="--platform-color:'+p.color+'">';
+    html += '<div class="platform-card-header">';
+    html += '<div class="platform-icon"><i class="'+p.icon+'"></i></div>';
+    html += '<div class="platform-check"><i class="fas fa-check"></i></div>';
+    html += '</div>';
+    html += '<div class="platform-name">'+p.label+'</div>';
+    html += '<div class="platform-followers">'+METRICS[currentMetric].fmt(val)+'</div>';
+    html += '<div class="platform-growth"><i class="fas fa-arrow-up"></i> 5.2% vs last month</div>';
+    html += '</div>';
+  });
+  document.getElementById("platformCards").innerHTML = html;
+}
+
+function renderTable(){
+  var head = document.getElementById("tableHead");
+  var body = document.getElementById("tableBody");
+  if(!head || !body) return;
+  
+  var now = new Date();
+  var isDay = currentFilter === "currentMonth";
+  var isYear = currentFilter === "yearly";
+  
+  var cols = [];
+  if(isYear){
+    cols = [{key:String(now.getFullYear()),label:String(now.getFullYear())}];
+  } else if(currentFilter === "lastYear"){
+    for(var i=12; i>=0; i--){
+      var d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+      cols.push({year:d.getFullYear(),month:d.getMonth()+1,key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")});
+    }
+  } else {
+    for(var i=0; i<now.getDate(); i++){
+      var d = new Date(now.getFullYear(), now.getMonth(), now.getDate()-i);
+      cols.push({day:d.getDate(),month:d.getMonth()+1,key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")});
+    }
+  }
+  
+  // Header
+  var hr = "<tr><th style='min-width:200px;'>COUNTRY</th>";
+  if(!isYear) hr += "<th>YTD</th><th>MTD</th>";
+  cols.forEach(function(col){
+    if(isDay){
+      hr += '<th><div class="th-content"><span class="th-month">'+dayNames[new Date(col.key).getDay()]+'</span><span class="th-year">'+monthNames[col.month-1]+' '+col.day+'</span></div></th>';
+    } else {
+      hr += '<th><div class="th-content"><span class="th-month">'+monthNames[col.month-1]+'</span><span class="th-year">'+col.year+'</span></div></th>';
+    }
+  });
+  hr += "</tr>";
+  head.innerHTML = hr;
+  
+  // Body
+  var html = "";
+  var platformsToShow = selectedCountry==="all" ? PLATFORMS : PLATFORMS.filter(function(p){return p.key===selectedCountry;});
+  
+  platformsToShow.forEach(function(p){
+    var ytd = 0, mtd = 0;
+    allData.filter(function(d){return d.platform===p.key && d.year===now.getFullYear();}).forEach(function(d){
+      ytd += d[currentMetric];
+      if(d.month === now.getMonth()+1) mtd += d[currentMetric];
+    });
+    
+    html += '<tr class="platform-row">';
+    html += '<td><div class="platform-cell">';
+    html += '<div class="platform-badge" style="background:'+p.color+'"><i class="'+p.icon+'"></i></div>';
+    html += '<strong>'+p.label+'</strong>';
+    html += '</div></td>';
+    
+    if(!isYear){
+      html += '<td><strong>'+METRICS[currentMetric].fmt(ytd)+'</strong></td>';
+      html += '<td>'+METRICS[currentMetric].fmt(mtd)+'</td>';
+    }
+    
+    cols.forEach(function(col){
+      var data = allData.find(function(d){return d.platform===p.key && d.key===col.key;});
+      html += '<td>'+METRICS[currentMetric].fmt(data ? data[currentMetric] : 0)+'</td>';
+    });
+    html += '</tr>';
+  });
+  
+  body.innerHTML = html;
+}
+
+function renderChart(){
+  var ctx = document.getElementById("mainChart");
+  if(!ctx) return;
+  if(mainChart) mainChart.destroy();
+  
+  var now = new Date();
+  var labels = [];
+  var cols = [];
+  for(var i=12; i>=0; i--){
+    var d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+    labels.push(monthNames[d.getMonth()]+" "+d.getFullYear());
+    cols.push({key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")});
+  }
+  
+  var platformsToShow = selectedCountry==="all" ? PLATFORMS : PLATFORMS.filter(function(p){return p.key===selectedCountry;});
+  
+  var datasets = platformsToShow.map(function(p){
+    var data = cols.map(function(col){
+      var row = allData.find(function(d){return d.platform===p.key && d.key===col.key;});
+      return row ? row[currentMetric] : 0;
+    });
+    return {
+      label:p.label,
+       data,
+      backgroundColor:currentChartType==="bar" ? p.color+"BB" : p.color+"22",
+      borderColor:p.color,
+      borderWidth:2,
+      fill:currentChartType==="line",
+      tension:0.4
+    };
+  });
+  
+  mainChart = new Chart(ctx,{
+    type:currentChartType,
+    data:{labels:labels,datasets:datasets},
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{display:false},ticks:{color:'#888',font:{size:10}}},
+        y:{beginAtZero:true,grid:{color:'rgba(0,0,0,0.05)'},ticks:{color:'#888'}}
+      }
+    }
+  });
+  
+  document.getElementById("chartTitle").textContent = METRICS[currentMetric].label + " by Country";
+  
+  // Legend
+  var lc = document.getElementById("chartLegend");
+  lc.innerHTML = platformsToShow.map(function(p){
+    return '<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#535255;padding:4px 8px;">'+
+      '<span style="width:12px;height:12px;border-radius:3px;background:'+p.color+';display:inline-block;"></span>'+
+      p.label+'</div>';
+  }).join('');
+}
+
+function changeChartType(type){
+  currentChartType = type;
+  document.querySelectorAll(".chart-type-btn").forEach(function(b){
+    b.classList.toggle("active", b.dataset.type===type);
+  });
+  renderChart();
+}
+
+function renderAll(){
+  renderCards();
+  renderTable();
+  renderChart();
+}
+
+/* ═══════════════════════════════ INIT ════════════════════════════════ */
+document.addEventListener("click", function(e){
+  var countryBtn = document.getElementById("countryBtn");
+  var metricBtn = document.getElementById("metricBtn");
+  if(countryBtn && !countryBtn.contains(e.target)){
+    document.getElementById("countryDropdown").classList.remove("open");
+    countryBtn.classList.remove("open");
+  }
+  if(metricBtn && !metricBtn.contains(e.target)){
+    document.getElementById("metricDropdown").classList.remove("open");
+    metricBtn.classList.remove("open");
+  }
+});
+
+window.onload = function(){
+  console.log('🚀 Dashboard loaded');
+  console.log('🌍 Countries:', PLATFORMS.length);
+  console.log('📊 Metrics:', Object.keys(METRICS).length);
+  generateData();
+  console.log('📈 Data points:', allData.length);
+  renderAll();
+};
+</script>
+</body>
+>>>>>>> c10c9a3d80c9b285c61c48beeb028ec2ec3391c2
 </html>

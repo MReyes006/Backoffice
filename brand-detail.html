@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiv Perfumes â€“ By Product</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <style>
+/* ── RESET & BASE ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E2227;display:flex;min-height:100vh;}
+
+/* ── CSS VARIABLES ── */
+:root{
+--gold:rgb(181, 170, 121);
+--gold-dark:#A88638;
+--gold-light:rgba(203,160,69,0.12);
+--gold-bg:#F5E6C9;
+--sidebar-bg:#1E2227;
+--sidebar-text:rgba(255,255,255,0.75);
+--card-bg:#fff;
+--border:#E8E4D9;
+--text:#1E2227;
+--text-muted:#888;
+--radius:12px;
+--shadow:0 2px 12px rgba(0,0,0,0.08);
+--shadow-hover:0 6px 24px rgba(0,0,0,0.12);
+}
+
+── ASIDE ──
+/* .aside{width:240px;min-height:100vh;background:var(--sidebar-bg);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;}
+.aside-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.07);}
+.aside-logo img{width:180px;max-width:100%;}
+.aside-user{padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.07);}
+.user-name{color:#fff;font-weight:600;font-size:14px;margin-bottom:6px;}
+.user-status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--sidebar-text);margin-bottom:4px;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#888;}
+.status-dot.active{background:#4CAF50;}
+.status-dot.inactive{background:#888;}
+.user-since{font-size:11px;color:rgba(255,255,255,.35);}
+.aside-nav{flex:1;overflow-y:auto;padding:12px 0;}
+.nav-group-header{display:flex;justify-content:space-between;align-items:center;padding:11px 20px;cursor:pointer;color:rgba(255,255,255,.55);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:color .2s;}
+.nav-group-header:hover{color:#fff;}
+.nav-group-arrow{font-size:10px;transition:transform .25s;}
+.nav-group.open .nav-group-arrow{transform:rotate(180deg);}
+.nav-group-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.nav-group.open .nav-group-body{max-height:500px;}
+.nav-sub-item,.nav-sub-sub-item{display:flex;align-items:center;gap:10px;padding:10px 20px 10px 50px;color:rgba(255,255,255,.65);font-size:13px;text-decoration:none;transition:all .2s;}
+.nav-sub-item:hover,.nav-sub-sub-item:hover{background:rgba(255,255,255,.05);color:#fff;}
+.nav-sub-item.active,.nav-sub-sub-item.active{background:var(--gold-light);color:var(--gold);border-left:3px solid var(--gold);}
+.nav-sub-group-header{display:flex;justify-content:space-between;align-items:center;padding:10px 50px 10px 50px;cursor:pointer;color:rgba(255,255,255,.5);font-size:12px;transition:color .2s;}
+.nav-sub-group-header:hover{color:#fff;}
+.nav-sub-arrow{font-size:9px;transition:transform .25s;}
+.nav-sub-arrow.open{transform:rotate(90deg);}
+.nav-sub-group-body{display:none;padding-left:20px;}
+.aside-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07);}
+.aside-footer a{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:color .2s;}
+.aside-footer a:hover{color:#fff;} */
+
+/* ── MAIN ── */
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:15px;font-weight:600;color:var(--text);}
+.topbar-title span{color:var(--text-muted);font-weight:400;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.topbar-btn:hover{background:#f5f5f5;color:var(--text);}
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.content{padding:28px;flex:1;}
+
+/* ── BRAND HEADER ── */
+.brand-header{background:var(--card-bg);border-radius:var(--radius);padding:28px 32px;margin-bottom:24px;border:1px solid var(--border);box-shadow:var(--shadow);}
+.brand-header-title{text-align:center;font-size:32px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.brand-subtitle{text-align:center;font-size:14px;color:var(--text-muted);}
+.brand-subtitle strong{color:var(--gold);}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:8px;border-bottom:2px solid var(--border);margin-bottom:28px;padding-bottom:0;}
+.tab{background:none;border:none;padding:14px 24px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text-muted);transition:all .25s;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;}
+.tab:hover{color:var(--gold);}
+.tab.active{color:var(--gold);background:white; border-bottom-color:var(--gold);}
+
+/* ── TAB CONTENT ── */
+.tab-content{display:none;animation:fadeIn .3s ease;}
+.tab-content.active{display:block; padding: 0;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── CARDS ── */
+.card{background:var(--card-bg);border-radius:var(--radius);padding:24px 28px;border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:24px;transition:all .25s;}
+.card:hover{box-shadow:var(--shadow-hover);}
+.card h3{font-size:17px;font-weight:700;color:var(--text);margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--gold-light);display:flex;align-items:center;gap:10px;}
+.card h3 i{color:var(--gold);font-size:16px;}
+
+/* ── INFO BOX ── */
+.info-box{line-height:1.8;color:var(--text-muted);font-size:14px;}
+.info-box strong{color:var(--text);display:block;margin-top:14px;margin-bottom:6px;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;}
+
+/* ── TABLES ── */
+.table-responsive{overflow-x:auto;margin-top:16px;border-radius:8px;}
+.perfumes-table,.simple-table,.orders-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--card-bg);}
+.perfumes-table th,.simple-table th,.orders-table th{background:linear-gradient(135deg,rgba(203,160,69,0.15) 0%,rgba(203,160,69,0.05) 100%);color:#3A2E12;padding:14px 12px;text-align:left;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:2px solid var(--gold);}
+.perfumes-table th:first-child,.simple-table th:first-child,.orders-table th:first-child{border-radius:8px 0 0 0;}
+.perfumes-table th:last-child,.simple-table th:last-child,.orders-table th:last-child{border-radius:0 8px 0 0;}
+.perfumes-table td,.simple-table td,.orders-table td{padding:14px 12px;border-bottom:1px solid #F0ECE3;color:var(--text);font-size:14px;transition:background .2s;}
+.perfumes-table tbody tr:hover td,.simple-table tbody tr:hover td,.orders-table tbody tr:hover td{background:rgba(203,160,69,0.05);}
+.perfumes-table tbody tr:last-child td,.simple-table tbody tr:last-child td,.orders-table tbody tr:last-child td{border-bottom:none;}
+
+/* Columnas específicas */
+.perfumes-table th:nth-child(1),.perfumes-table td:nth-child(1){min-width:150px;font-weight:600;}
+.perfumes-table th:nth-child(n+3),.perfumes-table td:nth-child(n+3){text-align:center;min-width:80px;}
+
+/* ── PERFUMES HEADER ── */
+.perfumes-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:12px 16px;background:rgba(203,160,69,0.08);border-radius:8px;border-left:3px solid var(--gold);}
+.perfumes-header a{color:var(--gold);text-decoration:none;font-weight:600;font-size:13px;transition:color .2s;}
+.perfumes-header a:hover{color:var(--gold-dark);text-decoration:underline;}
+
+/* ── OVERVIEW GRID ── */
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(600px,1fr));gap:24px;}
+
+/* ── ORDERS TABS ── */
+.orders-tabs{margin-bottom:20px;display:flex;gap:8px;}
+.subtab{padding:10px 20px;border:1px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:13px;font-weight:600;color:var(--text-muted);border-radius:8px;transition:all .25s;}
+.subtab:hover{border-color:var(--gold);color:var(--gold);}
+.subtab.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* ── ORDERS ACTIONS ── */
+.orders-actions{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.orders-actions input[type="text"]{padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;min-width:250px;transition:all .25s;}
+.orders-actions input[type="text"]:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(203,160,69,0.1);}
+.orders-actions button{padding:10px 18px;border:1px solid var(--border);background:var(--card-bg);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);transition:all .25s;}
+.orders-actions button:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px);}
+.orders-actions button.primary{background:var(--gold);color:#fff;border-color:var(--gold);}
+.orders-actions button.primary:hover{background:var(--gold-dark);border-color:var(--gold-dark);}
+.orders-actions .right{margin-left:auto;}
+
+/* ── STATUS TAGS ── */
+.status{padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;display:inline-block;}
+.status.blue{background:rgba(52,152,219,0.12);color:#3498db;}
+.status.yellow{background:rgba(241,196,15,0.12);color:#d4a017;}
+.status.green{background:rgba(76,175,80,0.12);color:#4CAF50;}
+
+/* ── IMAGEN PEQUEÑA ── */
+.img-sm{width:45px;height:45px;border-radius:8px;object-fit:cover;border:1px solid var(--border);}
+
+/* ── DOWNLOADS ── */
+.downloads{margin-top:20px;padding:16px;background:rgba(203,160,69,0.05);border-radius:8px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.downloads button{padding:8px 16px;border:1px solid var(--gold);background:var(--card-bg);border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;color:var(--gold);transition:all .25s;}
+.downloads button:hover{background:var(--gold);color:#fff;}
+
+/* ── PREMIUM BLOCKS ── */
+.premium-block{background:var(--card-bg);border-radius:var(--radius);margin-bottom:28px;border-left:5px solid var(--gold);box-shadow:var(--shadow);overflow:hidden;}
+.premium-header{background:white;padding:16px 22px;display:flex;align-items:center;gap:12px;font-weight:700;font-size:16px;color:#3A2E12;border-bottom:1px solid var(--border);}
+.premium-header i{color:var(--gold);font-size:20px;}
+.premium-body{padding:24px 28px;font-size:14px;color:var(--text);line-height:1.8;}
+
+/* ── PREMIUM INNER BLOCKS ── */
+.premium-inner-block{background:#FAF7F0;border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px;}
+.premium-inner-block:last-child{margin-bottom:0;}
+.premium-inner-icon-title{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.premium-inner-icon-title i{color:var(--gold);font-size:18px;}
+.premium-inner-icon-title h4{margin:0;font-size:15px;font-weight:700;color:#3A2E12;}
+
+/* ── BADGE HIGHLIGHT ── */
+.premium-highlight{background:rgba(203,160,69,0.15);padding:4px 8px;border-radius:6px;font-weight:600;color:var(--gold-dark);}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(30,34,39,0.6);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px);}
+.modal-overlay.active{display:flex;}
+.modal-content{background:var(--card-bg);border-radius:var(--radius);width:90%;max-width:800px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:modalSlideIn .3s ease;position:relative;}
+@keyframes modalSlideIn{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+.modal-close{position:absolute;top:20px;right:20px;width:34px;height:34px;border:none;background:rgba(0,0,0,0.05);border-radius:50%;cursor:pointer;font-size:18px;color:var(--text-muted);transition:all .2s;}
+.modal-close:hover{background:rgba(0,0,0,0.1);color:var(--text);}
+.modal-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.modal-divider{height:1px;background:var(--border);margin:16px 0;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:968px){
+.overview-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+.aside{transform:translateX(-100%);}
+.main-wrap{margin-left:0;}
+.content{padding:16px;}
+.brand-header-title{font-size:24px;}
+.tabs{gap:4px;}
+.tab{padding:12px 16px;font-size:13px;}
+.orders-actions{flex-direction:column;align-items:stretch;}
+.orders-actions input[type="text"],.orders-actions .right{min-width:100%;margin-left:0;}
+}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --gold:rgb(171,160,110);
+  --gold-dark:rgb(141,130,80);
+  --gold-light:rgba(171,160,110,0.12);
+  --gold-border:rgba(171,160,110,0.3);
+  --border:#E8E9E9;
+  --text:#1E2227;
+  --text-muted:#888;
+  --card-bg:#fff;
+  --radius:10px;
+}
+
+/* â”€â”€ PAGE HEADER â”€â”€ */
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;}
+.page-title-section h2{font-size:1.35rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.page-title-section h2 i{color:var(--gold);}
+.page-title-section p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+
+/* â”€â”€ TABLE CARD â”€â”€ */
+.table-card{background:var(--card-bg);border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden;border:1px solid var(--border);}
+
+/* â”€â”€ FILTER ROW inside table â”€â”€ */
+.table-filter-row{display:flex;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;background:#fafafa;}
+.col-filter{padding:7px 10px;border:1px solid var(--border);border-radius:7px;background:#fff;font-size:12px;color:var(--text);outline:none;cursor:pointer;min-width:90px;transition:border-color .2s;}
+.col-filter:focus{border-color:var(--gold);}
+.results-count{margin-left:auto;font-size:12px;color:var(--text-muted);white-space:nowrap;}
+
+/* â”€â”€ PRODUCTS TABLE â”€â”€ */
+.products-table{width:100%;border-collapse:collapse;}
+.products-table thead th{
+  background:var(--gold);color:#fff;
+  padding:11px 14px;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;
+  cursor:pointer;user-select:none;
+  transition:background .15s;
+}
+.products-table thead th:hover{background:var(--gold-dark);}
+.products-table thead th .sort-icon{font-size:9px;margin-left:4px;opacity:.6;}
+.products-table tbody td{
+  padding:11px 14px;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--text);vertical-align:middle;
+}
+.products-table tbody tr:last-child td{border-bottom:none;}
+.products-table tbody tr:hover{background:#fafafa;}
+
+/* Photo cell */
+.photo-cell{width:56px;height:56px;border-radius:8px;object-fit:cover;border:1px solid var(--border);background:#f5f5f5;display:block;}
+.photo-placeholder{width:56px;height:56px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;border:1px solid var(--gold-border);}
+.photo-placeholder i{color:var(--gold);font-size:18px;}
+
+/* SKU */
+.sku-cell{font-family:'Courier New',monospace;font-size:11px;color:var(--text-muted);letter-spacing:.03em;}
+
+/* Stock badge */
+/* .stock-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.stock-ok{background:#e6f4ea;color:#1e8e3e;}
+.stock-low{background:#fff3e0;color:#e65100;}
+.stock-out{background:#fce8e8;color:#d93025;} */
+
+/* Collection badge */
+.collection-badge{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:600;background:var(--gold-light);color:var(--gold);}
+
+/* Type badge */
+.type-badge{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:500;background:#f0f0f0;color:#555;}
+
+/* Price */
+.price-msrp{font-size:13px;color:var(--text-muted);}
+.price-wholesale{font-size:13px;font-weight:700;color:var(--gold-dark);}
+.price-zero{color:#ccc;}
+
+/* View button */
+.btn-view-product{width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:#e8f0fe;color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;}
+.btn-view-product:hover{background: var(--gold);color:#fff;}
+
+/* Empty */
+.empty-row td{text-align:center;padding:50px 20px;color:var(--text-muted);}
+.empty-row i{font-size:36px;color:#ddd;display:block;margin-bottom:10px;}
+
+/* â”€â”€ MODAL â”€â”€ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.product-modal{background:#fff;border-radius:16px;width:100%;max-width:680px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.28);}
+.product-modal-header{background:var(--gold);color:#fff;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;}
+.product-modal-header h3{font-size:15px;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;}
+.modal-close-btn{width:30px;height:30px;border:none;background:rgba(255,255,255,.2);border-radius:50%;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.modal-close-btn:hover{background:rgba(255,255,255,.35);}
+.product-modal-body{padding:24px;overflow-y:auto;flex:1;}
+
+/* Modal layout */
+.modal-product-layout{display:grid;grid-template-columns:200px 1fr;gap:24px;}
+.modal-photos{display:flex;flex-direction:column;gap:10px;}
+.modal-main-photo{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--border);background:#f5f5f5;}
+.modal-main-photo-placeholder{width:100%;aspect-ratio:1;border-radius:10px;background:var(--gold-light);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;}
+.modal-main-photo-placeholder i{font-size:40px;color:var(--gold);}
+.modal-thumbs{display:flex;gap:6px;}
+.modal-thumb{width:44px;height:44px;border-radius:7px;object-fit:cover;border:2px solid transparent;cursor:pointer;transition:border-color .2s;}
+.modal-thumb.active,.modal-thumb:hover{border-color:var(--gold);}
+
+.modal-product-name{font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+.modal-product-sub{font-size:13px;color:var(--text-muted);margin-bottom:14px;}
+.modal-price{font-size:1.4rem;font-weight:700;color:var(--gold);margin-bottom:16px;}
+.modal-description{font-size:13px;color:#444;line-height:1.6;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+
+.modal-notes{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+.note-row{display:flex;gap:6px;margin-bottom:6px;font-size:12px;}
+.note-label{font-weight:700;color:var(--text);min-width:90px;}
+.note-value{color:#555;}
+
+.modal-specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.spec-item{background:#f9f9f9;border-radius:8px;padding:10px 13px;}
+.spec-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;}
+.spec-value{font-size:13px;font-weight:600;color:var(--text);}
+
+.modal-guidelines{background:var(--gold-light);border-radius:8px;padding:14px 16px;}
+.modal-guidelines-title{font-size:12px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;}
+.guideline-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;}
+.guideline-label{color:var(--text-muted);}
+.guideline-value{font-weight:600;color:var(--text);}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;z-index:3000;background:#1E2227;color:#fff;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;box-shadow:0 6px 20px rgba(0,0,0,.22);transform:translateY(60px);opacity:0;transition:all .28s ease;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast i{color:var(--gold);}
+
+@media(max-width:620px){
+  .modal-product-layout{grid-template-columns:1fr;}
+  .modal-photos{flex-direction:row;align-items:flex-start;}
+  .modal-main-photo,.modal-main-photo-placeholder{width:120px;flex-shrink:0;}
+  .modal-specs-grid{grid-template-columns:1fr;}
+}
+
+/* En el <style> */
+.btn-download-product{width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:#fff;color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;margin:0 auto;}
+.btn-download-product:hover{background:var(--gold);color:#fff;}
+.products-table thead th select option {
+  background: #1E2227;
+  color: #fff;
+}
+.products-table thead th {
+  vertical-align: top;
+}
+</style>
+<style>
+        .inv-dashboard {
+            padding: 20px;
+        }
+
+        .inv-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #222;
+        }
+
+        /* GRID */
+        .inv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+       
+
+        /* TITULO DEL DATO */
+        .inv-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        /* VALOR */
+        .inv-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #d4a017;
+        }
+
+        /* COLORES ESPECIALES */
+        .inv-card.warning .inv-icon,
+        .inv-card.warning .inv-value {
+            color: #ff8800;
+        }
+
+        .inv-card.info .inv-icon,
+        .inv-card.info .inv-value {
+            color: #1c8cff;
+        }
+    </style>
+
+
+    <style>
+        /* Título */
+        .brand-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        /* ===================== CARDS DE ESTADÍSTICA ===================== */
+        .brand-stats {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            width: 400px;
+            padding: 15px 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        .stat-label {
+            font-size: 15px;
+            color: #333;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .stat-green .stat-value {
+            color: #1c8f00;
+        }
+
+        .stat-orange .stat-value {
+            color: #d36200;
+        }
+
+        /* ===================== FILTROS ===================== */
+        /* .brand-filters {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .brand-select {
+            padding: 8px 12px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 14px;
+        } */
+
+        /* .brand-search {
+            display: flex;
+            align-items: center;
+           border: 1px solid #bbb; 
+            border-radius: 6px;
+            overflow: hidden;
+        } */
+/* 
+        .brand-search input {
+            border: none;
+            padding: 8px 10px;
+            width: 200px;
+        }
+
+        .brand-search button {
+            background: #e9e9e9;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .brand-view {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-btn {
+            background: #fff;
+            border: 1px solid #bbb;
+            padding: 6px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .view-list-text {
+            font-size: 14px;
+        } */
+
+        /* ===================== GRID DE BRANDS ===================== */
+        /* .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+        } */
+
+        /* .brand-card {
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            cursor: pointer;
+            transition: transform .2s;
+        }
+
+        .brand-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .brand-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+        } */
+
+        /* ===================== GRID DE BRANDS ===================== */
+.brand-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+    gap:20px;
+    padding:8px;
+}
+
+.brand-card-link{
+    text-decoration:none;
+    display:block;
+}
+
+.brand-card{
+    position:relative;
+    width:100%;
+    aspect-ratio:1;
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,0.07);
+    transition:all .3s ease;
+    cursor:pointer;
+}
+
+.brand-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 24px rgba(0,0,0,0.15);
+}
+
+.brand-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .3s ease;
+}
+
+.brand-card:hover img{
+    transform:scale(1.05);
+}
+
+/* Black gradient overlay at bottom */
+.brand-card::before{
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:40%;
+    background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.6) 40%,rgba(0,0,0,0.3) 70%,transparent 100%);
+    z-index:1;
+    pointer-events:none;
+}
+
+.brand-name{
+    position:absolute;
+    bottom:16px;
+    left:0;
+    right:0;
+    text-align:center;
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    z-index:2;
+    padding:0 12px;
+    text-shadow:0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Responsive */
+@media(max-width:968px){
+    .brand-grid{
+        grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+        gap:16px;
+    }
+}
+
+@media(max-width:768px){
+    .brand-grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
+    
+    .brand-name{
+        font-size:12px;
+        bottom:12px;
+    }
+}
+
+@media(max-width:480px){
+    .brand-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+        /* CARDS CON FONDO BLANCO */
+.inv-card {
+    background: #ffffff;
+    /* padding: 25px 20px; */
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #e7e7e7;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    transition: all .25s ease;
+    width: 300px;
+    padding-bottom: 20px;
+}
+
+.inv-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* ICONOS */
+.inv-icon {
+    font-size: 36px;
+    color: #b5aa79;;
+    margin-bottom: 12px;
+}
+
+/* TITULO DEL DATO */
+.inv-label {
+    color: #ffffff;
+    margin-bottom: 6px;
+    background: rgb(181, 170, 121);
+    height: 40px;
+    border-radius: 12px 12px 0 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    align-content: center;
+}
+
+/* VALOR */
+.inv-value {
+    font-size: 32px;
+    font-weight: 600;
+    color: #000000;
+}
+
+/* estilos agregados */
+/* Brand Filters Container */
+.brand-filters{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:20px 24px;
+    background:var(--card-bg);
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    margin-bottom:24px;
+    flex-wrap:wrap;
+}
+
+/* Brand Select */
+.brand-select{
+    padding:12px 40px 12px 18px;
+    border:2px solid var(--gold);
+    border-radius:50px;
+    background:#fff;
+    color:var(--text);
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    min-width:200px;
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ab9a6e' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 16px center;
+    transition:all .25s;
+}
+
+.brand-select:hover{
+    border-color:var(--gold-dark);
+}
+
+.brand-select:focus{
+    outline:none;
+    border-color:var(--gold);
+    /* box-shadow:0 0 0 3px var(--gold-light); */
+}
+
+/* Brand Search */
+.brand-search{
+    flex:1;
+    max-width:500px;
+    position:relative;
+    display:flex;
+    align-items:center;
+}
+
+.brand-search input{
+    width:100%;
+    padding:12px 48px 12px 18px;
+    border:2px solid var(--gold);
+    border-radius:50px;
+    background:#fff;
+    color:var(--text);
+    font-size:14px;
+    transition:all .25s;
+}
+
+.brand-search input::placeholder{
+    color:var(--text-muted);
+}
+
+.brand-search input:focus{
+    outline:none;
+    border-color:var(--gold);
+    /* box-shadow:0 0 0 3px var(--gold-light); */
+}
+
+.brand-search button{
+    position:absolute;
+    right:4px;
+    top:50%;
+    transform:translateY(-50%);
+    width:38px;
+    height:38px;
+    border:none;
+    background:var(--gold);
+    color:#fff;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all .25s;
+}
+
+.brand-search button:hover{
+    background:var(--gold-dark);
+    transform:translateY(-50%) scale(1.05);
+}
+
+.brand-search button i{
+    font-size:14px;
+}
+
+/* Brand View */
+.brand-view{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:4px;
+    background:#f5f5f5;
+    border-radius:8px;
+}
+
+.view-btn{
+    width:40px;
+    height:40px;
+    border:2px solid transparent;
+    background:#fff;
+    color:var(--text-muted);
+    border-radius:8px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    transition:all .25s;
+}
+
+.view-btn:hover{
+    color:var(--gold);
+    transform:translateY(-1px);
+}
+
+.view-btn.active{
+    border-color:var(--gold);
+    color:var(--gold);
+    background:#fff;
+    box-shadow:0 2px 4px rgba(171,160,110,0.2);
+}
+
+.view-list-text{
+    padding:0 12px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+    white-space:nowrap;
+}
+
+/* Responsive */
+@media(max-width:968px){
+    .brand-filters{
+        flex-direction:column;
+        align-items:stretch;
+    }
+    
+    .brand-select,
+    .brand-search{
+        max-width:100%;
+        width:100%;
+    }
+    
+    .brand-view{
+        justify-content:center;
+    }
+}
+
+@media(max-width:768px){
+    .brand-filters{
+        padding:16px;
+    }
+    
+    .brand-select{
+        min-width:100%;
+    }
+}
+    </style>
+<script src="../../js/aside.js"></script>
+</head>
+<body>
+
+<!-- â•â•â•â•â•â•â•â•â•â• ASIDE â•â•â•â•â•â•â•â•â•â• -->
+<div id="aside-root"></div>
+
+<!-- â•â•â•â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â•â•â•â• -->
+
+    
+
+    <main class="content">
+    <!-- ══════════ MAIN ══════════ -->
+<div class="main-wrap">
+<header class="topbar">
+<div class="topbar-title" id="topbarTitle">Brands <span>/ La Sabia Madrid</span></div>
+<div class="topbar-actions">
+<button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+<button class="topbar-btn" title="Search"><i class="fas fa-search"></i></button>
+<div class="topbar-avatar">FS</div>
+</div>
+</header>
+<main class="content">
+
+<div class="brand-tabs-container">
+<!-- Brand Header -->
+<div class="brand-header">
+<h1 class="brand-header-title">LA SABIA MADRID</h1>
+<div class="brand-subtitle">Contratada desde: <strong>Febrero 17 2026</strong></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+<button class="tab active" data-tab="overview">Overview</button>
+<button class="tab" data-tab="perfumes">Products</button>
+<!-- <button class="tab" data-tab="analysis">Brand Analysis</button> -->
+<button class="tab" data-tab="orders">Orders</button>
+<!-- <button class="tab" data-tab="reports">Reports</button> -->
+</div>
+
+<!-- ===== TAB: OVERVIEW ===== -->
+<div class="tab-content active" id="overview">
+<div class="overview-grid">
+<!-- Contact Information -->
+<div class="card">
+<h3><i class="fas fa-address-card"></i> Contact Information</h3>
+<div class="info-box">
+Company Name<br>
+Initial contact date<br><br>
+<strong>Type</strong>
+Company phone<br>
+Company address<br>
+Website<br>
+Ciudad<br>
+Country<br><br>
+<strong>Contact person</strong>
+Name<br>
+Email<br>
+Phone<br>
+Ciudad<br>
+Country<br><br>
+<strong>Status de la cuenta</strong>
+Tipo de perfumes: Niche / Luxury / etc
+</div>
+</div>
+
+<!-- Perfumes Summary -->
+<div class="card">
+<h3><i class="fas fa-spray-can"></i> Products</h3>
+<div class="perfumes-header">
+<span>Sort by:</span>
+<a href="#">Best Seller</a>
+</div>
+<div class="table-responsive">
+<table class="perfumes-table">
+<thead class="header-table" style="background: #b5aa79;">
+<tr>
+<th>Perfume</th>
+<th>Collection</th>
+<th>Coef.</th>
+<th>Stock</th>
+<th>Sold LM</th>
+<th>Current</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>4</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>5</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>6</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Próximas reuniones -->
+<div class="card">
+<h3><i class="fas fa-calendar-plus"></i> Próximas Reuniones Agendadas</h3>
+<div class="table-responsive">
+<table class="simple-table">
+<thead style="background: #b5aa79;">
+<tr>
+<th>Fecha</th>
+<th>Tipo</th>
+<th>Link</th>
+<th>Agenda</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Histórico reuniones -->
+<div class="card">
+<h3><i class="fas fa-history"></i> Histórico Reuniones Pasadas</h3>
+<div class="table-responsive">
+<table class="simple-table">
+<thead style="background: #b5aa79;">
+<tr>
+<th>Fecha</th>
+<th>Tipo</th>
+<th>Agenda</th>
+<th>Comentario</th>
+<th>Seguimiento</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB: PERFUMES ===== -->
+<div class="tab-content" id="perfumes">
+<div class="card">
+<h3><i class="fas fa-spray-can"></i> Products</h3>
+<div class="table-responsive">
+<table class="perfumes-table full">
+<thead style="background: #b5aa79;">
+<tr>
+<th>Perfume</th>
+<th>Collection</th>
+<th>Fragrance Family</th>
+<th>Notes</th>
+<th>Actual Stock</th>
+<th>Wholesale Price</th>
+<th>Coef.</th>
+<th>MRSP</th>
+<th>Sold LM</th>
+<th>Sold Current</th>
+<th>Qty</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>10</td><td>$5,022</td></tr>
+<tr><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>8</td><td>$4,200</td></tr>
+<tr><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>5</td><td>$1,900</td></tr>
+</tbody>
+</table>
+</div>
+<div class="downloads">
+<span>Descargar orden en:</span>
+<button><i class="fas fa-file-excel"></i> Excel</button>
+<button><i class="fas fa-file-pdf"></i> PDF</button>
+<button><i class="fas fa-envelope"></i> Email</button>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB: BRAND ANALYSIS ===== -->
+<div class="tab-content" id="analysis">
+<!-- EXECUTIVE SUMMARY -->
+<div class="premium-block">
+<div class="premium-header">
+<i class="fas fa-file-contract"></i>
+<span>EXECUTIVE SUMMARY</span>
+</div>
+<div class="premium-body">
+<p>La Sabia Madrid operates as an independent Spanish niche house in the contemporary artistic segment, with retail prices ranging from €150 to $165 per 100ml. The brand is positioned as a high-artistic, emerging house centered around 'The Artisan's Collection', combining Mediterranean freshness, gourmand-leather contrasts, and woody-spicy depth rooted in Spanish cultural identity. It demonstrates strong early momentum as a 2026 launch, driven by recognized perfumers like Suzy Le Helley and Philippine Courtière, and rapid social traction across key SKUs like Dos Besos and Poderío.</p>
+</div>
+</div>
+
+<!-- BRAND DNA -->
+<div class="premium-block">
+<div class="premium-header">
+<i class="fas fa-fingerprint"></i>
+<span>1. BRAND DNA</span>
+</div>
+<div class="premium-body">
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-wind"></i>
+<h4>Olfactive Identity</h4>
+</div>
+<p>Descripción breve sobre la identidad olfativa…</p>
+</div>
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-chart-line"></i>
+<h4>Commercial Positioning</h4>
+</div>
+<p>Descripción sobre posicionamiento comercial…</p>
+</div>
+</div>
+</div>
+
+<!-- CONSOLIDATED RANKING -->
+<div class="premium-block">
+<div class="premium-header">
+<i class="fas fa-signal"></i>
+<span>2. CONSOLIDATED RANKING</span>
+</div>
+<div class="premium-body">
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-cogs"></i>
+<h4>Applied Methodology</h4>
+</div>
+<p>The ranking applies a 60% Artistic Score / 40% Commercial Score weighting. System A uses cumulative temporal windows (L12M / L24M / L36M) for momentum analysis, while System B uses non-overlapping periods (P1Y, P2Y, P3Y). As a 2026 launch, all SKUs are classified as <span class="premium-highlight">new_release ⚡</span>.</p>
+</div>
+</div>
+</div>
+
+<!-- STRATEGIC BLOCKS -->
+<div class="premium-block">
+<div class="premium-header">
+<i class="fas fa-chess"></i>
+<span>3. STRATEGIC BLOCKS</span>
+</div>
+<div class="premium-body">
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-fire"></i>
+<h4>Mandatory Core</h4>
+</div>
+<p>MANDATORY CORE (High Rotation & Traffic): Includes Poderío (by Suzy Le Helley) and Dos Besos (by Théo Belmas & Margherita Carini). These two SKUs represent an estimated 55–65% of total brand volume. Commercial insight: They hold the highest L12M mentions (25.1 and 29.5), strong longevity (9h), and combine viral traction with perfumer prestige for strong conversion. 🕊️</p>
+</div>
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-hand-holding-usd"></i>
+<h4>Profitable Complement</h4>
+</div>
+<p>PROFITABLE COMPLEMENT: Includes Floreal (by Philippine Courtière) and Conquista (by Théo Belmas). These expand usage occasions to daytime and spring/summer, support cross‑selling, and maintain a strong artistic‑commercial balance (scores 81–83). 🥇</p>
+</div>
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-gem"></i>
+<h4>Selective</h4>
+</div>
+<p>SELECTIVE (Image & Niche Depth): Includes Verdanzza (by Théo Belmas & Margherita Carini). Despite a lower Commercial Score (55) and low mentions (4.3/month), it maintains artistic credibility (78 Artistic Score) and is vital for collection completeness and brand.</p>
+</div>
+</div>
+</div>
+
+<!-- PURCHASE ORDER DECISION -->
+<div class="premium-block">
+<div class="premium-header">
+<i class="fas fa-shopping-bag"></i>
+<span>4. PURCHASE ORDER DECISION</span>
+</div>
+<div class="premium-body">
+<div class="premium-inner-block">
+<div class="premium-inner-icon-title">
+<i class="fas fa-spray-can"></i>
+<h4>Perfume</h4>
+</div>
+<p><strong>Premium E‑commerce Scenario:</strong> Poderío, Dos Besos, Floreal, Conquista, Verdanzza.<br><br><strong>Conservative Scenario:</strong> Poderío, Dos Besos, Floreal.<br><br><strong>Avoid Overstocking:</strong> Verdanzza, Conquista, Floreal.</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB: ORDERS ===== -->
+<div class="tab-content" id="orders">
+<div class="card">
+<div class="orders-tabs">
+<button class="subtab active">Orders</button>
+<button class="subtab">Items</button>
+</div>
+<div class="orders-actions">
+<input type="text" placeholder="Search by Order Number">
+<button>Custom Range</button>
+<button>Quick Range</button>
+<button class="right primary"><i class="fas fa-file-excel"></i> Export to Excel</button>
+<button class="right"><i class="fas fa-file-pdf"></i> Export to PDF</button>
+<button class="right"><i class="fas fa-share"></i> Share</button>
+</div>
+<div class="table-responsive">
+<table class="orders-table">
+<thead>
+<tr style="background: #b5aa79;">
+<th></th>
+<th>No. Items</th>
+<th>Order #</th>
+<th>Order Date</th>
+<th>Status</th>
+<th>Delivery</th>
+<th>Subtotal</th>
+<th>Discount</th>
+<th>Shipping</th>
+<th>Taxes</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="img/perfume.png" class="img-sm" alt="Product"></td>
+<td>4 Products</td>
+<td>#1809</td>
+<td>Mar 20, 2026</td>
+<td><span class="status blue">Unfulfilled</span></td>
+<td><span class="status yellow">Pending</span></td>
+<td>$7,980.00</td>
+<td>$0.00</td>
+<td>$0.00</td>
+<td>$0.00</td>
+<td>$7,980.00</td>
+</tr>
+<tr>
+<td><img src="img/perfume.png" class="img-sm" alt="Product"></td>
+<td>4 Products</td>
+<td>#1808</td>
+<td>Mar 19, 2026</td>
+<td><span class="status blue">Unfulfilled</span></td>
+<td><span class="status yellow">Pending</span></td>
+<td>$8,645.00</td>
+<td>$0.00</td>
+<td>$0.00</td>
+<td>$0.00</td>
+<td>$8,645.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB: REPORTS ===== -->
+<div class="tab-content" id="reports">
+<div class="card">
+<h3><i class="fas fa-chart-bar"></i> Brand Reports</h3>
+<div class="info-box">
+<strong>Available Reports:</strong>
+• Métricas de crecimiento<br>
+• Análisis de ventas por país<br>
+• Penetración por retailers<br>
+• Alcance en redes sociales<br>
+• Descargas: Excel, PDF, etc.
+</div>
+</div>
+</div>
+
+</div>
+</main>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
+<div class="modal-content" onclick="event.stopPropagation()">
+<button class="modal-close" onclick="closePaymentModal()">&times;</button>
+<h2 id="modalTitle" class="modal-title">Paid Commissions</h2>
+<div class="modal-divider"></div>
+<div style="overflow-x:auto;">
+<table class="responsive-table modal-table">
+<thead>
+<tr>
+<th>Date</th>
+<th>Order #</th>
+<th>Sales</th>
+<th>Commission Rate</th>
+<th>Commission</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="modalTableBody"></tbody>
+<tfoot>
+<tr class="modal-total-row">
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td id="modalTotalSales"><strong>$0.00</strong></td>
+<td></td>
+<td id="modalTotalCommission"><strong>$0.00</strong></td>
+<td></td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+</div>
+
+<script>
+/* Toggle Navigation Groups */
+function toggleSubGroup(id){
+var body = document.getElementById(id);
+var arrow = document.getElementById('arrow-' + id);
+var isOpen = body.style.display !== 'none';
+if (isOpen && !body.querySelector('.active')) {
+body.style.display = 'none';
+if (arrow) arrow.classList.remove('open');
+} else {
+body.style.display = 'block';
+if (arrow) arrow.classList.add('open');
+}
+}
+
+function toggleGroup(id){
+var grp = document.getElementById(id);
+var wasOpen = grp.classList.contains('open');
+document.querySelectorAll('.nav-group').forEach(function (g) {
+if (g.id !== id && !g.querySelector('.active')) {
+g.classList.remove('open');
+}
+});
+if (wasOpen && !grp.querySelector('.active')) {
+grp.classList.remove('open');
+} else {
+grp.classList.add('open');
+}
+}
+
+/* View Router */
+function showView(key, linkEl){
+document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone').forEach(function (i) { i.classList.remove('active'); });
+if (linkEl) {
+linkEl.classList.add('active');
+var grp = linkEl.closest('.nav-group');
+if (grp) grp.classList.add('open');
+var subBody = linkEl.closest('.nav-sub-group-body');
+if (subBody) {
+subBody.style.display = 'block';
+var header = subBody.previousElementSibling;
+if (header) {
+var arrow = header.querySelector('.nav-sub-arrow');
+if (arrow) arrow.classList.add('open');
+}
+}
+}
+}
+
+/* Tabs Functionality */
+document.querySelectorAll(".tab").forEach(btn => {
+btn.addEventListener("click", () => {
+document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+btn.classList.add("active");
+document.getElementById(btn.dataset.tab).classList.add("active");
+});
+});
+
+/* Modal Functions */
+function closePaymentModal(e){
+if (!e || e.target === document.getElementById('paymentDetailModal'))
+document.getElementById('paymentDetailModal').classList.remove('active');
+}
+
+/* Auto-highlight active link based on URL */
+document.addEventListener("DOMContentLoaded", function() {
+var currentPage = window.location.pathname.split('/').pop();
+var activeLink = document.querySelector('a[href*="' + currentPage + '"]');
+if (activeLink) {
+document.querySelectorAll('.nav-sub-item, .nav-sub-sub-item, .nav-item-standalone').forEach(function(i) { i.classList.remove('active'); });
+activeLink.classList.add('active');
+var grp = activeLink.closest('.nav-group');
+if (grp) grp.classList.add('open');
+var subBody = activeLink.closest('.nav-sub-group-body');
+if (subBody) {
+subBody.style.display = 'block';
+var header = subBody.previousElementSibling;
+if (header) {
+var arrow = header.querySelector('.nav-sub-arrow');
+if (arrow) arrow.classList.add('open');
+}
+}
+}
+});
+</script>
+    </main>
+
+
+<!-- â•â• PRODUCT DETAIL MODAL â•â• -->
+<div class="modal-overlay" id="productModal" onclick="closeProductModal(event)">
+    <div class="product-modal" onclick="event.stopPropagation()">
+        <div class="product-modal-header">
+            <h3><i class="fas fa-spray-can"></i> Product Details</h3>
+            <button class="modal-close-btn" onclick="closeProductModal()">âœ•</button>
+        </div>
+        <div class="product-modal-body">
+            <div class="modal-product-layout">
+                <!-- Left: photos -->
+                <div class="modal-photos">
+                    <div id="modalMainPhoto"></div>
+                    <div class="modal-thumbs" id="modalThumbs"></div>
+                </div>
+                <!-- Right: info -->
+                <div class="modal-info">
+                    <div class="modal-product-name" id="modalName"></div>
+                    <div class="modal-product-sub" id="modalSub"></div>
+                    <div class="modal-price" id="modalPrice" style="display: none;"></div>
+                    <div class="modal-description" id="modalDesc"></div>
+                    <div class="modal-notes" id="modalNotes"></div>
+                    <div class="modal-specs-grid" id="modalSpecs"></div>
+                    <div class="modal-guidelines" id="modalGuidelines"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="fas fa-info-circle"></i><span id="toastMsg"></span></div>
+
+<script>
+/* â•â•â•â•â•â•â•â• PRODUCT DATA â•â•â•â•â•â•â•â• */
+// var products = [
+//   {
+//     id:1, sku:"07H-0067F-EDP-100ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:["https://images.unsplash.com/photo-1541643600914-78b084683702?w=300&q=80","https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
+//      collection:"Artisan Collection", perfume:"Poderio",
+//     type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
+//     description:"A bold and powerful fragrance that commands attention. Poderio captures strength and elegance in every spray.",
+//     topNotes:["Bergamot","Black Pepper","Cardamom"],
+//     middleNotes:["Rose","Oud","Leather"],
+//     baseNotes:["Amber","Sandalwood","Musk"],
+//     firstOrder:1, nextOrder:"â€”",active:true,  niche:false 
+//   },
+//   {
+//     id:2, sku:"07H-0067G-EDP-100ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
+//      collection:"Artisan Collection", perfume:"Dos Besos",
+//     type:"Extrait de Parfum", ml:100, msrp:200, wholesale:171.95,
+//     description:"An intimate and romantic fragrance. Dos Besos evokes warmth, passion and closeness.",
+//     topNotes:["Raspberry","Peach","Saffron"],
+//     middleNotes:["Rose","Jasmine","Iris"],
+//     baseNotes:["Musk","Vanilla","Patchouli"],
+//     firstOrder:1, nextOrder:"12 units",active:false, niche:false
+//   },
+//   {
+//     id:3, sku:"07H-0067E-EDP-100ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:["https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&q=80"],
+//      collection:"Artisan Collection", perfume:"Verdanza",
+//     type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
+//     description:"A fresh and vibrant fragrance inspired by lush green landscapes.",
+//     topNotes:["Green Apple","Mint","Citrus"],
+//     middleNotes:["Jasmine","Vetiver","Geranium"],
+//     baseNotes:["Cedar","Oakmoss","Musk"],
+//     firstOrder:1, nextOrder:"â€”",active:false, niche:false
+//   },
+//   {
+//     id:4, sku:"MO-001-EDP-100ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:["https://images.unsplash.com/photo-1547887538-047f814a9892?w=300&q=80"],
+//     collection:"Modern Oudh", perfume:"Demo1",
+//     type:"Eau de Parfum", ml:100, msrp:332.50, wholesale:210.00,
+//     description:"A luxurious modern oudh fragrance with rosewood, lavender, and sandalwood.",
+//     topNotes:["Rosewood","Lavender","Cinnamon"],
+//     middleNotes:["Lily-Of-The-Valley","Rose"],
+//     baseNotes:["Amber","West Indian Bay","Agarwood"],
+//     firstOrder:1, nextOrder:"â€”",active:false, niche:false
+//   },
+//   {
+//     id:5, sku:"MO-002-EXP-50ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=300&q=80"],
+//     collection:"Modern Oudh", perfume:"Demo2",
+//     type:"Extrait de Parfum", ml:50, msrp:280.00, wholesale:175.00,
+//     description:"Truth and elegance distilled into a single fragrance. Demo2 is pure, transparent and unforgettable.",
+//     topNotes:["Lemon","Bergamot","Pink Pepper"],
+//     middleNotes:["Neroli","Jasmine","Orris"],
+//     baseNotes:["Sandalwood","White Musk","Amber"],
+//     firstOrder:1, nextOrder:"6 units",active:true,  niche:true
+//   },
+//   {
+//     id:6, sku:"AC-003-EDT-30ML",
+//     photo:"../../img/Brand_Demo.webp",
+//     photos:[],
+//     collection:"Artisan Collection", perfume:"Alba",
+//     type:"Eau de Toilette", ml:30, msrp:95.00, wholesale:58.00,
+//     description:"A delicate morning fragrance inspired by the first light of dawn.",
+//     topNotes:["White Peach","Mandarin","Dew"],
+//     middleNotes:["Magnolia","Freesia","Muguet"],
+//     baseNotes:["White Sandalwood","Musk","Cashmere"],
+//     firstOrder:2, nextOrder:"12 units",active:true,  niche:true
+//   }
+// ];
+
+// â”€â”€ Datos iniciales â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+var products = [];
+
+// â”€â”€ Datos por marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const BRAND_PRODUCTS = {
+  'Brand Demo': [
+    // {
+    //   id:1, sku:"07H-0067F-EDP-100ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:["https://images.unsplash.com/photo-1541643600914-78b084683702?w=300&q=80","https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
+    //   collection:"Artisan Collection", perfume:"Poderio",
+    //   type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
+    //   description:"A bold and powerful fragrance that commands attention. Poderio captures strength and elegance in every spray.",
+    //   topNotes:["Bergamot","Black Pepper","Cardamom"],
+    //   middleNotes:["Rose","Oud","Leather"],
+    //   baseNotes:["Amber","Sandalwood","Musk"],
+    //   firstOrder:1, nextOrder:"â€”", active:true, niche:false
+    // },
+    // {
+    //   id:2, sku:"07H-0067G-EDP-100ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:["https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=300&q=80"],
+    //   collection:"Artisan Collection", perfume:"Dos Besos",
+    //   type:"Extrait de Parfum", ml:100, msrp:200, wholesale:171.95,
+    //   description:"An intimate and romantic fragrance. Dos Besos evokes warmth, passion and closeness.",
+    //   topNotes:["Raspberry","Peach","Saffron"],
+    //   middleNotes:["Rose","Jasmine","Iris"],
+    //   baseNotes:["Musk","Vanilla","Patchouli"],
+    //   firstOrder:1, nextOrder:"12 units", active:false, niche:false
+    // },
+    // {
+    //   id:3, sku:"07H-0067E-EDP-100ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:["https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&q=80"],
+    //   collection:"Artisan Collection", perfume:"Verdanza",
+    //   type:"Eau de Parfum", ml:100, msrp:0, wholesale:171.95,
+    //   description:"A fresh and vibrant fragrance inspired by lush green landscapes.",
+    //   topNotes:["Green Apple","Mint","Citrus"],
+    //   middleNotes:["Jasmine","Vetiver","Geranium"],
+    //   baseNotes:["Cedar","Oakmoss","Musk"],
+    //   firstOrder:1, nextOrder:"â€”", active:false, niche:false
+    // },
+    {
+      id:4, sku:"MO-001-EDP-100ML",
+      photo:"../../img/Brand_Demo.webp",
+      photos:["https://images.unsplash.com/photo-1547887538-047f814a9892?w=300&q=80"],
+      collection:"Collection Demo", perfume:"Demo1",
+      type:"Eau de Parfum", ml:100, msrp:332.50, wholesale:210.00,
+      description:"A luxurious modern oudh fragrance with rosewood, lavender, and sandalwood.",
+      topNotes:["Rosewood","Lavender","Cinnamon"],
+      middleNotes:["Lily-Of-The-Valley","Rose"],
+      baseNotes:["Amber","West Indian Bay","Agarwood"],
+      firstOrder:1, nextOrder:"â€”", active:false, niche:false
+    },
+    {
+      id:5, sku:"MO-002-EXP-50ML",
+      photo:"../../img/Brand_Demo.webp",
+      photos:["https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=300&q=80"],
+      collection:"Collection Demo", perfume:"Demo2",
+      type:"Extrait de Parfum", ml:50, msrp:280.00, wholesale:175.00,
+      description:"Truth and elegance distilled into a single fragrance. Demo2 is pure, transparent and unforgettable.",
+      topNotes:["Lemon","Bergamot","Pink Pepper"],
+      middleNotes:["Neroli","Jasmine","Orris"],
+      baseNotes:["Sandalwood","White Musk","Amber"],
+      firstOrder:1, nextOrder:"6 units", active:true, niche:true
+    },
+    // {
+    //   id:6, sku:"AC-003-EDT-30ML",
+    //   photo:"../../img/Brand_Demo.webp",
+    //   photos:[],
+    //   collection:"Artisan Collection", perfume:"Alba",
+    //   type:"Eau de Toilette", ml:30, msrp:95.00, wholesale:58.00,
+    //   description:"A delicate morning fragrance inspired by the first light of dawn.",
+    //   topNotes:["White Peach","Mandarin","Dew"],
+    //   middleNotes:["Magnolia","Freesia","Muguet"],
+    //   baseNotes:["White Sandalwood","Musk","Cashmere"],
+    //   firstOrder:2, nextOrder:"12 units", active:true, niche:true
+    // },
+  ],
+  'La Sabia Madrid': [
+    {
+      id:1, sku:"LSM-001-EDP-100ML",
+      photo:"../../img/LaSabiaMadrid.webp",
+      photos:[],
+      collection:"Esencia", perfume:"Verdanza",
+      type:"Eau de Parfum", ml:100, msrp:360.00, wholesale:220.00,
+      description:"A fresh and luminous floral fragrance inspired by the gardens of Madrid.",
+      topNotes:["Jasmine","Green Leaves","Citrus"],
+      middleNotes:["Rose","Iris","Peony"],
+      baseNotes:["Cedar","Musk","Amber"],
+      firstOrder:1, nextOrder:"â€”", active:true, niche:false
+    },
+    {
+      id:2, sku:"LSM-002-EDP-100ML",
+      photo:"../../img/LaSabiaMadrid.webp",
+      photos:[],
+      collection:"PasiÃ³n", perfume:"Poderio",
+      type:"Eau de Parfum", ml:100, msrp:360.00, wholesale:220.00,
+      description:"A powerful and confident fragrance with bold spicy opening, rich oud heart, and a deep amber base.",
+      topNotes:["Black Pepper","Cardamom","Saffron"],
+      middleNotes:["Oud","Rose","Leather"],
+      baseNotes:["Amber","Sandalwood","Musk"],
+      firstOrder:1, nextOrder:"â€”", active:true, niche:false
+    },
+    {
+      id:3, sku:"LSM-003-EXT-100ML",
+      photo:"../../img/LaSabiaMadrid.webp",
+      photos:[],
+      collection:"PasiÃ³n", perfume:"Dos Besos",
+      type:"Extrait de Parfum", ml:100, msrp:380.00, wholesale:240.00,
+      description:"A warm and sensual oriental fragrance evoking the passion of Spanish culture.",
+      topNotes:["Raspberry","Saffron","Rose"],
+      middleNotes:["Jasmine","Iris","Vanilla"],
+      baseNotes:["Musk","Patchouli","Amber"],
+      firstOrder:1, nextOrder:"6 units", active:false, niche:true
+    },
+  ],
+};
+
+// â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  const brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyProductsBrand(brand);
+});
+
+// â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('DOMContentLoaded', function() {
+  const savedBrand = localStorage.getItem('selectedBrand');
+  if (savedBrand) {
+    document.getElementById('brandTitle').textContent = savedBrand;
+    applyProductsBrand(savedBrand);
+  } else {
+    products = BRAND_PRODUCTS['Brand Demo'];
+    renderProducts(); // â† verifica el nombre real de tu funciÃ³n
+  }
+});
+
+// â”€â”€ FunciÃ³n principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function applyProductsBrand(brand) {
+  if (BRAND_PRODUCTS[brand]) {
+    products = BRAND_PRODUCTS[brand];
+    renderProducts(); // â† verifica el nombre real de tu funciÃ³n
+  }
+}
+
+var sortCol = null;
+var sortDir = 1;
+var viewingProduct = null;
+
+/* â•â•â•â•â•â•â•â• POPULATE FILTERS â•â•â•â•â•â•â•â• */
+function populateFilters() {
+  var collections = [...new Set(products.map(function(p){ return p.collection; }))].sort();
+  var perfumes    = [...new Set(products.map(function(p){ return p.perfume; }))].sort();
+  var types       = [...new Set(products.map(function(p){ return p.type; }))].sort();
+  var mls         = [...new Set(products.map(function(p){ return p.ml; }))].sort(function(a,b){return a-b;});
+  var wholesales  = [...new Set(products.map(function(p){ return p.wholesale; }))].sort(function(a,b){return a-b;});
+
+  function fillSelect(id, values, prefix) {
+    var sel = document.getElementById(id);
+    values.forEach(function(v) {
+      var o = document.createElement('option');
+      o.value = v; o.textContent = (prefix||'') + v;
+      sel.appendChild(o);
+    });
+  }
+  fillSelect('fCollection', collections);
+  fillSelect('fPerfume', perfumes);
+  fillSelect('fType', types);
+  fillSelect('fMl', mls, '');
+  fillSelect('fWholesale', wholesales, '$');
+}
+
+/* â•â•â•â•â•â•â•â• RENDER TABLE â•â•â•â•â•â•â•â• */
+function renderProducts() {
+  var tbody = document.getElementById('productsTableBody');
+  var fSku        = document.getElementById('fSku') ? document.getElementById('fSku').value.toLowerCase() : '';
+  var fCollection = document.getElementById('fCollection').value;
+  var fPerfume    = document.getElementById('fPerfume').value;
+  var fType       = document.getElementById('fType').value;
+  var fMl         = document.getElementById('fMl').value;
+  var fMsrp       = document.getElementById('fMsrp').value;
+  var fWholesale  = document.getElementById('fWholesale').value;
+
+  var filtered = products.filter(function(p) {
+    var msrpOk = !fMsrp ||
+      (fMsrp==='0'   && p.msrp === 0) ||
+      (fMsrp==='gt0' && p.msrp > 0);
+    return (!fSku        || p.sku.toLowerCase().includes(fSku))
+      && (!fCollection || p.collection === fCollection)
+      && (!fPerfume    || p.perfume    === fPerfume)
+      && (!fType       || p.type       === fType)
+      && (!fMl         || String(p.ml) === String(fMl))
+      && msrpOk
+      && (!fWholesale  || String(p.wholesale) === String(fWholesale));
+  });
+
+  if (sortCol) {
+    filtered.sort(function(a,b) {
+      var av = a[sortCol], bv = b[sortCol];
+      if (typeof av === 'string') av = av.toLowerCase();
+      if (typeof bv === 'string') bv = bv.toLowerCase();
+      return av < bv ? -sortDir : av > bv ? sortDir : 0;
+    });
+  }
+
+  document.getElementById('resultsCount').textContent = filtered.length + ' product' + (filtered.length!==1?'s':'');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="10"><i class="fas fa-search"></i><p>No products match the selected filters.</p></td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(function(p) {
+    var photoHtml = p.photo
+      ? '<img src="'+p.photo+'" class="photo-cell" alt="'+p.perfume+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="photo-placeholder" style="display:none;"><i class="fas fa-spray-can"></i></div>'
+      : '<div class="photo-placeholder"><i class="fas fa-spray-can"></i></div>';
+    var msrpHtml = p.msrp > 0
+      ? '<span class="price-msrp">$'+p.msrp.toFixed(2)+'</span>'
+      : '<span class="price-zero">$0</span>';
+    return '<tr>' +
+      '<td style="text-align:center;"><button class="btn-view-product" onclick="openProductModal('+p.id+')" title="View details"><i class="fas fa-eye"></i></button></td>' +
+      '<td><span class="sku-cell">'+p.sku+'</span></td>' +
+      '<td style="text-align:center;">'+photoHtml+'</td>' +
+      '<td><span class="collection-badge">'+p.collection+'</span></td>' +
+      '<td style="font-weight:500;">'+p.perfume+'</td>' +
+      '<td><span class="type-badge">'+p.type+'</span></td>' +
+      '<td style="text-align:center;font-size:13px;">'+p.ml+' ml</td>' +
+      '<td>'+msrpHtml+'</td>' +
+      '<td><span class="price-wholesale">$'+p.wholesale.toFixed(2)+'</span></td>' +
+      '<td style="text-align:center;">'+
+  (p.active
+    ? '<span style="background:#e6f4ea;color:#1e8e3e;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;">Yes</span>'
+    : '<span style="background:#fce8e8;color:#d93025;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;">No</span>')+
+'</td>' +
+'<td style="text-align:center;">'+
+  (p.niche
+    ? '<span style="background:#e8f0fe;color:#1a73e8;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;">Yes</span>'
+    : '<span style="background:#f0f0f0;color:#888;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;">No</span>')+
+'</td>' +
+      '<td style="text-align:center;"><button class="btn-download-product" onclick="downloadProduct('+p.id+')" title="Download info"><i class="fas fa-download"></i></button></td>' +
+    '</tr>';
+  }).join('');
+}
+/* â•â•â•â•â•â•â•â• SORT â•â•â•â•â•â•â•â• */
+function sortProducts(col) {
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = 1; }
+  renderProducts();
+}
+
+/* â•â•â•â•â•â•â•â• PRODUCT MODAL â•â•â•â•â•â•â•â• */
+function openProductModal(id) {
+  viewingProduct = products.find(function(p){ return p.id === id; });
+  if (!viewingProduct) return;
+  var p = viewingProduct;
+
+  /* Main photo */
+  var mainPhotoEl = document.getElementById('modalMainPhoto');
+  if (p.photo) {
+    mainPhotoEl.innerHTML = '<img src="'+p.photo+'" class="modal-main-photo" id="modalMainImg" alt="'+p.perfume+'" onerror="this.parentElement.innerHTML=\'<div class=modal-main-photo-placeholder><i class=fas fa-spray-can></i></div>\'">';
+  } else {
+    mainPhotoEl.innerHTML = '<div class="modal-main-photo-placeholder"><i class="fas fa-spray-can"></i></div>';
+  }
+
+  /* Thumbs */
+  var thumbsEl = document.getElementById('modalThumbs');
+  if (p.photos && p.photos.length > 1) {
+    thumbsEl.innerHTML = p.photos.map(function(src, i) {
+      return '<img src="'+src+'" class="modal-thumb'+(i===0?' active':'')+'" onclick="switchPhoto(this,\''+src+'\')" onerror="this.style.display=\'none\'">';
+    }).join('');
+  } else {
+    thumbsEl.innerHTML = '';
+  }
+
+  /* Info */
+  document.getElementById('modalName').textContent = p.perfume;
+  document.getElementById('modalSub').textContent = p.collection + ' | ' + p.ml + ' ml';
+  document.getElementById('modalPrice').textContent = p.wholesale > 0 ? '$'+p.wholesale.toFixed(2) : 'Price on request';
+  document.getElementById('modalDesc').textContent = p.description || '';
+
+  /* Notes */
+  var notesHtml = '';
+  if (p.topNotes && p.topNotes.length)    notesHtml += '<div class="note-row"><span class="note-label">Top Notes:</span><span class="note-value">'+p.topNotes.join(', ')+'</span></div>';
+  if (p.middleNotes && p.middleNotes.length) notesHtml += '<div class="note-row"><span class="note-label">Middle Notes:</span><span class="note-value">'+p.middleNotes.join(', ')+'</span></div>';
+  if (p.baseNotes && p.baseNotes.length)  notesHtml += '<div class="note-row"><span class="note-label">Base Notes:</span><span class="note-value">'+p.baseNotes.join(', ')+'</span></div>';
+  document.getElementById('modalNotes').innerHTML = notesHtml || '';
+  document.getElementById('modalNotes').style.display = notesHtml ? '' : 'none';
+
+  /* Specs */
+  var stockClass = p.stock > 20 ? '#1e8e3e' : p.stock > 0 ? '#e65100' : '#d93025';
+  document.getElementById('modalSpecs').innerHTML =
+    '<div class="spec-item"><div class="spec-label">SKU</div><div class="spec-value" style="font-size:11px;font-family:monospace;">'+p.sku+'</div></div>' +
+    '<div class="spec-item"><div class="spec-label">Type</div><div class="spec-value">'+p.type+'</div></div>' +
+    '<div class="spec-item"><div class="spec-label">Size</div><div class="spec-value">'+p.ml+' ml</div></div>' +
+    '<div class="spec-item"><div class="spec-label">MSRP</div><div class="spec-value">'+(p.msrp > 0 ? '$'+p.msrp.toFixed(2) : 'â€”')+'</div></div>' +
+    '<div class="spec-item"><div class="spec-label">Wholesale</div><div class="spec-value" style="color:var(--gold-dark);">$'+p.wholesale.toFixed(2)+'</div></div>';
+
+  /* Guidelines */
+//   document.getElementById('modalGuidelines').innerHTML =
+//     '<div class="modal-guidelines-title"><i class="fas fa-clipboard-list" style="margin-right:6px;"></i>Product Guidelines</div>' +
+//     '<div class="guideline-row"><span class="guideline-label">First Order:</span><span class="guideline-value">'+p.firstOrder+' Unit'+(p.firstOrder!==1?'s':'')+'</span></div>' +
+//     '<div class="guideline-row"><span class="guideline-label">Next Order:</span><span class="guideline-value">'+(p.nextOrder||'â€”')+'</span></div>';
+
+  document.getElementById('productModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function switchPhoto(thumb, src) {
+  document.getElementById('modalMainImg') && (document.getElementById('modalMainImg').src = src);
+  document.querySelectorAll('.modal-thumb').forEach(function(t){ t.classList.remove('active'); });
+  thumb.classList.add('active');
+}
+
+function closeProductModal(e) {
+  if (e && e.target !== document.getElementById('productModal')) return;
+  document.getElementById('productModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* â•â•â•â•â•â•â•â• NAV â•â•â•â•â•â•â•â• */
+function toggleGroup(id) {
+  var grp = document.getElementById(id);
+  var wasOpen = grp.classList.contains('open');
+  document.querySelectorAll('.nav-group').forEach(function(g){
+    if (g.id!==id && !g.querySelector('.active')) g.classList.remove('open');
+  });
+  if (wasOpen && !grp.querySelector('.active')) grp.classList.remove('open');
+  else grp.classList.add('open');
+}
+
+function toggleSubGroup(id) {
+  var body = document.getElementById(id);
+  var arrow = document.getElementById('arrow-'+id);
+  var isOpen = body.style.display !== 'none';
+  if (isOpen && !body.querySelector('.active')) {
+    body.style.display='none';
+    if(arrow) arrow.classList.remove('open');
+  } else {
+    body.style.display='block';
+    if(arrow) arrow.classList.add('open');
+  }
+}
+
+/* â•â•â•â•â•â•â•â• ESC â•â•â•â•â•â•â•â• */
+document.addEventListener('keydown', function(e) {
+  if (e.key==='Escape') closeProductModal();
+});
+
+/* â•â•â•â•â•â•â•â• INIT â•â•â•â•â•â•â•â• */
+document.addEventListener('DOMContentLoaded', function() {
+  populateFilters();
+  renderProducts();
+
+  // Open Sales sub-group since this page is inside it
+  var salesBody = document.getElementById('grp-sales');
+  var salesArrow = document.getElementById('arrow-grp-sales');
+  if (salesBody) { salesBody.style.display = 'block'; }
+  if (salesArrow) { salesArrow.classList.add('open'); }
+});
+
+/* En el <script> */
+function downloadProduct(id) {
+  var p = products.find(function(x){ return x.id === id; });
+  if (!p) return;
+  var content = [
+    'SKU: ' + p.sku,
+    'Perfume: ' + p.perfume,
+    'Collection: ' + p.collection,
+    'Type: ' + p.type,
+    'Size: ' + p.ml + ' ml',
+    'MSRP: ' + (p.msrp > 0 ? '$' + p.msrp.toFixed(2) : '$0'),
+    'Wholesale Price: $' + p.wholesale.toFixed(2),
+    '',
+    'Description:',
+    p.description || '',
+    '',
+    'Top Notes: ' + (p.topNotes ? p.topNotes.join(', ') : 'â€”'),
+    'Middle Notes: ' + (p.middleNotes ? p.middleNotes.join(', ') : 'â€”'),
+    'Base Notes: ' + (p.baseNotes ? p.baseNotes.join(', ') : 'â€”'),
+    '',
+    'First Order: ' + p.firstOrder + ' unit(s)',
+    'Next Order: ' + (p.nextOrder || 'â€”')
+  ].join('\n');
+
+  var blob = new Blob([content], { type: 'text/plain' });
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href = url;
+  a.download = p.sku + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
+
+

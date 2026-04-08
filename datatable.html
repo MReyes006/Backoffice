@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="page-header">
   <div class="page-title"><i class="fas fa-cloud-upload-alt"></i> Brand Assets Manager</div>
   <button class="btn-primary" onclick="switchTab('upload')">
@@ -437,4 +438,445 @@ document.addEventListener('DOMContentLoaded', function() {
   updateCounts();
   renderGallery();
 });
+=======
+<div class="page-header">
+  <div class="page-title"><i class="fas fa-cloud-upload-alt"></i> Brand Assets Manager</div>
+  <button class="btn-primary" onclick="switchTab('upload')">
+    <i class="fas fa-plus"></i> Upload New File
+  </button>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar" id="statsBar"></div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('gallery')" id="tab-gallery">
+    <i class="fas fa-th-large"></i> All Files <span class="tab-count" id="cnt-all">0</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab('upload')" id="tab-upload">
+    <i class="fas fa-upload"></i> Upload File
+  </button>
+</div>
+
+<!-- ══ GALLERY TAB ══ -->
+<div id="view-gallery">
+  <div class="gallery-header">
+    <div class="gallery-filters">
+      <button class="gf-btn active" data-filter="all"      onclick="filterGallery('all',this)">All</button>
+      <button class="gf-btn"        data-filter="video"    onclick="filterGallery('video',this)"><i class="fas fa-play-circle"></i> Videos</button>
+      <button class="gf-btn"        data-filter="image"    onclick="filterGallery('image',this)"><i class="fas fa-image"></i> Images</button>
+      <button class="gf-btn"        data-filter="pdf"      onclick="filterGallery('pdf',this)"><i class="fas fa-file-pdf"></i> PDFs</button>
+      <button class="gf-btn"        data-filter="document" onclick="filterGallery('document',this)"><i class="fas fa-file-alt"></i> Documents</button>
+    </div>
+    <div class="search-box">
+      <input type="text" id="gallerySearch" placeholder="Search files..." oninput="renderGallery()">
+      <button><i class="fas fa-search"></i></button>
+    </div>
+  </div>
+  <div class="gallery-grid" id="galleryGrid"></div>
+</div>
+
+<!-- ══ UPLOAD TAB ══ -->
+<div id="view-upload" style="display:none;">
+  <div class="panel">
+
+    <!-- DROP ZONE -->
+    <div class="form-group full" style="margin-bottom:22px;">
+      <label class="form-label">File <span>*</span></label>
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()"
+           ondragover="e=event;e.preventDefault();this.classList.add('drag')"
+           ondragleave="this.classList.remove('drag')"
+           ondrop="handleDrop(event)">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p><strong>Click to browse</strong> or drag & drop your file here</p>
+        <div class="file-types">video (mp4, mov, webm) · image (jpg, png, webp, gif) · pdf · document (doc, ppt, xlsx)</div>
+        <div class="selected-file" id="selectedFileInfo">
+          <span class="selected-file-icon" id="sfIcon">📄</span>
+          <div class="selected-file-info">
+            <div class="selected-file-name" id="sfName">—</div>
+            <div class="selected-file-size" id="sfSize">—</div>
+          </div>
+          <span class="selected-file-remove" onclick="clearFile(event)" title="Remove"><i class="fas fa-times"></i></span>
+        </div>
+      </div>
+      <input type="file" id="fileInput" style="display:none;" onchange="handleFileSelect(this)">
+    </div>
+
+    <div class="form-grid">
+
+      <!-- Title -->
+      <div class="form-group">
+        <label class="form-label">Title <span>*</span></label>
+        <input class="form-input" type="text" id="fTitle" placeholder="Display name for this file">
+      </div>
+
+      <!-- Category -->
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <input class="form-input" type="text" id="fCategory" placeholder="e.g. Woody & Spicy, Floral...">
+      </div>
+
+      <!-- Brand -->
+      <div class="form-group">
+        <label class="form-label">Brand / Collection</label>
+        <input class="form-input" type="text" id="fBrand" placeholder="e.g. Aurea, Jarcode...">
+      </div>
+
+      <!-- File Type (auto-detected) -->
+      <div class="form-group">
+        <label class="form-label">File Type <span style="font-weight:400;text-transform:none;color:#aaa;">(auto-detected)</span></label>
+        <input class="form-input" type="text" id="fFileType" placeholder="Will auto-fill on file select" readonly style="background:#fafafa;cursor:default;">
+      </div>
+
+      <!-- Description -->
+      <div class="form-group full">
+        <label class="form-label">Description</label>
+        <textarea class="form-textarea" id="fDesc" placeholder="Short description of this asset..."></textarea>
+      </div>
+
+      <!-- Active -->
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <div class="radio-group">
+          <label class="radio-label checked" id="rl-active" onclick="setActive(true)">
+            <input type="radio" name="active" value="true" checked>
+            <div class="radio-dot"></div> Active
+          </label>
+          <label class="radio-label" id="rl-inactive" onclick="setActive(false)">
+            <input type="radio" name="active" value="false">
+            <div class="radio-dot"></div> Inactive
+          </label>
+        </div>
+      </div>
+
+      <!-- Folder -->
+      <div class="form-group">
+        <label class="form-label">Save to folder <span>*</span></label>
+        <div class="folder-select">
+          <button class="folder-btn pdf-folder" data-folder="pdf"      onclick="setFolder('pdf',this)">
+            <i class="fas fa-folder"></i> /pdf
+          </button>
+          <button class="folder-btn img-folder" data-folder="img"      onclick="setFolder('img',this)">
+            <i class="fas fa-folder"></i> /img
+          </button>
+          <button class="folder-btn doc-folder" data-folder="document" onclick="setFolder('document',this)">
+            <i class="fas fa-folder"></i> /document
+          </button>
+          <button class="folder-btn video-folder" data-folder="video"  onclick="setFolder('video',this)">
+            <i class="fas fa-folder"></i> /video
+          </button>
+        </div>
+        <div class="form-hint" id="folderHint">Select where this file will be stored</div>
+      </div>
+
+      <!-- Display Location -->
+      <div class="form-group full">
+        <label class="form-label">Show in sections <span style="font-weight:400;text-transform:none;color:#aaa;">(select all that apply)</span></label>
+        <div class="location-grid" id="locationGrid">
+          <div class="location-card" data-loc="perfumes"    onclick="toggleLocation(this)"><i class="fas fa-spray-can"></i><span>Perfumes</span></div>
+          <div class="location-card" data-loc="catalog"     onclick="toggleLocation(this)"><i class="fas fa-book-open"></i><span>Catalog</span></div>
+          <div class="location-card" data-loc="brand-assets" onclick="toggleLocation(this)"><i class="fas fa-star"></i><span>Brand Assets</span></div>
+          <div class="location-card" data-loc="videos"      onclick="toggleLocation(this)"><i class="fas fa-play-circle"></i><span>Videos</span></div>
+          <div class="location-card" data-loc="documents"   onclick="toggleLocation(this)"><i class="fas fa-file-alt"></i><span>Documents</span></div>
+          <div class="location-card" data-loc="gallery"     onclick="toggleLocation(this)"><i class="fas fa-images"></i><span>Gallery</span></div>
+          <div class="location-card" data-loc="homepage"    onclick="toggleLocation(this)"><i class="fas fa-home"></i><span>Homepage</span></div>
+          <div class="location-card" data-loc="guidelines"  onclick="toggleLocation(this)"><i class="fas fa-paint-brush"></i><span>Guidelines</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-secondary" onclick="resetForm()">Clear</button>
+      <button class="btn-primary" onclick="saveFile()">
+        <i class="fas fa-save"></i> Save File
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+var FILES_KEY = 'brandAssets_files';
+var currentFilter = 'all';
+var selectedFile = null;
+var selectedFolder = null;
+var isActive = true;
+
+/* ════════ STORAGE ════════ */
+function loadFiles() {
+  try { return JSON.parse(localStorage.getItem(FILES_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function saveFiles(files) {
+  localStorage.setItem(FILES_KEY, JSON.stringify(files));
+}
+function generateUID() {
+  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  var id = '';
+  for (var i = 0; i < 8; i++) id += chars[Math.floor(Math.random()*chars.length)];
+  return id;
+}
+
+/* ════════ FILE TYPE DETECTION ════════ */
+var TYPE_MAP = {
+  mp4:'video', mov:'video', webm:'video', avi:'video',
+  jpg:'image', jpeg:'image', png:'image', webp:'image', gif:'image',
+  pdf:'pdf',
+  doc:'document', docx:'document', ppt:'pptx', pptx:'document', xls:'document', xlsx:'document'
+};
+var TYPE_ICONS = { video:'fa-play-circle', image:'fa-image', pdf:'fa-file-pdf', document:'fa-file-alt' };
+var TYPE_EMOJIS = { video:'🎬', image:'🖼️', pdf:'📄', document:'📋' };
+var FOLDER_ICONS = { pdf:'fa-folder', img:'fa-folder', document:'fa-folder', video:'fa-folder' };
+
+function detectType(filename) {
+  var ext = filename.split('.').pop().toLowerCase();
+  return TYPE_MAP[ext] || 'document';
+}
+function formatSize(bytes) {
+  if (!bytes) return '—';
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/(1024*1024)).toFixed(1) + ' MB';
+}
+function formatDate(ts) {
+  var d = new Date(ts);
+  return d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+}
+
+/* ════════ TABS ════════ */
+function switchTab(tab) {
+  document.getElementById('view-gallery').style.display = tab==='gallery' ? 'block' : 'none';
+  document.getElementById('view-upload').style.display  = tab==='upload'  ? 'block' : 'none';
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (tab === 'gallery') renderGallery();
+}
+
+/* ════════ FILE SELECT ════════ */
+function handleFileSelect(input) {
+  if (input.files && input.files[0]) applyFile(input.files[0]);
+}
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('drag');
+  if (e.dataTransfer.files[0]) applyFile(e.dataTransfer.files[0]);
+}
+function applyFile(file) {
+  selectedFile = file;
+  var type = detectType(file.name);
+  document.getElementById('sfIcon').textContent = TYPE_EMOJIS[type] || '📄';
+  document.getElementById('sfName').textContent = file.name;
+  document.getElementById('sfSize').textContent = formatSize(file.size);
+  document.getElementById('selectedFileInfo').classList.add('show');
+  document.getElementById('fFileType').value = type.charAt(0).toUpperCase() + type.slice(1);
+  if (!document.getElementById('fTitle').value)
+    document.getElementById('fTitle').value = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g,' ');
+  var suggested = type==='pdf' ? 'pdf' : type==='image' ? 'img' : type==='video' ? 'video' : 'document';
+  setFolder(suggested, document.querySelector('.folder-btn[data-folder="'+suggested+'"]'));
+}
+function clearFile(e) {
+  e.stopPropagation();
+  selectedFile = null;
+  document.getElementById('selectedFileInfo').classList.remove('show');
+  document.getElementById('fFileType').value = '';
+  document.getElementById('fileInput').value = '';
+}
+
+/* ════════ FOLDER ════════ */
+function setFolder(folder, btn) {
+  selectedFolder = folder;
+  document.querySelectorAll('.folder-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  document.getElementById('folderHint').textContent = 'Will save to: /' + folder + '/';
+}
+
+/* ════════ ACTIVE STATUS ════════ */
+function setActive(val) {
+  isActive = val;
+  document.getElementById('rl-active').classList.toggle('checked', val);
+  document.getElementById('rl-inactive').classList.toggle('checked', !val);
+}
+
+/* ════════ DISPLAY LOCATIONS ════════ */
+function toggleLocation(card) {
+  card.classList.toggle('active');
+}
+function getSelectedLocations() {
+  var locs = [];
+  document.querySelectorAll('.location-card.active').forEach(function(c){ locs.push(c.dataset.loc); });
+  return locs;
+}
+
+/* ════════ SAVE FILE ════════ */
+function saveFile() {
+  var title = document.getElementById('fTitle').value.trim();
+  if (!title) { toast('Please enter a title', 'error'); return; }
+  if (!selectedFolder) { toast('Please select a folder', 'error'); return; }
+  if (!selectedFile) { toast('Please select a file to upload', 'error'); return; }
+
+  var type = detectType(selectedFile.name);
+  var uid = generateUID();
+  var now = Date.now();
+  var locs = getSelectedLocations();
+
+  var record = {
+    uid:        uid,
+    title:      title,
+    filename:   selectedFile.name,
+    filesize:   selectedFile.size,
+    filetype:   type,
+    filetype_raw: document.getElementById('fFileType').value,
+    category:   document.getElementById('fCategory').value.trim(),
+    brand:      document.getElementById('fBrand').value.trim(),
+    description:document.getElementById('fDesc').value.trim(),
+    folder:     selectedFolder,
+    path:       '/' + selectedFolder + '/' + selectedFile.name,
+    locations:  locs,
+    active:     isActive,
+    createdAt:  now,
+    updatedAt:  now
+  };
+
+  var files = loadFiles();
+  files.unshift(record);
+  saveFiles(files);
+
+  toast('✓ ' + title + ' saved to /' + selectedFolder + '/ — ID: ' + uid, 'success');
+  resetForm();
+  updateCounts();
+  setTimeout(function(){ switchTab('gallery'); }, 1200);
+}
+
+/* ════════ RESET FORM ════════ */
+function resetForm() {
+  selectedFile = null; selectedFolder = null; isActive = true;
+  document.getElementById('fTitle').value = '';
+  document.getElementById('fCategory').value = '';
+  document.getElementById('fBrand').value = '';
+  document.getElementById('fDesc').value = '';
+  document.getElementById('fFileType').value = '';
+  document.getElementById('selectedFileInfo').classList.remove('show');
+  document.getElementById('fileInput').value = '';
+  document.getElementById('folderHint').textContent = 'Select where this file will be stored';
+  document.querySelectorAll('.folder-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.location-card').forEach(function(c){ c.classList.remove('active'); });
+  setActive(true);
+}
+
+/* ════════ GALLERY ════════ */
+function filterGallery(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.gf-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  renderGallery();
+}
+
+function renderGallery() {
+  var files = loadFiles();
+  var q = (document.getElementById('gallerySearch').value || '').toLowerCase();
+  var filtered = files.filter(function(f) {
+    var matchType = currentFilter === 'all' || f.filetype === currentFilter;
+    var matchQ = !q || f.title.toLowerCase().includes(q) || f.filename.toLowerCase().includes(q) || (f.category||'').toLowerCase().includes(q) || (f.brand||'').toLowerCase().includes(q);
+    return matchType && matchQ;
+  });
+
+  var grid = document.getElementById('galleryGrid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-gallery" style="grid-column:1/-1;"><i class="fas fa-inbox"></i><p>' + (files.length ? 'No files match your search.' : 'No files yet. Upload your first file!') + '</p></div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(function(f) {
+    var icon = TYPE_ICONS[f.filetype] || 'fa-file';
+    var previewClass = 'preview-'+f.filetype;
+    var badgeClass = 'badge-'+f.filetype;
+    var locs = (f.locations||[]).map(function(l){ return '<span class="loc-pill">'+l+'</span>'; }).join('');
+
+    return '<div class="file-card" id="card-'+f.uid+'">' +
+      '<div class="file-card-preview '+previewClass+'">' +
+        '<i class="fas '+icon+' preview-icon"></i>' +
+        '<span class="file-type-badge '+badgeClass+'">'+f.filetype+'</span>' +
+        '<span class="folder-badge"><i class="fas fa-folder"></i> /'+f.folder+'</span>' +
+      '</div>' +
+      '<div class="file-card-body">' +
+        '<div class="file-card-title">'+f.title+'</div>' +
+        '<div class="file-card-meta">' +
+          '<span><i class="fas fa-fingerprint" style="font-size:10px;"></i> <span class="uid-badge">'+f.uid+'</span></span>' +
+          '<span><i class="fas fa-calendar-alt" style="font-size:10px;"></i> '+formatDate(f.createdAt)+'</span>' +
+        '</div>' +
+        '<div class="file-card-meta">' +
+          (f.category ? '<span><i class="fas fa-tag" style="font-size:10px;"></i> '+f.category+'</span>' : '') +
+          (f.brand    ? '<span><i class="fas fa-store" style="font-size:10px;"></i> '+f.brand+'</span>' : '') +
+          '<span><i class="fas fa-hdd" style="font-size:10px;"></i> '+formatSize(f.filesize)+'</span>' +
+        '</div>' +
+        (f.description ? '<div class="file-card-desc">'+f.description+'</div>' : '') +
+        (locs ? '<div class="file-card-location">'+locs+'</div>' : '') +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">' +
+          '<span style="font-size:11px;color:var(--muted);">'+f.path+'</span>' +
+          '<span style="font-size:11px;padding:2px 8px;border-radius:20px;background:'+(f.active?'#E8F5E9':'#fafafa')+';color:'+(f.active?'#2E7D32':'#888')+';">'+(f.active?'● Active':'○ Inactive')+'</span>' +
+        '</div>' +
+        '<div class="file-card-actions">' +
+          '<button class="fc-btn" onclick="copyPath(\''+f.path+'\')"><i class="fas fa-copy"></i> Path</button>' +
+          '<button class="fc-btn" onclick="copyUID(\''+f.uid+'\')"><i class="fas fa-fingerprint"></i> ID</button>' +
+          '<button class="fc-btn danger" onclick="deleteFile(\''+f.uid+'\')"><i class="fas fa-trash"></i></button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ════════ ACTIONS ════════ */
+function copyPath(path) {
+  navigator.clipboard.writeText(path).then(function(){ toast('Path copied: ' + path, 'success'); });
+}
+function copyUID(uid) {
+  navigator.clipboard.writeText(uid).then(function(){ toast('ID copied: ' + uid, 'success'); });
+}
+function deleteFile(uid) {
+  if (!confirm('Delete this file record?')) return;
+  var files = loadFiles().filter(function(f){ return f.uid !== uid; });
+  saveFiles(files);
+  var card = document.getElementById('card-'+uid);
+  if (card) card.remove();
+  updateCounts();
+  toast('File removed', 'error');
+}
+
+/* ════════ STATS ════════ */
+function updateCounts() {
+  var files = loadFiles();
+  var counts = { all:files.length, video:0, image:0, pdf:0, document:0 };
+  files.forEach(function(f){ if (counts[f.filetype] !== undefined) counts[f.filetype]++; });
+
+  document.getElementById('cnt-all').textContent = counts.all;
+
+  document.getElementById('statsBar').innerHTML =
+    '<div class="stat-card stat-pdf"><div class="stat-label">PDFs</div><div class="stat-value"><i class="fas fa-file-pdf"></i>'+counts.pdf+'</div></div>' +
+    '<div class="stat-card stat-img"><div class="stat-label">Images</div><div class="stat-value"><i class="fas fa-image"></i>'+counts.image+'</div></div>' +
+    '<div class="stat-card stat-vid"><div class="stat-label">Videos</div><div class="stat-value"><i class="fas fa-play-circle"></i>'+counts.video+'</div></div>' +
+    '<div class="stat-card stat-doc"><div class="stat-label">Documents</div><div class="stat-value"><i class="fas fa-file-alt"></i>'+counts.document+'</div></div>' +
+    '<div class="stat-card"><div class="stat-label">Total Files</div><div class="stat-value">'+counts.all+'</div></div>';
+}
+
+/* ════════ TOAST ════════ */
+function toast(msg, type) {
+  var tc = document.getElementById('toastContainer');
+  var el = document.createElement('div');
+  el.className = 'toast ' + (type||'');
+  var icon = type==='success' ? 'fa-check-circle' : type==='error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+  el.innerHTML = '<i class="fas '+icon+'"></i><span>'+msg+'</span>';
+  tc.appendChild(el);
+  setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, 4000);
+}
+
+/* ════════ INIT ════════ */
+document.addEventListener('DOMContentLoaded', function() {
+  updateCounts();
+  renderGallery();
+});
+>>>>>>> c10c9a3d80c9b285c61c48beeb028ec2ec3391c2
 </script>

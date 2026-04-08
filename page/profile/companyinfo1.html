@@ -118,31 +118,6 @@ textarea.form-control{resize:vertical;min-height:100px;}
 .btn-secondary{background:#fff;color:var(--text);border:1px solid var(--border);}
 .btn-secondary:hover{background:#f5f5f5;border-color:var(--text-muted);}
 
-/* Company Table */
-.company-table-card{background:var(--card-bg);border-radius:var(--radius);padding:24px;border:1px solid var(--border);margin-bottom:24px;}
-.table-responsive{overflow-x:auto;}
-.company-table{width:100%;border-collapse:collapse;min-width:980px;}
-.company-table thead th{background:#fafafa;padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid var(--border);}
-.company-table tbody td{padding:14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);vertical-align:top;}
-.company-table tbody tr:hover{background:#fafafa;}
-.company-table .muted{color:var(--text-muted);}
-.company-table .method-badge{display:inline-block;padding:5px 10px;border-radius:20px;background:var(--gold-light);color:var(--gold);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
-.table-card-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
-.table-actions{display:flex;gap:10px;flex-wrap:wrap;}
-.btn-icon-sm{width:32px;height:32px;border:1px solid var(--border);background:#fff;cursor:pointer;border-radius:7px;color:var(--text-muted);font-size:13px;display:inline-flex;align-items:center;justify-content:center;transition:all .2s;}
-.btn-icon-sm:hover{background:#f7f7f7;color:var(--text);}
-
-/* Modal */
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(30,34,39,0.6);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px);}
-.modal-overlay.active{display:flex;}
-.modal-container{background:#fff;border-radius:var(--radius);width:95%;max-width:980px;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideIn .2s ease;}
-.modal-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-.modal-header h2{font-size:17px;font-weight:700;color:var(--text);}
-.modal-body{padding:16px;}
-.modal-close{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.modal-close:hover{background:#f0f0f0;color:var(--text);}
-.profile-card{margin-bottom:0;}
-
 /* Notification */
 .notification{position:fixed;top:20px;right:20px;background:var(--gold);color:#fff;padding:14px 24px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:9999;font-weight:600;display:none;animation:slideIn .3s ease;}
 .notification.show{display:block;}
@@ -159,8 +134,6 @@ textarea.form-control{resize:vertical;min-height:100px;}
 .main-wrap{margin-left:0;}
 .content{padding:16px;}
 .profile-card{padding:20px 16px;}
-.table-actions{width:100%;}
-.table-actions .btn{flex:1;justify-content:center;}
 }
 </style>
 <script src="../../js/aside.js"></script>
@@ -197,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="main-wrap">
 <!-- TOPBAR -->
 <div class="topbar">
-<div class="topbar-title" id="topbarTitle"> <span>BACKOFFICE PORTAL</span></div>
+<div class="topbar-title" id="topbarTitle"> <span>BRAND PORTAL</span><div class="" id="brandTitle"></div></div>
 <div class="topbar-avatar">FS</div>
 </div>
 
@@ -208,45 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>Manage your company profile and business details</p>
 </div>
 
-<div class="company-table-card">
-<div class="table-card-header">
-<h3 class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">
-<i class="fas fa-table"></i>
-Brands / Company
-</h3>
-<div class="table-actions">
-<button type="button" class="btn btn-primary" onclick="openCompanyModal()"><i class="fas fa-plus"></i>Create</button>
-<button type="button" class="btn btn-secondary" onclick="downloadCompanyExcel()"><i class="fas fa-file-excel"></i>Download Excel</button>
-<button type="button" class="btn btn-secondary" onclick="downloadCompanyPdf()"><i class="fas fa-file-pdf"></i>Download PDF</button>
-</div>
-</div>
-<div class="table-responsive">
-<table class="company-table">
-<thead>
-<tr>
-<th>Brand</th>
-<th>Company Name</th>
-<th>Legal Name</th>
-<th>Email</th>
-<th>Phone</th>
-<th>Country</th>
-<th>Address</th>
-<th>Payment Method</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody id="companyTableBody"></tbody>
-</table>
-</div>
-</div>
-
-<div class="modal-overlay" id="companyModal">
-<div class="modal-container">
-<div class="modal-header">
-<h2 id="companyModalTitle">Create Company</h2>
-<button type="button" class="modal-close" onclick="closeCompanyModal()"><i class="fas fa-times"></i></button>
-</div>
-<div class="modal-body">
+<div class="profile-container">
 <form id="companyForm" class="profile-card">
 <!-- Logo Section -->
 <div class="logo-section">
@@ -267,22 +202,6 @@ Brands / Company
     <span class="company-status-badge">Active</span>
 </div>
 </div>
-
-    <div class="form-section" style="padding-top:0;border-top:none;">
-    <h3 class="section-title">
-    <i class="fas fa-tag"></i>
-    Brand
-    </h3>
-    <div class="form-grid">
-    <div class="form-group full-width">
-    <label class="form-label">Brand <span class="required">*</span></label>
-    <select class="form-control" id="companyBrand" required>
-    <option value="La Sabia Madrid">La Sabia Madrid</option>
-    <option value="Brand Demo">Brand Demo</option>
-    </select>
-    </div>
-    </div>
-    </div>
 
 <!-- Company Details -->
 <div class="form-section">
@@ -454,14 +373,9 @@ Save Changes
 </div>
 </div>
 </div>
-</div>
 
 <!-- Notification -->
 <div class="notification" id="notification"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
 
 <script>
 // Toggle Navigation
@@ -494,256 +408,6 @@ reader.readAsDataURL(file);
 }
 });
 
-let editingBrand = null;
-const BRANDS = ['La Sabia Madrid', 'Brand Demo'];
-const DEFAULT_PAYMENT_BY_BRAND = {
-  'La Sabia Madrid': 'Bank Transfer',
-  'Brand Demo': 'Wire Transfer'
-};
-const DEFAULT_COMPANY_DATA_BY_BRAND = {
-  'La Sabia Madrid': {
-    companyName: 'La Sabia Madrid LLC',
-    legalName: 'La Sabia Madrid Fragrances S.L.',
-    email: 'info@lasabiamadrid.com',
-    phone: '+34 91 123 4567',
-    country: 'ES',
-    address: 'Calle Serrano 45',
-    city: 'Madrid',
-    state: 'Madrid',
-    zipCode: '28001'
-  },
-  'Brand Demo': {
-    companyName: 'Brand Demo Inc.',
-    legalName: 'Brand Demo Perfumes Corporation',
-    email: 'contact@8motivperfumes.com',
-    phone: '+1 (305) 555-0134',
-    country: 'US',
-    address: '123 Fragrance Avenue, Suite 100',
-    city: 'Miami',
-    state: 'Florida',
-    zipCode: '33101'
-  }
-};
-const COUNTRY_LABELS = {
-  US: 'United States',
-  CA: 'Canada',
-  MX: 'Mexico',
-  GB: 'United Kingdom',
-  FR: 'France',
-  DE: 'Germany',
-  ES: 'Spain',
-  IT: 'Italy',
-  OTHER: 'Other'
-};
-
-function getCurrentBrand(){
-return localStorage.getItem('selectedBrand') || 'Brand Demo';
-}
-
-function getCountryName(code){
-return COUNTRY_LABELS[code] || code || '';
-}
-
-function getDefaultRow(brand){
-const fallback = DEFAULT_COMPANY_DATA_BY_BRAND[brand] || DEFAULT_COMPANY_DATA_BY_BRAND['Brand Demo'];
-return {
-brand: brand,
-paymentMethod: DEFAULT_PAYMENT_BY_BRAND[brand] || 'Bank Transfer',
-...fallback
-};
-}
-
-function normalizeRow(row){
-const brand = row.brand || 'Brand Demo';
-const defaults = getDefaultRow(brand);
-return {
-...defaults,
-...row,
-brand: brand,
-paymentMethod: row.paymentMethod || defaults.paymentMethod,
-companyName: row.companyName || defaults.companyName,
-legalName: row.legalName || defaults.legalName,
-email: row.email || defaults.email,
-phone: row.phone || defaults.phone,
-country: row.country || defaults.country,
-address: row.address || defaults.address,
-city: row.city || defaults.city,
-state: row.state || defaults.state,
-zipCode: row.zipCode || defaults.zipCode
-};
-}
-
-function getCompanyRows(){
-const savedRows = localStorage.getItem('companyInfoRows');
-if(savedRows){
-try {
-return JSON.parse(savedRows).map(normalizeRow);
-} catch (error) {
-return [];
-}
-}
-
-const single = localStorage.getItem('companyInfo');
-if(single){
-try {
-const base = JSON.parse(single);
-return [normalizeRow({
-brand: getCurrentBrand(),
-...base
-})];
-} catch (error) {
-return [];
-}
-}
-
-return BRANDS.map(function(brand){
-return getDefaultRow(brand);
-});
-}
-
-function saveCompanyRows(rows){
-localStorage.setItem('companyInfoRows', JSON.stringify(rows));
-}
-
-function fillFormFromRow(row){
-const normalized = normalizeRow(row || getDefaultRow(getCurrentBrand()));
-document.getElementById('companyBrand').value = normalized.brand;
-document.getElementById('companyName').value = normalized.companyName;
-document.getElementById('legalName').value = normalized.legalName || '';
-document.getElementById('taxId').value = normalized.taxId || '';
-document.getElementById('regNumber').value = normalized.regNumber || '';
-document.getElementById('industry').value = normalized.industry || 'perfume';
-document.getElementById('companySize').value = normalized.companySize || '';
-document.getElementById('yearFounded').value = normalized.yearFounded || '';
-document.getElementById('website').value = normalized.website || '';
-document.getElementById('description').value = normalized.description || '';
-document.getElementById('email').value = normalized.email || '';
-document.getElementById('phone').value = normalized.phone || '';
-document.getElementById('mobile').value = normalized.mobile || '';
-document.getElementById('fax').value = normalized.fax || '';
-document.getElementById('address').value = normalized.address || '';
-document.getElementById('city').value = normalized.city || '';
-document.getElementById('state').value = normalized.state || '';
-document.getElementById('zipCode').value = normalized.zipCode || '';
-document.getElementById('country').value = normalized.country || '';
-document.getElementById('linkedin').value = normalized.linkedin || '';
-document.getElementById('facebook').value = normalized.facebook || '';
-document.getElementById('instagram').value = normalized.instagram || '';
-document.getElementById('twitter').value = normalized.twitter || '';
-document.getElementById('displayCompanyName').textContent = normalized.companyName || normalized.brand;
-
-if(normalized.logo){
-document.getElementById('logoPreview').src = normalized.logo;
-document.getElementById('logoWrapper').classList.add('has-image');
-}else{
-document.getElementById('logoPreview').src = '';
-document.getElementById('logoWrapper').classList.remove('has-image');
-}
-}
-
-function openCompanyModal(brand){
-const rows = getCompanyRows();
-const targetBrand = brand || getCurrentBrand();
-const row = rows.find(function(item){ return item.brand === targetBrand; }) || getDefaultRow(targetBrand);
-editingBrand = row.brand;
-document.getElementById('companyModalTitle').textContent = brand ? 'Edit Company' : 'Create Company';
-fillFormFromRow(row);
-document.getElementById('companyModal').classList.add('active');
-}
-
-function closeCompanyModal(){
-document.getElementById('companyModal').classList.remove('active');
-editingBrand = null;
-}
-
-function editCompany(brand){
-openCompanyModal(brand);
-}
-
-function deleteCompany(brand){
-if(!confirm('Are you sure you want to delete this company record?')) return;
-let rows = getCompanyRows().filter(function(row){ return row.brand !== brand; });
-if(rows.length === 0){
-rows = BRANDS.map(function(b){ return getDefaultRow(b); });
-}
-saveCompanyRows(rows);
-renderCompanyTable();
-showNotification('Company record deleted', 'success');
-}
-
-function renderCompanyTable(){
-const rows = getCompanyRows();
-const body = document.getElementById('companyTableBody');
-
-if(!rows.length){
-body.innerHTML = '<tr><td colspan="9" class="muted">No company records available</td></tr>';
-return;
-}
-
-body.innerHTML = rows.map(function(row){
-const fullAddress = [row.address, row.city, row.state, row.zipCode].filter(Boolean).join(', ');
-return `
-<tr>
-<td>${row.brand}</td>
-<td>${row.companyName}</td>
-<td>${row.legalName}</td>
-<td>${row.email}</td>
-<td>${row.phone}</td>
-<td>${getCountryName(row.country)}</td>
-<td>${fullAddress}</td>
-<td><span class="method-badge">${row.paymentMethod}</span></td>
-<td>
-<button type="button" class="btn-icon-sm" onclick="editCompany('${row.brand}')" title="Edit"><i class="fas fa-pen"></i></button>
-<button type="button" class="btn-icon-sm" onclick="deleteCompany('${row.brand}')" title="Delete"><i class="fas fa-trash"></i></button>
-</td>
-</tr>
-`;
-}).join('');
-}
-
-function downloadCompanyExcel(){
-const rows = getCompanyRows().map(function(row){
-return {
-Brand: row.brand,
-CompanyName: row.companyName,
-LegalName: row.legalName,
-Email: row.email,
-Phone: row.phone,
-Country: getCountryName(row.country),
-Address: [row.address, row.city, row.state, row.zipCode].filter(Boolean).join(', '),
-PaymentMethod: row.paymentMethod
-};
-});
-const worksheet = XLSX.utils.json_to_sheet(rows);
-const workbook = XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(workbook, worksheet, 'Companies');
-XLSX.writeFile(workbook, 'companies-table.xlsx');
-}
-
-function downloadCompanyPdf(){
-const doc = new window.jspdf.jsPDF({ orientation: 'landscape' });
-const rows = getCompanyRows().map(function(row){
-return [
-row.brand,
-row.companyName,
-row.legalName,
-row.email,
-row.phone,
-getCountryName(row.country),
-[row.address, row.city, row.state, row.zipCode].filter(Boolean).join(', '),
-row.paymentMethod
-];
-});
-doc.text('Brands / Company / Payment Table', 14, 14);
-doc.autoTable({
-head: [['Brand', 'Company Name', 'Legal Name', 'Email', 'Phone', 'Country', 'Address', 'Payment Method']],
-body: rows,
-startY: 20,
-styles: { fontSize: 8 }
-});
-doc.save('companies-table.pdf');
-}
-
 // Form Submit
 document.getElementById('companyForm').addEventListener('submit', function(e){
 e.preventDefault();
@@ -774,34 +438,11 @@ instagram: document.getElementById('instagram').value,
 twitter: document.getElementById('twitter').value
 };
 
-const selectedBrand = document.getElementById('companyBrand').value;
-const rows = getCompanyRows();
-const existing = rows.find(function(row){ return row.brand === selectedBrand; });
-formData.brand = selectedBrand;
-formData.paymentMethod = existing ? existing.paymentMethod : (DEFAULT_PAYMENT_BY_BRAND[selectedBrand] || 'Bank Transfer');
-if(document.getElementById('logoWrapper').classList.contains('has-image')){
-formData.logo = document.getElementById('logoPreview').src;
-}
-
 // Update display
 document.getElementById('displayCompanyName').textContent = formData.companyName;
 
 // Save to localStorage
 localStorage.setItem('companyInfo', JSON.stringify(formData));
-
-let nextRows = rows;
-if(editingBrand && editingBrand !== selectedBrand){
-nextRows = nextRows.filter(function(row){ return row.brand !== editingBrand; });
-}
-const existingIndex = nextRows.findIndex(function(row){ return row.brand === selectedBrand; });
-if(existingIndex > -1){
-nextRows[existingIndex] = normalizeRow({ ...nextRows[existingIndex], ...formData });
-}else{
-nextRows.push(normalizeRow(formData));
-}
-saveCompanyRows(nextRows);
-renderCompanyTable();
-closeCompanyModal();
 
 // Show success notification
 showNotification('Company information saved successfully!', 'success');
@@ -810,21 +451,17 @@ showNotification('Company information saved successfully!', 'success');
 // Reset Form
 function resetForm(){
 if(confirm('Are you sure you want to reset all changes?')){
-const currentBrand = document.getElementById('companyBrand').value || getCurrentBrand();
-const defaults = getDefaultRow(currentBrand);
 document.getElementById('companyForm').reset();
 // Reset to default values
-document.getElementById('companyName').value = defaults.companyName;
-document.getElementById('legalName').value = defaults.legalName;
-document.getElementById('email').value = defaults.email;
-document.getElementById('phone').value = defaults.phone;
-document.getElementById('address').value = defaults.address;
-document.getElementById('city').value = defaults.city;
-document.getElementById('state').value = defaults.state;
-document.getElementById('zipCode').value = defaults.zipCode;
-document.getElementById('country').value = defaults.country;
+document.getElementById('companyName').value = 'Brand Demo';
+document.getElementById('email').value = 'contact@8motivperfumes.com';
+document.getElementById('address').value = '123 Fragrance Avenue, Suite 100';
+document.getElementById('city').value = 'Miami';
+document.getElementById('state').value = 'Florida';
+document.getElementById('zipCode').value = '33101';
+document.getElementById('country').value = 'US';
 document.getElementById('industry').value = 'perfume';
-document.getElementById('displayCompanyName').textContent = defaults.companyName;
+document.getElementById('displayCompanyName').textContent = 'Brand Demo';
 document.getElementById('logoWrapper').classList.remove('has-image');
 document.getElementById('logoPreview').src = '';
 showNotification('Form reset to default values', 'success');
@@ -844,20 +481,43 @@ notification.classList.remove('show');
 
 // Load saved data on page load
 document.addEventListener('DOMContentLoaded', function(){
-fillFormFromRow(getDefaultRow(getCurrentBrand()));
-renderCompanyTable();
+const savedData = localStorage.getItem('companyInfo');
+if(savedData){
+const data = JSON.parse(savedData);
+document.getElementById('companyName').value = data.companyName || '';
+document.getElementById('legalName').value = data.legalName || '';
+document.getElementById('taxId').value = data.taxId || '';
+document.getElementById('regNumber').value = data.regNumber || '';
+document.getElementById('industry').value = data.industry || '';
+document.getElementById('companySize').value = data.companySize || '';
+document.getElementById('yearFounded').value = data.yearFounded || '';
+document.getElementById('website').value = data.website || '';
+document.getElementById('description').value = data.description || '';
+document.getElementById('email').value = data.email || '';
+document.getElementById('phone').value = data.phone || '';
+document.getElementById('mobile').value = data.mobile || '';
+document.getElementById('fax').value = data.fax || '';
+document.getElementById('address').value = data.address || '';
+document.getElementById('city').value = data.city || '';
+document.getElementById('state').value = data.state || '';
+document.getElementById('zipCode').value = data.zipCode || '';
+document.getElementById('country').value = data.country || '';
+document.getElementById('linkedin').value = data.linkedin || '';
+document.getElementById('facebook').value = data.facebook || '';
+document.getElementById('instagram').value = data.instagram || '';
+document.getElementById('twitter').value = data.twitter || '';
 
-document.getElementById('companyBrand').addEventListener('change', function(){
-const selected = this.value;
-const row = getCompanyRows().find(function(item){ return item.brand === selected; }) || getDefaultRow(selected);
-fillFormFromRow(row);
-});
-
-document.getElementById('companyModal').addEventListener('click', function(e){
-if(e.target === this){
-closeCompanyModal();
+// Update display
+if(data.companyName){
+document.getElementById('displayCompanyName').textContent = data.companyName;
 }
-});
+
+// Load logo if exists
+if(data.logo){
+document.getElementById('logoPreview').src = data.logo;
+document.getElementById('logoWrapper').classList.add('has-image');
+}
+}
 });
 </script>
 

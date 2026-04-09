@@ -1797,12 +1797,14 @@ document.addEventListener('niche3ds:brandChanged', function(e) {
 // â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', function() {
   const savedBrand = localStorage.getItem('selectedBrand');
+  var brandTitleEl = document.getElementById('brandTitle');
   if (savedBrand) {
-    document.getElementById('brandTitle').textContent = savedBrand;
-    applyProductsBrand(savedBrand);
+    if (brandTitleEl) brandTitleEl.textContent = savedBrand;
+    try { applyProductsBrand(savedBrand); } catch(e) { console.warn('applyProductsBrand failed', e); }
   } else {
-    products = BRAND_PRODUCTS['Brand Demo'];
-    renderProducts(); // â† verifica el nombre real de tu funciÃ³n
+    products = (typeof BRAND_PRODUCTS !== 'undefined' && BRAND_PRODUCTS['Brand Demo']) ? BRAND_PRODUCTS['Brand Demo'] : [];
+    // only render if products table exists
+    if (document.getElementById('productsTableBody')) renderProducts();
   }
 });
 
@@ -1843,14 +1845,15 @@ function populateFilters() {
 
 /* â•â•â•â•â•â•â•â• RENDER TABLE â•â•â•â•â•â•â•â• */
 function renderProducts() {
-  var tbody = document.getElementById('productsTableBody');
-  var fSku        = document.getElementById('fSku') ? document.getElementById('fSku').value.toLowerCase() : '';
-  var fCollection = document.getElementById('fCollection').value;
-  var fPerfume    = document.getElementById('fPerfume').value;
-  var fType       = document.getElementById('fType').value;
-  var fMl         = document.getElementById('fMl').value;
-  var fMsrp       = document.getElementById('fMsrp').value;
-  var fWholesale  = document.getElementById('fWholesale').value;
+  var tbody = document.getElementById('productsTableBody'); if(!tbody) return;
+  function getFilterValue(id){ var el = document.getElementById(id); return el ? el.value : ''; }
+  var fSku        = (document.getElementById('fSku') && document.getElementById('fSku').value) ? document.getElementById('fSku').value.toLowerCase() : '';
+  var fCollection = getFilterValue('fCollection');
+  var fPerfume    = getFilterValue('fPerfume');
+  var fType       = getFilterValue('fType');
+  var fMl         = getFilterValue('fMl');
+  var fMsrp       = getFilterValue('fMsrp');
+  var fWholesale  = getFilterValue('fWholesale');
 
   var filtered = products.filter(function(p) {
     var msrpOk = !fMsrp ||
@@ -8328,6 +8331,199 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 // Provider filters removed as requested.
+</script>
+
+<script>
+// --- Providers list rendering and actions ---
+// We'll reuse a local PROVIDERS sample if present; if not, create one minimal for demo
+if (typeof PROVIDERS === 'undefined') {
+  var PROVIDERS = [
+    { id: 'acme', name:'ACME Suppliers Ltd.', type:'Outlet', country:'Spain', contactName:'Ana López', contactEmail:'ana.lopez@acme.example', contactPhone:'+34 612 345 678', orders:[{number:'#1809',status:'Delivered'},{number:'#1810',status:'Pending'}] },
+    { id: 'bella', name:'Supplier #2', type:'Other', country:'France', contactName:'Pierre Martin', contactEmail:'pierre@bella.example', contactPhone:'+33 1 23 45 67 89', orders:[{number:'#1811',status:'Pending'}] },
+    { id: 'bella', name:'Test Suplier', type:'Other', country:'France', contactName:'Pierre Martin', contactEmail:'pierre@bella.example', contactPhone:'+33 1 23 45 67 89', orders:[{number:'#1811',status:'Pending'}] },
+    { id: 'bella', name:'supplier #3', type:'Other', country:'France', contactName:'Pierre Martin', contactEmail:'pierre@bella.example', contactPhone:'+33 1 23 45 67 89', orders:[{number:'#1811',status:'Pending'}] },
+  ];
+}
+
+function populateProvidersList() {
+  var tbody = document.getElementById('provListBody');
+  if (!tbody) return;
+  if (!PROVIDERS || PROVIDERS.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">No providers available.</td></tr>';
+    return;
+  }
+  var list = getFilteredProviders();
+  if (!list || list.length===0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">No providers match the filters.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(function(p){
+    var ordersCount = p.orders ? p.orders.length : 0;
+    // determine provider status from latest order if exists
+    var provStatus = '—';
+    if (p.orders && p.orders.length){
+      var latest = p.orders[0]; // assume array sorted desc or first is latest
+      provStatus = latest.status || '—';
+    }
+    return '<tr>' +
+      '<td>'+ (p.name || '—') +'</td>' +
+      '<td>'+ (p.type || '—') +'</td>' +
+      '<td>'+ (p.country || '—') +'</td>' +
+      '<td>'+ (p.contactName || '—') +'<br><small>'+ (p.contactEmail || '') +'</small></td>' +
+      '<td style="text-align:center;">'+ ordersCount +'</td>' +
+      '<td class="text-center">'+ po_statusBadge(provStatus) +'</td>' +
+      '<td style="text-align:center;">' +
+        '<button class="btn small" onclick="preOrderProvider(\''+p.id+'\')">Pre-order</button> ' +
+        '<button class="btn small primary" onclick="showProviderDetails(\''+p.id+'\')">Details</button>' +
+      '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+function getFilteredProviders(){
+  var search = (document.getElementById('filterSearch')||{}).value||''; search = search.toLowerCase();
+  var sel = document.getElementById('filterProvider');
+  var selType = document.getElementById('filterProviderType');
+  var selected = sel && sel.value ? sel.value : '';
+  var selectedType = selType && selType.value ? selType.value : '';
+  var list = (PROVIDERS||[]).filter(function(p){
+    if (search){ var hay = (p.name+' '+(p.type||'')+' '+(p.country||'')+' '+(p.contactName||'')).toLowerCase(); if(!hay.includes(search)) return false; }
+    if (selected) { if(p.id !== selected) return false; }
+    if (selectedType) { if((p.type||'') !== selectedType) return false; }
+    return true;
+  });
+  return list;
+}
+
+function openProviderModal(id){
+  var p = (window.PROVIDERS||[]).find(function(x){ return x.id===id; });
+  if(!p) return;
+  // populate detail fields (reuse existing loader)
+  loadProviderData(p);
+  var modal = document.getElementById('prov_detail_modal'); if(!modal) return;
+  modal.dataset.providerId = id;
+  // set header name and status for the classic modal too
+  var hdrName = document.getElementById('provDetailName'); if(hdrName) hdrName.textContent = p.name || '—';
+  var hdrStatusPlace = modal.querySelector('.modal-header');
+  if(hdrStatusPlace){ var st = p.orders && p.orders[0] ? statusBadge(p.orders[0].status) : '';
+    // append status after the name if possible
+    var existing = hdrStatusPlace.querySelector('.prov-status-inline');
+    if(existing) existing.remove();
+    var span = document.createElement('div'); span.className='prov-status-inline'; span.style.marginTop='6px'; span.innerHTML = st; hdrStatusPlace.appendChild(span);
+  }
+  modal.style.display = 'block'; document.body.style.overflow='hidden';
+}
+function closeProviderModal(){
+  var modal = document.getElementById('prov_detail_modal'); if(!modal) return; modal.style.display='none'; modal.dataset.providerId=''; document.body.style.overflow='';
+}
+
+function populateProviderFilter(){
+  var sel = document.getElementById('filterProvider'); if(!sel) return;
+  // reset to default option
+  sel.innerHTML = '<option value="">View all providers</option>';
+  if(!PROVIDERS || PROVIDERS.length===0) return;
+  PROVIDERS.forEach(function(p){
+    var opt = document.createElement('option'); opt.value = p.id; opt.textContent = p.name || p.id; sel.appendChild(opt);
+  });
+}
+
+function populateProviderTypes(){
+  var sel = document.getElementById('filterProviderType'); if(!sel) return;
+  var types = {};
+  (PROVIDERS||[]).forEach(function(p){ if(p.type) types[p.type]=true; });
+  // reset keep the All types option
+  sel.innerHTML = '<option value="">All types</option>';
+  Object.keys(types).forEach(function(t){ var opt=document.createElement('option'); opt.value=t; opt.textContent=t; sel.appendChild(opt); });
+}
+
+function preOrderProvider(id) {
+  var p = PROVIDERS.find(function(x){ return x.id === id; });
+  if (!p) return;
+  // Open the canonical Pre-order modal and, if possible, preselect the brand
+  try {
+    // If provider has an associated brand property, select it; otherwise use current brand header
+    var targetBrand = p.brand || (document.getElementById('brandHeaderTitle')||{}).textContent || '';
+    po_openNewOrder();
+    // wait a tick for modal population
+    setTimeout(function(){
+      var sel = document.getElementById('po_fBrand');
+      if(sel){
+        // try to select by exact match, otherwise leave default
+        for(var i=0;i<sel.options.length;i++){ if(sel.options[i].value===targetBrand){ sel.value=targetBrand; break; } }
+        // trigger change to rebuild grid
+        if(window.po_onModalBrandChange) po_onModalBrandChange();
+      }
+      // optionally annotate notes with provider name for traceability
+      var notesEl = document.getElementById('po_fNotes'); if(notesEl) notesEl.value = 'Pre-order from provider: '+(p.name||'');
+    }, 80);
+  } catch(e){
+    // fallback: confirmation + toast
+    if (confirm('Create a pre-order for ' + p.name + '?')) showToast('Pre-order created for ' + p.name);
+  }
+}
+
+function showProviderDetails(id) {
+  // Open provider details in a modal by cloning the hidden providerDetailArea
+  var p = PROVIDERS.find(function(x){ return x.id === id; });
+  if (!p) return;
+  // Populate the hidden detail area (so loadProviderData fills the fields)
+  loadProviderData(p);
+  // Clone the detail HTML, strip ids to avoid duplicates and place into modal
+  var source = document.getElementById('providerDetailArea');
+  var modalContent = document.getElementById('prov_modal_content');
+  if (!source || !modalContent) { openProviderModal(id); return; }
+  var tmp = document.createElement('div'); tmp.innerHTML = source.innerHTML;
+  // remove id attributes inside the cloned node to avoid duplicate IDs
+  tmp.querySelectorAll('[id]').forEach(function(el){ el.removeAttribute('id'); });
+  // set modal content and provider id
+  modalContent.innerHTML = tmp.innerHTML;
+  var modal = document.getElementById('prov_clone_modal');
+  if (modal){ modal.dataset.providerId = id; modal.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+}
+
+// Save provider status from the detail modal
+function saveProviderStatus(){
+  // determine provider id from either classic modal or cloned modal
+  var mid = document.getElementById('prov_detail_modal');
+  var pid = '';
+  if(mid && mid.dataset && mid.dataset.providerId) pid = mid.dataset.providerId;
+  var cmodal = document.getElementById('prov_clone_modal');
+  if(!pid && cmodal && cmodal.dataset && cmodal.dataset.providerId) pid = cmodal.dataset.providerId;
+  if(!pid) { showToast('Provider id not found.'); return; }
+  var sel = document.getElementById('provStatusSelect');
+  if(!sel) { showToast('Status selector not found.'); return; }
+  var val = sel.value;
+  // find provider in PROVIDERS and update
+  var idx = (PROVIDERS||[]).findIndex(function(p){ return p.id===pid; });
+  if(idx===-1){ showToast('Provider not found.'); return; }
+  PROVIDERS[idx].status = val;
+  // refresh UI
+  populateProvidersList();
+  // reload detail area for current provider
+  if(typeof loadProviderData === 'function') loadProviderData(PROVIDERS[idx]);
+  // update headers badges
+  var hdr = document.getElementById('prov_clone_header'); if(hdr){ var badge = po_statusBadge(val); var tmp=document.createElement('div'); tmp.style.marginTop='6px'; tmp.innerHTML=badge; // remove existing prov-status-inline
+    var ex = hdr.parentNode.querySelector('.prov-status-inline'); if(ex) ex.remove(); hdr.parentNode.appendChild(tmp); }
+  var classic = document.getElementById('prov_detail_modal'); if(classic){ var hname = classic.querySelector('.modal-header'); if(hname){ var ex2 = hname.querySelector('.prov-status-inline'); if(ex2) ex2.remove(); var span = document.createElement('div'); span.className='prov-status-inline'; span.style.marginTop='6px'; span.innerHTML = po_statusBadge(val); hname.appendChild(span); } }
+  showToast('Provider status updated.');
+}
+
+// Ensure providers list is populated when provider tab is activated
+document.addEventListener('DOMContentLoaded', function(){
+  var providerTab = document.querySelector('button.tab[data-tab="provider"]');
+  if (!providerTab) return;
+  providerTab.addEventListener('click', function(){
+  populateProvidersList();
+  // hide detail area when opening providers list
+  var detailArea = document.getElementById('providerDetailArea'); if (detailArea) detailArea.style.display = 'none';
+  });
+  // Populate provider filter and types, and wire filter changes
+  populateProviderFilter();
+  populateProviderTypes();
+  var fp = document.getElementById('filterProvider'); if(fp){ fp.addEventListener('change', function(){ populateProvidersList(); }); }
+  var ftype = document.getElementById('filterProviderType'); if(ftype){ ftype.addEventListener('change', function(){ populateProvidersList(); }); }
+  var fs = document.getElementById('filterSearch'); if(fs){ fs.addEventListener('input', function(){ populateProvidersList(); }); }
+});
 </script>
 
 

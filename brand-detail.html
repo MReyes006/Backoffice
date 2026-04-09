@@ -1118,6 +1118,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
     <button class="tab" data-tab="provider">Provider</button>
     <button class="tab" data-tab="pre-orders">Pre Order</button>
     <button class="tab" data-tab="orders">Orders</button>
+    <button class="tab" data-tab="assets"> Assets</button>
+    <button class="tab" data-tab="pricing">Pricing</button>
+    <button class="tab" data-tab="assets">Upcomming Products</button>
+    <button class="tab" data-tab="assets">Score</button>
+    <button class="tab" data-tab="legal">Legal</button>
     <!-- <button class="tab" data-tab="reports">Reports</button> -->
 </div>
 
@@ -1564,6 +1569,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
         <thead>
           <tr>
             <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Photo</th>
+                        <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Provider</th>
             <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Brand</th>
             <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Order #</th>
             <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Order Date</th>
@@ -1741,6 +1747,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
           <thead>
             <tr>
               <th>Products</th>
+              <th>Provider</th>
+              <th>Brand</th>
               <th>Order #</th>
               <th>Order Date</th>
               <!-- <th>Expected Delivery</th> -->
@@ -2132,149 +2140,13 @@ const BRAND_CATALOG = {
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 // var ordersData = [];
 var ordersData = [
-  // {
-  //   id: 1,
-  //   orderNum: 'PO-2026-001',
-  //   orderDate: '2026-03-10',
-  //   deliveryDate: '2026-03-25',
-  //   company: 'Niche305 LLC',
-  //   contact: 'Francis SÃ¡nchez',
-  //   email: 'orders@niche305.com',
-  //   phone: '+1 (305) 555-0100',
-  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
-  //   payment: 'Bank Transfer',
-  //   currency: 'USD',
-  //   paymentNotes: 'REF-2026-001',
-  //   notes: 'Please include packing list inside each box.',
-  //   status: 'In Progress',
-  //   brand: 'Brand Demo',
-  //   lineItems: [
-  //     { name:'Demo1',  sku:'07F-0067F-PARF-100ML', qty:12, unitPrice:210.00, lineTotal:2520.00, image:'../../img/Brand_Demo.webp' },
-  //     { name:'Demo2',       sku:'07F-0067G-PARF-100ML', qty:6,  unitPrice:175.00, lineTotal:1050.00, image:'../../img/Brand_Demo.webp' },
-  //     { name:'Incense Oudh',  sku:'07F-00684-PARF-100ML', qty:8,  unitPrice:195.00, lineTotal:1560.00, image:'../../img/Brand_Demo.webp' },
-  //   ],
-  //   total: 5130.00
-  // },
-  // {
-  //   id: 2,
-  //   orderNum: 'PO-2026-002',
-  //   orderDate: '2026-02-15',
-  //   deliveryDate: '2026-03-01',
-  //   company: 'Niche305 LLC',
-  //   contact: 'Francis SÃ¡nchez',
-  //   email: 'orders@niche305.com',
-  //   phone: '+1 (305) 555-0100',
-  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
-  //   payment: 'Net 30',
-  //   currency: 'USD',
-  //   paymentNotes: 'Net 30 â€” Invoice #INV-2026-014',
-  //   notes: '',
-  //   status: 'Received',
-  //   brand: 'Brand Demo',
-  //   lineItems: [
-  //     { name:'Demon3',       sku:'07F-00683-PARF-100ML', qty:10, unitPrice:185.00, lineTotal:1850.00, image:'../../img/Brand_Demo.webp' },
-  //     { name:'Madam Oudh',   sku:'07F-00682-PARF-100ML', qty:5,  unitPrice:190.00, lineTotal:950.00,  image:'../../img/Brand_Demo.webp' },
-  //   ],
-  //   total: 2800.00
-  // },
-  // {
-  //   id: 3,
-  //   orderNum: 'PO-2026-003',
-  //   orderDate: '2026-01-20',
-  //   // deliveryDate: '2026-02-10',
-  //   company: 'Niche305 LLC',
-  //   contact: 'Francis SÃ¡nchez',
-  //   email: 'orders@niche305.com',
-  //   phone: '+1 (305) 555-0100',
-  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
-  //   payment: 'Bank Transfer',
-  //   currency: 'USD',
-  //   paymentNotes: 'REF-2026-003',
-  //   notes: 'Fragile â€” handle with care.',
-  //   status: 'Received',
-  //   brand: 'Brand Demo',
-  //   lineItems: [
-  //     { name:'Sphinx',   sku:'07F-0068D-PARF-100ML', qty:8,  unitPrice:200.00, lineTotal:1600.00, image:'../../img/Brand_Demo.webp' },
-  //     { name:'HÅ«ma',     sku:'07F-0068B-PARF-100ML', qty:6,  unitPrice:200.00, lineTotal:1200.00, image:'../../img/Brand_Demo.webp' },
-  //     { name:'Divina',   sku:'07F-0067Y-PARF-100ML', qty:4,  unitPrice:190.00, lineTotal:760.00,  image:'../../img/Brand_Demo.webp' },
-  //   ],
-  //   total: 3560.00
-  // },
-  // {
-  //   id: 4,
-  //   orderNum: 'PO-2026-004',
-  //   orderDate: '2026-03-12',
-  //   deliveryDate: '2026-03-28',
-  //   company: 'Niche305 LLC',
-  //   contact: 'Francis SÃ¡nchez',
-  //   email: 'orders@niche305.com',
-  //   phone: '+1 (305) 555-0100',
-  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
-  //   payment: 'Bank Transfer',
-  //   currency: 'EUR',
-  //   paymentNotes: 'REF-2026-004',
-  //   notes: 'First order with La Sabia Madrid. Please include brand catalog.',
-  //   status: 'In Progress',
-  //   brand: 'La Sabia Madrid',
-  //   lineItems: [
-  //     { name:'Verdanza',  sku:'07H-0067E-EDP-100ML', qty:10, unitPrice:171.95, lineTotal:1719.50, image:'../../img/LaSabiaMadrid.webp' },
-  //     { name:'Poderio',   sku:'07H-0067F-EDP-100ML', qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
-  //     { name:'Dos Besos', sku:'07H-0067G-EDP-100ML', qty:6,  unitPrice:171.95, lineTotal:1031.70, image:'../../img/LaSabiaMadrid.webp' },
-  //   ],
-  //   total: 4126.80
-  // },
-  // {
-  //   id: 5,
-  //   orderNum: 'PO-2026-005',
-  //   orderDate: '2026-02-08',
-  //   deliveryDate: '2026-02-25',
-  //   company: 'Niche305 LLC',
-  //   contact: 'Francis SÃ¡nchez',
-  //   email: 'orders@niche305.com',
-  //   phone: '+1 (305) 555-0100',
-  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
-  //   payment: 'Net 30',
-  //   currency: 'EUR',
-  //   paymentNotes: 'Invoice #INV-2026-021',
-  //   notes: '',
-  //   status: 'Received',
-  //   brand: 'La Sabia Madrid',
-  //   lineItems: [
-  //     { name:'Verdanza',         sku:'07H-0067E-EDP-100ML',       qty:12, unitPrice:171.95, lineTotal:2063.40, image:'../../img/LaSabiaMadrid.webp' },
-  //     { name:'Dos Besos Tester', sku:'07H-0067G-EDP-100ML-TST',   qty:4,  unitPrice:94.00,  lineTotal:376.00,  image:'../../img/LaSabiaMadrid.webp' },
-  //   ],
-  //   total: 2439.40
-  // },
-  // {
-  //   id: 6,
-  //   orderNum: 'PO-2026-006',
-  //   orderDate: '2026-01-15',
-  //   deliveryDate: '2026-02-01',
-  //   company: 'Niche305 LLC',
-  //   contact: 'Francis SÃ¡nchez',
-  //   email: 'orders@niche305.com',
-  //   phone: '+1 (305) 555-0100',
-  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
-  //   payment: 'Bank Transfer',
-  //   currency: 'EUR',
-  //   paymentNotes: 'REF-2026-006',
-  //   notes: 'Include TikTok edition units separately labeled.',
-  //   status: 'Received',
-  //   brand: 'La Sabia Madrid',
-  //   lineItems: [
-  //     { name:'Poderio',              sku:'07H-0067F-EDP-100ML',        qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
-  //     { name:'Dos Besos (TikTok Ed.)',sku:'07H-0067G-EDP-100ML-TKTOK', qty:20, unitPrice:10.00,  lineTotal:200.00,  image:'../../img/LaSabiaMadrid.webp' },
-  //     { name:'Normal',               sku:'07H-0067D-EDP-100ML',        qty:5,  unitPrice:100.00, lineTotal:500.00,  image:'../../img/LaSabiaMadrid.webp' },
-  //   ],
-  //   total: 2075.60
-  // },
 
   {
     id: 7,
     orderNum: 'PO-2026-010',
     orderDate: '2026-02-10',
     deliveryDate: '2026-02-28',
-    company: 'Niche305 LLC',
+    company: '8Motiv',
     contact: 'Francis Sánchez',
     email: 'orders@niche305.com',
     phone: '+1 (305) 555-0100',
@@ -2297,7 +2169,7 @@ var ordersData = [
     orderNum: 'PO-2026-011',
     orderDate: '2026-01-28',
     deliveryDate: '2026-02-14',
-    company: 'Niche305 LLC',
+    company: '8Motiv',
     contact: 'Francis Sánchez',
     email: 'orders@niche305.com',
     phone: '+1 (305) 555-0100',
@@ -2420,7 +2292,7 @@ function render(){
   document.getElementById('resultsCount').textContent=filtered.length;
 
   if(paged.length===0){
-    tbody.innerHTML='<tr class="empty-row"><td colspan="9"><i class="fas fa-shopping-cart"></i><p>No purchase orders found. Click <strong>New Order</strong> to create one.</p></td></tr>';
+    tbody.innerHTML='<tr class="empty-row"><td colspan="11"><i class="fas fa-shopping-cart"></i><p>No purchase orders found. Click <strong>New Order</strong> to create one.</p></td></tr>';
     document.getElementById('pageBtns').innerHTML='';
     document.getElementById('pageInfo').textContent='';
     return;
@@ -2440,6 +2312,8 @@ function render(){
 
     html+='<tr>'
       +'<td><div class="thumb-stack">'+imgs+'</div></td>'
+      +'<td><span class="order-num">'+(o.company||'—')+'</span></td>'
+      +'<td><span class="order-num">'+(o.brand||'—')+'</span></td>'
       +'<td><span class="order-num">'+o.orderNum+'</span></td>'
       +'<td style="white-space:nowrap;">'+fmtDate(o.orderDate)+'</td>'
     //   +'<td style="white-space:nowrap;">'+fmtDate(o.deliveryDate)+'</td>'
@@ -2954,6 +2828,15 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
 </div>
+</div>
+
+
+
+<div class="tab-content" id="assets">
+    <div class="card">
+        
+
+    </div>
 </div>
 
 <!-- ===== TAB: REPORTS ===== -->
@@ -3888,7 +3771,7 @@ var po_BRAND_CATALOG = {
 var po_ordersData = [
   {
     id:4, orderNum:'PO-2026-004', orderDate:'2026-03-12', deliveryDate:'2026-03-28',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    company:'8motiv', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Bank Transfer', currency:'EUR', paymentNotes:'REF-2026-004',
     notes:'First order with La Sabia Madrid.',
@@ -3901,7 +3784,7 @@ var po_ordersData = [
   },
   {
     id:5, orderNum:'PO-2026-005', orderDate:'2026-02-08', deliveryDate:'2026-02-25',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    company:'8motiv', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Net 30', currency:'EUR', paymentNotes:'Invoice #INV-2026-021',
     notes:'', status:'approved', brand:'La Sabia Madrid',
@@ -3912,7 +3795,7 @@ var po_ordersData = [
   },
   {
     id:9, orderNum:'PO-2026-009', orderDate:'2026-03-18', deliveryDate:'2026-04-05',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    company:'8motiv', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-009',
     notes:'', status:'adjusted',
@@ -3931,7 +3814,7 @@ var po_ordersData = [
   },
   {
     id:12, orderNum:'PO-2026-010', orderDate:'2026-02-10', deliveryDate:'2026-02-28',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    company:'8motiv', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-010',
     notes:'Express delivery requested.',
@@ -3944,7 +3827,7 @@ var po_ordersData = [
   },
   {
     id:13, orderNum:'PO-2026-011', orderDate:'2026-01-28', deliveryDate:'2026-02-14',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    company:'8motiv', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Net 30', currency:'EUR', paymentNotes:'Invoice #INV-2026-008',
     notes:"Valentine's Day special order.",
@@ -4092,7 +3975,7 @@ function po_render(){
   po_updateStats(filtered);
 
   if(paged.length===0){
-    tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:60px;color:var(--text-muted);"><i class="fas fa-shopping-cart" style="font-size:36px;color:#ddd;display:block;margin-bottom:12px;"></i><p>No pre-orders found.</p></td></tr>';
+    tbody.innerHTML='<tr><td colspan="11" style="text-align:center;padding:60px;color:var(--text-muted);"><i class="fas fa-shopping-cart" style="font-size:36px;color:#ddd;display:block;margin-bottom:12px;"></i><p>No pre-orders found.</p></td></tr>';
     document.getElementById('po_pageBtns').innerHTML='';
     document.getElementById('po_pageInfo').textContent='';
     return;
@@ -4106,6 +3989,7 @@ function po_render(){
       ? '<img src="'+imgSrc+'" style="width:44px;height:56px;object-fit:cover;border-radius:8px;border:2px solid var(--border);" onerror="this.style.display=\'none\'">'
       : '<div style="width:44px;height:44px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:18px;"><i class="fas fa-spray-can"></i></div>';
 
+    var providerBadge = '<span class="order-num">'+(o.company || '—')+'</span>';
     var brandBadge = '<span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;background:var(--gold-light);color:var(--gold-dark);border:1px solid var(--gold-border);">'+o.brand+'</span>';
 
     var totalItems = o.lineItems.reduce(function(a,it){ return a+it.qty; }, 0);
@@ -4122,6 +4006,7 @@ function po_render(){
 
     html += '<tr'+(isPlaced?' style="opacity:0.65;background:#f9fafb;"':'')+'>'+
       '<td style="padding:14px 16px;border-bottom:1px solid var(--border);width:60px;">'+photoCell+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);">'+providerBadge+'</td>'+ 
       '<td style="padding:14px 16px;border-bottom:1px solid var(--border);">'+brandBadge+'</td>'+
       '<td style="padding:14px 16px;border-bottom:1px solid var(--border);font-family:monospace;font-size:13px;font-weight:600;color:var(--gold);">'+o.orderNum+'</td>'+
       '<td style="padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap;font-size:13px;">'+po_fmtDate(o.orderDate)+'</td>'+

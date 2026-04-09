@@ -206,6 +206,85 @@
   .product-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
   .view-grid{grid-template-columns:1fr;}
 }
+
+
+
+/* Brand multiselect */
+.brand-ms-wrap{position:relative;z-index:200;}
+.brand-ms-trigger{display:flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:all .2s;white-space:nowrap;user-select:none;}
+.brand-ms-trigger:hover,.brand-ms-trigger.open{border-color:var(--gold);color:var(--gold);}
+.brand-ms-dropdown{display:none;position:absolute;top:calc(100% + 5px);left:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.13);min-width:220px;overflow:hidden;z-index:400;}
+.brand-ms-dropdown.open{display:block;}
+.brand-ms-header{padding:10px 14px 8px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.brand-ms-header span{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;}
+.brand-ms-clear{font-size:11px;color:var(--gold);cursor:pointer;font-weight:600;background:none;border:none;padding:0;}
+.brand-ms-clear:hover{text-decoration:underline;}
+.brand-ms-option{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border);}
+.brand-ms-option:last-child{border-bottom:none;}
+.brand-ms-option:hover{background:#fafaf7;}
+.brand-ms-option input[type="checkbox"]{width:15px;height:15px;accent-color:var(--gold);flex-shrink:0;cursor:pointer;}
+.brand-ms-option-info{display:flex;flex-direction:column;gap:1px;flex:1;}
+.brand-ms-option-name{font-size:13px;font-weight:600;color:var(--text);}
+.brand-ms-option-count{font-size:11px;color:var(--text-muted);}
+.brand-ms-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.brand-count-badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;background:var(--gold);color:#fff;font-size:10px;font-weight:700;padding:0 5px;}
+
+/* Rejected badge */
+.badge-rejected{background:#fef2f2;color:#b91c1c;border:1px solid #f87171;}
+
+/* Rejected popup (tooltip) */
+.rejected-wrap{position:relative;display:inline-flex;align-items:center;gap:6px;}
+.rejected-info-btn{width:18px;height:18px;border-radius:50%;background:#e8f0fe;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#1a73e8;;font-size:10px;font-weight:700;flex-shrink:0;transition:background .2s;}
+.rejected-info-btn:hover{background:#1a73e8; color: #fff;}
+.rejected-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1E2227;color:#fff;font-size:11px;font-weight:500;padding:7px 11px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:500;max-width:300px;white-space:normal;text-align:center;line-height:1.4;width: 200px;}
+.rejected-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1E2227;}
+.rejected-wrap:hover .rejected-tooltip{opacity:1;}
+
+
+.badge-adjusted{background:#f0f4ff;color:#3730a3;border:1px solid #a5b4fc;}
+.badge-placed{background:#f0fdf4;color:#065f46;border:1px solid #6ee7b7;}
+
+/* Adjusted info panel en view modal */
+.adjusted-banner{
+  /* background:#f0f4ff;
+  border:1px solid #a5b4fc; */
+  border-radius:10px;
+  padding:14px 16px;
+  margin-bottom:16px;
+}
+.adjusted-banner-title{
+  font-size:12px;
+  font-weight:700;
+  /* color:#3730a3; */
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.adjusted-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 0;
+  /* border-bottom:1px solid #c7d2fe; */
+}
+.adjusted-item:last-child{border-bottom:none;}
+.adjusted-item-name{font-size:13px;font-weight:600;color:#1e2227;}
+.adjusted-item-change{display:flex;align-items:center;gap:8px;font-size:12px;}
+.adj-orig{color:#888;text-decoration:line-through;}
+.adj-arrow{
+  /* color:#6366f1; */
+  font-size:11px;
+}
+.adj-new{
+  /* color:#3730a3; */
+  font-weight:700;
+}
+.adj-note{
+  font-size:11px;
+  /* color:#6366f1; */
+  margin-top:2px;}
+
 </style>
 </head>
 <body>
@@ -235,13 +314,13 @@
 
     <div class="page-header">
   <div class="page-title">
-    <h2><i class="fas fa-shopping-cart"></i> Orders</h2>
+    <h2><i class="fas fa-shopping-cart"></i>Pre Orders</h2>
   </div>
   <div style="display:flex;gap:10px;flex-wrap:wrap;">
     <button class="om-btn" onclick="exportExcel()"><i class="fas fa-file-excel"></i> Export Excel</button>
     <button class="om-btn" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Export PDF</button>
     <button class="om-btn om-btn-gold" onclick="openNewOrder()">
-      <i class="fas fa-plus"></i> New Order
+      <i class="fas fa-plus"></i> Create Pre Order
     </button>
   </div>
 </div>
@@ -260,12 +339,26 @@
         <div><div class="stat-val" id="sReceived"></div><div class="stat-label">Approved</div></div>
       </div>
       <div class="stat-card">
+      <div class="stat-icon" style="background:#fef2f2;color:#b91c1c;"><i class="fas fa-times-circle"></i></div>
+      <div>
+        <div class="stat-val" id="sRejected"></div>
+        <div class="stat-label">Rejected</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#f0f4ff;color:#3730a3;"><i class="fas fa-sliders-h"></i></div>
+      <div>
+        <div class="stat-val" id="sAdjusted"></div>
+        <div class="stat-label">Adjusted</div>
+      </div>
+    </div>
+      <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
         <div><div class="stat-val" id="sTotalValue"></div><div class="stat-label">Total Invested</div></div>
       </div>
     </div>
 
-    <div class="filter-bar">
+    <!-- <div class="filter-bar">
       <div class="filter-left">
         <div class="search-box">
           <i class="fas fa-search"></i>
@@ -296,14 +389,82 @@
       <div class="filter-right">
         <span style="font-size:12px;color:var(--text-muted);"><strong id="resultsCount">—</strong> orders</span>
       </div>
+    </div> -->
+
+
+    <div class="filter-bar">
+  <div class="filter-left">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="boSearch" placeholder="Search order #, brand or product..." oninput="applyFilters()">
     </div>
+    <div class="qr-wrap">
+      <div class="qr-btn" id="qrBtn">
+        <i class="fas fa-calendar-alt"></i>
+        <span id="qrLabel">All Time</span>
+        <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;"></i>
+      </div>
+      <div class="qr-dd" id="qrDd">
+        <div onclick="setRange('7d',this)">Last 7 Days</div>
+        <div onclick="setRange('30d',this)">Last 30 Days</div>
+        <div onclick="setRange('90d',this)">Last 90 Days</div>
+        <div onclick="setRange('year',this)">This Year</div>
+        <div onclick="setRange('last-year',this)">Last Year</div>
+        <div class="active-r" onclick="setRange('all',this)">All Time</div>
+      </div>
+    </div>
+    <button class="om-btn" onclick="openDateModal()"><i class="fas fa-sliders-h"></i> Custom Range</button>
+
+    <!-- BRAND MULTISELECT -->
+    <div class="brand-ms-wrap" id="brandMsWrap">
+      <button type="button" class="brand-ms-trigger" id="brandMsTrigger" onclick="toggleBrandDropdown()">
+        <i class="fas fa-tag" style="font-size:12px;color:var(--gold);"></i>
+        <span id="brandMsText">All Brands</span>
+        <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;transition:transform .2s;" id="brandMsChevron"></i>
+      </button>
+      <div class="brand-ms-dropdown" id="brandMsDropdown"></div>
+    </div>
+
+    <!-- <div class="status-pills">
+      <div class="status-pill active" data-s="all" onclick="setStatus('all',this)">All</div>
+      <div class="status-pill" data-s="pending" onclick="setStatus('pending',this)">Pending</div>
+      <div class="status-pill" data-s="approved" onclick="setStatus('approved',this)">Approved</div>
+    </div> -->
+
+  <div class="status-pills">
+      <div class="status-pill active" data-s="all"      onclick="setStatus('all',this)">All</div>
+      <div class="status-pill"        data-s="pending"  onclick="setStatus('pending',this)">Pending</div>
+      <div class="status-pill"        data-s="adjusted" onclick="setStatus('adjusted',this)">Order Adjustments</div>
+      <div class="status-pill"        data-s="approved" onclick="setStatus('approved',this)">Approved</div>
+      <div class="status-pill"        data-s="rejected" onclick="setStatus('rejected',this)">Rejected</div>
+      <div class="status-pill"        data-s="placed"   onclick="setStatus('placed',this)">Placed Order </div>
+  </div>
+  </div>
+  <div class="filter-right">
+    <span style="font-size:12px;color:var(--text-muted);"><strong id="resultsCount">—</strong> orders</span>
+  </div>
+</div>
 
     <div class="table-card">
       <div style="overflow-x:auto;">
         <table class="bo-table">
-          <thead>
+          <!-- <thead>
             <tr>
               <th>Products</th>
+              <th>Order #</th>
+              <th>Order Date</th>
+              <th class="center">Items</th>
+              <th class="center">Stock</th>
+              <th>Shipping To</th>
+              <th class="center">Status</th>
+              <th class="right">Total</th>
+              <th class="center">Actions</th>
+            </tr>
+          </thead> -->
+          <thead>
+            <tr>
+              <th>Photo</th>
+              <th>Brand</th>
               <th>Order #</th>
               <th>Order Date</th>
               <th class="center">Items</th>
@@ -335,18 +496,24 @@
     </div>
     <div class="modal-body">
       <div>
-        <div class="msec-title"><i class="fas fa-info-circle"></i> Order Information</div>
-        <div class="form-grid-3">
-          <div class="form-group">
-            <label class="form-label">Order # <span class="req">*</span></label>
-            <input type="text" class="form-input" id="fOrderNum" placeholder="e.g. PO-2026-001">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Order Date <span class="req">*</span></label>
-            <input type="date" class="form-input" id="fOrderDate">
-          </div>
-        </div>
-      </div>
+  <div class="msec-title"><i class="fas fa-info-circle"></i> Order Information</div>
+  <div class="form-grid-3">
+    <div class="form-group">
+      <label class="form-label">Order # <span class="req">*</span></label>
+      <input type="text" class="form-input" id="fOrderNum" placeholder="e.g. PO-2026-001">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Order Date <span class="req">*</span></label>
+      <input type="date" class="form-input" id="fOrderDate">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Brand <span class="req">*</span></label>
+      <select class="form-select" id="fBrand" onchange="onModalBrandChange()">
+        <option value="">— Select Brand —</option>
+      </select>
+    </div>
+  </div>
+</div>
 
       <div>
         <div class="msec-title"><i class="fas fa-th"></i> Select Products</div>
@@ -396,10 +563,23 @@
       <button class="modal-close" onclick="closeViewModal()">✕</button>
     </div>
     <div class="modal-body" id="viewModalContent" style="max-height:75vh;"></div>
-    <div class="modal-footer">
+    <!-- <div class="modal-footer">
       <button class="btn-cancel" onclick="closeViewModal()">Close</button>
       <button class="btn-submit" id="viewEditBtn"><i class="fas fa-pen"></i> Edit</button>
+    </div> -->
+  <div class="modal-footer">
+    <button class="btn-cancel" onclick="closeViewModal()">Close</button>
+    <div style="display:flex;gap:8px;" id="viewModalActions">
+      <button class="btn-submit" id="viewRejectBtn"
+        style="background:#dc2626;border-color:#dc2626;"
+        onclick="rejectCurrentOrder()">
+        <i class="fas fa-times"></i> Reject
+      </button>
+      <button class="btn-submit" id="viewEditBtn">
+        <i class="fas fa-pen"></i> Edit
+      </button>
     </div>
+</div>
   </div>
 </div>
 
@@ -443,7 +623,226 @@
 
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
 
+
+
+<!-- PLACE ORDER CONFIRMATION MODAL -->
+<div class="modal-overlay" id="placeModal" onclick="closePlaceModal(event)">
+  <div class="modal-box view-modal-box" onclick="event.stopPropagation()" style="max-width:580px;">
+    <div class="modal-header" style="background:#1E2227;">
+      <h3><i class="fas fa-play-circle"></i> Confirm Place Order</h3>
+      <button class="modal-close" onclick="closePlaceModal()">✕</button>
+    </div>
+    <div class="modal-body" id="placeModalContent" style="max-height:70vh;"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closePlaceModal()">Cancel</button>
+      <button class="btn-submit" id="placeConfirmBtn"
+        style="background:rgb(171,160,110);"
+        onclick="confirmPlaceOrder()">
+        <i class="fas fa-check-circle"></i> Confirm & Place Order
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
 <script>
+
+
+function confirmPlaceOrder(){
+  var o = ordersData.find(function(x){ return x.id === placingOrderId; });
+  if(!o) return;
+  o.status     = 'placed';
+  o.placedDate = todayISO();
+  closePlaceModal();
+  boPage = 1;
+  render();
+  showToast('✓ Order ' + o.orderNum + ' has been placed successfully!');
+}
+
+function closePlaceModal(e){
+  if(e && e.target !== document.getElementById('placeModal')) return;
+  document.getElementById('placeModal').classList.remove('open');
+  document.body.style.overflow = '';
+  placingOrderId = null;
+}
+
+
+
+
+
+
+
+function acceptAdjustment(id){
+  var o = ordersData.find(function(x){ return x.id === id; });
+  if(!o || !o.adjustments) return;
+
+  // Aplica los ajustes a los lineItems reales
+  o.adjustments.forEach(function(adj){
+    var item = o.lineItems.find(function(it){ return it.sku === adj.sku; });
+    if(item){
+      item.qty       = adj.adjQty;
+      item.lineTotal = adj.adjLineTotal;
+    }
+  });
+
+  // Recalcula el total
+  o.total = o.lineItems.reduce(function(a, it){ return a + it.lineTotal; }, 0);
+
+  // Limpia ajustes y aprueba
+  o.status      = 'approved';
+  o.adjustments = null;
+  o.adjustmentNote = '';
+
+  closeViewModal();
+  render();
+  showToast('Adjustment accepted — order is now Approved!');
+}
+
+
+/* ═══════════════════════════════════════
+   PLACE ORDER
+═══════════════════════════════════════ */
+// function placeOrder(id){
+//   var o = ordersData.find(function(x){ return x.id === id; });
+//   if(!o) return;
+//   if(normalizeStatus(o.status) !== 'approved'){
+//     showToast('Only approved orders can be placed.');
+//     return;
+//   }
+//   if(!confirm('Place order ' + o.orderNum + '?\n\nThis will mark it as fulfilled. The Edit and Place buttons will be removed.')) return;
+//   o.status     = 'placed';
+//   o.placedDate = todayISO();
+//   boPage = 1;
+//   render();
+//   showToast('✓ Order ' + o.orderNum + ' has been placed successfully!');
+// }
+
+
+function placeOrder(id){
+  var o = ordersData.find(function(x){ return x.id === id; });
+  if(!o) return;
+  if(normalizeStatus(o.status) !== 'approved'){
+    showToast('Only approved orders can be placed.');
+    return;
+  }
+
+  placingOrderId = id;
+
+  // Construye el contenido del modal
+  var itemsHtml = o.lineItems.map(function(it){
+    return '<div class="view-line">'
+      + (it.image ? '<img src="'+it.image+'" onerror="this.style.display=\'none\'">' : '')
+      + '<div class="view-line-ph" style="'+(it.image?'display:none':'')+'"><i class="fas fa-spray-can"></i></div>'
+      + '<div class="view-line-info">'
+        + '<div class="view-line-name">'+it.name+'</div>'
+        + '<div class="view-line-sku">'+it.sku+'</div>'
+      + '</div>'
+      + '<div class="view-line-right">'
+        + '<div class="view-line-qty">QTY: '+it.qty+'</div>'
+        + '<div class="view-line-price">'+fmt(it.lineTotal)+'</div>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+
+  document.getElementById('placeModalContent').innerHTML =
+
+    // Banner de confirmación
+    '<div style="border-radius:10px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px;">'
+      + '<i class="fas fa-play-circle" style="color:rgb(171,160,110);font-size:22px;margin-top:2px;flex-shrink:0;"></i>'
+      + '<div>'
+        + '<div style="font-size:14px;font-weight:700;color:rgb(171,160,110);margin-bottom:3px;">Ready to place this order?</div>'
+        + '<div style="font-size:12px;color:rgb(171,160,110);line-height:1.5;">Once confirmed, the order status will change to <strong>Placed Order</strong> and can no longer be edited.</div>'
+      + '</div>'
+    + '</div>'
+
+    // Info de la orden
+    + '<div class="view-section">'
+      + '<div class="msec-title"><i class="fas fa-info-circle"></i> Order Summary</div>'
+      + '<div class="view-grid">'
+        + '<div class="view-item"><div class="view-item-label">Order #</div><div class="view-item-val" style="font-family:monospace;color:var(--gold);">'+o.orderNum+'</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Brand</div><div class="view-item-val">'+o.brand+'</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Order Date</div><div class="view-item-val">'+fmtDate(o.orderDate)+'</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Delivery Date</div><div class="view-item-val">'+fmtDate(o.deliveryDate||'')+'</div></div>'
+        + (o.address ? '<div class="view-item full"><div class="view-item-label">Shipping To</div><div class="view-item-val" style="font-weight:400;">'+o.address+'</div></div>' : '')
+        + (o.payment ? '<div class="view-item"><div class="view-item-label">Payment</div><div class="view-item-val">'+o.payment+'</div></div>' : '')
+        + (o.currency ? '<div class="view-item"><div class="view-item-label">Currency</div><div class="view-item-val">'+o.currency+'</div></div>' : '')
+        + (o.notes ? '<div class="view-item full"><div class="view-item-label">Notes</div><div class="view-item-val" style="font-weight:400;">'+o.notes+'</div></div>' : '')
+      + '</div>'
+    + '</div>'
+
+    // Items
+    + '<div class="view-section">'
+      + '<div class="msec-title"><i class="fas fa-box"></i> Items</div>'
+      + '<div class="view-items-list">'+itemsHtml+'</div>'
+      + '<div class="order-total-row" style="margin-top:12px;">'
+        + '<span class="order-total-label">Order Total:</span>'
+        + '<span class="order-total-val">'+fmt(o.total)+'</span>'
+      + '</div>'
+    + '</div>';
+
+  document.getElementById('placeModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+/* ═══════════════════════════════════════
+   SIMULATE BRAND ADJUSTMENT (for demo)
+   In production this comes from the brand API
+═══════════════════════════════════════ */
+function simulateBrandAdjustment(id){
+  var o = ordersData.find(function(x){ return x.id === id; });
+  if(!o) return;
+  // Simula que la marca ajustó algunas cantidades
+  o.status = 'adjusted';
+  o.adjustments = o.lineItems.map(function(it, idx){
+    // Ajusta el primer item a una cantidad menor como ejemplo
+    var adjQty = idx === 0 ? Math.max(1, it.qty - 2) : it.qty;
+    var adjPrice = it.unitPrice; // precio igual, solo cantidad
+    return {
+      sku:          it.sku,
+      name:         it.name,
+      origQty:      it.qty,
+      adjQty:       adjQty,
+      origPrice:    it.unitPrice,
+      adjPrice:     adjPrice,
+      adjLineTotal: adjPrice * adjQty,
+      note:         idx === 0 ? 'Only ' + adjQty + ' units available' : ''
+    };
+  });
+  o.adjustmentNote = 'Brand adjusted quantities due to stock limitations.';
+  render();
+  showToast('Order ' + o.orderNum + ' has been adjusted by the brand.');
+}
+
+
+function onModalBrandChange(){
+  currentBrand = document.getElementById('fBrand').value;
+  selectedProducts = {};
+  selectedProductsState = {};
+  buildProductGrid();
+  buildSelectionSummary();
+}
+
+function populateBrandSelect(selectedVal){
+  var sel = document.getElementById('fBrand');
+  if(!sel) return;
+  sel.innerHTML = '<option value="">— Select Brand —</option>';
+  Object.keys(BRAND_CATALOG).forEach(function(b){
+    var opt = document.createElement('option');
+    opt.value = b;
+    opt.textContent = b;
+    if(b === selectedVal) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+
+
+
 /* ═══════════════════════════════════════
    BRAND CATALOG
 ═══════════════════════════════════════ */
@@ -484,42 +883,45 @@ var BRAND_CATALOG = {
    ORDERS DATA
 ═══════════════════════════════════════ */
 var ordersData = [
-  {
-    id:1, orderNum:'PO-2026-001', orderDate:'2026-03-10', deliveryDate:'2026-03-25',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
-    phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
-    payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-001',
-    notes:'Please include packing list inside each box.',
-    status:'pending', brand:'Brand Demo',
-    lineItems:[
-      { name:'Demo1',       sku:'07F-0067F-PARF-100ML', qty:12, unitPrice:210.00, lineTotal:2520.00, image:'../../img/Brand_Demo.webp' },
-      { name:'Demo2',       sku:'07F-0067G-PARF-100ML', qty:6,  unitPrice:175.00, lineTotal:1050.00, image:'../../img/Brand_Demo.webp' },
-      { name:'Incense Oudh',sku:'07F-00684-PARF-100ML', qty:8,  unitPrice:195.00, lineTotal:1560.00, image:'../../img/Brand_Demo.webp' },
-    ], total:5130.00
-  },
-  {
-    id:2, orderNum:'PO-2026-002', orderDate:'2026-02-15', deliveryDate:'2026-03-01',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
-    phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
-    payment:'Net 30', currency:'USD', paymentNotes:'Net 30 – Invoice #INV-2026-014',
-    notes:'', status:'Approved', brand:'Brand Demo',
-    lineItems:[
-      { name:'Demon3',    sku:'07F-00683-PARF-100ML', qty:10, unitPrice:185.00, lineTotal:1850.00, image:'../../img/Brand_Demo.webp' },
-      { name:'Madam Oudh',sku:'07F-00682-PARF-100ML', qty:5,  unitPrice:190.00, lineTotal:950.00,  image:'../../img/Brand_Demo.webp' },
-    ], total:2800.00
-  },
-  {
-    id:3, orderNum:'PO-2026-003', orderDate:'2026-01-20',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
-    phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
-    payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-003',
-    notes:'Fragile – handle with care.', status:'Approved', brand:'Brand Demo',
-    lineItems:[
-      { name:'Sphinx', sku:'07F-0068D-PARF-100ML', qty:8, unitPrice:200.00, lineTotal:1600.00, image:'../../img/Brand_Demo.webp' },
-      { name:'Hūma',   sku:'07F-0068B-PARF-100ML', qty:6, unitPrice:200.00, lineTotal:1200.00, image:'../../img/Brand_Demo.webp' },
-      { name:'Divina', sku:'07F-0067Y-PARF-100ML', qty:4, unitPrice:190.00, lineTotal:760.00,  image:'../../img/Brand_Demo.webp' },
-    ], total:3560.00
-  },
+  // {
+  //   id:1, orderNum:'PO-2026-001', orderDate:'2026-03-10', deliveryDate:'2026-03-25',
+  //   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+  //   phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-001',
+  //   notes:'Please include packing list inside each box.',
+  //   status:'pending', brand:'Brand Demo',
+  //   lineItems:[
+  //     { name:'Demo1',       sku:'07F-0067F-PARF-100ML', qty:12, unitPrice:210.00, lineTotal:2520.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Demo2',       sku:'07F-0067G-PARF-100ML', qty:6,  unitPrice:175.00, lineTotal:1050.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Incense Oudh',sku:'07F-00684-PARF-100ML', qty:8,  unitPrice:195.00, lineTotal:1560.00, image:'../../img/Brand_Demo.webp' },
+  //   ], total:5130.00
+  // },
+  // {
+  //   id:2, orderNum:'PO-2026-002', orderDate:'2026-02-15', deliveryDate:'2026-03-01',
+  //   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+  //   phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment:'Net 30', currency:'USD', paymentNotes:'Net 30 – Invoice #INV-2026-014',
+  //   notes:'', status:'approved', brand:'Brand Demo',
+  //   lineItems:[
+  //     { name:'Demon3',    sku:'07F-00683-PARF-100ML', qty:10, availableQty:10, unitPrice:185.00, lineTotal:1850.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Madam Oudh',sku:'07F-00682-PARF-100ML', qty:5,  availableQty:5,  unitPrice:190.00, lineTotal:950.00,  image:'../../img/Brand_Demo.webp' },
+  //   ], total:2800.00
+  // },
+  // {
+  //   id:3, orderNum:'PO-2026-003', orderDate:'2026-01-20',
+  //   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+  //   phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-003',
+  //   notes:'Fragile – handle with care.',
+  //   status:'rejected',
+  //   rejectedReason:'Sphinx: only 3 units available, 8 requested · Hūma: out of stock',
+  //   brand:'Brand Demo',
+  //   lineItems:[
+  //     { name:'Sphinx', sku:'07F-0068D-PARF-100ML', qty:8, availableQty:3,  unitPrice:200.00, lineTotal:1600.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Hūma',   sku:'07F-0068B-PARF-100ML', qty:6, availableQty:0,  available:false, unavailableReason:'Out of stock', unitPrice:200.00, lineTotal:1200.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Divina', sku:'07F-0067Y-PARF-100ML', qty:4, availableQty:4,  unitPrice:190.00, lineTotal:760.00,  image:'../../img/Brand_Demo.webp' },
+  //   ], total:3560.00
+  // },
   {
     id:4, orderNum:'PO-2026-004', orderDate:'2026-03-12', deliveryDate:'2026-03-28',
     company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
@@ -538,27 +940,161 @@ var ordersData = [
     company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Net 30', currency:'EUR', paymentNotes:'Invoice #INV-2026-021',
-    notes:'', status:'Approved', brand:'La Sabia Madrid',
+    notes:'', status:'approved', brand:'La Sabia Madrid',
     lineItems:[
       { name:'Verdanza',         sku:'07H-0067E-EDP-100ML',     qty:12, availableQty:14, unitPrice:171.95, lineTotal:2063.40, image:'../../img/LaSabiaMadrid.webp' },
       { name:'Dos Besos Tester', sku:'07H-0067G-EDP-100ML-TST', qty:4,  availableQty:7,  unitPrice:94.00,  lineTotal:376.00,  image:'../../img/LaSabiaMadrid.webp' },
     ], total:2439.40
   },
+  // {
+  //   id:6, orderNum:'PO-2026-006', orderDate:'2026-01-15', deliveryDate:'2026-02-01',
+  //   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+  //   phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment:'Bank Transfer', currency:'EUR', paymentNotes:'REF-2026-006',
+  //   notes:'Include TikTok edition units separately labeled.',
+  //   status:'approved', brand:'La Sabia Madrid',
+  //   lineItems:[
+  //     { name:'Poderio',               sku:'07H-0067F-EDP-100ML',       qty:8,  availableQty:10, unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
+  //     { name:'Dos Besos (TikTok Ed.)',sku:'07H-0067G-EDP-100ML-TKTOK', qty:20, availableQty:24, unitPrice:10.00,  lineTotal:200.00,  image:'../../img/LaSabiaMadrid.webp' },
+  //     { name:'Normal',                sku:'07H-0067D-EDP-100ML',        qty:5,  availableQty:6,  unitPrice:100.00, lineTotal:500.00,  image:'../../img/LaSabiaMadrid.webp' },
+  //   ], total:2075.60
+  // },
+  // {
+  //   id:7, orderNum:'PO-2026-007', orderDate:'2026-03-05', deliveryDate:'2026-03-20',
+  //   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+  //   phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-007',
+  //   notes:'Urgent order for Miami event.',
+  //   status:'rejected',
+  //   rejectedReason:'Sangal: only 2 units available, 10 requested · Gamayun: discontinued',
+  //   brand:'Brand Demo',
+  //   lineItems:[
+  //     { name:'Sangal',  sku:'07F-0068C-PARF-100ML', qty:10, availableQty:2,  unitPrice:195.00, lineTotal:1950.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Gamayun', sku:'07F-00689-PARF-100ML', qty:5,  availableQty:0,  available:false, unavailableReason:'Discontinued', unitPrice:200.00, lineTotal:1000.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Aurum',   sku:'07F-00680-PARF-100ML', qty:8,  availableQty:8,  unitPrice:195.00, lineTotal:1560.00, image:'../../img/Brand_Demo.webp' },
+  //   ], total:4510.00
+  // },
+  // {
+  //   id:8, orderNum:'PO-2026-008', orderDate:'2026-02-28', deliveryDate:'2026-03-15',
+  //   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+  //   phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment:'Net 30', currency:'EUR', paymentNotes:'Invoice #INV-2026-031',
+  //   notes:'',
+  //   status:'rejected',
+  //   rejectedReason:'Only 5 units available, 12 requested · Campagna: restricted in this region',
+  //   brand:'La Sabia Madrid',
+  //   lineItems:[
+  //     { name:'Normal',   sku:'07H-0067D-EDP-100ML',   qty:12, availableQty:5, unitPrice:100.00, lineTotal:1200.00, image:'../../img/LaSabiaMadrid.webp' },
+  //     { name:'Campagna', sku:'07H-0067D-EDP-100ML-2',  qty:6,  availableQty:0, available:false, unavailableReason:'Restricted in this region', unitPrice:100.00, lineTotal:600.00, image:'../../img/LaSabiaMadrid.webp' },
+  //   ], total:1800.00
+  // },
   {
-    id:6, orderNum:'PO-2026-006', orderDate:'2026-01-15', deliveryDate:'2026-02-01',
+  id:9, orderNum:'PO-2026-009', orderDate:'2026-03-18', deliveryDate:'2026-04-05',
+  company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+  phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+  payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-009',
+  notes:'',
+  status:'adjusted',
+  adjustmentNote:'Brand adjusted quantities due to current stock levels.',
+  brand:'Brand Demo',
+  adjustments:[
+    { sku:'07F-0067F-PARF-100ML', name:'Demo1',        origQty:10, adjQty:6,  origPrice:210.00, adjPrice:210.00, adjLineTotal:1260.00, note:'Only 6 units available' },
+    { sku:'07F-0067G-PARF-100ML', name:'Demo2',        origQty:8,  adjQty:8,  origPrice:175.00, adjPrice:175.00, adjLineTotal:1400.00, note:'' },
+    { sku:'07F-0068D-PARF-100ML', name:'Sphinx',       origQty:5,  adjQty:3,  origPrice:200.00, adjPrice:200.00, adjLineTotal:600.00,  note:'Only 3 units in stock' },
+  ],
+  lineItems:[
+    { name:'Demo1',  sku:'07F-0067F-PARF-100ML', qty:10, availableQty:6,  unitPrice:210.00, lineTotal:2100.00, image:'../../img/Brand_Demo.webp' },
+    { name:'Demo2',  sku:'07F-0067G-PARF-100ML', qty:8,  availableQty:8,  unitPrice:175.00, lineTotal:1400.00, image:'../../img/Brand_Demo.webp' },
+    { name:'Sphinx', sku:'07F-0068D-PARF-100ML', qty:5,  availableQty:3,  unitPrice:200.00, lineTotal:1000.00, image:'../../img/Brand_Demo.webp' },
+  ], total:4500.00
+},
+{
+  id:10, orderNum:'PO-2026-010', orderDate:'2026-03-22', deliveryDate:'2026-04-08',
+  company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+  phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+  payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-010',
+  notes:'',
+  status:'adjusted',
+  adjustmentNote:'Quantities adjusted due to limited stock.',
+  brand:'Brand Demo',
+  adjustments:[
+    { sku:'07F-00683-PARF-100ML', name:'Demon3', origQty:10, adjQty:7, origPrice:185.00, adjPrice:185.00, adjLineTotal:1295.00, note:'Only 7 available' },
+    { sku:'07F-00682-PARF-100ML', name:'Madam Oudh', origQty:6, adjQty:4, origPrice:190.00, adjPrice:190.00, adjLineTotal:760.00, note:'Stock limitation' },
+  ],
+  lineItems:[
+    { name:'Demon3', sku:'07F-00683-PARF-100ML', qty:10, availableQty:7, unitPrice:185.00, lineTotal:1850.00, image:'../../img/Brand_Demo.webp' },
+    { name:'Madam Oudh', sku:'07F-00682-PARF-100ML', qty:6, availableQty:4, unitPrice:190.00, lineTotal:1140.00, image:'../../img/Brand_Demo.webp' },
+  ],
+  total:2990.00
+},
+{
+  id:11, orderNum:'PO-2026-011', orderDate:'2026-03-25', deliveryDate:'2026-04-12',
+  company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+  phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+  payment:'Net 30', currency:'EUR', paymentNotes:'INV-2026-045',
+  notes:'',
+  status:'adjusted',
+  adjustmentNote:'Price adjusted due to new pricing list.',
+  brand:'La Sabia Madrid',
+  adjustments:[
+    { sku:'07H-0067E-EDP-100ML', name:'Verdanza', origQty:10, adjQty:10, origPrice:171.95, adjPrice:165.00, adjLineTotal:1650.00, note:'New price applied' },
+  ],
+  lineItems:[
+    { name:'Verdanza', sku:'07H-0067E-EDP-100ML', qty:10, availableQty:10, unitPrice:171.95, lineTotal:1719.50, image:'../../img/LaSabiaMadrid.webp' },
+  ],
+  total:1650.00
+},
+// {
+//   id:12, orderNum:'PO-2026-012', orderDate:'2026-03-28', deliveryDate:'2026-04-15',
+//   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+//   phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+//   payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-012',
+//   notes:'',
+//   status:'adjusted',
+//   adjustmentNote:'Multiple items adjusted due to availability.',
+//   brand:'Brand Demo',
+//   adjustments:[
+//     { sku:'07F-00680-PARF-100ML', name:'Aurum', origQty:10, adjQty:6, origPrice:195.00, adjPrice:195.00, adjLineTotal:1170.00, note:'Partial stock' },
+//     { sku:'07F-00689-PARF-100ML', name:'Gamayun', origQty:5, adjQty:0, origPrice:200.00, adjPrice:0.00, adjLineTotal:0.00, note:'Discontinued' },
+//   ],
+//   lineItems:[
+//     { name:'Aurum', sku:'07F-00680-PARF-100ML', qty:10, availableQty:6, unitPrice:195.00, lineTotal:1950.00, image:'../../img/Brand_Demo.webp' },
+//     { name:'Gamayun', sku:'07F-00689-PARF-100ML', qty:5, availableQty:0, unitPrice:200.00, lineTotal:1000.00, image:'../../img/Brand_Demo.webp' },
+//   ],
+//   total:1170.00
+// },
+{
+    id:12, orderNum:'PO-2026-010', orderDate:'2026-02-10', deliveryDate:'2026-02-28',
     company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
-    payment:'Bank Transfer', currency:'EUR', paymentNotes:'REF-2026-006',
-    notes:'Include TikTok edition units separately labeled.',
-    status:'Approved', brand:'La Sabia Madrid',
+    payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-010',
+    notes:'Express delivery requested.',
+    status:'placed',
+    placedDate:'2026-03-01',
+    brand:'Brand Demo',
     lineItems:[
-      { name:'Poderio',               sku:'07H-0067F-EDP-100ML',        qty:8,  availableQty:10, unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
-      { name:'Dos Besos (TikTok Ed.)',sku:'07H-0067G-EDP-100ML-TKTOK',  qty:20, availableQty:24, unitPrice:10.00,  lineTotal:200.00,  image:'../../img/LaSabiaMadrid.webp' },
-      { name:'Normal',                sku:'07H-0067D-EDP-100ML',         qty:5,  availableQty:6,  unitPrice:100.00, lineTotal:500.00,  image:'../../img/LaSabiaMadrid.webp' },
-    ], total:2075.60
+      { name:'Fenrir',       sku:'07F-00688-PARF-100ML', qty:10, availableQty:10, unitPrice:195.00, lineTotal:1950.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Prajna',       sku:'07F-00686-PARF-100ML', qty:8,  availableQty:8,  unitPrice:180.00, lineTotal:1440.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Molecule Oudh',sku:'07F-00685-PARF-100ML', qty:6,  availableQty:6,  unitPrice:185.00, lineTotal:1110.00, image:'../../img/Brand_Demo.webp' },
+    ], total:4500.00
+  },
+  {
+    id:13, orderNum:'PO-2026-011', orderDate:'2026-01-28', deliveryDate:'2026-02-14',
+    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+    payment:'Net 30', currency:'EUR', paymentNotes:'Invoice #INV-2026-008',
+    notes:'Valentine\'s Day special order.',
+    status:'placed',
+    placedDate:'2026-02-15',
+    brand:'La Sabia Madrid',
+    lineItems:[
+      { name:'Verdanza',  sku:'07H-0067E-EDP-100ML', qty:15, availableQty:15, unitPrice:171.95, lineTotal:2579.25, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Dos Besos', sku:'07H-0067G-EDP-100ML', qty:10, availableQty:10, unitPrice:171.95, lineTotal:1719.50, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Poderio',   sku:'07H-0067F-EDP-100ML', qty:8,  availableQty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
+    ], total:5674.35
   },
 ];
-var nextOrderId = 7;
+var nextOrderId = 10;
 
 /* ═══════════════════════════════════════
    STATE  — declared at top level (CRITICAL)
@@ -608,15 +1144,46 @@ function inRange(dateStr){
     default:          return true;
   }
 }
+// function normalizeStatus(status){
+//   var s=(status||'').toLowerCase().trim();
+//   if(s==='approved') return 'approved';
+//   return 'pending';
+// }
+// function statusBadge(s){
+//   s=normalizeStatus(s);
+//   if(s==='approved') return '<span class="badge badge-approved"><span class="badge-dot"></span>Approved</span>';
+//   return '<span class="badge badge-pending"><span class="badge-dot"></span>Pending</span>';
+// }
+
 function normalizeStatus(status){
-  var s=(status||'').toLowerCase().trim();
-  if(s==='approved') return 'approved';
+  var s = (status||'').toLowerCase().trim();
+  if(s === 'approved')  return 'approved';
+  if(s === 'rejected')  return 'rejected';
+  if(s === 'adjusted')  return 'adjusted';
+  if(s === 'placed')    return 'placed';
   return 'pending';
 }
-function statusBadge(s){
-  s=normalizeStatus(s);
-  if(s==='approved') return '<span class="badge badge-approved"><span class="badge-dot"></span>Approved</span>';
-  return '<span class="badge badge-pending"><span class="badge-dot"></span>Pending</span>';
+
+function statusBadge(s, reason){
+  s = normalizeStatus(s);
+  if(s === 'approved'){
+    return '<span class="badge badge-approved">Approved</span>';
+  }
+  if(s === 'placed'){
+    return '<span class="badge badge-placed">Placed Order</span>';
+  }
+  if(s === 'adjusted'){
+    return '<span class="badge badge-adjusted">Order Adjustments</span>';
+  }
+  if(s === 'rejected'){
+    var tooltip = reason ? '<span class="rejected-tooltip"><i class="fas fa-exclamation-circle" style="margin-right:4px;color:#fca5a5;"></i>'+reason+'</span>' : '';
+    var infoBtn = reason ? '<button class="rejected-info-btn" tabindex="-1"><i class="fas fa-exclamation"></i></button>' : '';
+    return '<div class="rejected-wrap">'
+      +'<span class="badge badge-rejected">Rejected</span>'
+      +infoBtn+tooltip
+      +'</div>';
+  }
+  return '<span class="badge badge-pending">Pending</span>';
 }
 function genOrderNum(){
   var now=new Date();
@@ -638,16 +1205,65 @@ function estimateAvailableQty(order, item, index){
 /* ═══════════════════════════════════════
    ORDER STATUS SYNC
 ═══════════════════════════════════════ */
+// function computeOrderStatusFromLog(order){
+//   if(!order||!order.lineItems||!order.lineItems.length) return 'pending';
+//   // If any item is manually marked unavailable → pending
+//   var allOk = order.lineItems.every(function(it, idx){
+//     if(it.available === false) return false;
+//     var avail = typeof it.availableQty==='number' ? it.availableQty : estimateAvailableQty(order,it,idx);
+//     return avail >= it.qty;
+//   });
+//   return allOk ? 'approved' : 'pending';
+// }
+
+
 function computeOrderStatusFromLog(order){
-  if(!order||!order.lineItems||!order.lineItems.length) return 'pending';
-  // If any item is manually marked unavailable → pending
+  if(!order || !order.lineItems || !order.lineItems.length) return 'pending';
+
+  // Respetar estos status manuales — nunca recalcular
+  var s = normalizeStatus(order.status);
+  if(s === 'rejected') return 'rejected';
+  if(s === 'adjusted') return 'adjusted';
+  if(s === 'placed')   return 'placed';
+
   var allOk = order.lineItems.every(function(it, idx){
     if(it.available === false) return false;
-    var avail = typeof it.availableQty==='number' ? it.availableQty : estimateAvailableQty(order,it,idx);
+    var avail = typeof it.availableQty === 'number' ? it.availableQty : estimateAvailableQty(order, it, idx);
     return avail >= it.qty;
   });
   return allOk ? 'approved' : 'pending';
 }
+
+// function getOrderRejectedReason(o){
+//   if(!o || !o.lineItems) return '';
+//   var reasons = [];
+//   o.lineItems.forEach(function(it, idx){
+//     if(it.available === false){
+//       var r = it.unavailableReason || (it.name + ': cannot be sold');
+//       reasons.push(r);
+//     } else if(typeof it.availableQty === 'number' && it.availableQty < it.qty){
+//       reasons.push(it.name + ': only ' + it.availableQty + ' available, ' + it.qty + ' requested');
+//     }
+//   });
+//   return reasons.join(' · ');
+// }
+
+function getOrderRejectedReason(o){
+  if(!o) return '';
+  // Si tiene razón manual guardada, úsala
+  if(o.rejectedReason) return o.rejectedReason;
+  if(!o.lineItems) return '';
+  var reasons = [];
+  o.lineItems.forEach(function(it){
+    if(it.available === false){
+      reasons.push(it.name + ': ' + (it.unavailableReason || 'cannot be sold'));
+    } else if(typeof it.availableQty === 'number' && it.availableQty < it.qty){
+      reasons.push(it.name + ': only ' + it.availableQty + ' available, ' + it.qty + ' requested');
+    }
+  });
+  return reasons.join(' · ');
+}
+
 function syncOrderStatusFromLog(order){
   if(!order) return;
   order.status = computeOrderStatusFromLog(order);
@@ -657,18 +1273,122 @@ function syncAllOrderStatusesFromLog(){ ordersData.forEach(syncOrderStatusFromLo
 /* ═══════════════════════════════════════
    FILTER & RENDER TABLE
 ═══════════════════════════════════════ */
+// function getFiltered(){
+//   syncAllOrderStatusesFromLog();
+//   return ordersData.filter(function(o){
+//     var q=boSearch.toLowerCase();
+//     var matchBrand = o.brand === currentBrand;
+//     var matchQ = !q || o.orderNum.toLowerCase().includes(q) ||
+//       o.lineItems.some(function(it){return it.name.toLowerCase().includes(q);});
+//     var matchS = boStatus==='all' || normalizeStatus(o.status)===boStatus;
+//     var matchR = inRange(o.orderDate);
+//     return matchBrand && matchQ && matchS && matchR;
+//   });
+// }
+var boSelectedBrands = []; // [] = all brands shown
 function getFiltered(){
   syncAllOrderStatusesFromLog();
   return ordersData.filter(function(o){
-    var q=boSearch.toLowerCase();
-    var matchBrand = o.brand === currentBrand;
+    var q = boSearch.toLowerCase();
+    var matchBrand = boSelectedBrands.length === 0 || boSelectedBrands.indexOf(o.brand) > -1;
     var matchQ = !q || o.orderNum.toLowerCase().includes(q) ||
-      o.lineItems.some(function(it){return it.name.toLowerCase().includes(q);});
-    var matchS = boStatus==='all' || normalizeStatus(o.status)===boStatus;
+      (o.brand||'').toLowerCase().includes(q) ||
+      o.lineItems.some(function(it){ return it.name.toLowerCase().includes(q); });
+    var matchS = boStatus === 'all' || normalizeStatus(o.status) === boStatus;
     var matchR = inRange(o.orderDate);
     return matchBrand && matchQ && matchS && matchR;
   });
 }
+
+
+/* ═══════════════════════════════════════
+   BRAND MULTISELECT
+═══════════════════════════════════════ */
+var BRAND_COLORS = {
+  // 'Brand Demo':      { bg:'#f0f4ff', color:'#3b4cca', border:'#c7d0f8', dot:'#3b4cca' },
+  // 'La Sabia Madrid': { bg:'#fff4e6', color:'#b45309', border:'#fcd9a0', dot:'#b45309' },
+};
+
+function getBrandList(){
+  var brands = [];
+  ordersData.forEach(function(o){
+    if(brands.indexOf(o.brand) === -1) brands.push(o.brand);
+  });
+  return brands.sort();
+}
+
+function buildBrandDropdown(){
+  var dropdown = document.getElementById('brandMsDropdown');
+  if(!dropdown) return;
+  var brands = getBrandList();
+  var html = '<div class="brand-ms-header"><span>Filter by Brand</span>'
+    +'<button class="brand-ms-clear" onclick="clearBrandFilter()">Clear all</button></div>';
+  brands.forEach(function(brand){
+    var checked = boSelectedBrands.indexOf(brand) > -1;
+    var count = ordersData.filter(function(o){ return o.brand === brand; }).length;
+    var bc = BRAND_COLORS[brand] || { dot:'var(--gold)', color:'var(--gold-dark)' };
+    html += '<label class="brand-ms-option">'
+      +'<input type="checkbox" value="'+brand+'" '+(checked?'checked':'')+' onchange="toggleBrandFilter(\''+brand.replace(/'/g,"\\'")+'\')">'
+      +'<span class="brand-ms-dot" style=";"></span>'
+      +'<div class="brand-ms-option-info">'
+        +'<span class="brand-ms-option-name">'+brand+'</span>'
+        +'<span class="brand-ms-option-count">'+count+' order'+(count!==1?'s':'')+'</span>'
+      +'</div>'
+      // +'<span class="brand-count-badge">'+coun+'</span>'
+      +'</label>';
+  });
+  dropdown.innerHTML = html;
+}
+
+function toggleBrandDropdown(){
+  var dd = document.getElementById('brandMsDropdown');
+  var btn = document.getElementById('brandMsTrigger');
+  var chevron = document.getElementById('brandMsChevron');
+  var isOpen = dd.classList.contains('open');
+  dd.classList.toggle('open');
+  btn.classList.toggle('open');
+  chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+  if(!isOpen) buildBrandDropdown();
+}
+
+function toggleBrandFilter(brand){
+  var idx = boSelectedBrands.indexOf(brand);
+  if(idx > -1) boSelectedBrands.splice(idx, 1);
+  else boSelectedBrands.push(brand);
+  updateBrandTriggerText();
+  boPage = 1; render();
+}
+
+function clearBrandFilter(){
+  boSelectedBrands = [];
+  buildBrandDropdown();
+  updateBrandTriggerText();
+  boPage = 1; render();
+}
+
+function updateBrandTriggerText(){
+  var text = document.getElementById('brandMsText');
+  if(!text) return;
+  if(boSelectedBrands.length === 0){
+    text.textContent = 'All Brands';
+  } else if(boSelectedBrands.length === 1){
+    text.textContent = boSelectedBrands[0];
+  } else {
+    text.textContent = boSelectedBrands.length + ' brands';
+  }
+}
+
+// Cerrar dropdown al click fuera
+document.addEventListener('click', function(e){
+  var wrap = document.getElementById('brandMsWrap');
+  if(wrap && !wrap.contains(e.target)){
+    document.getElementById('brandMsDropdown').classList.remove('open');
+    document.getElementById('brandMsTrigger').classList.remove('open');
+    document.getElementById('brandMsChevron').style.transform = '';
+  }
+});
+
+
 
 function render(){
   var filtered=getFiltered();
@@ -684,33 +1404,84 @@ function render(){
     return;
   }
   var html='';
-  paged.forEach(function(o){
-    var imgs='';
-    o.lineItems.slice(0,3).forEach(function(it){
-      imgs += it.image
-        ? '<img src="'+it.image+'" class="thumb-img" onerror="this.style.display=\'none\'">'
-        : '<div class="thumb-placeholder"><i class="fas fa-spray-can"></i></div>';
-    });
-    if(o.lineItems.length>3) imgs+='<div class="thumb-more">+'+(o.lineItems.length-3)+'</div>';
-    var totalItems=o.lineItems.reduce(function(a,it){return a+it.qty;},0);
-    html+='<tr>'
-      +'<td><div class="thumb-stack">'+imgs+'</div></td>'
-      +'<td><span class="order-num">'+o.orderNum+'</span></td>'
-      +'<td style="white-space:nowrap;">'+fmtDate(o.orderDate)+'</td>'
-      +'<td class="text-center">'+totalItems+'</td>'
-      +'<td class="text-center">'+getOrderStock(o)+'</td>'
-      +'<td style="font-size:12px;color:var(--text-muted);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+(o.address||'')+'">'+( o.address||'—')+'</td>'
-      +'<td class="text-center">'+statusBadge(o.status)+'</td>'
-      +'<td class="text-right font-bold">'+fmt(o.total)+'</td>'
-      +'<td><div class="act-group">'
-        +'<button class="act-btn act-view"  onclick="viewOrder('+o.id+')"     title="View"><i class="fas fa-eye"></i></button>'
-        +'<button class="act-btn act-edit"  onclick="openNewOrder('+o.id+')"  title="Edit"><i class="fas fa-pen"></i></button>'
-        +'<button class="act-btn" style="background:#e8f5e9;color:#2e7d32;" onclick="exportRowExcel('+o.id+')" title="Excel"><i class="fas fa-file-excel"></i></button>'
-        +'<button class="act-btn" style="background:#fce4e4;color:#c62828;" onclick="exportRowPDF('+o.id+')"   title="PDF"><i class="fas fa-file-pdf"></i></button>'
-        +'<button class="act-btn" style="background:#fff7ed;color:#9a3412;" onclick="openLogModal('+o.id+')"   title="Log"><i class="fas fa-clipboard-list"></i></button>'
-      +'</div></td>'
-      +'</tr>';
-  });
+  // paged.forEach(function(o){
+  //   var imgs='';
+  //   o.lineItems.slice(0,3).forEach(function(it){
+  //     imgs += it.image
+  //       ? '<img src="'+it.image+'" class="thumb-img" onerror="this.style.display=\'none\'">'
+  //       : '<div class="thumb-placeholder"><i class="fas fa-spray-can"></i></div>';
+  //   });
+  //   if(o.lineItems.length>3) imgs+='<div class="thumb-more">+'+(o.lineItems.length-3)+'</div>';
+  //   var totalItems=o.lineItems.reduce(function(a,it){return a+it.qty;},0);
+  //   html+='<tr>'
+  //     +'<td><div class="thumb-stack">'+imgs+'</div></td>'
+  //     +'<td><span class="order-num">'+o.orderNum+'</span></td>'
+  //     +'<td style="white-space:nowrap;">'+fmtDate(o.orderDate)+'</td>'
+  //     +'<td class="text-center">'+totalItems+'</td>'
+  //     +'<td class="text-center">'+getOrderStock(o)+'</td>'
+  //     +'<td style="font-size:12px;color:var(--text-muted);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+(o.address||'')+'">'+( o.address||'—')+'</td>'
+  //     +'<td class="text-center">'+statusBadge(o.status)+'</td>'
+  //     +'<td class="text-right font-bold">'+fmt(o.total)+'</td>'
+  //     +'<td><div class="act-group">'
+  //       +'<button class="act-btn act-view"  onclick="viewOrder('+o.id+')"     title="View"><i class="fas fa-eye"></i></button>'
+  //       +'<button class="act-btn act-edit"  onclick="openNewOrder('+o.id+')"  title="Edit"><i class="fas fa-pen"></i></button>'
+  //       +'<button class="act-btn" style="background:#e8f5e9;color:#2e7d32;" onclick="exportRowExcel('+o.id+')" title="Excel"><i class="fas fa-file-excel"></i></button>'
+  //       +'<button class="act-btn" style="background:#fce4e4;color:#c62828;" onclick="exportRowPDF('+o.id+')"   title="PDF"><i class="fas fa-file-pdf"></i></button>'
+  //       +'<button class="act-btn" style="background:#fff7ed;color:#9a3412;" onclick="openLogModal('+o.id+')"   title="Log"><i class="fas fa-clipboard-list"></i></button>'
+  //     +'</div></td>'
+  //     +'</tr>';
+  // });
+
+ paged.forEach(function(o){
+  var firstImgItem = o.lineItems.find(function(it){ return it.image; });
+  var catalog = BRAND_CATALOG[o.brand] || [];
+  var imgSrc = firstImgItem ? firstImgItem.image : (catalog.length ? catalog[0].image : '');
+  var photoCell = imgSrc
+    ? '<img src="'+imgSrc+'" style="width:44px;height:56px;object-fit:cover;border-radius:8px;border:2px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.1);" onerror="this.outerHTML=\'<div style=&quot;width:44px;height:44px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:18px;&quot;><i class=&quot;fas fa-spray-can&quot;></i></div>\'">'
+    : '<div style="width:44px;height:44px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:18px;"><i class="fas fa-spray-can"></i></div>';
+
+  var bc = BRAND_COLORS[o.brand] || { bg:'var(--gold-light)', color:'var(--gold-dark)', border:'var(--gold-border)', dot:'var(--gold)' };
+  var brandBadge = '<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;background:'+bc.bg+';color:'+bc.color+';border:1px solid '+bc.border+';">'
+    // +'<span style="width:6px;height:6px;border-radius:50%;background:'+bc.dot+';display:inline-block;flex-shrink:0;"></span>'
+    +o.brand+'</span>';
+
+  var totalItems = o.lineItems.reduce(function(a,it){ return a+it.qty; }, 0);
+
+  // ← Evalúa status DESPUÉS del sync
+  var sNorm      = normalizeStatus(o.status);
+  var isApproved = sNorm === 'approved';
+  var isPlaced   = sNorm === 'placed';
+
+  // Botones de acción según status
+  var actionBtns = '<button class="act-btn act-view" onclick="viewOrder('+o.id+')" title="View"><i class="fas fa-eye"></i></button>';
+
+  // Edit: oculto si placed
+  if(!isPlaced){
+    actionBtns += '<button class="act-btn act-edit" onclick="openNewOrder('+o.id+')" title="Edit"><i class="fas fa-pen"></i></button>';
+  }
+
+  actionBtns += '<button class="act-btn" style="background:#e8f5e9;color:#2e7d32;" onclick="exportRowExcel('+o.id+')" title="Excel"><i class="fas fa-file-excel"></i></button>';
+  actionBtns += '<button class="act-btn" style="background:#fce4e4;color:#c62828;" onclick="exportRowPDF('+o.id+')" title="PDF"><i class="fas fa-file-pdf"></i></button>';
+  actionBtns += '<button class="act-btn" style="background:#fff7ed;color:#9a3412;" onclick="openLogModal('+o.id+')" title="Log"><i class="fas fa-clipboard-list"></i></button>';
+
+  // Place: solo si approved, oculto si placed
+  if(isApproved){
+    actionBtns += '<button class="act-btn" style="background:#d1fae5;color:#065f46;font-size:11px;width:auto;padding:0 10px;gap:4px;white-space:nowrap;" onclick="placeOrder('+o.id+')" title="Place Order"><i class="fas fa-play"></i> Place Order</button>';
+  }
+
+  html += '<tr'+(isPlaced?' style="opacity:0.65;background:#f9fafb;"':'')+'>  '
+    +'<td style="width:60px;">'+photoCell+'</td>'
+    +'<td>'+brandBadge+'</td>'
+    +'<td><span class="order-num">'+o.orderNum+'</span></td>'
+    +'<td style="white-space:nowrap;">'+fmtDate(o.orderDate)+'</td>'
+    +'<td class="text-center">'+totalItems+'</td>'
+    +'<td class="text-center">'+getOrderStock(o)+'</td>'
+    +'<td style="font-size:12px;color:var(--text-muted);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+(o.address||'')+'">'+( o.address||'—')+'</td>'
+    +'<td class="text-center">'+statusBadge(o.status, sNorm==='rejected' ? getOrderRejectedReason(o) : '')+'</td>'
+    +'<td class="text-right font-bold">'+fmt(o.total)+'</td>'
+    +'<td><div class="act-group">'+actionBtns+'</div></td>'
+    +'</tr>';
+});
   tbody.innerHTML=html;
   document.getElementById('pageInfo').textContent=
     'Showing '+(((boPage-1)*BO_PER_PAGE)+1)+'-'+Math.min(boPage*BO_PER_PAGE,filtered.length)+' of '+filtered.length;
@@ -724,14 +1495,30 @@ function render(){
   document.getElementById('pageBtns').innerHTML=btns;
 }
 function goPage(p){boPage=p;render();}
+
+// function updateStats(filtered){
+//   var inProg=filtered.filter(function(o){return normalizeStatus(o.status)==='pending';}).length;
+//   var recv  =filtered.filter(function(o){return normalizeStatus(o.status)==='approved';}).length;
+//   var total =filtered.reduce(function(a,o){return a+o.total;},0);
+//   document.getElementById('sTotalOrders').textContent=filtered.length;
+//   document.getElementById('sInProgress').textContent=inProg;
+//   document.getElementById('sReceived').textContent=recv;
+//   document.getElementById('sTotalValue').textContent=fmt(total);
+// }
+
 function updateStats(filtered){
-  var inProg=filtered.filter(function(o){return normalizeStatus(o.status)==='pending';}).length;
-  var recv  =filtered.filter(function(o){return normalizeStatus(o.status)==='approved';}).length;
-  var total =filtered.reduce(function(a,o){return a+o.total;},0);
-  document.getElementById('sTotalOrders').textContent=filtered.length;
-  document.getElementById('sInProgress').textContent=inProg;
-  document.getElementById('sReceived').textContent=recv;
-  document.getElementById('sTotalValue').textContent=fmt(total);
+  var inProg    = filtered.filter(function(o){ return normalizeStatus(o.status) === 'pending';  }).length;
+  var recv      = filtered.filter(function(o){ return normalizeStatus(o.status) === 'approved'; }).length;
+  var rejected  = filtered.filter(function(o){ return normalizeStatus(o.status) === 'rejected'; }).length;
+  var adjusted  = filtered.filter(function(o){ return normalizeStatus(o.status) === 'adjusted'; }).length;
+  var total     = filtered.reduce(function(a,o){ return a + o.total; }, 0);
+
+  document.getElementById('sTotalOrders').textContent = filtered.length;
+  document.getElementById('sInProgress').textContent  = inProg;
+  document.getElementById('sReceived').textContent    = recv;
+  document.getElementById('sTotalValue').textContent  = fmt(total);
+  var rejEl = document.getElementById('sRejected');  if(rejEl) rejEl.textContent = rejected;
+  var adjEl = document.getElementById('sAdjusted');  if(adjEl) adjEl.textContent = adjusted;
 }
 
 /* ═══════════════════════════════════════
@@ -932,55 +1719,49 @@ function removeProduct(sku){
    OPEN NEW / EDIT ORDER MODAL
 ═══════════════════════════════════════ */
 function openNewOrder(id){
-  selectedProducts={};
-  selectedProductsState={};
+  selectedProducts = {};
+  selectedProductsState = {};
   clearOrderForm();
 
   if(id){
-    /* ── EDIT MODE ── */
-    var o=ordersData.find(function(x){return x.id===id;});
+    var o = ordersData.find(function(x){ return x.id === id; });
     if(!o) return;
-    editingOrderId=id;
-    document.getElementById('modalTitle').textContent='Edit Order — '+o.orderNum;
-    document.getElementById('fOrderNum').value=o.orderNum;
-    document.getElementById('fOrderDate').value=o.orderDate;
-    document.getElementById('fNotes').value=o.notes||'';
+    editingOrderId = id;
+    currentBrand = o.brand;                          // ← setea el brand de la orden
+    document.getElementById('modalTitle').textContent = 'Edit Order — ' + o.orderNum;
+    document.getElementById('fOrderNum').value = o.orderNum;
+    document.getElementById('fOrderDate').value = o.orderDate;
+    document.getElementById('fNotes').value = o.notes || '';
+    populateBrandSelect(o.brand);                    // ← llena y selecciona
 
     o.lineItems.forEach(function(it, idx){
-      selectedProducts[it.sku]=it.qty;
-
+      selectedProducts[it.sku] = it.qty;
       if(typeof it.available !== 'undefined'){
-        /* State was previously saved manually — restore it */
-        selectedProductsState[it.sku]={
-          available: it.available,
-          comment:   it.unavailableReason||''
-        };
+        selectedProductsState[it.sku] = { available: it.available, comment: it.unavailableReason || '' };
       } else {
-        /* Derive state from stock log */
-        if(typeof it.availableQty !== 'number'){
-          it.availableQty=estimateAvailableQty(o,it,idx);
-        }
-        var canFulfill=it.availableQty>=it.qty;
-        selectedProductsState[it.sku]={
+        if(typeof it.availableQty !== 'number') it.availableQty = estimateAvailableQty(o, it, idx);
+        var canFulfill = it.availableQty >= it.qty;
+        selectedProductsState[it.sku] = {
           available: canFulfill,
-          comment:   canFulfill ? '' : (it.availableQty===0
-            ? 'Out of stock'
-            : 'Only '+it.availableQty+' units available, '+it.qty+' requested')
+          comment: canFulfill ? '' : (it.availableQty === 0 ? 'Out of stock' : 'Only ' + it.availableQty + ' units available, ' + it.qty + ' requested')
         };
       }
     });
   } else {
-    /* ── NEW MODE ── */
-    editingOrderId=null;
-    document.getElementById('modalTitle').textContent='New Purchase Order';
-    document.getElementById('fOrderNum').value=genOrderNum();
-    document.getElementById('fOrderDate').value=todayISO();
+    editingOrderId = null;
+    // Usa el primer brand disponible como default
+    var firstBrand = Object.keys(BRAND_CATALOG)[0] || '';
+    currentBrand = firstBrand;
+    document.getElementById('modalTitle').textContent = 'New Purchase Order';
+    document.getElementById('fOrderNum').value = genOrderNum();
+    document.getElementById('fOrderDate').value = todayISO();
+    populateBrandSelect(firstBrand);                 // ← llena y selecciona el primero
   }
 
   buildProductGrid();
   buildSelectionSummary();
   document.getElementById('orderModal').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
 
 function clearOrderForm(){
@@ -1001,91 +1782,336 @@ function closeOrderModal(e){
    SUBMIT ORDER
 ═══════════════════════════════════════ */
 function submitOrder(){
-  var orderNum=document.getElementById('fOrderNum').value.trim();
-  var orderDate=document.getElementById('fOrderDate').value;
-  if(!orderNum){showToast('Please enter an order number.');return;}
-  if(!orderDate){showToast('Please enter the order date.');return;}
-  if(Object.keys(selectedProducts).length===0){showToast('Please select at least one product.');return;}
+  var orderNum  = document.getElementById('fOrderNum').value.trim();
+  var orderDate = document.getElementById('fOrderDate').value;
+  var fBrand    = document.getElementById('fBrand');
+  var brand     = fBrand ? fBrand.value : currentBrand;
 
-  var catalog=BRAND_CATALOG[currentBrand]||[];
-  var lineItems=Object.keys(selectedProducts).map(function(sku){
-    var prod=catalog.find(function(p){return p.sku===sku;});
-    var state=selectedProductsState[sku]||{available:true,comment:''};
-    // Preserve existing availableQty if editing
-    var existingAvailQty=undefined;
+  if(!orderNum)   { showToast('Please enter an order number.'); return; }
+  if(!orderDate)  { showToast('Please enter the order date.');  return; }
+  if(!brand)      { showToast('Please select a brand.');        return; }
+  if(Object.keys(selectedProducts).length === 0){ showToast('Please select at least one product.'); return; }
+
+  var catalog = BRAND_CATALOG[brand] || [];
+  var lineItems = Object.keys(selectedProducts).map(function(sku){
+    var prod  = catalog.find(function(p){ return p.sku === sku; });
+    var state = selectedProductsState[sku] || { available:true, comment:'' };
+    var existingAvailQty = undefined;
     if(editingOrderId){
-      var orig=ordersData.find(function(o){return o.id===editingOrderId;});
-      if(orig){var oi=orig.lineItems.find(function(it){return it.sku===sku;});if(oi)existingAvailQty=oi.availableQty;}
+      var orig = ordersData.find(function(o){ return o.id === editingOrderId; });
+      if(orig){
+        var oi = orig.lineItems.find(function(it){ return it.sku === sku; });
+        if(oi) existingAvailQty = oi.availableQty;
+      }
     }
     return {
-      name:prod.name, sku:sku, qty:selectedProducts[sku],
-      unitPrice:prod.price, lineTotal:prod.price*selectedProducts[sku], image:prod.image,
-      available:state.available, unavailableReason:state.comment,
-      availableQty:existingAvailQty
+      name: prod.name, sku: sku, qty: selectedProducts[sku],
+      unitPrice: prod.price, lineTotal: prod.price * selectedProducts[sku],
+      image: prod.image,
+      available: state.available,
+      unavailableReason: state.comment,
+      availableQty: existingAvailQty
     };
   });
-  var total=lineItems.reduce(function(a,it){return a+it.lineTotal;},0);
-  var order={
-    id:editingOrderId||Date.now(),
-    orderNum:orderNum, orderDate:orderDate,
-    company:'', contact:'', email:'', phone:'', address:'', payment:'',
-    notes:document.getElementById('fNotes').value,
-    lineItems:lineItems, total:total, status:'pending', brand:currentBrand
+
+  var total = lineItems
+    .filter(function(it){ return it.available !== false; })
+    .reduce(function(a, it){ return a + it.lineTotal; }, 0);
+
+  var order = {
+    id:           editingOrderId || Date.now(),
+    orderNum:     orderNum,
+    orderDate:    orderDate,
+    deliveryDate: (document.getElementById('fDeliveryDate') || {}).value || '',
+    company:      (document.getElementById('fCompany')      || {}).value || '',
+    contact:      (document.getElementById('fContact')      || {}).value || '',
+    email:        (document.getElementById('fEmail')        || {}).value || '',
+    phone:        (document.getElementById('fPhone')        || {}).value || '',
+    address:      (document.getElementById('fAddress')      || {}).value || '',
+    payment:      (document.getElementById('fPayment')      || {}).value || '',
+    currency:     (document.getElementById('fCurrency')     || {}).value || 'USD',
+    paymentNotes: (document.getElementById('fPaymentNotes') || {}).value || '',
+    notes:        document.getElementById('fNotes').value,
+    lineItems:    lineItems,
+    total:        total,
+    status:       'pending',      // ← siempre pending al guardar/editar
+    rejectedReason: '',           // ← limpia razón de rechazo
+    brand:        brand
   };
+
   if(editingOrderId){
-    var idx=ordersData.findIndex(function(o){return o.id===editingOrderId;});
-    if(idx>-1){order.status=ordersData[idx].status;ordersData[idx]=order;}
-    showToast('Order updated successfully!');
+    var idx = ordersData.findIndex(function(o){ return o.id === editingOrderId; });
+    if(idx > -1) ordersData[idx] = order;
+    showToast('Order updated — status reset to Pending.');
   } else {
     ordersData.unshift(order);
-    showToast('Order placed successfully!');
+    showToast('Pre-order created successfully!');
   }
-  closeOrderModal();boPage=1;render();
+
+  document.getElementById('orderModal').classList.remove('open');
+  document.body.style.overflow = '';
+  editingOrderId = null;
+  boPage = 1;
+  render();
 }
 
 /* ═══════════════════════════════════════
    VIEW ORDER MODAL
 ═══════════════════════════════════════ */
+var viewingOrderId = null;
+var viewingOrderId = null;
+var placingOrderId = null;
+
 function viewOrder(id){
-  var o=ordersData.find(function(x){return x.id===id;});
+  viewingOrderId = id;
+  var o = ordersData.find(function(x){ return x.id === id; });
   if(!o) return;
-  var itemsHtml=o.lineItems.map(function(it){
-    return '<div class="view-line" style="'+(it.available===false?'opacity:0.5;background:#fef2f2;':'')+'">'
-      +(it.image?'<img src="'+it.image+'" onerror="this.style.display=\'none\'">':'')
-      +'<div class="view-line-ph" style="'+(it.image?'display:none':'')+'"><i class="fas fa-spray-can"></i></div>'
-      +'<div class="view-line-info">'
-        +'<div class="view-line-name" style="'+(it.available===false?'text-decoration:line-through;color:#9ca3af;':'')+'">'+it.name+'</div>'
-        +'<div class="view-line-sku">'+it.sku+'</div>'
-        +(it.available===false&&it.unavailableReason?'<div style="font-size:11px;color:#dc2626;margin-top:2px;"><i class="fas fa-ban"></i> '+it.unavailableReason+'</div>':'')
-      +'</div>'
-      +'<div class="view-line-right">'
-        +'<div class="view-line-qty">QTY: '+it.qty+'</div>'
-        +'<div class="view-line-price">'+fmt(it.lineTotal)+'</div>'
-      +'</div>'
-      +'</div>';
-  }).join('');
-  document.getElementById('viewModalContent').innerHTML=
+
+  var statusNorm = normalizeStatus(o.status);
+  var reason = getOrderRejectedReason(o);
+
+  // ── Panel de ajuste con checkboxes por producto
+  var adjustedPanel = '';
+  if(statusNorm === 'adjusted' && o.adjustments && o.adjustments.length){
+    var adjRows = o.adjustments.map(function(adj, idx){
+      var changed    = adj.adjQty !== adj.origQty || adj.adjPrice !== adj.origPrice;
+      var checkId    = 'adj_check_' + id + '_' + idx;
+      var noStock    = adj.adjQty === 0;
+      var defaultChk = !noStock; // preseleccionado si tiene stock
+
+      return '<div class="adjusted-item" style="align-items:flex-start;gap:12px;">'
+        + '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding-top:2px;flex-shrink:0;">'
+          + '<input type="checkbox" id="'+checkId+'" '+(defaultChk&&!noStock?'checked':'')+' '+(noStock?'disabled':'')+' '
+            + 'style="width:16px;height:16px;accent-color:rgb(171,160,110);cursor:'+(noStock?'not-allowed':'pointer')+';" '
+            + 'onchange="recalcAdjTotal('+id+')">'
+        + '</label>'
+        + '<div style="flex:1;">'
+          + '<div style="display:flex;justify-content:space-between;align-items:center;">'
+            + '<div>'
+              + '<div class="adjusted-item-name" style="'+(noStock?'color:#9ca3af;text-decoration:line-through;':'')+'">'+adj.name+'</div>'
+              + (adj.note ? '<div class="adj-note"><i class="fas fa-info-circle"></i> '+adj.note+'</div>' : '')
+            + '</div>'
+            + '<div class="adjusted-item-change">'
+              + (noStock
+                  ? '<span style="color:#dc2626;font-size:12px;font-weight:600;"><i class="fas fa-times-circle"></i> Out of stock</span>'
+                  : changed
+                    ? '<span class="adj-orig">x'+adj.origQty+' — '+fmt(adj.origQty*adj.origPrice)+'</span>'
+                      + '<span class="adj-arrow"><i class="fas fa-arrow-right"></i></span>'
+                      + '<span class="adj-new">x'+adj.adjQty+' — '+fmt(adj.adjLineTotal)+'</span>'
+                    : '<span style="color:#15803d;font-weight:600;">x'+adj.adjQty+' — '+fmt(adj.adjLineTotal)+' ✓</span>')
+            + '</div>'
+          + '</div>'
+        + '</div>'
+      + '</div>';
+    }).join('');
+
+    // Calcular total inicial
+    var initialTotal = o.adjustments.reduce(function(a, adj, idx){
+      var noStock = adj.adjQty === 0;
+      return noStock ? a : a + adj.adjLineTotal;
+    }, 0);
+
+    adjustedPanel = '<div class="adjusted-banner">'
+      + '<div class="adjusted-banner-title"><i class="fas fa-sliders-h"></i> Brand Adjustment — Select products you want</div>'
+      + (o.adjustmentNote ? '<div style="font-size:12px;margin-bottom:10px;"><i class="fas fa-comment-alt" style="margin-right:5px;"></i>'+o.adjustmentNote+'</div>' : '')
+      + '<div style="font-size:11px;margin-bottom:12px;padding:8px 10px;background:rgb(171 160 110 / 12%);border-radius:6px;">'
+        + '<i class="fas fa-info-circle" style="margin-right:5px;"></i>'
+        + 'Check the products you want to keep. Unchecked items will be removed. You can also add new products after accepting.'
+      + '</div>'
+      + adjRows
+      + '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid #c7d2fe;">'
+        + '<div>'
+          + '<div style="font-size:11px;margin-bottom:2px;">Selected total</div>'
+          + '<div style="font-size:15px;font-weight:700;;" id="adjLiveTotal_'+id+'">'+fmt(initialTotal)+'</div>'
+        + '</div>'
+        + '<div style="display:flex;gap:8px;">'
+          + '<button onclick="acceptAdjustmentWithSelection('+id+')" style="background:rgb(171,160,110);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;" onmouseover="this.style.background=\'rgb(171,160,110)\'" onmouseout="this.style.background=\'rgb(171,160,110)\'">'
+            + '<i class="fas fa-check"></i> Accept & Continue'
+          + '</button>'
+        + '</div>'
+      + '</div>'
+    + '</div>';
+  }
+
+  // ── Items list (para placed/approved/pending/rejected muestra normal)
+  var itemsHtml = (statusNorm === 'adjusted' && o.adjustments
+    ? o.adjustments.map(function(adj){
+        var changed = adj.adjQty !== adj.origQty;
+        var noStock = adj.adjQty === 0;
+        return '<div class="view-line" style="'+(noStock?'opacity:0.4;background:#fef2f2;':changed?'background:#f5f3ff;border-left:3px solid rgb(171,160,110);':'')+'">'
+          + '<div class="view-line-ph"><i class="fas fa-spray-can"></i></div>'
+          + '<div class="view-line-info">'
+            + '<div class="view-line-name" style="'+(noStock?'text-decoration:line-through;color:#9ca3af;':'')+'">'+adj.name+'</div>'
+            + '<div class="view-line-sku">'+adj.sku+'</div>'
+            + (noStock ? '<div style="font-size:11px;color:#dc2626;margin-top:2px;"><i class="fas fa-times-circle"></i> Out of stock</div>'
+               : changed ? '<div style="font-size:11px;color:#6366f1;margin-top:2px;"><i class="fas fa-edit"></i> Qty adjusted: '+adj.origQty+' → '+adj.adjQty+'</div>' : '')
+          + '</div>'
+          + '<div class="view-line-right">'
+            + '<div class="view-line-qty">QTY: '+(noStock?'<span style="color:#dc2626;">0</span>':adj.adjQty)+'</div>'
+            + '<div class="view-line-price">'+fmt(adj.adjLineTotal)+'</div>'
+          + '</div>'
+          + '</div>';
+      }).join('')
+    : o.lineItems.map(function(it){
+        return '<div class="view-line" style="'+(it.available===false?'opacity:0.5;background:#fef2f2;':'')+'">'
+          + (it.image ? '<img src="'+it.image+'" onerror="this.style.display=\'none\'">' : '')
+          + '<div class="view-line-ph" style="'+(it.image?'display:none':'')+'"><i class="fas fa-spray-can"></i></div>'
+          + '<div class="view-line-info">'
+            + '<div class="view-line-name" style="'+(it.available===false?'text-decoration:line-through;color:#9ca3af;':'')+'">'+it.name+'</div>'
+            + '<div class="view-line-sku">'+it.sku+'</div>'
+            + (it.available===false&&it.unavailableReason?'<div style="font-size:11px;color:#dc2626;margin-top:2px;"><i class="fas fa-ban"></i> '+it.unavailableReason+'</div>':'')
+          + '</div>'
+          + '<div class="view-line-right">'
+            + '<div class="view-line-qty">QTY: '+it.qty+'</div>'
+            + '<div class="view-line-price">'+fmt(it.lineTotal)+'</div>'
+          + '</div>'
+          + '</div>';
+      }).join('')
+  );
+
+  var displayTotal = (statusNorm === 'adjusted' && o.adjustments)
+    ? o.adjustments.reduce(function(a,adj){ return a + adj.adjLineTotal; }, 0)
+    : o.total;
+
+  document.getElementById('viewModalContent').innerHTML =
     '<div class="view-section">'
-      +'<div class="msec-title"><i class="fas fa-info-circle"></i> Order Information</div>'
-      +'<div class="view-grid">'
-        +'<div class="view-item"><div class="view-item-label">Order #</div><div class="view-item-val" style="font-family:monospace;color:var(--gold);">'+o.orderNum+'</div></div>'
-        +'<div class="view-item"><div class="view-item-label">Status</div><div class="view-item-val">'+statusBadge(o.status)+'</div></div>'
-        +'<div class="view-item"><div class="view-item-label">Order Date</div><div class="view-item-val">'+fmtDate(o.orderDate)+'</div></div>'
-        +(o.notes?'<div class="view-item full"><div class="view-item-label">Notes</div><div class="view-item-val" style="font-weight:400;">'+o.notes+'</div></div>':'')
-      +'</div>'
-    +'</div>'
-    +'<div class="view-section">'
-      +'<div class="msec-title"><i class="fas fa-box"></i> Items Ordered</div>'
-      +'<div class="view-items-list">'+itemsHtml+'</div>'
-      +'<div class="order-total-row" style="margin-top:12px;">'
-        +'<span class="order-total-label">Order Total:</span>'
-        +'<span class="order-total-val">'+fmt(o.total)+'</span>'
-      +'</div>'
-    +'</div>';
-  document.getElementById('viewEditBtn').onclick=function(){closeViewModal();openNewOrder(id);};
+      + '<div class="msec-title"><i class="fas fa-info-circle"></i> Order Information</div>'
+      + '<div class="view-grid">'
+        + '<div class="view-item"><div class="view-item-label">Order #</div><div class="view-item-val" style="font-family:monospace;color:var(--gold);">'+o.orderNum+'</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Status</div><div class="view-item-val">'+statusBadge(o.status, reason)+'</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Order Date</div><div class="view-item-val">'+fmtDate(o.orderDate)+'</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Brand</div><div class="view-item-val">'+o.brand+'</div></div>'
+        + (o.notes?'<div class="view-item full"><div class="view-item-label">Notes</div><div class="view-item-val" style="font-weight:400;">'+o.notes+'</div></div>':'')
+      + '</div>'
+    + '</div>'
+    + adjustedPanel
+    + '<div class="view-section">'
+      + '<div class="msec-title"><i class="fas fa-box"></i> Items Ordered</div>'
+      + '<div class="view-items-list">'+itemsHtml+'</div>'
+      + '<div class="order-total-row" style="margin-top:12px;">'
+        + '<span class="order-total-label">Order Total:</span>'
+        + '<span class="order-total-val">'+fmt(displayTotal)+'</span>'
+      + '</div>'
+    + '</div>';
+
+  // Controlar botones según status
+  var rejectBtn = document.getElementById('viewRejectBtn');
+  var editBtn   = document.getElementById('viewEditBtn');
+
+  if(statusNorm === 'placed'){
+    if(rejectBtn) rejectBtn.style.display = 'none';
+    if(editBtn)   editBtn.style.display   = 'none';
+  } else if(statusNorm === 'approved'){
+    if(rejectBtn) rejectBtn.style.display = 'none';
+    if(editBtn)   editBtn.style.display   = 'flex';
+  } else {
+    if(rejectBtn) rejectBtn.style.display = 'flex';
+    if(editBtn)   editBtn.style.display   = 'flex';
+  }
+
+  document.getElementById('viewEditBtn').onclick = function(){ closeViewModal(); openNewOrder(id); };
   document.getElementById('viewModal').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
+
+
+
+
+/* Recalcula el total en vivo al marcar/desmarcar checkboxes */
+function recalcAdjTotal(orderId){
+  var o = ordersData.find(function(x){ return x.id === orderId; });
+  if(!o || !o.adjustments) return;
+  var total = 0;
+  o.adjustments.forEach(function(adj, idx){
+    var cb = document.getElementById('adj_check_' + orderId + '_' + idx);
+    if(cb && cb.checked) total += adj.adjLineTotal;
+  });
+  var el = document.getElementById('adjLiveTotal_' + orderId);
+  if(el) el.textContent = fmt(total);
+}
+
+/* Acepta el ajuste con la selección del usuario y abre el modal de edición */
+function acceptAdjustmentWithSelection(id){
+  var o = ordersData.find(function(x){ return x.id === id; });
+  if(!o || !o.adjustments) return;
+
+  // Filtra solo los productos que el usuario seleccionó
+  var selectedAdjs = o.adjustments.filter(function(adj, idx){
+    var cb = document.getElementById('adj_check_' + id + '_' + idx);
+    return cb && cb.checked;
+  });
+
+  if(selectedAdjs.length === 0){
+    showToast('Please select at least one product.');
+    return;
+  }
+
+  // Aplica la selección a los lineItems
+  // 1. Mantener solo items seleccionados con cantidades ajustadas
+  var newLineItems = [];
+  selectedAdjs.forEach(function(adj){
+    var existing = o.lineItems.find(function(it){ return it.sku === adj.sku; });
+    if(existing){
+      newLineItems.push({
+        name:             existing.name,
+        sku:              existing.sku,
+        qty:              adj.adjQty,
+        unitPrice:        adj.adjPrice,
+        lineTotal:        adj.adjLineTotal,
+        image:            existing.image,
+        availableQty:     adj.adjQty,
+        available:        true,
+        unavailableReason:''
+      });
+    }
+  });
+
+  // 2. Actualiza la orden con los items seleccionados y status pending
+  //    para que el usuario pueda agregar más productos en el modal de edición
+  o.lineItems      = newLineItems;
+  o.total          = newLineItems.reduce(function(a,it){ return a + it.lineTotal; }, 0);
+  o.status         = 'pending';
+  o.adjustments    = null;
+  o.adjustmentNote = '';
+  o.rejectedReason = '';
+
+  closeViewModal();
+  render();
+
+  // 3. Abre automáticamente el modal de edición para que pueda agregar más productos
+  setTimeout(function(){
+    openNewOrder(id);
+    showToast('Selection saved — you can now add more products to compensate.');
+  }, 300);
+}
+
+
+
+
+
+function rejectCurrentOrder(){
+  if(!viewingOrderId) return;
+  var o = ordersData.find(function(x){ return x.id === viewingOrderId; });
+  if(!o) return;
+
+  var reason = prompt('Reason for rejection (optional):') || '';
+  o.status = 'rejected';
+  // Guarda el motivo en los items que no tengan qty suficiente
+  if(reason){
+    o.rejectedReason = reason;
+  } else {
+    o.rejectedReason = getOrderRejectedReason(o) || 'Order rejected';
+  }
+
+  closeViewModal();
+  render();
+  showToast('Order marked as rejected.');
+}
+
+
+
+
+
 function closeViewModal(e){
   if(e&&e.target!==document.getElementById('viewModal')) return;
   document.getElementById('viewModal').classList.remove('open');
@@ -1105,44 +2131,133 @@ function logResponseTag(requested, available, manuallyUnavailable, reason){
 }
 
 function openLogModal(id){
-  var o=ordersData.find(function(x){return x.id===id;});
+  var o = ordersData.find(function(x){ return x.id === id; });
   if(!o) return;
-  // Persist availableQty for consistency
-  o.lineItems.forEach(function(it,idx){
-    if(typeof it.availableQty!=='number') it.availableQty=estimateAvailableQty(o,it,idx);
-  });
-  syncOrderStatusFromLog(o);
-  var rows=o.lineItems.map(function(it){
-    var requested=it.qty||0;
-    var available=it.availableQty;
-    var manuallyUnavail=(it.available===false);
-    var offered=manuallyUnavail?0:Math.min(requested,available);
-    return '<tr>'
-      +'<td><div style="font-weight:600;">'+it.name+'</div>'
-      +'<div style="font-size:11px;color:var(--text-muted);font-family:monospace;">'+it.sku+'</div></td>'
-      +'<td class="text-center">'+requested+'</td>'
-      +'<td class="text-center">'+(manuallyUnavail?'<span style="color:#dc2626;">—</span>':available)+'</td>'
-      +'<td class="text-center">'+offered+'</td>'
-      +'<td>'+logResponseTag(requested,available,manuallyUnavail,it.unavailableReason)+'</td>'
-      +'</tr>';
+
+  var rows = o.lineItems.map(function(it, idx){
+    var requested     = it.qty || 0;
+    var manuallyUnavail = (it.available === false);
+
+    // Usa availableQty real si existe, si no estima
+    var available = typeof it.availableQty === 'number'
+      ? it.availableQty
+      : estimateAvailableQty(o, it, idx);
+
+    // Si está manualmente marcado como no disponible → available = 0
+    if(manuallyUnavail) available = 0;
+
+    var canDeliver = manuallyUnavail ? 0 : Math.min(requested, available);
+
+    // Determina el tag de respuesta
+    var responseTag = '';
+    if(manuallyUnavail){
+      responseTag = '<span class="log-status none"><i class="fas fa-ban" style="margin-right:4px;"></i>'
+        + (it.unavailableReason || 'Cannot be sold') + '</span>';
+    } else if(available >= requested){
+      responseTag = '<span class="log-status ok"><i class="fas fa-check" style="margin-right:4px;"></i>Full stock available</span>';
+    } else if(available > 0){
+      responseTag = '<span class="log-status partial"><i class="fas fa-exclamation-triangle" style="margin-right:4px;"></i>'
+        + 'Only ' + available + ' of ' + requested + ' available</span>';
+    } else {
+      responseTag = '<span class="log-status none"><i class="fas fa-times" style="margin-right:4px;"></i>Out of stock</span>';
+    }
+
+    // Color de fila
+    var rowStyle = manuallyUnavail || available < requested
+      ? 'background:#fef9f9;'
+      : '';
+
+    return '<tr style="'+rowStyle+'">'
+      + '<td>'
+        + '<div style="display:flex;align-items:center;gap:10px;">'
+          + (it.image
+              ? '<img src="'+it.image+'" style="width:32px;height:40px;object-fit:cover;border-radius:5px;flex-shrink:0;" onerror="this.style.display=\'none\'">'
+              : '<div style="width:32px;height:32px;border-radius:5px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:12px;"><i class="fas fa-spray-can"></i></div>')
+          + '<div>'
+            + '<div style="font-weight:600;font-size:13px;">' + it.name + '</div>'
+            + '<div style="font-size:11px;color:var(--text-muted);font-family:monospace;">' + it.sku + '</div>'
+          + '</div>'
+        + '</div>'
+      + '</td>'
+      + '<td class="text-center" style="font-weight:600;">' + requested + '</td>'
+      + '<td class="text-center" style="color:' + (available === 0 ? '#dc2626' : available < requested ? '#d97706' : '#15803d') + ';font-weight:600;">'
+        + (manuallyUnavail ? '<span style="color:#dc2626;">—</span>' : available)
+      + '</td>'
+      + '<td class="text-center" style="font-weight:600;color:' + (canDeliver < requested ? '#dc2626' : '#15803d') + ';">' + canDeliver + '</td>'
+      + '<td>' + responseTag + '</td>'
+      + '</tr>';
   }).join('');
-  document.getElementById('logModalContent').innerHTML=
+
+  // Summary del order
+  var totalRequested = o.lineItems.reduce(function(a, it){ return a + it.qty; }, 0);
+  var totalCanDeliver = o.lineItems.reduce(function(a, it, idx){
+    if(it.available === false) return a;
+    var avail = typeof it.availableQty === 'number' ? it.availableQty : estimateAvailableQty(o, it, idx);
+    return a + Math.min(it.qty, avail);
+  }, 0);
+  var fulfillPct = totalRequested > 0 ? Math.round((totalCanDeliver / totalRequested) * 100) : 0;
+  var pctColor = fulfillPct === 100 ? '#15803d' : fulfillPct >= 50 ? '#d97706' : '#dc2626';
+
+  var statusNorm = normalizeStatus(o.status);
+  var reason = getOrderRejectedReason(o);
+
+  document.getElementById('logModalContent').innerHTML =
     '<div class="view-section">'
-      +'<div class="msec-title"><i class="fas fa-boxes"></i> Request vs Brand Availability</div>'
-      +'<div class="view-grid" style="margin-bottom:12px;">'
-        +'<div class="view-item"><div class="view-item-label">Order #</div><div class="view-item-val" style="font-family:monospace;color:var(--gold);">'+o.orderNum+'</div></div>'
-        +'<div class="view-item"><div class="view-item-label">Brand</div><div class="view-item-val">'+o.brand+'</div></div>'
-      +'</div>'
-      +'<div class="log-table-wrap">'
-        +'<table class="log-table">'
-          +'<thead><tr><th>Product</th><th class="text-center">Requested</th><th class="text-center">Available</th><th class="text-center">Can Deliver</th><th>Brand Response</th></tr></thead>'
-          +'<tbody>'+rows+'</tbody>'
-        +'</table>'
-      +'</div>'
-    +'</div>';
+
+      // Header info
+      + '<div class="msec-title"><i class="fas fa-boxes"></i> Request vs Brand Availability</div>'
+      + '<div class="view-grid" style="margin-bottom:16px;">'
+        + '<div class="view-item"><div class="view-item-label">Order #</div><div class="view-item-val" style="font-family:monospace;color:var(--gold);">' + o.orderNum + '</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Brand</div><div class="view-item-val">' + o.brand + '</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Order Date</div><div class="view-item-val">' + fmtDate(o.orderDate) + '</div></div>'
+        + '<div class="view-item"><div class="view-item-label">Status</div><div class="view-item-val">' + statusBadge(o.status, reason) + '</div></div>'
+      + '</div>'
+
+      // Fulfillment summary bar
+      // + '<div style="background:#f9f9f7;border-radius:10px;padding:14px 16px;margin-bottom:16px;border:1px solid var(--border);">'
+      //   // + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
+      //   //   + '<span style="font-size:12px;font-weight:600;color:var(--text-muted);">Fulfillment rate</span>'
+      //   //   + '<span style="font-size:14px;font-weight:700;color:'+pctColor+';">'+fulfillPct+'%</span>'
+      //   // + '</div>'
+      //   // + '<div style="background:#e8e9e9;border-radius:6px;height:8px;overflow:hidden;">'
+      //   //   + '<div style="height:8px;border-radius:6px;background:'+pctColor+';width:'+fulfillPct+'%;transition:width .4s;"></div>'
+      //   // + '</div>'
+      //   + '<div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--text-muted);">'
+      //     + '<span>Can deliver: <strong style="color:var(--text);">'+totalCanDeliver+'</strong> units</span>'
+      //     + '<span>Requested: <strong style="color:var(--text);">'+totalRequested+'</strong> units</span>'
+      //   + '</div>'
+      // + '</div>'
+
+      // Rejection reason banner si aplica
+      + (statusNorm === 'rejected' && reason
+          ? '<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:9px;">'
+              + '<i class="fas fa-times-circle" style="color:#dc2626;margin-top:2px;flex-shrink:0;"></i>'
+              + '<div><div style="font-size:12px;font-weight:700;color:#b91c1c;margin-bottom:2px;">Rejection reason</div>'
+              + '<div style="font-size:12px;color:#7f1d1d;line-height:1.5;">' + reason + '</div></div>'
+            + '</div>'
+          : '')
+
+      // Tabla de productos
+      + '<div class="log-table-wrap">'
+        + '<table class="log-table">'
+          + '<thead><tr>'
+            + '<th style="min-width:200px;">Product</th>'
+            + '<th class="text-center">Requested</th>'
+            + '<th class="text-center">Available</th>'
+            + '<th class="text-center">Can Deliver</th>'
+            + '<th>Brand Response</th>'
+          + '</tr></thead>'
+          + '<tbody>' + rows + '</tbody>'
+        + '</table>'
+      + '</div>'
+
+    + '</div>';
+
   document.getElementById('logModal').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
+
+
 function closeLogModal(e){
   if(e&&e.target!==document.getElementById('logModal')) return;
   document.getElementById('logModal').classList.remove('open');
@@ -1232,9 +2347,9 @@ function showToast(msg){
 ═══════════════════════════════════════ */
 document.addEventListener('niche3ds:brandChanged',function(e){
   currentBrand=e.detail.brand;
-  document.getElementById('brandTitle').textContent=currentBrand;
-  localStorage.setItem('selectedBrand',currentBrand);
-  boPage=1;render();
+  // document.getElementById('brandTitle').textContent=currentBrand;
+  // localStorage.setItem('selectedBrand',currentBrand);
+  // boPage=1;render();
 });
 
 /* ═══════════════════════════════════════
@@ -1254,7 +2369,13 @@ document.addEventListener('click',function(){
    KEYBOARD
 ═══════════════════════════════════════ */
 document.addEventListener('keydown',function(e){
-  if(e.key==='Escape'){closeOrderModal();closeViewModal();closeDateModal();closeLogModal();}
+  if(e.key==='Escape'){
+    closeOrderModal();
+    closeViewModal();
+    closeDateModal();
+    closeLogModal();
+     closePlaceModal();
+  }
 });
 
 /* ═══════════════════════════════════════
@@ -1262,10 +2383,10 @@ document.addEventListener('keydown',function(e){
 ═══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded',function(){
   var savedBrand=localStorage.getItem('selectedBrand');
-  if(savedBrand&&BRAND_CATALOG[savedBrand]){
-    currentBrand=savedBrand;
-    document.getElementById('brandTitle').textContent=savedBrand;
-  }
+  // if(savedBrand&&BRAND_CATALOG[savedBrand]){
+  //   currentBrand=savedBrand;
+  //   document.getElementById('brandTitle').textContent=savedBrand;
+  // }
   render();
 });
 </script>

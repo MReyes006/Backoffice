@@ -294,6 +294,13 @@
         <div><div class="stat-val" id="sReceived"></div><div class="stat-label">Received</div></div>
       </div>
       <div class="stat-card">
+        <div class="stat-icon" style="background:#f0fdf4;color:#065f46;"><i class="fas fa-truck"></i></div>
+        <div>
+          <div class="stat-val" id="sDelivery"></div>
+          <div class="stat-label">Delivery</div>
+        </div>
+      </div>
+      <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
         <div><div class="stat-val" id="sTotalValue"></div><div class="stat-label">Total Invested</div></div>
       </div>
@@ -322,10 +329,16 @@
           </div>
         </div>
         <button class="om-btn" onclick="openDateModal()"><i class="fas fa-sliders-h"></i> Custom Range</button>
-        <div class="status-pills">
+        <!-- <div class="status-pills">
           <div class="status-pill active" data-s="all" onclick="setStatus('all',this)">All</div>
           <div class="status-pill" data-s="in progress" onclick="setStatus('in progress',this)">In Progress</div>
           <div class="status-pill" data-s="received" onclick="setStatus('received',this)">Received</div>
+        </div> -->
+        <div class="status-pills">
+          <div class="status-pill active" data-s="all"         onclick="setStatus('all',this)">All</div>
+          <div class="status-pill"        data-s="in progress" onclick="setStatus('in progress',this)">In Progress</div>
+          <div class="status-pill"        data-s="received"    onclick="setStatus('received',this)">Received</div>
+          <div class="status-pill"        data-s="delivery"    onclick="setStatus('delivery',this)">Delivery</div>
         </div>
       </div>
       <div class="filter-right">
@@ -733,141 +746,188 @@ const BRAND_CATALOG = {
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 // var ordersData = [];
 var ordersData = [
+  // {
+  //   id: 1,
+  //   orderNum: 'PO-2026-001',
+  //   orderDate: '2026-03-10',
+  //   deliveryDate: '2026-03-25',
+  //   company: 'Niche305 LLC',
+  //   contact: 'Francis SÃ¡nchez',
+  //   email: 'orders@niche305.com',
+  //   phone: '+1 (305) 555-0100',
+  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment: 'Bank Transfer',
+  //   currency: 'USD',
+  //   paymentNotes: 'REF-2026-001',
+  //   notes: 'Please include packing list inside each box.',
+  //   status: 'In Progress',
+  //   brand: 'Brand Demo',
+  //   lineItems: [
+  //     { name:'Demo1',  sku:'07F-0067F-PARF-100ML', qty:12, unitPrice:210.00, lineTotal:2520.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Demo2',       sku:'07F-0067G-PARF-100ML', qty:6,  unitPrice:175.00, lineTotal:1050.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Incense Oudh',  sku:'07F-00684-PARF-100ML', qty:8,  unitPrice:195.00, lineTotal:1560.00, image:'../../img/Brand_Demo.webp' },
+  //   ],
+  //   total: 5130.00
+  // },
+  // {
+  //   id: 2,
+  //   orderNum: 'PO-2026-002',
+  //   orderDate: '2026-02-15',
+  //   deliveryDate: '2026-03-01',
+  //   company: 'Niche305 LLC',
+  //   contact: 'Francis SÃ¡nchez',
+  //   email: 'orders@niche305.com',
+  //   phone: '+1 (305) 555-0100',
+  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment: 'Net 30',
+  //   currency: 'USD',
+  //   paymentNotes: 'Net 30 â€” Invoice #INV-2026-014',
+  //   notes: '',
+  //   status: 'Received',
+  //   brand: 'Brand Demo',
+  //   lineItems: [
+  //     { name:'Demon3',       sku:'07F-00683-PARF-100ML', qty:10, unitPrice:185.00, lineTotal:1850.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Madam Oudh',   sku:'07F-00682-PARF-100ML', qty:5,  unitPrice:190.00, lineTotal:950.00,  image:'../../img/Brand_Demo.webp' },
+  //   ],
+  //   total: 2800.00
+  // },
+  // {
+  //   id: 3,
+  //   orderNum: 'PO-2026-003',
+  //   orderDate: '2026-01-20',
+  //   // deliveryDate: '2026-02-10',
+  //   company: 'Niche305 LLC',
+  //   contact: 'Francis SÃ¡nchez',
+  //   email: 'orders@niche305.com',
+  //   phone: '+1 (305) 555-0100',
+  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment: 'Bank Transfer',
+  //   currency: 'USD',
+  //   paymentNotes: 'REF-2026-003',
+  //   notes: 'Fragile â€” handle with care.',
+  //   status: 'Received',
+  //   brand: 'Brand Demo',
+  //   lineItems: [
+  //     { name:'Sphinx',   sku:'07F-0068D-PARF-100ML', qty:8,  unitPrice:200.00, lineTotal:1600.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'HÅ«ma',     sku:'07F-0068B-PARF-100ML', qty:6,  unitPrice:200.00, lineTotal:1200.00, image:'../../img/Brand_Demo.webp' },
+  //     { name:'Divina',   sku:'07F-0067Y-PARF-100ML', qty:4,  unitPrice:190.00, lineTotal:760.00,  image:'../../img/Brand_Demo.webp' },
+  //   ],
+  //   total: 3560.00
+  // },
+  // {
+  //   id: 4,
+  //   orderNum: 'PO-2026-004',
+  //   orderDate: '2026-03-12',
+  //   deliveryDate: '2026-03-28',
+  //   company: 'Niche305 LLC',
+  //   contact: 'Francis SÃ¡nchez',
+  //   email: 'orders@niche305.com',
+  //   phone: '+1 (305) 555-0100',
+  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment: 'Bank Transfer',
+  //   currency: 'EUR',
+  //   paymentNotes: 'REF-2026-004',
+  //   notes: 'First order with La Sabia Madrid. Please include brand catalog.',
+  //   status: 'In Progress',
+  //   brand: 'La Sabia Madrid',
+  //   lineItems: [
+  //     { name:'Verdanza',  sku:'07H-0067E-EDP-100ML', qty:10, unitPrice:171.95, lineTotal:1719.50, image:'../../img/LaSabiaMadrid.webp' },
+  //     { name:'Poderio',   sku:'07H-0067F-EDP-100ML', qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
+  //     { name:'Dos Besos', sku:'07H-0067G-EDP-100ML', qty:6,  unitPrice:171.95, lineTotal:1031.70, image:'../../img/LaSabiaMadrid.webp' },
+  //   ],
+  //   total: 4126.80
+  // },
+  // {
+  //   id: 5,
+  //   orderNum: 'PO-2026-005',
+  //   orderDate: '2026-02-08',
+  //   deliveryDate: '2026-02-25',
+  //   company: 'Niche305 LLC',
+  //   contact: 'Francis SÃ¡nchez',
+  //   email: 'orders@niche305.com',
+  //   phone: '+1 (305) 555-0100',
+  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment: 'Net 30',
+  //   currency: 'EUR',
+  //   paymentNotes: 'Invoice #INV-2026-021',
+  //   notes: '',
+  //   status: 'Received',
+  //   brand: 'La Sabia Madrid',
+  //   lineItems: [
+  //     { name:'Verdanza',         sku:'07H-0067E-EDP-100ML',       qty:12, unitPrice:171.95, lineTotal:2063.40, image:'../../img/LaSabiaMadrid.webp' },
+  //     { name:'Dos Besos Tester', sku:'07H-0067G-EDP-100ML-TST',   qty:4,  unitPrice:94.00,  lineTotal:376.00,  image:'../../img/LaSabiaMadrid.webp' },
+  //   ],
+  //   total: 2439.40
+  // },
+  // {
+  //   id: 6,
+  //   orderNum: 'PO-2026-006',
+  //   orderDate: '2026-01-15',
+  //   deliveryDate: '2026-02-01',
+  //   company: 'Niche305 LLC',
+  //   contact: 'Francis SÃ¡nchez',
+  //   email: 'orders@niche305.com',
+  //   phone: '+1 (305) 555-0100',
+  //   address: '1200 Brickell Ave, Miami, FL 33131, USA',
+  //   payment: 'Bank Transfer',
+  //   currency: 'EUR',
+  //   paymentNotes: 'REF-2026-006',
+  //   notes: 'Include TikTok edition units separately labeled.',
+  //   status: 'Received',
+  //   brand: 'La Sabia Madrid',
+  //   lineItems: [
+  //     { name:'Poderio',              sku:'07H-0067F-EDP-100ML',        qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
+  //     { name:'Dos Besos (TikTok Ed.)',sku:'07H-0067G-EDP-100ML-TKTOK', qty:20, unitPrice:10.00,  lineTotal:200.00,  image:'../../img/LaSabiaMadrid.webp' },
+  //     { name:'Normal',               sku:'07H-0067D-EDP-100ML',        qty:5,  unitPrice:100.00, lineTotal:500.00,  image:'../../img/LaSabiaMadrid.webp' },
+  //   ],
+  //   total: 2075.60
+  // },
+
   {
-    id: 1,
-    orderNum: 'PO-2026-001',
-    orderDate: '2026-03-10',
-    deliveryDate: '2026-03-25',
+    id: 7,
+    orderNum: 'PO-2026-010',
+    orderDate: '2026-02-10',
+    deliveryDate: '2026-02-28',
     company: 'Niche305 LLC',
-    contact: 'Francis SÃ¡nchez',
+    contact: 'Francis Sánchez',
     email: 'orders@niche305.com',
     phone: '+1 (305) 555-0100',
     address: '1200 Brickell Ave, Miami, FL 33131, USA',
     payment: 'Bank Transfer',
     currency: 'USD',
-    paymentNotes: 'REF-2026-001',
-    notes: 'Please include packing list inside each box.',
-    status: 'In Progress',
+    paymentNotes: 'REF-2026-010',
+    notes: 'Express delivery requested.',
+    status: 'Delivery',
     brand: 'Brand Demo',
     lineItems: [
-      { name:'Demo1',  sku:'07F-0067F-PARF-100ML', qty:12, unitPrice:210.00, lineTotal:2520.00, image:'../../img/Brand_Demo.webp' },
-      { name:'Demo2',       sku:'07F-0067G-PARF-100ML', qty:6,  unitPrice:175.00, lineTotal:1050.00, image:'../../img/Brand_Demo.webp' },
-      { name:'Incense Oudh',  sku:'07F-00684-PARF-100ML', qty:8,  unitPrice:195.00, lineTotal:1560.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Fenrir',        sku:'07F-00688-PARF-100ML', qty:10, unitPrice:195.00, lineTotal:1950.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Prajna',        sku:'07F-00686-PARF-100ML', qty:8,  unitPrice:180.00, lineTotal:1440.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Molecule Oudh', sku:'07F-00685-PARF-100ML', qty:6,  unitPrice:185.00, lineTotal:1110.00, image:'../../img/Brand_Demo.webp' },
     ],
-    total: 5130.00
+    total: 4500.00
   },
   {
-    id: 2,
-    orderNum: 'PO-2026-002',
-    orderDate: '2026-02-15',
-    deliveryDate: '2026-03-01',
+    id: 8,
+    orderNum: 'PO-2026-011',
+    orderDate: '2026-01-28',
+    deliveryDate: '2026-02-14',
     company: 'Niche305 LLC',
-    contact: 'Francis SÃ¡nchez',
+    contact: 'Francis Sánchez',
     email: 'orders@niche305.com',
     phone: '+1 (305) 555-0100',
     address: '1200 Brickell Ave, Miami, FL 33131, USA',
     payment: 'Net 30',
-    currency: 'USD',
-    paymentNotes: 'Net 30 â€” Invoice #INV-2026-014',
-    notes: '',
-    status: 'Received',
-    brand: 'Brand Demo',
-    lineItems: [
-      { name:'Demon3',       sku:'07F-00683-PARF-100ML', qty:10, unitPrice:185.00, lineTotal:1850.00, image:'../../img/Brand_Demo.webp' },
-      { name:'Madam Oudh',   sku:'07F-00682-PARF-100ML', qty:5,  unitPrice:190.00, lineTotal:950.00,  image:'../../img/Brand_Demo.webp' },
-    ],
-    total: 2800.00
-  },
-  {
-    id: 3,
-    orderNum: 'PO-2026-003',
-    orderDate: '2026-01-20',
-    // deliveryDate: '2026-02-10',
-    company: 'Niche305 LLC',
-    contact: 'Francis SÃ¡nchez',
-    email: 'orders@niche305.com',
-    phone: '+1 (305) 555-0100',
-    address: '1200 Brickell Ave, Miami, FL 33131, USA',
-    payment: 'Bank Transfer',
-    currency: 'USD',
-    paymentNotes: 'REF-2026-003',
-    notes: 'Fragile â€” handle with care.',
-    status: 'Received',
-    brand: 'Brand Demo',
-    lineItems: [
-      { name:'Sphinx',   sku:'07F-0068D-PARF-100ML', qty:8,  unitPrice:200.00, lineTotal:1600.00, image:'../../img/Brand_Demo.webp' },
-      { name:'HÅ«ma',     sku:'07F-0068B-PARF-100ML', qty:6,  unitPrice:200.00, lineTotal:1200.00, image:'../../img/Brand_Demo.webp' },
-      { name:'Divina',   sku:'07F-0067Y-PARF-100ML', qty:4,  unitPrice:190.00, lineTotal:760.00,  image:'../../img/Brand_Demo.webp' },
-    ],
-    total: 3560.00
-  },
-  {
-    id: 4,
-    orderNum: 'PO-2026-004',
-    orderDate: '2026-03-12',
-    deliveryDate: '2026-03-28',
-    company: 'Niche305 LLC',
-    contact: 'Francis SÃ¡nchez',
-    email: 'orders@niche305.com',
-    phone: '+1 (305) 555-0100',
-    address: '1200 Brickell Ave, Miami, FL 33131, USA',
-    payment: 'Bank Transfer',
     currency: 'EUR',
-    paymentNotes: 'REF-2026-004',
-    notes: 'First order with La Sabia Madrid. Please include brand catalog.',
-    status: 'In Progress',
+    paymentNotes: 'Invoice #INV-2026-008',
+    notes: "Valentine's Day special order.",
+    status: 'Delivery',
     brand: 'La Sabia Madrid',
     lineItems: [
-      { name:'Verdanza',  sku:'07H-0067E-EDP-100ML', qty:10, unitPrice:171.95, lineTotal:1719.50, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Verdanza',  sku:'07H-0067E-EDP-100ML', qty:15, unitPrice:171.95, lineTotal:2579.25, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Dos Besos', sku:'07H-0067G-EDP-100ML', qty:10, unitPrice:171.95, lineTotal:1719.50, image:'../../img/LaSabiaMadrid.webp' },
       { name:'Poderio',   sku:'07H-0067F-EDP-100ML', qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
-      { name:'Dos Besos', sku:'07H-0067G-EDP-100ML', qty:6,  unitPrice:171.95, lineTotal:1031.70, image:'../../img/LaSabiaMadrid.webp' },
     ],
-    total: 4126.80
-  },
-  {
-    id: 5,
-    orderNum: 'PO-2026-005',
-    orderDate: '2026-02-08',
-    deliveryDate: '2026-02-25',
-    company: 'Niche305 LLC',
-    contact: 'Francis SÃ¡nchez',
-    email: 'orders@niche305.com',
-    phone: '+1 (305) 555-0100',
-    address: '1200 Brickell Ave, Miami, FL 33131, USA',
-    payment: 'Net 30',
-    currency: 'EUR',
-    paymentNotes: 'Invoice #INV-2026-021',
-    notes: '',
-    status: 'Received',
-    brand: 'La Sabia Madrid',
-    lineItems: [
-      { name:'Verdanza',         sku:'07H-0067E-EDP-100ML',       qty:12, unitPrice:171.95, lineTotal:2063.40, image:'../../img/LaSabiaMadrid.webp' },
-      { name:'Dos Besos Tester', sku:'07H-0067G-EDP-100ML-TST',   qty:4,  unitPrice:94.00,  lineTotal:376.00,  image:'../../img/LaSabiaMadrid.webp' },
-    ],
-    total: 2439.40
-  },
-  {
-    id: 6,
-    orderNum: 'PO-2026-006',
-    orderDate: '2026-01-15',
-    deliveryDate: '2026-02-01',
-    company: 'Niche305 LLC',
-    contact: 'Francis SÃ¡nchez',
-    email: 'orders@niche305.com',
-    phone: '+1 (305) 555-0100',
-    address: '1200 Brickell Ave, Miami, FL 33131, USA',
-    payment: 'Bank Transfer',
-    currency: 'EUR',
-    paymentNotes: 'REF-2026-006',
-    notes: 'Include TikTok edition units separately labeled.',
-    status: 'Received',
-    brand: 'La Sabia Madrid',
-    lineItems: [
-      { name:'Poderio',              sku:'07H-0067F-EDP-100ML',        qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
-      { name:'Dos Besos (TikTok Ed.)',sku:'07H-0067G-EDP-100ML-TKTOK', qty:20, unitPrice:10.00,  lineTotal:200.00,  image:'../../img/LaSabiaMadrid.webp' },
-      { name:'Normal',               sku:'07H-0067D-EDP-100ML',        qty:5,  unitPrice:100.00, lineTotal:500.00,  image:'../../img/LaSabiaMadrid.webp' },
-    ],
-    total: 2075.60
+    total: 5674.35
   },
 ];
 var nextOrderId = 7;
@@ -915,10 +975,18 @@ function inRange(dateStr){
     default:          return true;
   }
 }
+// function statusBadge(s){
+//   s=(s||'').toLowerCase();
+//   if(s==='received')    return '<span class="badge badge-received"><span class="badge-dot"></span>Received</span>';
+//   if(s==='cancelled')   return '<span class="badge badge-cancelled"><span class="badge-dot"></span>Cancelled</span>';
+//   return '<span class="badge badge-progress"><span class="badge-dot"></span>In Progress</span>';
+// }
+
 function statusBadge(s){
-  s=(s||'').toLowerCase();
-  if(s==='received')    return '<span class="badge badge-received"><span class="badge-dot"></span>Received</span>';
-  if(s==='cancelled')   return '<span class="badge badge-cancelled"><span class="badge-dot"></span>Cancelled</span>';
+  s = (s||'').toLowerCase();
+  if(s === 'received')  return '<span class="badge badge-received"><span class="badge-dot"></span>Received</span>';
+  if(s === 'cancelled') return '<span class="badge badge-cancelled"><span class="badge-dot"></span>Cancelled</span>';
+  if(s === 'delivery')  return '<span class="badge" style="background:#f0fdf4;color:#065f46;border:1px solid #6ee7b7;"><span class="badge-dot"></span>Delivery</span>';
   return '<span class="badge badge-progress"><span class="badge-dot"></span>In Progress</span>';
 }
 function genOrderNum(){
@@ -932,15 +1000,27 @@ function todayISO(){
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    FILTER & RENDER TABLE
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+// function getFiltered(){
+//   return ordersData.filter(function(o){
+//     var q=boSearch.toLowerCase();
+//     var matchBrand = o.brand === currentBrand; 
+//     var matchQ = !q || o.orderNum.toLowerCase().includes(q) ||
+//       o.lineItems.some(function(it){ return it.name.toLowerCase().includes(q); });
+//     var matchS = boStatus==='all' || (o.status||'').toLowerCase()===boStatus;
+//     var matchR = inRange(o.orderDate);
+//    return matchBrand && matchQ && matchS && matchR; 
+//   });
+// }
+
 function getFiltered(){
   return ordersData.filter(function(o){
-    var q=boSearch.toLowerCase();
-    var matchBrand = o.brand === currentBrand; 
+    var q = boSearch.toLowerCase();
     var matchQ = !q || o.orderNum.toLowerCase().includes(q) ||
+      (o.brand||'').toLowerCase().includes(q) ||
       o.lineItems.some(function(it){ return it.name.toLowerCase().includes(q); });
-    var matchS = boStatus==='all' || (o.status||'').toLowerCase()===boStatus;
+    var matchS = boStatus === 'all' || (o.status||'').toLowerCase() === boStatus;
     var matchR = inRange(o.orderDate);
-   return matchBrand && matchQ && matchS && matchR; 
+    return matchQ && matchS && matchR;
   });
 }
 
@@ -1008,15 +1088,30 @@ function render(){
 
 function goPage(p){boPage=p;render();}
 
+// function updateStats(filtered){
+//   var inProg=filtered.filter(function(o){return (o.status||'').toLowerCase()==='in progress';}).length;
+//   var recv=filtered.filter(function(o){return (o.status||'').toLowerCase()==='received';}).length;
+//   var total=filtered.reduce(function(a,o){return a+o.total;},0);
+//   document.getElementById('sTotalOrders').textContent=filtered.length;
+//   document.getElementById('sInProgress').textContent=inProg;
+//   document.getElementById('sReceived').textContent=recv;
+// //   document.getElementById('sTotalValue').textContent=total>=1000?'$'+(total/1000).toFixed(1)+'k':fmt(total);
+//   document.getElementById('sTotalValue').textContent = fmt(total);
+// }
+
 function updateStats(filtered){
-  var inProg=filtered.filter(function(o){return (o.status||'').toLowerCase()==='in progress';}).length;
-  var recv=filtered.filter(function(o){return (o.status||'').toLowerCase()==='received';}).length;
-  var total=filtered.reduce(function(a,o){return a+o.total;},0);
-  document.getElementById('sTotalOrders').textContent=filtered.length;
-  document.getElementById('sInProgress').textContent=inProg;
-  document.getElementById('sReceived').textContent=recv;
-//   document.getElementById('sTotalValue').textContent=total>=1000?'$'+(total/1000).toFixed(1)+'k':fmt(total);
-  document.getElementById('sTotalValue').textContent = fmt(total);
+  var inProg    = filtered.filter(function(o){ return (o.status||'').toLowerCase() === 'in progress'; }).length;
+  var recv      = filtered.filter(function(o){ return (o.status||'').toLowerCase() === 'received';    }).length;
+  var delivery  = filtered.filter(function(o){ return (o.status||'').toLowerCase() === 'delivery';   }).length;
+  var total     = filtered.reduce(function(a,o){ return a + o.total; }, 0);
+
+  document.getElementById('sTotalOrders').textContent = filtered.length;
+  document.getElementById('sInProgress').textContent  = inProg;
+  document.getElementById('sReceived').textContent    = recv;
+  document.getElementById('sTotalValue').textContent  = fmt(total);
+
+  var delEl = document.getElementById('sDelivery');
+  if(delEl) delEl.textContent = delivery;
 }
 
 /* 
@@ -1401,9 +1496,9 @@ function showToast(msg){
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener('niche3ds:brandChanged',function(e){
   currentBrand=e.detail.brand;
-  document.getElementById('brandTitle').textContent=currentBrand;
-  localStorage.setItem('selectedBrand',currentBrand);
-  boPage=1;render();
+  // document.getElementById('brandTitle').textContent=currentBrand;
+  // localStorage.setItem('selectedBrand',currentBrand);
+  // boPage=1;render();
 });
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -1439,23 +1534,23 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeOrderM
    INIT
 â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 document.addEventListener('DOMContentLoaded',function(){
-  var savedBrand=localStorage.getItem('selectedBrand');
-  if(savedBrand&&BRAND_CATALOG[savedBrand]){
-    currentBrand=savedBrand;
-    document.getElementById('brandTitle').textContent=savedBrand;
-  }
+  // var savedBrand=localStorage.getItem('selectedBrand');
+  // if(savedBrand&&BRAND_CATALOG[savedBrand]){
+  //   currentBrand=savedBrand;
+  //   document.getElementById('brandTitle').textContent=savedBrand;
+  // }
 
-  // Nav link activo
-  var currentPage=window.location.pathname.split('/').pop();
-  var activeLink=document.querySelector('a[href*="'+currentPage+'"]');
-  if(activeLink){
-    document.querySelectorAll('.nav-sub-item,.nav-sub-sub-item,.nav-item-standalone').forEach(function(i){i.classList.remove('active');});
-    activeLink.classList.add('active');
-    var grp=activeLink.closest('.nav-group');if(grp)grp.classList.add('open');
-    var subBody=activeLink.closest('.nav-sub-group-body');
-    if(subBody){subBody.style.display='block';var header=subBody.previousElementSibling;
-      if(header){var arrow=header.querySelector('.nav-sub-arrow');if(arrow)arrow.classList.add('open');}}
-  }
+  // // Nav link activo
+  // var currentPage=window.location.pathname.split('/').pop();
+  // var activeLink=document.querySelector('a[href*="'+currentPage+'"]');
+  // if(activeLink){
+  //   document.querySelectorAll('.nav-sub-item,.nav-sub-sub-item,.nav-item-standalone').forEach(function(i){i.classList.remove('active');});
+  //   activeLink.classList.add('active');
+  //   var grp=activeLink.closest('.nav-group');if(grp)grp.classList.add('open');
+  //   var subBody=activeLink.closest('.nav-sub-group-body');
+  //   if(subBody){subBody.style.display='block';var header=subBody.previousElementSibling;
+  //     if(header){var arrow=header.querySelector('.nav-sub-arrow');if(arrow)arrow.classList.add('open');}}
+  // }
 
   render();
 });

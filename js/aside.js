@@ -361,13 +361,13 @@
       + '<div class="user-since">Member since: <span id="sidebarDate">Mar 11, 2026</span></div>'
       // ✅ Dropdown de marca seleccionado
       + '<div class="user-brand-selector">'
-      + '<span style="color: #fff;font-size: 15px;">Selected Brand</span>'
-      + '<select id="brandDropdown" class="brand-dropdown" onchange="AsideNav.onBrandChange(this.value)">'
-      + AVAILABLE_BRANDS.map(function(brand) {
-          var selected = brand === selectedBrand ? ' selected' : '';
-          return '<option value="' + brand + '"' + selected + '>' + brand + '</option>';
-        }).join('')
-      + '</select>'
+      + '<span style="color: #fff;font-size: 15px;">Back Office</span>'
+      // + '<select id="brandDropdown" class="brand-dropdown" onchange="AsideNav.onBrandChange(this.value)">'
+      // + AVAILABLE_BRANDS.map(function(brand) {
+      //     var selected = brand === selectedBrand ? ' selected' : '';
+      //     return '<option value="' + brand + '"' + selected + '>' + brand + '</option>';
+      //   }).join('')
+      // + '</select>'
       + '</div>'
       + '</div>';
 

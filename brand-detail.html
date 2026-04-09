@@ -950,7 +950,14 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
       </div> -->
     </div>
   </div>
-
+  <!-- Overview filters (provider selection) -->
+  <div class="overview-filters" style="margin-bottom:12px;">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <select id="overviewFilterProvider" style="padding:8px 10px;border-radius:6px;border:1px solid #ddd;"><option value="">All providers</option></select>
+      <input id="overviewFilterSearch" type="text" placeholder="Search provider..." style="padding:8px 10px;border-radius:6px;border:1px solid #ddd;" />
+      <button id="overviewFilterClear" type="button" style="padding:8px 12px;border-radius:6px;border:none;background:var(--gold);color:#fff;cursor:pointer;">Clear</button>
+    </div>
+  </div>
   <div class="overview-two-col">
     <!-- Contact Information (supplier-oriented) -->
     <div class="card">
@@ -3448,6 +3455,42 @@ document.addEventListener('DOMContentLoaded', function(){
     el.addEventListener(ev, function(){ applyProviderFilters(); });
   });
   var clearBtn = document.getElementById('filterClear'); if (clearBtn) clearBtn.addEventListener('click', function(){ document.getElementById('filterProvider').value=''; document.getElementById('filterProviderType').value=''; document.getElementById('filterOrderStatus').value=''; document.getElementById('filterSearch').value=''; populateProviderFilters(); applyProviderFilters(); });
+});
+
+// --- Overview provider filters wiring ---
+document.addEventListener('DOMContentLoaded', function(){
+  var ovSel = document.getElementById('overviewFilterProvider');
+  if (!ovSel) return;
+  // populate options from PROVIDERS
+  try {
+    PROVIDERS.forEach(function(p){
+      var o = document.createElement('option'); o.value = p.id; o.textContent = p.name; ovSel.appendChild(o);
+    });
+  } catch(e) { /* noop if PROVIDERS missing */ }
+
+  function computeKPIsFor(provider) {
+    // Basic example: products = skus, providers = 1, preorders = pending, orders = total orders, inventory & stock from movements qty
+    var totalProducts = provider.metrics?.skus ?? 0;
+    var providers = 1;
+    var preorders = provider.metrics?.pending ?? 0;
+    var orders = provider.metrics?.orders ?? 0;
+    var totalInventory = (provider.movements || []).reduce(function(s,m){ return s + (m.qty||0); }, 0);
+    var stockAvailable = Math.max(0, totalInventory - (orders || 0));
+    return { totalProducts: totalProducts, providers: providers, preorders: preorders, orders: orders, totalInventory: totalInventory, stockAvailable: stockAvailable, company: { name: provider.name, initialContact: '', type: provider.type, category: '-', contactName: provider.contactName, contactEmail: provider.contactEmail, contactPhone: provider.contactPhone, address: provider.address, status: '—' }, products: [] };
+  }
+
+  ovSel.addEventListener('change', function(){
+    var id = ovSel.value;
+    if (!id) {
+      // if empty, reset to a neutral state (use first brand's aggregate or leave as-is)
+      if (PROVIDERS && PROVIDERS.length) loadBrandOverview(computeKPIsFor(PROVIDERS[0]));
+      return;
+    }
+    var p = PROVIDERS.find(function(x){ return x.id === id; });
+    if (p) loadBrandOverview(computeKPIsFor(p));
+  });
+
+  var clear = document.getElementById('overviewFilterClear'); if (clear) clear.addEventListener('click', function(){ ovSel.value=''; document.getElementById('overviewFilterSearch').value=''; ovSel.dispatchEvent(new Event('change')); });
 });
 </script>
 

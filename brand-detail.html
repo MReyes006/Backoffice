@@ -116,7 +116,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 .perfumes-header a:hover{color:var(--gold-dark);text-decoration:underline;}
 
 /* ── OVERVIEW GRID ── */
-.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(600px,1fr));gap:24px;}
+.overview-grid{grid-template-columns:repeat(auto-fit,minmax(600px,1fr));gap:24px;}
 
 /* ── ORDERS TABS ── */
 .orders-tabs{margin-bottom:20px;display:flex;gap:8px;}
@@ -335,9 +335,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 }
 </style>
 <style>
-        .inv-dashboard {
-            padding: 20px;
-        }
+    .inv-dashboard {
+      padding: 8px 0 20px 0;
+      width:100%;
+    }
 
         .inv-title {
             text-align: center;
@@ -348,11 +349,34 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
         }
 
         /* GRID */
-        .inv-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-        }
+    .inv-grid {
+      display: grid;
+      /* 4 cols -> with 7 items this will render as 4 + 3 = 2 filas */
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      align-items:stretch;
+    }
+
+    @media(max-width:1200px){
+      .inv-grid{grid-template-columns:repeat(3,1fr);} 
+    }
+    @media(max-width:900px){
+      .inv-grid{grid-template-columns:repeat(2,1fr);} 
+    }
+    @media(max-width:640px){
+      .inv-grid{grid-template-columns:repeat(1,1fr);} 
+    }
+
+    /* two-column layout for company + products */
+    .overview-two-col{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+      align-items:start;
+    }
+    @media(max-width:900px){
+      .overview-two-col{grid-template-columns:1fr;}
+    }
 
        
 
@@ -620,7 +644,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
     border: 1px solid #e7e7e7;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
     transition: all .25s ease;
-    width: 300px;
+    width: auto;
     padding-bottom: 20px;
 }
 
@@ -872,102 +896,120 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 <!-- ===== TAB: OVERVIEW ===== -->
 <div class="tab-content active" id="overview">
 <div class="overview-grid">
-<!-- Contact Information -->
-<div class="card">
-<h3><i class="fas fa-address-card"></i> Contact Information</h3>
-<div class="info-box">
-Company Name<br>
-Initial contact date<br><br>
-<strong>Type</strong>
-Company phone<br>
-Company address<br>
-Website<br>
-Ciudad<br>
-Country<br><br>
-<strong>Contact person</strong>
-Name<br>
-Email<br>
-Phone<br>
-Ciudad<br>
-Country<br><br>
-<strong>Status de la cuenta</strong>
-Tipo de perfumes: Niche / Luxury / etc
-</div>
-</div>
 
-<!-- Perfumes Summary -->
-<div class="card">
-<h3><i class="fas fa-spray-can"></i> Products</h3>
-<div class="perfumes-header">
-<span>Sort by:</span>
-<a href="#">Best Seller</a>
-</div>
-<div class="table-responsive">
-<table class="perfumes-table">
-<thead class="header-table" style="background: #b5aa79;">
-<tr>
-<th>Perfume</th>
-<th>Collection</th>
-<th>Coef.</th>
-<th>Stock</th>
-<th>Sold LM</th>
-<th>Current</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td>2</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td>3</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td>4</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td>5</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td>6</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-</tbody>
-</table>
-</div>
-</div>
+  <!-- KPI DASHBOARD STRIP -->
+  <div class="inv-dashboard" style="margin-bottom:18px;">
+    <div class="inv-grid">
+      <div class="inv-card">
+        <div class="inv-icon"><i class="fas fa-spray-can"></i></div>
+  <div class="inv-label">Total Products</div>
+        <div class="inv-value" id="kpiTotalProducts">0</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-icon"><i class="fas fa-users"></i></div>
+        <div class="inv-label">Providers</div>
+        <div class="inv-value" id="kpiProviders">0</div>
+      </div>
+      <div class="inv-card info">
+        <div class="inv-icon"><i class="fas fa-calendar-plus"></i></div>
+        <div class="inv-label">Pre-orders</div>
+        <div class="inv-value" id="kpiPreorders">0</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-icon"><i class="fas fa-box-open"></i></div>
+        <div class="inv-label">Orders</div>
+        <div class="inv-value" id="kpiOrders">0</div>
+      </div>
+      <div class="inv-card">
+        <div class="inv-icon"><i class="fas fa-warehouse"></i></div>
+        <div class="inv-label">Total inventory</div>
+        <div class="inv-value" id="kpiTotalInventory">0</div>
+      </div>
+      <div class="inv-card warning">
+        <div class="inv-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="inv-label">Stock available</div>
+        <div class="inv-value" id="kpiStockAvailable">0</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
+  <a href="reports.html" class="tab-btn" style="background:var(--gold);color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700;">View reports</a>
+      </div>
+    </div>
+  </div>
 
-<!-- Próximas reuniones -->
-<div class="card">
-<h3><i class="fas fa-calendar-plus"></i> Próximas Reuniones Agendadas</h3>
-<div class="table-responsive">
-<table class="simple-table">
-<thead style="background: #b5aa79;">
-<tr>
-<th>Fecha</th>
-<th>Tipo</th>
-<th>Link</th>
-<th>Agenda</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-</tbody>
-</table>
-</div>
-</div>
+  <div class="overview-two-col">
+    <!-- Contact Information (supplier-oriented) -->
+    <div class="card">
+    <h3><i class="fas fa-address-card"></i> Brand / Supplier Contact</h3>
+      <div class="info-box">
+    <strong id="companyName">Company name</strong>
+    <div id="initialContact">Initial contact: —</div>
+        <div style="margin-top:10px;"><strong>Supplier type</strong>
+          <div id="supplierType">Brand / Distributor / Seller</div>
+        </div>
+        <div style="margin-top:8px;"><strong>Perfume category</strong>
+          <div id="perfumeCategory">Niche / Luxury / Designer / Etc.</div>
+        </div>
+  <div style="margin-top:12px;"><strong>Contact</strong>
+  <div id="contactPerson">Name: —</div>
+      <div id="contactEmail">Email: —</div>
+      <div id="contactPhone">Phone: —</div>
+        </div>
+  <div style="margin-top:12px;"><strong>Address</strong>
+          <div id="companyAddress">—</div>
+        </div>
+        <div style="margin-top:12px;"><strong>Account status</strong>
+          <div id="accountStatus">—</div>
+        </div>
+      </div>
+    </div>
 
-<!-- Histórico reuniones -->
-<div class="card">
-<h3><i class="fas fa-history"></i> Histórico Reuniones Pasadas</h3>
-<div class="table-responsive">
-<table class="simple-table">
-<thead style="background: #b5aa79;">
-<tr>
-<th>Fecha</th>
-<th>Tipo</th>
-<th>Agenda</th>
-<th>Comentario</th>
-<th>Seguimiento</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-<tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-</tbody>
-</table>
-</div>
-</div>
+    <!-- Products summary (keeps table) -->
+    <div class="card">
+  <h3><i class="fas fa-spray-can"></i> Products / Fragrances</h3>
+      <div class="perfumes-header">
+        <span>Sort by:</span>
+    <a href="#">Best Sellers</a>
+      </div>
+      <div class="table-responsive">
+        <table class="perfumes-table">
+          <thead class="header-table" style="background: #b5aa79;">
+            <tr>
+              <th>Perfume</th>
+              <th>Collection</th>
+              <th>Coef.</th>
+              <th>Stock</th>
+              <th>Sold LM</th>
+              <th>Current</th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody">
+            <tr><td colspan="6" style="text-align:center;color:var(--text-muted);">No data loaded.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meetings / History (full width below) -->
+  <div class="card" style="margin-top:18px; width:100%;">
+  <h3><i class="fas fa-calendar-plus"></i> Upcoming Scheduled Meetings</h3>
+    <div class="table-responsive">
+      <table class="simple-table">
+        <thead style="background: #b5aa79;">
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Link</th>
+            <th>Agenda</th>
+          </tr>
+        </thead>
+        <tbody id="upcomingMeetingsBody">
+          <tr><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 </div>
 
@@ -1001,7 +1043,7 @@ Tipo de perfumes: Niche / Luxury / etc
 </table>
 </div>
 <div class="downloads">
-<span>Descargar orden en:</span>
+  <span>Download order as:</span>
 <button><i class="fas fa-file-excel"></i> Excel</button>
 <button><i class="fas fa-file-pdf"></i> PDF</button>
 <button><i class="fas fa-envelope"></i> Email</button>
@@ -1822,6 +1864,78 @@ function downloadProduct(id) {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+// --- Overview helpers: populate KPI widgets and supplier info ---
+function loadBrandOverview(data) {
+  // data: { totalProducts, providers, preorders, orders, totalInventory, stockAvailable, company }
+  document.getElementById('kpiTotalProducts') && (document.getElementById('kpiTotalProducts').textContent = data.totalProducts ?? 0);
+  document.getElementById('kpiProviders') && (document.getElementById('kpiProviders').textContent = data.providers ?? 0);
+  document.getElementById('kpiPreorders') && (document.getElementById('kpiPreorders').textContent = data.preorders ?? 0);
+  document.getElementById('kpiOrders') && (document.getElementById('kpiOrders').textContent = data.orders ?? 0);
+  document.getElementById('kpiTotalInventory') && (document.getElementById('kpiTotalInventory').textContent = data.totalInventory ?? 0);
+  document.getElementById('kpiStockAvailable') && (document.getElementById('kpiStockAvailable').textContent = data.stockAvailable ?? 0);
+
+  if (data.company) {
+    document.getElementById('companyName') && (document.getElementById('companyName').textContent = data.company.name || '');
+    document.getElementById('initialContact') && (document.getElementById('initialContact').textContent = 'Initial contact: ' + (data.company.initialContact || '—'));
+    document.getElementById('supplierType') && (document.getElementById('supplierType').textContent = data.company.type || '—');
+    document.getElementById('perfumeCategory') && (document.getElementById('perfumeCategory').textContent = data.company.category || '—');
+  document.getElementById('contactPerson') && (document.getElementById('contactPerson').textContent = 'Name: ' + (data.company.contactName || '—'));
+    document.getElementById('contactEmail') && (document.getElementById('contactEmail').textContent = 'Email: ' + (data.company.contactEmail || '—'));
+  document.getElementById('contactPhone') && (document.getElementById('contactPhone').textContent = 'Phone: ' + (data.company.contactPhone || '—'));
+    document.getElementById('companyAddress') && (document.getElementById('companyAddress').textContent = data.company.address || '—');
+    document.getElementById('accountStatus') && (document.getElementById('accountStatus').textContent = data.company.status || '—');
+  }
+
+  // products table
+  if (Array.isArray(data.products) && document.getElementById('productsTableBody')) {
+    var tbody = document.getElementById('productsTableBody');
+    if (data.products.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);">No products available</td></tr>';
+    } else {
+      tbody.innerHTML = data.products.map(function(p){
+        return '<tr>'+
+          '<td>'+ (p.name || '—') +'</td>'+
+          '<td>'+ (p.collection || '—') +'</td>'+
+          '<td style="text-align:center;">'+ (p.coef || '—') +'</td>'+
+          '<td style="text-align:center;">'+ (p.stock ?? '—') +'</td>'+
+          '<td style="text-align:center;">'+ (p.soldLM ?? '—') +'</td>'+
+          '<td style="text-align:center;">'+ (p.current ?? '—') +'</td>'+
+        '</tr>';
+      }).join('');
+    }
+  }
+}
+
+// Example: auto-fill with sample data when page loads (you can remove this)
+document.addEventListener('DOMContentLoaded', function(){
+  // only run sample if KPI node exists and is still zero
+  if (document.getElementById('kpiTotalProducts') && document.getElementById('kpiTotalProducts').textContent === '0') {
+    loadBrandOverview({
+      totalProducts: 24,
+      providers: 3,
+      preorders: 5,
+      orders: 128,
+      totalInventory: 1420,
+      stockAvailable: 1180,
+      company: {
+        name: 'La Sabia Madrid',
+        initialContact: '2024-11-02',
+        type: 'Marca',
+        category: 'Niche',
+        contactName: 'Marcos Reyes',
+        contactEmail: 'marcos@example.com',
+        contactPhone: '+34 600 000 000',
+        address: 'Calle Falsa 123, Madrid',
+        status: 'Activo'
+      },
+      products: [
+        { name:'Poderío', collection:'Artisan', coef:1.2, stock:120, soldLM:30, current:15 },
+        { name:'Dos Besos', collection:'PasiÃ³n', coef:1.05, stock:80, soldLM:25, current:8 }
+      ]
+    });
+  }
+});
 </script>
 </body>
 </html>

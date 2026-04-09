@@ -855,8 +855,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 <div class="brand-tabs-container">
 <!-- Brand Header -->
 <div class="brand-header">
-<h1 class="brand-header-title">LA SABIA MADRID</h1>
-<div class="brand-subtitle">Contratada desde: <strong>Febrero 17 2026</strong></div>
+  <h1 class="brand-header-title" id="brandHeaderTitle">LA SABIA MADRID</h1>
+  <div class="brand-subtitle">Contratada desde: <strong>Febrero 17 2026</strong></div>
 </div>
 
 <!-- TABS -->
@@ -1351,7 +1351,28 @@ if (arrow) arrow.classList.add('open');
 <!-- Toast -->
 <div class="toast" id="toast"><i class="fas fa-info-circle"></i><span id="toastMsg"></span></div>
 
+
+
 <script>
+document.addEventListener('DOMContentLoaded', function(){
+  var params = new URLSearchParams(window.location.search);
+  var brand  = params.get('brand');
+  if(brand){
+    var decoded = decodeURIComponent(brand).toUpperCase();
+    var el = document.getElementById('brandHeaderTitle');
+    if(el) el.textContent = decoded;
+    // También actualiza el title de la pestaña
+    document.title = decoded + ' — Brand Detail';
+  }
+});
+</script>
+
+
+
+
+<script>
+
+
 /* â•â•â•â•â•â•â•â• PRODUCT DATA â•â•â•â•â•â•â•â• */
 // var products = [
 //   {

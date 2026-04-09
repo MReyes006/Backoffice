@@ -2031,6 +2031,61 @@ function recalcAdjTotal(orderId){
 }
 
 /* Acepta el ajuste con la selección del usuario y abre el modal de edición */
+// function acceptAdjustmentWithSelection(id){
+//   var o = ordersData.find(function(x){ return x.id === id; });
+//   if(!o || !o.adjustments) return;
+
+//   // Filtra solo los productos que el usuario seleccionó
+//   var selectedAdjs = o.adjustments.filter(function(adj, idx){
+//     var cb = document.getElementById('adj_check_' + id + '_' + idx);
+//     return cb && cb.checked;
+//   });
+
+//   if(selectedAdjs.length === 0){
+//     showToast('Please select at least one product.');
+//     return;
+//   }
+
+//   // Aplica la selección a los lineItems
+//   // 1. Mantener solo items seleccionados con cantidades ajustadas
+//   var newLineItems = [];
+//   selectedAdjs.forEach(function(adj){
+//     var existing = o.lineItems.find(function(it){ return it.sku === adj.sku; });
+//     if(existing){
+//       newLineItems.push({
+//         name:             existing.name,
+//         sku:              existing.sku,
+//         qty:              adj.adjQty,
+//         unitPrice:        adj.adjPrice,
+//         lineTotal:        adj.adjLineTotal,
+//         image:            existing.image,
+//         availableQty:     adj.adjQty,
+//         available:        true,
+//         unavailableReason:''
+//       });
+//     }
+//   });
+
+//   // 2. Actualiza la orden con los items seleccionados y status pending
+//   //    para que el usuario pueda agregar más productos en el modal de edición
+//   o.lineItems      = newLineItems;
+//   o.total          = newLineItems.reduce(function(a,it){ return a + it.lineTotal; }, 0);
+//   o.status         = 'pending';
+//   o.adjustments    = null;
+//   o.adjustmentNote = '';
+//   o.rejectedReason = '';
+
+//   closeViewModal();
+//   render();
+
+//   // 3. Abre automáticamente el modal de edición para que pueda agregar más productos
+//   setTimeout(function(){
+//     openNewOrder(id);
+//     showToast('Selection saved — you can now add more products to compensate.');
+//   }, 300);
+// }
+
+
 function acceptAdjustmentWithSelection(id){
   var o = ordersData.find(function(x){ return x.id === id; });
   if(!o || !o.adjustments) return;
@@ -2046,30 +2101,28 @@ function acceptAdjustmentWithSelection(id){
     return;
   }
 
-  // Aplica la selección a los lineItems
-  // 1. Mantener solo items seleccionados con cantidades ajustadas
+  // Aplica la selección a los lineItems con cantidades ajustadas
   var newLineItems = [];
   selectedAdjs.forEach(function(adj){
     var existing = o.lineItems.find(function(it){ return it.sku === adj.sku; });
     if(existing){
       newLineItems.push({
-        name:             existing.name,
-        sku:              existing.sku,
-        qty:              adj.adjQty,
-        unitPrice:        adj.adjPrice,
-        lineTotal:        adj.adjLineTotal,
-        image:            existing.image,
-        availableQty:     adj.adjQty,
-        available:        true,
-        unavailableReason:''
+        name:              existing.name,
+        sku:               existing.sku,
+        qty:               adj.adjQty,
+        unitPrice:         adj.adjPrice,
+        lineTotal:         adj.adjLineTotal,
+        image:             existing.image,
+        availableQty:      adj.adjQty,
+        available:         true,
+        unavailableReason: ''
       });
     }
   });
 
-  // 2. Actualiza la orden con los items seleccionados y status pending
-  //    para que el usuario pueda agregar más productos en el modal de edición
+  // Actualiza la orden — status vuelve a pending, limpia ajustes
   o.lineItems      = newLineItems;
-  o.total          = newLineItems.reduce(function(a,it){ return a + it.lineTotal; }, 0);
+  o.total          = newLineItems.reduce(function(a, it){ return a + it.lineTotal; }, 0);
   o.status         = 'pending';
   o.adjustments    = null;
   o.adjustmentNote = '';
@@ -2077,16 +2130,8 @@ function acceptAdjustmentWithSelection(id){
 
   closeViewModal();
   render();
-
-  // 3. Abre automáticamente el modal de edición para que pueda agregar más productos
-  setTimeout(function(){
-    openNewOrder(id);
-    showToast('Selection saved — you can now add more products to compensate.');
-  }, 300);
+  showToast('✓ Adjustment accepted — order is now Pending with your selected products.');
 }
-
-
-
 
 
 function rejectCurrentOrder(){

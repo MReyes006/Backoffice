@@ -1169,86 +1169,57 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
     </div>
   </div>
   <!-- Overview filters (provider selection) -->
-  <div class="overview-filters" style="margin-bottom:12px;">
-    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-      <select id="overviewFilterProvider" style="padding:8px 10px;border-radius:6px;border:1px solid #ddd;"><option value="">All providers</option></select>
-      <input id="overviewFilterSearch" type="text" placeholder="Search provider..." style="padding:8px 10px;border-radius:6px;border:1px solid #ddd;" />
-      <button id="overviewFilterClear" type="button" style="padding:8px 12px;border-radius:6px;border:none;background:var(--gold);color:#fff;cursor:pointer;">Clear</button>
-    </div>
-  </div>
+
   <div class="overview-two-col">
-    <!-- Contact Information (supplier-oriented) -->
+    <!-- Brand Information -->
     <div class="card">
-    <h3><i class="fas fa-address-card"></i> Brand / Supplier Contact</h3>
+      <h3><i class="fas fa-info-circle"></i> Brand Information</h3>
       <div class="info-box">
-    <strong id="companyName">Company name</strong>
-    <div id="initialContact">Initial contact: —</div>
-        <div style="margin-top:10px;"><strong>Supplier type</strong>
-          <div id="supplierType">Brand / Distributor / Seller</div>
+        <strong id="companyName">Company name</strong>
+        <!-- Fragrance summary: placed first in description -->
+        <div id="companyFragrancesSummary" style="margin-top:8px;"><strong>Available fragrances:</strong> <span id="companyFragrancesCount">0</span> (varieties: <span id="companyFragrancesVariety">—</span>)</div>
+        <div id="companyFragrancesList" style="margin-top:8px;color:var(--text-muted);font-size:13px;">—</div>
+        <div id="companyWebsite" style="margin-top:8px;"><strong>Website:</strong> <a id="companyWebsiteLink" href="#">—</a></div>
+        <div style="margin-top:8px;"><strong>Social</strong>
+          <div id="companySocials">Instagram: — | Facebook: — | X: —</div>
         </div>
-        <div style="margin-top:8px;"><strong>Perfume category</strong>
-          <div id="perfumeCategory">Niche / Luxury / Designer / Etc.</div>
+        <div style="margin-top:12px;"><strong>Primary Contacts</strong>
+          <div id="contactPerson">Name: —</div>
+          <div id="contactEmail">Email: —</div>
+          <div id="contactPhone">Phone: —</div>
         </div>
-  <div style="margin-top:12px;"><strong>Contact</strong>
-  <div id="contactPerson">Name: —</div>
-      <div id="contactEmail">Email: —</div>
-      <div id="contactPhone">Phone: —</div>
-        </div>
-  <div style="margin-top:12px;"><strong>Address</strong>
+        <div style="margin-top:12px;"><strong>Address</strong>
           <div id="companyAddress">—</div>
         </div>
         <div style="margin-top:12px;"><strong>Account status</strong>
           <div id="accountStatus">—</div>
         </div>
+        <div style="margin-top:12px;"><strong>Additional info</strong>
+          <div id="companyNotes">—</div>
+        </div>
       </div>
     </div>
-
-    <!-- Products summary (keeps table) -->
-    <div class="card">
-  <h3><i class="fas fa-spray-can"></i> Products / Fragrances</h3>
-      <div class="perfumes-header">
-        <span>Sort by:</span>
-    <a href="#">Best Sellers</a>
-      </div>
+    <!-- Meetings / History (full width below) -->
+    <div class="card" style=" width:100%;">
+    <h3><i class="fas fa-calendar-plus"></i> Upcoming Scheduled Meetings</h3>
       <div class="table-responsive">
-        <table class="perfumes-table">
-          <thead class="header-table" style="background: #b5aa79;">
+        <table class="simple-table">
+          <thead style="background: #b5aa79;">
             <tr>
-              <th>Perfume</th>
-              <th>Collection</th>
-              <th>Coef.</th>
-              <th>Stock</th>
-              <th>Sold LM</th>
-              <th>Current</th>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Link</th>
+              <th>Agenda</th>
             </tr>
           </thead>
-          <tbody id="productsTableBody">
-            <tr><td colspan="6" style="text-align:center;color:var(--text-muted);">No data loaded.</td></tr>
+          <tbody id="upcomingMeetingsBody">
+            <tr><td>—</td><td>—</td><td>—</td><td>—</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <!-- Meetings / History (full width below) -->
-  <div class="card" style="margin-top:18px; width:100%;">
-  <h3><i class="fas fa-calendar-plus"></i> Upcoming Scheduled Meetings</h3>
-    <div class="table-responsive">
-      <table class="simple-table">
-        <thead style="background: #b5aa79;">
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Link</th>
-            <th>Agenda</th>
-          </tr>
-        </thead>
-        <tbody id="upcomingMeetingsBody">
-          <tr><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 
 </div>
 </div>
@@ -3395,9 +3366,39 @@ const BRAND_PRODUCTS = {
 // â”€â”€ Escucha el cambio de marca â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('niche3ds:brandChanged', function(e) {
   const brand = e.detail.brand;
-  document.getElementById('brandTitle').textContent = brand;
+  // update visible header(s)
+  var hdr = document.getElementById('brandHeaderTitle'); if (hdr) hdr.textContent = brand;
+  var smallTitle = document.getElementById('brandTitle'); if (smallTitle) smallTitle.textContent = brand;
   localStorage.setItem('selectedBrand', brand);
   applyProductsBrand(brand);
+
+  // Try to populate Brand Information from available data
+  var productsForBrand = (typeof BRAND_PRODUCTS !== 'undefined' && BRAND_PRODUCTS[brand]) ? BRAND_PRODUCTS[brand] : [];
+  var totalProducts = Array.isArray(productsForBrand) ? productsForBrand.length : 0;
+  // Derive a placeholder company object for the brand (replace with API data if available)
+  var slug = brand ? brand.toLowerCase().replace(/[^a-z0-9]+/g,'') : '';
+  var company = {
+    name: brand,
+    website: slug ? ('https://www.' + slug + '.com') : '',
+    socials: 'Instagram: @' + (slug || 'brand') + ' | Facebook: /' + (slug || 'brand'),
+    notes: 'Auto-filled from selected brand header. Replace with API data for accuracy.',
+    contactName: '',
+    contactEmail: '',
+    contactPhone: '',
+    address: ''
+  };
+  // If you have a central BRANDS metadata mapping, use it here to populate contactName/contactEmail/contactPhone
+
+  loadBrandOverview({
+    totalProducts: totalProducts,
+    providers: 0,
+    preorders: 0,
+    orders: 0,
+    totalInventory: 0,
+    stockAvailable: 0,
+    company: company,
+    products: productsForBrand
+  });
 });
 
 // â”€â”€ Al cargar, aplica la marca guardada â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -3688,6 +3689,30 @@ function loadBrandOverview(data) {
   document.getElementById('contactPhone') && (document.getElementById('contactPhone').textContent = 'Phone: ' + (data.company.contactPhone || '—'));
     document.getElementById('companyAddress') && (document.getElementById('companyAddress').textContent = data.company.address || '—');
     document.getElementById('accountStatus') && (document.getElementById('accountStatus').textContent = data.company.status || '—');
+    // Brand Information additions
+    if (document.getElementById('companyWebsiteLink')) {
+      var linkEl = document.getElementById('companyWebsiteLink');
+      if (data.company.website) { linkEl.href = data.company.website; linkEl.textContent = data.company.website; }
+      else { linkEl.href = '#'; linkEl.textContent = '—'; }
+    }
+    document.getElementById('companySocials') && (document.getElementById('companySocials').textContent = data.company.socials || '—');
+
+    // Fragrances info (placed before notes)
+    if (document.getElementById('companyFragrancesCount')) {
+      var productsArr = Array.isArray(data.products) ? data.products : [];
+      var total = productsArr.length;
+      var names = productsArr.map(function(p){ return p.perfume || p.name || ''; }).filter(Boolean);
+      var unique = Array.from(new Set(names));
+      document.getElementById('companyFragrancesCount').textContent = total;
+      document.getElementById('companyFragrancesVariety').textContent = unique.length || '0';
+      var listEl = document.getElementById('companyFragrancesList');
+      if (listEl) {
+        if (unique.length === 0) listEl.textContent = '—';
+        else listEl.innerHTML = unique.slice(0,12).map(function(n){ return '<span style="display:inline-block;margin-right:8px;">' + n + '</span>'; }).join('');
+      }
+    }
+
+    document.getElementById('companyNotes') && (document.getElementById('companyNotes').textContent = data.company.notes || '—');
   }
 
   // products table
@@ -3714,6 +3739,11 @@ function loadBrandOverview(data) {
 document.addEventListener('DOMContentLoaded', function(){
   // only run sample if KPI node exists and is still zero
   if (document.getElementById('kpiTotalProducts') && document.getElementById('kpiTotalProducts').textContent === '0') {
+    var headerEl = document.getElementById('brandHeaderTitle');
+    var brandName = headerEl ? headerEl.textContent.trim() : 'La Sabia Madrid';
+    // derive a placeholder website from brand name where possible
+    var slug = brandName.toLowerCase().replace(/[^a-z0-9]+/g,'');
+    var website = slug ? 'https://www.' + slug + '.com' : '';
     loadBrandOverview({
       totalProducts: 24,
       providers: 3,
@@ -3722,7 +3752,10 @@ document.addEventListener('DOMContentLoaded', function(){
       totalInventory: 1420,
       stockAvailable: 1180,
       company: {
-        name: 'La Sabia Madrid',
+        name: brandName,
+        website: website,
+        socials: 'Instagram: @' + (slug || 'brand') + ' | Facebook: /' + (slug || 'brand'),
+        notes: 'This information is auto-filled from the current brand header. Replace with API data for accuracy.',
         initialContact: '2024-11-02',
         type: 'Marca',
         category: 'Niche',
@@ -3732,10 +3765,7 @@ document.addEventListener('DOMContentLoaded', function(){
         address: 'Calle Falsa 123, Madrid',
         status: 'Activo'
       },
-      products: [
-        { name:'Poderío', collection:'Artisan', coef:1.2, stock:120, soldLM:30, current:15 },
-        { name:'Dos Besos', collection:'PasiÃ³n', coef:1.05, stock:80, soldLM:25, current:8 }
-      ]
+      products: []
     });
   }
 });
@@ -4793,106 +4823,7 @@ document.addEventListener('DOMContentLoaded', function(){
   provBtn.addEventListener('click', handler);
 });
 
-// --- Provider filters and sample providers ---
-var PROVIDERS = [
-  { id: 'acme', name:'ACME Suppliers Ltd.', type:'Distributor', country:'Spain', address:'Calle Falsa 12, Madrid', contactName:'Ana López', contactEmail:'ana.lopez@acme.example', contactPhone:'+34 612 345 678', documents:'VAT, Insurance, COA', paymentTerms:'Net 30', leadTime:'14-21 days', moq:'100 units', currency:'EUR', metrics:{skus:120, orders:340, pending:5, onTimePercent:92}, movements:[{date:'2026-03-01',type:'Inbound',ref:'PO-1809',qty:120}], orders:[{number:'#1809',date:'2026-03-05',status:'Delivered',total:'$7,980'}]},
-  { id: 'bella', name:'Bella Parfums', type:'Brand', country:'France', address:'Rue de la Paix 5, Paris', contactName:'Pierre Martin', contactEmail:'pierre@bella.example', contactPhone:'+33 1 23 45 67 89', documents:'VAT, Certificate', paymentTerms:'Net 45', leadTime:'21-35 days', moq:'50 units', currency:'EUR', metrics:{skus:45, orders:120, pending:2, onTimePercent:88}, movements:[], orders:[{number:'#1810',date:'2026-03-10',status:'Pending',total:'$2,400'}]},
-  { id: 'nova', name:'Nova Distributors', type:'Distributor', country:'Italy', address:'Via Roma 20, Milan', contactName:'Luca Rossi', contactEmail:'luca@nova.example', contactPhone:'+39 02 123456', documents:'VAT', paymentTerms:'Net 30', leadTime:'7-14 days', moq:'200 units', currency:'EUR', metrics:{skus:220, orders:560, pending:12, onTimePercent:95}, movements:[], orders:[]}
-];
-
-function populateProviderFilters() {
-  var selProv = document.getElementById('filterProvider');
-  var selType = document.getElementById('filterProviderType');
-  if (!selProv || !selType) return;
-  // clear existing options (keep first default)
-  selProv.innerHTML = '<option value="">All providers</option>';
-  selType.innerHTML = '<option value="">All types</option>';
-  var types = new Set();
-  PROVIDERS.forEach(function(p){
-    var o = document.createElement('option'); o.value = p.id; o.textContent = p.name; selProv.appendChild(o);
-    types.add(p.type);
-  });
-  Array.from(types).sort().forEach(function(t){
-    var o = document.createElement('option'); o.value = t; o.textContent = t; selType.appendChild(o);
-  });
-}
-
-function applyProviderFilters() {
-  var provId = document.getElementById('filterProvider').value;
-  var provType = document.getElementById('filterProviderType').value;
-  var status = document.getElementById('filterOrderStatus').value;
-  var search = document.getElementById('filterSearch').value.trim().toLowerCase();
-
-  // find a provider by exact id first
-  var selected = null;
-  if (provId) selected = PROVIDERS.find(function(p){ return p.id === provId; });
-  else if (provType) selected = PROVIDERS.find(function(p){ return p.type === provType; });
-  else if (search) selected = PROVIDERS.find(function(p){ return p.name.toLowerCase().includes(search) || (p.contactName||'').toLowerCase().includes(search); });
-
-  // apply order status filter: if selected and it has orders, try to find an order with that status
-  if (selected && status) {
-    var has = selected.orders && selected.orders.some(function(o){ return o.status === status; });
-    if (!has) {
-      // if selected doesn't match status, try to find any provider with that status
-      selected = PROVIDERS.find(function(p){ return p.orders && p.orders.some(function(o){ return o.status === status; }); });
-    }
-  }
-
-  if (selected) loadProviderData(selected);
-  else {
-    // if no matching provider, clear provider area
-    loadProviderData({ name:'No provider selected', type:'—', country:'—', address:'—', contactName:'—', contactEmail:'—', contactPhone:'—', documents:'—', paymentTerms:'—', leadTime:'—', moq:'—', currency:'—', metrics:{skus:0,orders:0,pending:0,onTimePercent:0}, movements:[], orders:[] });
-  }
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  populateProviderFilters();
-  // bind filter events
-  var elems = ['filterProvider','filterProviderType','filterOrderStatus','filterSearch'];
-  elems.forEach(function(id){
-    var el = document.getElementById(id);
-    if (!el) return;
-    var ev = el.tagName.toLowerCase()==='input' ? 'input' : 'change';
-    el.addEventListener(ev, function(){ applyProviderFilters(); });
-  });
-  var clearBtn = document.getElementById('filterClear'); if (clearBtn) clearBtn.addEventListener('click', function(){ document.getElementById('filterProvider').value=''; document.getElementById('filterProviderType').value=''; document.getElementById('filterOrderStatus').value=''; document.getElementById('filterSearch').value=''; populateProviderFilters(); applyProviderFilters(); });
-});
-
-// --- Overview provider filters wiring ---
-document.addEventListener('DOMContentLoaded', function(){
-  var ovSel = document.getElementById('overviewFilterProvider');
-  if (!ovSel) return;
-  // populate options from PROVIDERS
-  try {
-    PROVIDERS.forEach(function(p){
-      var o = document.createElement('option'); o.value = p.id; o.textContent = p.name; ovSel.appendChild(o);
-    });
-  } catch(e) { /* noop if PROVIDERS missing */ }
-
-  function computeKPIsFor(provider) {
-    // Basic example: products = skus, providers = 1, preorders = pending, orders = total orders, inventory & stock from movements qty
-    var totalProducts = provider.metrics?.skus ?? 0;
-    var providers = 1;
-    var preorders = provider.metrics?.pending ?? 0;
-    var orders = provider.metrics?.orders ?? 0;
-    var totalInventory = (provider.movements || []).reduce(function(s,m){ return s + (m.qty||0); }, 0);
-    var stockAvailable = Math.max(0, totalInventory - (orders || 0));
-    return { totalProducts: totalProducts, providers: providers, preorders: preorders, orders: orders, totalInventory: totalInventory, stockAvailable: stockAvailable, company: { name: provider.name, initialContact: '', type: provider.type, category: '-', contactName: provider.contactName, contactEmail: provider.contactEmail, contactPhone: provider.contactPhone, address: provider.address, status: '—' }, products: [] };
-  }
-
-  ovSel.addEventListener('change', function(){
-    var id = ovSel.value;
-    if (!id) {
-      // if empty, reset to a neutral state (use first brand's aggregate or leave as-is)
-      if (PROVIDERS && PROVIDERS.length) loadBrandOverview(computeKPIsFor(PROVIDERS[0]));
-      return;
-    }
-    var p = PROVIDERS.find(function(x){ return x.id === id; });
-    if (p) loadBrandOverview(computeKPIsFor(p));
-  });
-
-  var clear = document.getElementById('overviewFilterClear'); if (clear) clear.addEventListener('click', function(){ ovSel.value=''; document.getElementById('overviewFilterSearch').value=''; ovSel.dispatchEvent(new Event('change')); });
-});
+// Provider filters removed as requested.
 </script>
 
 

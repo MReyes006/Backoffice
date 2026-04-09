@@ -87,7 +87,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
 /* ── CARDS ── */
-.card{background:var(--card-bg);border-radius:var(--radius);padding:24px 28px;border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:24px;transition:all .25s;}
+.card{background:var(--card-bg);border-radius:var(--radius);padding:24px 28px;border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:24px;transition:all .25s; height: 100%;}
 .card:hover{box-shadow:var(--shadow-hover);}
 .card h3{font-size:17px;font-weight:700;color:var(--text);margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--gold-light);display:flex;align-items:center;gap:10px;}
 .card h3 i{color:var(--gold);font-size:16px;}
@@ -927,9 +927,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
         <div class="inv-label">Stock available</div>
         <div class="inv-value" id="kpiStockAvailable">0</div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
+      <!-- <div style="display:flex;align-items:center;justify-content:center;gap:8px;">
   <a href="reports.html" class="tab-btn" style="background:var(--gold);color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700;">View reports</a>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -1046,6 +1046,102 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 <button><i class="fas fa-envelope"></i> Email</button>
 </div>
 </div>
+</div>
+
+<!-- ===== TAB: PROVIDER (added) ===== -->
+<div class="tab-content" id="provider">
+  <style>
+    /* Local styles for provider grid - responsive two-column layout */
+    .provider-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-items: start; }
+    .provider-card { padding: 20px;}
+    .provider-full { grid-column: 1 / -1; }
+    @media (max-width: 860px) { .provider-grid { grid-template-columns: 1fr; } }
+    .provider-filters { margin-bottom: 12px; }
+    .provider-filters .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    .provider-filters select, .provider-filters input { padding:8px 10px; border-radius:6px; border:1px solid #ddd; }
+    .provider-filters button { padding:8px 12px; border-radius:6px; border: none; background:var(--gold); color:#fff; cursor:pointer; }
+  </style>
+
+  <div class="provider-filters">
+    <div class="controls">
+      <select id="filterProvider"><option value="">All providers</option></select>
+      <select id="filterProviderType"><option value="">All types</option></select>
+      <select id="filterOrderStatus"><option value="">Any order status</option><option value="Pending">Pending</option><option value="Delivered">Delivered</option><option value="Open">Open</option></select>
+      <input id="filterSearch" type="text" placeholder="Search providers...">
+      <button id="filterClear" type="button">Clear</button>
+    </div>
+  </div>
+
+  <div class="provider-grid">
+    <div class="card provider-card">
+      <h3><i class="fas fa-handshake"></i> Provider Profile</h3>
+      <div class="info-box">
+        <strong id="provName">Provider name</strong>
+        <div style="margin-top:8px;"><strong>Type</strong>
+          <div id="provType">—</div>
+        </div>
+        <div style="margin-top:8px;"><strong>Country</strong>
+          <div id="provCountry">—</div>
+        </div>
+        <div style="margin-top:8px;"><strong>Address</strong>
+          <div id="provAddress">—</div>
+        </div>
+        <div style="margin-top:8px;"><strong>Contact</strong>
+          <div id="provContactName">—</div>
+          <div id="provContactEmail">—</div>
+          <div id="provContactPhone">—</div>
+        </div>
+        <div style="margin-top:8px;"><strong>Documents</strong>
+          <div id="provDocs">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card provider-card">
+      <h3><i class="fas fa-file-invoice-dollar"></i> Commercial Terms</h3>
+      <div class="info-box">
+        <div><strong>Payment terms:</strong> <span id="provPaymentTerms">—</span></div>
+        <div><strong>Lead time:</strong> <span id="provLeadTime">—</span></div>
+        <div><strong>MOQ:</strong> <span id="provMOQ">—</span></div>
+        <div><strong>Currency:</strong> <span id="provCurrency">—</span></div>
+      </div>
+    </div>
+
+    <div class="card provider-card">
+      <h3><i class="fas fa-chart-line"></i> Provider Metrics</h3>
+      <div class="info-box">
+        <div><strong>Total SKUs:</strong> <span id="provTotalSkus">0</span></div>
+        <div><strong>Total Orders:</strong> <span id="provTotalOrders">0</span></div>
+        <div><strong>Pending POs:</strong> <span id="provPendingPO">0</span></div>
+        <div><strong>On-time %:</strong> <span id="provOnTime">0%</span></div>
+      </div>
+    </div>
+
+    <div class="card provider-card">
+      <h3><i class="fas fa-history"></i> Recent Movements</h3>
+      <div class="table-responsive">
+        <table class="simple-table">
+          <thead style="background: #b5aa79;">
+            <tr><th>Date</th><th>Type</th><th>Ref</th><th>Qty</th></tr>
+          </thead>
+          <tbody id="provMovementsBody"><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card provider-card provider-full">
+      <h3><i class="fas fa-boxes"></i> Orders History</h3>
+      <div class="table-responsive">
+        <table class="simple-table">
+          <thead style="background: #b5aa79;">
+            <tr><th>Order #</th><th>Date</th><th>Status</th><th>Total</th></tr>
+          </thead>
+          <tbody id="provOrdersBody"><tr><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ===== TAB: BRAND ANALYSIS ===== -->
@@ -1956,5 +2052,137 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 </body>
 </html>
+
+<!-- Provider tab loader script (minimal, non-invasive) -->
+<script>
+// Populate provider tab fields
+function loadProviderData(provider) {
+  if (!provider) return;
+  document.getElementById('provName') && (document.getElementById('provName').textContent = provider.name || '—');
+  document.getElementById('provType') && (document.getElementById('provType').textContent = provider.type || '—');
+  document.getElementById('provCountry') && (document.getElementById('provCountry').textContent = provider.country || '—');
+  document.getElementById('provAddress') && (document.getElementById('provAddress').textContent = provider.address || '—');
+  document.getElementById('provContactName') && (document.getElementById('provContactName').textContent = provider.contactName || '—');
+  document.getElementById('provContactEmail') && (document.getElementById('provContactEmail').textContent = provider.contactEmail || '—');
+  document.getElementById('provContactPhone') && (document.getElementById('provContactPhone').textContent = provider.contactPhone || '—');
+  document.getElementById('provDocs') && (document.getElementById('provDocs').textContent = provider.documents || '—');
+  document.getElementById('provPaymentTerms') && (document.getElementById('provPaymentTerms').textContent = provider.paymentTerms || '—');
+  document.getElementById('provLeadTime') && (document.getElementById('provLeadTime').textContent = provider.leadTime || '—');
+  document.getElementById('provMOQ') && (document.getElementById('provMOQ').textContent = provider.moq || '—');
+  document.getElementById('provCurrency') && (document.getElementById('provCurrency').textContent = provider.currency || '—');
+  document.getElementById('provTotalSkus') && (document.getElementById('provTotalSkus').textContent = provider.metrics?.skus ?? 0);
+  document.getElementById('provTotalOrders') && (document.getElementById('provTotalOrders').textContent = provider.metrics?.orders ?? 0);
+  document.getElementById('provPendingPO') && (document.getElementById('provPendingPO').textContent = provider.metrics?.pending ?? 0);
+  document.getElementById('provOnTime') && (document.getElementById('provOnTime').textContent = (provider.metrics?.onTimePercent ?? 0) + '%');
+
+  if (Array.isArray(provider.movements) && document.getElementById('provMovementsBody')) {
+    var mb = document.getElementById('provMovementsBody');
+    mb.innerHTML = provider.movements.length ? provider.movements.map(function(m){
+      return '<tr><td>'+ (m.date||'—') +'</td><td>'+ (m.type||'—') +'</td><td>'+ (m.ref||'—') +'</td><td style="text-align:center;">'+ (m.qty||'—') +'</td></tr>';
+    }).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);">No recent movements.</td></tr>';
+  }
+
+  if (Array.isArray(provider.orders) && document.getElementById('provOrdersBody')) {
+    var ob = document.getElementById('provOrdersBody');
+    ob.innerHTML = provider.orders.length ? provider.orders.map(function(o){
+      return '<tr><td>'+ (o.number||'—') +'</td><td>'+ (o.date||'—') +'</td><td>'+ (o.status||'—') +'</td><td>'+ (o.total||'—') +'</td></tr>';
+    }).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);">No orders found.</td></tr>';
+  }
+}
+
+// One-time click binding: load sample provider data when Provider tab is clicked
+document.addEventListener('DOMContentLoaded', function(){
+  var provBtn = document.querySelector('button.tab[data-tab="provider"]');
+  if (!provBtn) return;
+  var handler = function(){
+    // Replace this sample object with a fetch() to your API if desired
+    var sample = {
+      name: 'ACME Suppliers Ltd.',
+      type: 'Distributor',
+      country: 'Spain',
+      address: 'Calle Falsa 12, Madrid',
+      contactName: 'Ana López',
+      contactEmail: 'ana.lopez@acme.example',
+      contactPhone: '+34 612 345 678',
+      documents: 'VAT, Insurance, COA',
+      paymentTerms: 'Net 30',
+      leadTime: '14-21 days',
+      moq: '100 units',
+      currency: 'EUR',
+      metrics: { skus: 120, orders: 340, pending: 5, onTimePercent: 92 },
+      movements: [ {date:'2026-03-01', type:'Inbound', ref:'PO-1809', qty:120}, {date:'2026-02-10', type:'Return', ref:'RT-1780', qty:5} ],
+      orders: [ {number:'#1809', date:'2026-03-05', status:'Delivered', total:'$7,980'}, {number:'#1808', date:'2026-02-20', status:'Pending', total:'$4,200'} ]
+    };
+    loadProviderData(sample);
+    provBtn.removeEventListener('click', handler);
+  };
+  provBtn.addEventListener('click', handler);
+});
+
+// --- Provider filters and sample providers ---
+var PROVIDERS = [
+  { id: 'acme', name:'ACME Suppliers Ltd.', type:'Distributor', country:'Spain', address:'Calle Falsa 12, Madrid', contactName:'Ana López', contactEmail:'ana.lopez@acme.example', contactPhone:'+34 612 345 678', documents:'VAT, Insurance, COA', paymentTerms:'Net 30', leadTime:'14-21 days', moq:'100 units', currency:'EUR', metrics:{skus:120, orders:340, pending:5, onTimePercent:92}, movements:[{date:'2026-03-01',type:'Inbound',ref:'PO-1809',qty:120}], orders:[{number:'#1809',date:'2026-03-05',status:'Delivered',total:'$7,980'}]},
+  { id: 'bella', name:'Bella Parfums', type:'Brand', country:'France', address:'Rue de la Paix 5, Paris', contactName:'Pierre Martin', contactEmail:'pierre@bella.example', contactPhone:'+33 1 23 45 67 89', documents:'VAT, Certificate', paymentTerms:'Net 45', leadTime:'21-35 days', moq:'50 units', currency:'EUR', metrics:{skus:45, orders:120, pending:2, onTimePercent:88}, movements:[], orders:[{number:'#1810',date:'2026-03-10',status:'Pending',total:'$2,400'}]},
+  { id: 'nova', name:'Nova Distributors', type:'Distributor', country:'Italy', address:'Via Roma 20, Milan', contactName:'Luca Rossi', contactEmail:'luca@nova.example', contactPhone:'+39 02 123456', documents:'VAT', paymentTerms:'Net 30', leadTime:'7-14 days', moq:'200 units', currency:'EUR', metrics:{skus:220, orders:560, pending:12, onTimePercent:95}, movements:[], orders:[]}
+];
+
+function populateProviderFilters() {
+  var selProv = document.getElementById('filterProvider');
+  var selType = document.getElementById('filterProviderType');
+  if (!selProv || !selType) return;
+  // clear existing options (keep first default)
+  selProv.innerHTML = '<option value="">All providers</option>';
+  selType.innerHTML = '<option value="">All types</option>';
+  var types = new Set();
+  PROVIDERS.forEach(function(p){
+    var o = document.createElement('option'); o.value = p.id; o.textContent = p.name; selProv.appendChild(o);
+    types.add(p.type);
+  });
+  Array.from(types).sort().forEach(function(t){
+    var o = document.createElement('option'); o.value = t; o.textContent = t; selType.appendChild(o);
+  });
+}
+
+function applyProviderFilters() {
+  var provId = document.getElementById('filterProvider').value;
+  var provType = document.getElementById('filterProviderType').value;
+  var status = document.getElementById('filterOrderStatus').value;
+  var search = document.getElementById('filterSearch').value.trim().toLowerCase();
+
+  // find a provider by exact id first
+  var selected = null;
+  if (provId) selected = PROVIDERS.find(function(p){ return p.id === provId; });
+  else if (provType) selected = PROVIDERS.find(function(p){ return p.type === provType; });
+  else if (search) selected = PROVIDERS.find(function(p){ return p.name.toLowerCase().includes(search) || (p.contactName||'').toLowerCase().includes(search); });
+
+  // apply order status filter: if selected and it has orders, try to find an order with that status
+  if (selected && status) {
+    var has = selected.orders && selected.orders.some(function(o){ return o.status === status; });
+    if (!has) {
+      // if selected doesn't match status, try to find any provider with that status
+      selected = PROVIDERS.find(function(p){ return p.orders && p.orders.some(function(o){ return o.status === status; }); });
+    }
+  }
+
+  if (selected) loadProviderData(selected);
+  else {
+    // if no matching provider, clear provider area
+    loadProviderData({ name:'No provider selected', type:'—', country:'—', address:'—', contactName:'—', contactEmail:'—', contactPhone:'—', documents:'—', paymentTerms:'—', leadTime:'—', moq:'—', currency:'—', metrics:{skus:0,orders:0,pending:0,onTimePercent:0}, movements:[], orders:[] });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  populateProviderFilters();
+  // bind filter events
+  var elems = ['filterProvider','filterProviderType','filterOrderStatus','filterSearch'];
+  elems.forEach(function(id){
+    var el = document.getElementById(id);
+    if (!el) return;
+    var ev = el.tagName.toLowerCase()==='input' ? 'input' : 'change';
+    el.addEventListener(ev, function(){ applyProviderFilters(); });
+  });
+  var clearBtn = document.getElementById('filterClear'); if (clearBtn) clearBtn.addEventListener('click', function(){ document.getElementById('filterProvider').value=''; document.getElementById('filterProviderType').value=''; document.getElementById('filterOrderStatus').value=''; document.getElementById('filterSearch').value=''; populateProviderFilters(); applyProviderFilters(); });
+});
+</script>
 
 

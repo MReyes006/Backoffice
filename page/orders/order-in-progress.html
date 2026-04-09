@@ -431,14 +431,14 @@
       <div class="status-pill" data-s="approved" onclick="setStatus('approved',this)">Approved</div>
     </div> -->
 
-  <div class="status-pills">
-      <div class="status-pill active" data-s="all"      onclick="setStatus('all',this)">All</div>
-      <div class="status-pill"        data-s="pending"  onclick="setStatus('pending',this)">Pending</div>
-      <div class="status-pill"        data-s="adjusted" onclick="setStatus('adjusted',this)">Order Adjustments</div>
-      <div class="status-pill"        data-s="approved" onclick="setStatus('approved',this)">Approved</div>
-      <div class="status-pill"        data-s="rejected" onclick="setStatus('rejected',this)">Rejected</div>
-      <div class="status-pill"        data-s="placed"   onclick="setStatus('placed',this)">Placed Order </div>
-  </div>
+    <div class="status-pills">
+        <div class="status-pill active" data-s="all"      onclick="setStatus('all',this)">All</div>
+        <div class="status-pill"        data-s="pending"  onclick="setStatus('pending',this)">Pending</div>
+        <div class="status-pill"        data-s="adjusted" onclick="setStatus('adjusted',this)">Order Adjustments</div>
+        <div class="status-pill"        data-s="approved" onclick="setStatus('approved',this)">Approved</div>
+        <div class="status-pill"        data-s="rejected" onclick="setStatus('rejected',this)">Rejected</div>
+        <div class="status-pill"        data-s="placed"   onclick="setStatus('placed',this)">Placed Order </div>
+    </div>
   </div>
   <div class="filter-right">
     <span style="font-size:12px;color:var(--text-muted);"><strong id="resultsCount">—</strong> orders</span>
@@ -946,48 +946,7 @@ var ordersData = [
       { name:'Dos Besos Tester', sku:'07H-0067G-EDP-100ML-TST', qty:4,  availableQty:7,  unitPrice:94.00,  lineTotal:376.00,  image:'../../img/LaSabiaMadrid.webp' },
     ], total:2439.40
   },
-  // {
-  //   id:6, orderNum:'PO-2026-006', orderDate:'2026-01-15', deliveryDate:'2026-02-01',
-  //   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
-  //   phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
-  //   payment:'Bank Transfer', currency:'EUR', paymentNotes:'REF-2026-006',
-  //   notes:'Include TikTok edition units separately labeled.',
-  //   status:'approved', brand:'La Sabia Madrid',
-  //   lineItems:[
-  //     { name:'Poderio',               sku:'07H-0067F-EDP-100ML',       qty:8,  availableQty:10, unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
-  //     { name:'Dos Besos (TikTok Ed.)',sku:'07H-0067G-EDP-100ML-TKTOK', qty:20, availableQty:24, unitPrice:10.00,  lineTotal:200.00,  image:'../../img/LaSabiaMadrid.webp' },
-  //     { name:'Normal',                sku:'07H-0067D-EDP-100ML',        qty:5,  availableQty:6,  unitPrice:100.00, lineTotal:500.00,  image:'../../img/LaSabiaMadrid.webp' },
-  //   ], total:2075.60
-  // },
-  // {
-  //   id:7, orderNum:'PO-2026-007', orderDate:'2026-03-05', deliveryDate:'2026-03-20',
-  //   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
-  //   phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
-  //   payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-007',
-  //   notes:'Urgent order for Miami event.',
-  //   status:'rejected',
-  //   rejectedReason:'Sangal: only 2 units available, 10 requested · Gamayun: discontinued',
-  //   brand:'Brand Demo',
-  //   lineItems:[
-  //     { name:'Sangal',  sku:'07F-0068C-PARF-100ML', qty:10, availableQty:2,  unitPrice:195.00, lineTotal:1950.00, image:'../../img/Brand_Demo.webp' },
-  //     { name:'Gamayun', sku:'07F-00689-PARF-100ML', qty:5,  availableQty:0,  available:false, unavailableReason:'Discontinued', unitPrice:200.00, lineTotal:1000.00, image:'../../img/Brand_Demo.webp' },
-  //     { name:'Aurum',   sku:'07F-00680-PARF-100ML', qty:8,  availableQty:8,  unitPrice:195.00, lineTotal:1560.00, image:'../../img/Brand_Demo.webp' },
-  //   ], total:4510.00
-  // },
-  // {
-  //   id:8, orderNum:'PO-2026-008', orderDate:'2026-02-28', deliveryDate:'2026-03-15',
-  //   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
-  //   phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
-  //   payment:'Net 30', currency:'EUR', paymentNotes:'Invoice #INV-2026-031',
-  //   notes:'',
-  //   status:'rejected',
-  //   rejectedReason:'Only 5 units available, 12 requested · Campagna: restricted in this region',
-  //   brand:'La Sabia Madrid',
-  //   lineItems:[
-  //     { name:'Normal',   sku:'07H-0067D-EDP-100ML',   qty:12, availableQty:5, unitPrice:100.00, lineTotal:1200.00, image:'../../img/LaSabiaMadrid.webp' },
-  //     { name:'Campagna', sku:'07H-0067D-EDP-100ML-2',  qty:6,  availableQty:0, available:false, unavailableReason:'Restricted in this region', unitPrice:100.00, lineTotal:600.00, image:'../../img/LaSabiaMadrid.webp' },
-  //   ], total:1800.00
-  // },
+ 
   {
   id:9, orderNum:'PO-2026-009', orderDate:'2026-03-18', deliveryDate:'2026-04-05',
   company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',

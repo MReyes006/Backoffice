@@ -404,6 +404,24 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
         .inv-card.info .inv-value {
             color: #1c8cff;
         }
+
+
+            .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;}
+            .modal-overlay.open{display:flex;}
+            .modal-box{background:#fff;border-radius:16px;width:100%;max-width:900px;margin:auto;box-shadow:0 24px 64px rgba(0,0,0,.25);display:flex;flex-direction:column;overflow:hidden;}
+            .modal-header{background:var(--sidebar-bg);color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+            .modal-header h3{font-size:15px;font-weight:600;display:flex;align-items:center;gap:9px;}
+            .modal-header h3 i{color:var(--gold);}
+            .modal-close{border:none;background:rgba(255,255,255,.12);color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
+            .modal-close:hover{background:rgba(255,255,255,.25);}
+            .modal-body{padding:24px;overflow-y:auto;max-height:80vh;display:flex;flex-direction:column;gap:24px;}
+
+            .modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:#fafafa;flex-shrink:0;}
+            .btn-cancel{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-muted);}
+            .btn-cancel:hover{border-color:var(--gold);color:var(--gold);}
+
+            .btn-submit{padding:10px 24px;background:var(--gold);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;transition:all .2s;}
+            .btn-submit:hover{background:var(--gold-dark);}
     </style>
 
 
@@ -1151,6 +1169,109 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 </div>
 </div>
 
+
+<!-- ===== TAB: PRE ORDERS ===== -->
+<div class="tab-content" id="pre-orders">
+
+  <!-- Stats Row -->
+  <div class="po-stats-row" style="display:flex;gap:14px;margin-bottom:18px;flex-wrap:wrap;">
+    <div class="stat-card" style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;flex:1;min-width:110px;">
+      <div class="stat-icon" style="width:36px;height:36px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:15px;flex-shrink:0;"><i class="fas fa-receipt"></i></div>
+      <div><div class="stat-val" id="po_sTotalOrders" style="font-size:1.3rem;font-weight:700;color:var(--text);"></div><div class="stat-label" style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Total</div></div>
+    </div>
+    <div class="stat-card" style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;flex:1;min-width:110px;">
+      <div class="stat-icon" style="width:36px;height:36px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:15px;flex-shrink:0;"><i class="fas fa-clock"></i></div>
+      <div><div class="stat-val" id="po_sInProgress" style="font-size:1.3rem;font-weight:700;color:var(--text);"></div><div class="stat-label" style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Pending</div></div>
+    </div>
+    <div class="stat-card" style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;flex:1;min-width:110px;">
+      <div class="stat-icon" style="width:36px;height:36px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:15px;flex-shrink:0;"><i class="fas fa-check-circle"></i></div>
+      <div><div class="stat-val" id="po_sReceived" style="font-size:1.3rem;font-weight:700;color:var(--text);"></div><div class="stat-label" style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Approved</div></div>
+    </div>
+    <div class="stat-card" style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;flex:1;min-width:110px;">
+      <div class="stat-icon" style="width:36px;height:36px;border-radius:8px;background:#fef2f2;display:flex;align-items:center;justify-content:center;color:#b91c1c;font-size:15px;flex-shrink:0;"><i class="fas fa-times-circle"></i></div>
+      <div><div class="stat-val" id="po_sRejected" style="font-size:1.3rem;font-weight:700;color:var(--text);"></div><div class="stat-label" style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Rejected</div></div>
+    </div>
+    <div class="stat-card" style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;flex:1;min-width:110px;">
+      <div class="stat-icon" style="width:36px;height:36px;border-radius:8px;background:#f0f4ff;display:flex;align-items:center;justify-content:center;color:#3730a3;font-size:15px;flex-shrink:0;"><i class="fas fa-sliders-h"></i></div>
+      <div><div class="stat-val" id="po_sAdjusted" style="font-size:1.3rem;font-weight:700;color:var(--text);"></div><div class="stat-label" style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Adjusted</div></div>
+    </div>
+    <div class="stat-card" style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;flex:1;min-width:110px;">
+      <div class="stat-icon" style="width:36px;height:36px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:15px;flex-shrink:0;"><i class="fas fa-dollar-sign"></i></div>
+      <div><div class="stat-val" id="po_sTotalValue" style="font-size:1.1rem;font-weight:700;color:var(--text);"></div><div class="stat-label" style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Total Invested</div></div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <!-- Search -->
+      <div style="display:flex;align-items:center;border:1px solid var(--border);border-radius:8px;background:#fff;padding:0 12px;min-width:200px;">
+        <i class="fas fa-search" style="color:var(--text-muted);font-size:13px;margin-right:8px;"></i>
+        <input type="text" id="po_boSearch" placeholder="Search order # or product..." oninput="po_applyFilters()" style="border:none;outline:none;font-size:13px;color:var(--text);padding:9px 0;background:transparent;width:100%;">
+      </div>
+      <!-- Quick range -->
+      <div style="position:relative;">
+        <div id="po_qrBtn" style="display:flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);" onclick="po_toggleQR(this)">
+          <i class="fas fa-calendar-alt"></i>
+          <span id="po_qrLabel">All Time</span>
+          <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+        </div>
+        <div id="po_qrDd" style="display:none;position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:300;min-width:160px;overflow:hidden;">
+          <div onclick="po_setRange('7d',this)" style="padding:10px 16px;font-size:13px;cursor:pointer;color:var(--text);">Last 7 Days</div>
+          <div onclick="po_setRange('30d',this)" style="padding:10px 16px;font-size:13px;cursor:pointer;color:var(--text);">Last 30 Days</div>
+          <div onclick="po_setRange('90d',this)" style="padding:10px 16px;font-size:13px;cursor:pointer;color:var(--text);">Last 90 Days</div>
+          <div onclick="po_setRange('year',this)" style="padding:10px 16px;font-size:13px;cursor:pointer;color:var(--text);">This Year</div>
+          <div onclick="po_setRange('all',this)" style="padding:10px 16px;font-size:13px;cursor:pointer;color:var(--text);background:var(--gold-light);">All Time</div>
+        </div>
+      </div>
+      <!-- Status pills -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <div class="po-pill po-pill-active" onclick="po_setStatus('all',this)" style="padding:6px 14px;border:1px solid var(--gold);border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;background:var(--gold);color:#fff;">All</div>
+        <div class="po-pill" onclick="po_setStatus('pending',this)" style="padding:6px 14px;border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;background:#fff;color:var(--text-muted);">Pending</div>
+        <div class="po-pill" onclick="po_setStatus('adjusted',this)" style="padding:6px 14px;border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;background:#fff;color:var(--text-muted);">Order Adjustments</div>
+        <div class="po-pill" onclick="po_setStatus('approved',this)" style="padding:6px 14px;border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;background:#fff;color:var(--text-muted);">Approved</div>
+        <div class="po-pill" onclick="po_setStatus('rejected',this)" style="padding:6px 14px;border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;background:#fff;color:var(--text-muted);">Rejected</div>
+        <div class="po-pill" onclick="po_setStatus('placed',this)" style="padding:6px 14px;border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;background:#fff;color:var(--text-muted);">Placed Order</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button onclick="po_exportExcel()" style="display:flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);"><i class="fas fa-file-excel"></i> Excel</button>
+      <button onclick="po_exportPDF()" style="display:flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);"><i class="fas fa-file-pdf"></i> PDF</button>
+      <!-- <button onclick="po_openNewOrder()" style="display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:8px;background:var(--gold);color:#fff;border:none;cursor:pointer;font-size:13px;font-weight:700;"><i class="fas fa-plus"></i> Create Pre Order</button> -->
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div style="background:#fff;border-radius:12px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.06);overflow:hidden;">
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Photo</th>
+            <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Brand</th>
+            <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Order #</th>
+            <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Order Date</th>
+            <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:center;">Items</th>
+            <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:center;">Stock</th>
+            <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Shipping To</th>
+            <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:center;">Status</th>
+            <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:right;">Total</th>
+            <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:center;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="po_boTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div style="margin-top:16px;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;">
+    <div id="po_pageInfo" style="font-size:12px;color:var(--text-muted);"></div>
+    <div id="po_pageBtns" style="display:flex;gap:6px;"></div>
+  </div>
+
+</div>
+
 <!-- ===== TAB: ORDERS ===== -->
 <div class="tab-content" id="orders">
 <div class="card">
@@ -1234,6 +1355,169 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 </div>
 </main>
 </div>
+
+<!-- NEW / EDIT ORDER MODAL -->
+<div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-shopping-cart"></i> <span id="modalTitle">New Purchase Order</span></h3>
+      <button class="modal-close" onclick="closeOrderModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div>
+  <div class="msec-title"><i class="fas fa-info-circle"></i> Order Information</div>
+  <div class="form-grid-3">
+    <div class="form-group">
+      <label class="form-label">Order # <span class="req">*</span></label>
+      <input type="text" class="form-input" id="fOrderNum" placeholder="e.g. PO-2026-001">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Order Date <span class="req">*</span></label>
+      <input type="date" class="form-input" id="fOrderDate">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Brand <span class="req">*</span></label>
+      <select class="form-select" id="fBrand" onchange="onModalBrandChange()">
+        <option value="">— Select Brand —</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+      <div>
+        <div class="msec-title"><i class="fas fa-th"></i> Select Products</div>
+        <div style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <div class="search-box" style="min-width:200px;">
+            <i class="fas fa-search"></i>
+            <input type="text" id="prodSearch" placeholder="Search products..." oninput="filterProducts()">
+          </div>
+          <select class="form-select" id="prodCollFilter" style="max-width:180px;" onchange="filterProducts()">
+            <option value="">All Collections</option>
+          </select>
+          <span style="font-size:12px;color:var(--text-muted);" id="selectedCount">0 selected</span>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+
+      <div id="selItemsSection" style="display:none;">
+        <div class="msec-title"><i class="fas fa-list"></i> Order Summary</div>
+        <div class="selected-items" id="selItemsList"></div>
+        <div class="order-total-row" style="margin-top:12px;">
+          <span class="order-total-label">Order Total:</span>
+          <span class="order-total-val" id="orderTotalVal">$0.00</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="msec-title"><i class="fas fa-sticky-note"></i> Notes & Special Instructions</div>
+        <div class="form-group">
+          <textarea class="form-textarea" id="fNotes" placeholder="Special packaging instructions, delivery notes..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeOrderModal()">Cancel</button>
+      <button class="btn-submit" onclick="submitOrder()">
+        <i class="fas fa-paper-plane"></i> Place Order
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW ORDER MODAL -->
+<div class="modal-overlay" id="viewModal" onclick="closeViewModal(event)">
+  <div class="modal-box view-modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-eye"></i> Order Details</h3>
+      <button class="modal-close" onclick="closeViewModal()">✕</button>
+    </div>
+    <div class="modal-body" id="viewModalContent" style="max-height:75vh;"></div>
+    <!-- <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeViewModal()">Close</button>
+      <button class="btn-submit" id="viewEditBtn"><i class="fas fa-pen"></i> Edit</button>
+    </div> -->
+  <div class="modal-footer">
+    <button class="btn-cancel" onclick="closeViewModal()">Close</button>
+    <div style="display:flex;gap:8px;" id="viewModalActions">
+      <button class="btn-submit" id="viewRejectBtn"
+        style="background:#dc2626;border-color:#dc2626;"
+        onclick="rejectCurrentOrder()">
+        <i class="fas fa-times"></i> Reject
+      </button>
+      <button class="btn-submit" id="viewEditBtn">
+        <i class="fas fa-pen"></i> Edit
+      </button>
+    </div>
+</div>
+  </div>
+</div>
+
+<!-- LOG MODAL -->
+<div class="modal-overlay" id="logModal" onclick="closeLogModal(event)">
+  <div class="modal-box view-modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-clipboard-list"></i> Product Stock Log</h3>
+      <button class="modal-close" onclick="closeLogModal()">✕</button>
+    </div>
+    <div class="modal-body" id="logModalContent" style="max-height:75vh;"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeLogModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- DATE MODAL -->
+<div class="modal-overlay" id="dateModal" onclick="closeDateModal(event)">
+  <div class="modal-box date-modal-box" onclick="event.stopPropagation()">
+    <div class="date-modal-header">
+      <h3><i class="fas fa-calendar-alt"></i> Custom Date Range</h3>
+      <button class="modal-close" onclick="closeDateModal()">✕</button>
+    </div>
+    <div class="modal-body" style="padding:20px;gap:14px;">
+      <div class="form-group">
+        <label class="form-label">From</label>
+        <input type="date" class="form-input" id="dateFrom">
+      </div>
+      <div class="form-group">
+        <label class="form-label">To</label>
+        <input type="date" class="form-input" id="dateTo">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeDateModal()">Cancel</button>
+      <button class="btn-submit" onclick="applyCustomRange()"><i class="fas fa-check"></i> Apply</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+
+
+<!-- PLACE ORDER CONFIRMATION MODAL -->
+<div class="modal-overlay" id="placeModal" onclick="closePlaceModal(event)">
+  <div class="modal-box view-modal-box" onclick="event.stopPropagation()" style="max-width:580px;">
+    <div class="modal-header" style="background:#1E2227;">
+      <h3><i class="fas fa-play-circle"></i> Confirm Place Order</h3>
+      <button class="modal-close" onclick="closePlaceModal()">✕</button>
+    </div>
+    <div class="modal-body" id="placeModalContent" style="max-height:70vh;"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closePlaceModal()">Cancel</button>
+      <button class="btn-submit" id="placeConfirmBtn"
+        style="background:rgb(171,160,110);"
+        onclick="confirmPlaceOrder()">
+        <i class="fas fa-check-circle"></i> Confirm & Place Order
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 
 <!-- ══ MODAL ══ -->
 <div id="paymentDetailModal" class="modal-overlay" onclick="closePaymentModal(event)">
@@ -1954,7 +2238,987 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 </script>
+
+<script>
+/* ═══════════════════════════════════════
+   PRE ORDERS MODULE (embedded in brand-detail)
+   All IDs/vars prefixed with po_ to avoid conflicts
+═══════════════════════════════════════ */
+
+var po_BRAND_CATALOG = {
+  'Brand Demo': [
+    { sku:'07F-0067F-PARF-100ML', name:'Demo1',        collection:'Modern Oudh',               price:210.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067G-PARF-100ML', name:'Demo2',        collection:'Arcana',                    price:175.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00682-PARF-100ML', name:'Madam Oudh',   collection:'Modern Oudh',               price:190.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00683-PARF-100ML', name:'Demon3',       collection:'Ancient Spirits',           price:185.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00684-PARF-100ML', name:'Incense Oudh', collection:'Modern Oudh',               price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0068D-PARF-100ML', name:'Sphinx',       collection:'Ancient Spirits',           price:200.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00688-PARF-100ML', name:'Fenrir',       collection:'Ancient Spirits',           price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00686-PARF-100ML', name:'Prajna',       collection:'Arcana',                    price:180.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00685-PARF-100ML', name:'Molecule Oudh',collection:'Modern Oudh',               price:185.00, image:'../../img/Brand_Demo.webp' },
+  ],
+  'La Sabia Madrid': [
+    { sku:'07H-0067E-EDP-100ML',     name:'Verdanza',         collection:'Artisan Collection', price:171.95, image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067F-EDP-100ML',     name:'Poderio',          collection:'Artisan Collection', price:171.95, image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067G-EDP-100ML',     name:'Dos Besos',        collection:'Artisan Collection', price:171.95, image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067G-EDP-100ML-TST', name:'Dos Besos Tester', collection:'Artisan Collection', price:94.00,  image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067D-EDP-100ML',     name:'Normal',           collection:'Artisan Collection', price:100.00, image:'../../img/LaSabiaMadrid.webp' },
+  ],
+};
+
+var po_ordersData = [
+  {
+    id:4, orderNum:'PO-2026-004', orderDate:'2026-03-12', deliveryDate:'2026-03-28',
+    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+    payment:'Bank Transfer', currency:'EUR', paymentNotes:'REF-2026-004',
+    notes:'First order with La Sabia Madrid.',
+    status:'pending', brand:'La Sabia Madrid',
+    lineItems:[
+      { name:'Verdanza',  sku:'07H-0067E-EDP-100ML', qty:10, unitPrice:171.95, lineTotal:1719.50, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Poderio',   sku:'07H-0067F-EDP-100ML', qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Dos Besos', sku:'07H-0067G-EDP-100ML', qty:6,  unitPrice:171.95, lineTotal:1031.70, image:'../../img/LaSabiaMadrid.webp' },
+    ], total:4126.80
+  },
+  {
+    id:5, orderNum:'PO-2026-005', orderDate:'2026-02-08', deliveryDate:'2026-02-25',
+    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+    payment:'Net 30', currency:'EUR', paymentNotes:'Invoice #INV-2026-021',
+    notes:'', status:'approved', brand:'La Sabia Madrid',
+    lineItems:[
+      { name:'Verdanza',         sku:'07H-0067E-EDP-100ML',     qty:12, availableQty:14, unitPrice:171.95, lineTotal:2063.40, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Dos Besos Tester', sku:'07H-0067G-EDP-100ML-TST', qty:4,  availableQty:7,  unitPrice:94.00,  lineTotal:376.00,  image:'../../img/LaSabiaMadrid.webp' },
+    ], total:2439.40
+  },
+  {
+    id:9, orderNum:'PO-2026-009', orderDate:'2026-03-18', deliveryDate:'2026-04-05',
+    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+    payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-009',
+    notes:'', status:'adjusted',
+    adjustmentNote:'Brand adjusted quantities due to current stock levels.',
+    brand:'Brand Demo',
+    adjustments:[
+      { sku:'07F-0067F-PARF-100ML', name:'Demo1',  origQty:10, adjQty:6,  origPrice:210.00, adjPrice:210.00, adjLineTotal:1260.00, note:'Only 6 units available' },
+      { sku:'07F-0067G-PARF-100ML', name:'Demo2',  origQty:8,  adjQty:8,  origPrice:175.00, adjPrice:175.00, adjLineTotal:1400.00, note:'' },
+      { sku:'07F-0068D-PARF-100ML', name:'Sphinx', origQty:5,  adjQty:3,  origPrice:200.00, adjPrice:200.00, adjLineTotal:600.00,  note:'Only 3 units in stock' },
+    ],
+    lineItems:[
+      { name:'Demo1',  sku:'07F-0067F-PARF-100ML', qty:10, availableQty:6, unitPrice:210.00, lineTotal:2100.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Demo2',  sku:'07F-0067G-PARF-100ML', qty:8,  availableQty:8, unitPrice:175.00, lineTotal:1400.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Sphinx', sku:'07F-0068D-PARF-100ML', qty:5,  availableQty:3, unitPrice:200.00, lineTotal:1000.00, image:'../../img/Brand_Demo.webp' },
+    ], total:4500.00
+  },
+  {
+    id:12, orderNum:'PO-2026-010', orderDate:'2026-02-10', deliveryDate:'2026-02-28',
+    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+    payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-010',
+    notes:'Express delivery requested.',
+    status:'placed', placedDate:'2026-03-01', brand:'Brand Demo',
+    lineItems:[
+      { name:'Fenrir',        sku:'07F-00688-PARF-100ML', qty:10, availableQty:10, unitPrice:195.00, lineTotal:1950.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Prajna',        sku:'07F-00686-PARF-100ML', qty:8,  availableQty:8,  unitPrice:180.00, lineTotal:1440.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Molecule Oudh', sku:'07F-00685-PARF-100ML', qty:6,  availableQty:6,  unitPrice:185.00, lineTotal:1110.00, image:'../../img/Brand_Demo.webp' },
+    ], total:4500.00
+  },
+  {
+    id:13, orderNum:'PO-2026-011', orderDate:'2026-01-28', deliveryDate:'2026-02-14',
+    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+    payment:'Net 30', currency:'EUR', paymentNotes:'Invoice #INV-2026-008',
+    notes:"Valentine's Day special order.",
+    status:'placed', placedDate:'2026-02-15', brand:'La Sabia Madrid',
+    lineItems:[
+      { name:'Verdanza',  sku:'07H-0067E-EDP-100ML', qty:15, availableQty:15, unitPrice:171.95, lineTotal:2579.25, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Dos Besos', sku:'07H-0067G-EDP-100ML', qty:10, availableQty:10, unitPrice:171.95, lineTotal:1719.50, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Poderio',   sku:'07H-0067F-EDP-100ML', qty:8,  availableQty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
+    ], total:5674.35
+  },
+];
+var po_nextOrderId = 14;
+
+/* STATE */
+var po_currentBrand     = '';
+var po_boSearch         = '';
+var po_boRange          = 'all';
+var po_boCustomFrom     = '';
+var po_boCustomTo       = '';
+var po_boHasCustom      = false;
+var po_boStatus         = 'all';
+var po_boPage           = 1;
+var PO_PER_PAGE         = 10;
+var po_editingOrderId   = null;
+var po_viewingOrderId   = null;
+var po_placingOrderId   = null;
+var po_selectedProducts = {};
+var po_selectedProductsState = {};
+
+/* HELPERS */
+function po_fmt(n){ return '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function po_fmtDate(d){
+  if(!d) return '—';
+  var p=d.split('-'), m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return m[parseInt(p[1])-1]+' '+parseInt(p[2])+', '+p[0];
+}
+function po_escapeAttr(str){ return (str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function po_skuId(sku){ return sku.replace(/[^a-z0-9]/gi,'_'); }
+function po_todayISO(){ return new Date().toISOString().split('T')[0]; }
+function po_genOrderNum(){
+  var now=new Date();
+  return 'PO-'+now.getFullYear()+'-'+String(po_nextOrderId++).padStart(3,'0');
+}
+
+function po_inRange(dateStr){
+  if(!dateStr) return true;
+  var date=new Date(dateStr), now=new Date();
+  if(po_boHasCustom){
+    if(po_boCustomFrom && date<new Date(po_boCustomFrom)) return false;
+    if(po_boCustomTo   && date>new Date(po_boCustomTo))   return false;
+    return true;
+  }
+  switch(po_boRange){
+    case '7d':   return (now-date)<=7*864e5;
+    case '30d':  return (now-date)<=30*864e5;
+    case '90d':  return (now-date)<=90*864e5;
+    case 'year': return date.getFullYear()===now.getFullYear();
+    default:     return true;
+  }
+}
+
+function po_normalizeStatus(s){
+  s=(s||'').toLowerCase().trim();
+  if(s==='approved') return 'approved';
+  if(s==='rejected') return 'rejected';
+  if(s==='adjusted') return 'adjusted';
+  if(s==='placed')   return 'placed';
+  return 'pending';
+}
+
+function po_statusBadge(s, reason){
+  s = po_normalizeStatus(s);
+  if(s==='approved') return '<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;background:#f0fdf4;color:#15803d;border:1px solid #16a34a;">Approved</span>';
+  if(s==='placed')   return '<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;background:#f0fdf4;color:#065f46;border:1px solid #6ee7b7;">Placed Order</span>';
+  if(s==='adjusted') return '<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;background:#f0f4ff;color:#3730a3;border:1px solid #a5b4fc;">Order Adjustments</span>';
+  if(s==='rejected'){
+    var tip = reason ? '<span style="position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1E2227;color:#fff;font-size:11px;padding:7px 11px;border-radius:8px;pointer-events:none;opacity:0;transition:opacity .18s;z-index:500;width:200px;white-space:normal;text-align:center;line-height:1.4;">'+reason+'</span>' : '';
+    var btn = reason ? '<button style="width:18px;height:18px;border-radius:50%;background:#e8f0fe;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#1a73e8;font-size:10px;font-weight:700;" tabindex="-1"><i class="fas fa-exclamation"></i></button>' : '';
+    return '<div style="position:relative;display:inline-flex;align-items:center;gap:6px;" onmouseenter="this.querySelector(\'span\')&&(this.querySelector(\'span\').style.opacity=1)" onmouseleave="this.querySelector(\'span\')&&(this.querySelector(\'span\').style.opacity=0)">'
+      +'<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;background:#fef2f2;color:#b91c1c;border:1px solid #f87171;">Rejected</span>'
+      +btn+tip+'</div>';
+  }
+  return '<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;background:#fff8e6;color:#b45309;border:1px solid #d97706;">Pending</span>';
+}
+
+function po_getOrderStock(o){
+  if(!o.lineItems||!o.lineItems.length) return 0;
+  return o.lineItems.reduce(function(a,it){return a+(it.qty||0);},0);
+}
+
+function po_estimateAvailableQty(order, item, index){
+  if(typeof item.availableQty === 'number') return item.availableQty;
+  var seed = (order.id * 17) + (index * 11) + item.sku.length;
+  return Math.max(0, item.qty + ((seed % 9) - 4));
+}
+
+function po_getOrderRejectedReason(o){
+  if(!o) return '';
+  if(o.rejectedReason) return o.rejectedReason;
+  if(!o.lineItems) return '';
+  var reasons = [];
+  o.lineItems.forEach(function(it){
+    if(it.available === false) reasons.push(it.name + ': ' + (it.unavailableReason || 'cannot be sold'));
+    else if(typeof it.availableQty === 'number' && it.availableQty < it.qty)
+      reasons.push(it.name + ': only ' + it.availableQty + ' available, ' + it.qty + ' requested');
+  });
+  return reasons.join(' · ');
+}
+
+function po_computeStatus(order){
+  var s = po_normalizeStatus(order.status);
+  if(s==='rejected'||s==='adjusted'||s==='placed') return s;
+  var allOk = order.lineItems.every(function(it,idx){
+    if(it.available===false) return false;
+    var avail = typeof it.availableQty==='number' ? it.availableQty : po_estimateAvailableQty(order,it,idx);
+    return avail >= it.qty;
+  });
+  return allOk ? 'approved' : 'pending';
+}
+
+function po_syncStatuses(){ po_ordersData.forEach(function(o){ o.status = po_computeStatus(o); }); }
+
+/* FILTER */
+function po_getFiltered(){
+  po_syncStatuses();
+  return po_ordersData.filter(function(o){
+    var q = po_boSearch.toLowerCase();
+    var matchQ = !q || o.orderNum.toLowerCase().includes(q) ||
+      (o.brand||'').toLowerCase().includes(q) ||
+      o.lineItems.some(function(it){ return it.name.toLowerCase().includes(q); });
+    var matchS = po_boStatus==='all' || po_normalizeStatus(o.status)===po_boStatus;
+    var matchR = po_inRange(o.orderDate);
+    return matchQ && matchS && matchR;
+  });
+}
+
+/* RENDER */
+function po_render(){
+  var filtered = po_getFiltered();
+  var total    = Math.ceil(filtered.length / PO_PER_PAGE);
+  var paged    = filtered.slice((po_boPage-1)*PO_PER_PAGE, po_boPage*PO_PER_PAGE);
+  var tbody    = document.getElementById('po_boTbody');
+  if(!tbody) return;
+
+  po_updateStats(filtered);
+
+  if(paged.length===0){
+    tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:60px;color:var(--text-muted);"><i class="fas fa-shopping-cart" style="font-size:36px;color:#ddd;display:block;margin-bottom:12px;"></i><p>No pre-orders found.</p></td></tr>';
+    document.getElementById('po_pageBtns').innerHTML='';
+    document.getElementById('po_pageInfo').textContent='';
+    return;
+  }
+
+  var html = '';
+  paged.forEach(function(o){
+    var firstImg = o.lineItems.find(function(it){ return it.image; });
+    var imgSrc   = firstImg ? firstImg.image : '';
+    var photoCell = imgSrc
+      ? '<img src="'+imgSrc+'" style="width:44px;height:56px;object-fit:cover;border-radius:8px;border:2px solid var(--border);" onerror="this.style.display=\'none\'">'
+      : '<div style="width:44px;height:44px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:18px;"><i class="fas fa-spray-can"></i></div>';
+
+    var brandBadge = '<span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;background:var(--gold-light);color:var(--gold-dark);border:1px solid var(--gold-border);">'+o.brand+'</span>';
+
+    var totalItems = o.lineItems.reduce(function(a,it){ return a+it.qty; }, 0);
+    var sNorm      = po_normalizeStatus(o.status);
+    var isApproved = sNorm==='approved';
+    var isPlaced   = sNorm==='placed';
+
+    var actions = '<button style="width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:#e8f0fe;color:#1a73e8;display:flex;align-items:center;justify-content:center;font-size:12px;" onclick="po_viewOrder('+o.id+')" title="View"><i class="fas fa-eye"></i></button>';
+    if(!isPlaced) actions += '<button style="width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:var(--gold-light);color:var(--gold-dark);display:flex;align-items:center;justify-content:center;font-size:12px;" onclick="po_openNewOrder('+o.id+')" title="Edit"><i class="fas fa-pen"></i></button>';
+    actions += '<button style="width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:#e8f5e9;color:#2e7d32;display:flex;align-items:center;justify-content:center;font-size:12px;" onclick="po_exportRowExcel('+o.id+')" title="Excel"><i class="fas fa-file-excel"></i></button>';
+    actions += '<button style="width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:#fce4e4;color:#c62828;display:flex;align-items:center;justify-content:center;font-size:12px;" onclick="po_exportRowPDF('+o.id+')" title="PDF"><i class="fas fa-file-pdf"></i></button>';
+    actions += '<button style="width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:#fff7ed;color:#9a3412;display:flex;align-items:center;justify-content:center;font-size:12px;" onclick="po_openLogModal('+o.id+')" title="Log"><i class="fas fa-clipboard-list"></i></button>';
+    if(isApproved) actions += '<button style="background:#d1fae5;color:#065f46;font-size:11px;border:none;border-radius:7px;cursor:pointer;padding:0 10px;height:30px;white-space:nowrap;display:flex;align-items:center;gap:4px;" onclick="po_placeOrder('+o.id+')" title="Place Order"><i class="fas fa-play"></i> Place Order</button>';
+
+    html += '<tr'+(isPlaced?' style="opacity:0.65;background:#f9fafb;"':'')+'>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);width:60px;">'+photoCell+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);">'+brandBadge+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);font-family:monospace;font-size:13px;font-weight:600;color:var(--gold);">'+o.orderNum+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap;font-size:13px;">'+po_fmtDate(o.orderDate)+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);text-align:center;font-size:13px;">'+totalItems+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);text-align:center;font-size:13px;">'+po_getOrderStock(o)+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text-muted);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+(o.address||'')+'">'+( o.address||'—')+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);text-align:center;">'+po_statusBadge(o.status, sNorm==='rejected' ? po_getOrderRejectedReason(o) : '')+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);text-align:right;font-weight:700;font-size:13px;">'+po_fmt(o.total)+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);"><div style="display:flex;gap:6px;justify-content:center;">'+actions+'</div></td>'+
+    '</tr>';
+  });
+  tbody.innerHTML = html;
+
+  var pi = document.getElementById('po_pageInfo');
+  if(pi) pi.textContent = 'Showing '+(((po_boPage-1)*PO_PER_PAGE)+1)+'-'+Math.min(po_boPage*PO_PER_PAGE,filtered.length)+' of '+filtered.length;
+
+  var btns = '';
+  btns += '<button '+(po_boPage===1?'disabled':'')+' onclick="po_goPage('+(po_boPage-1)+')" style="padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:13px;">‹</button>';
+  for(var i=1;i<=total;i++){
+    if(total>7&&i>2&&i<total-1&&Math.abs(i-po_boPage)>1){ if(i===3||i===total-2) btns+='<button disabled style="padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;font-size:13px;">…</button>'; continue; }
+    btns += '<button class="'+(i===po_boPage?'active':'')+'" onclick="po_goPage('+i+')" style="padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:'+(i===po_boPage?'var(--gold)':'#fff')+';color:'+(i===po_boPage?'#fff':'inherit')+';cursor:pointer;font-size:13px;">'+i+'</button>';
+  }
+  btns += '<button '+(po_boPage>=total||total===0?'disabled':'')+' onclick="po_goPage('+(po_boPage+1)+')" style="padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:13px;">›</button>';
+  var pb = document.getElementById('po_pageBtns');
+  if(pb) pb.innerHTML = btns;
+}
+
+function po_goPage(p){ po_boPage=p; po_render(); }
+
+function po_updateStats(filtered){
+  var pending  = filtered.filter(function(o){ return po_normalizeStatus(o.status)==='pending';  }).length;
+  var approved = filtered.filter(function(o){ return po_normalizeStatus(o.status)==='approved'; }).length;
+  var rejected = filtered.filter(function(o){ return po_normalizeStatus(o.status)==='rejected'; }).length;
+  var adjusted = filtered.filter(function(o){ return po_normalizeStatus(o.status)==='adjusted'; }).length;
+  var total    = filtered.reduce(function(a,o){ return a+o.total; }, 0);
+  var set = function(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; };
+  set('po_sTotalOrders', filtered.length);
+  set('po_sInProgress',  pending);
+  set('po_sReceived',    approved);
+  set('po_sRejected',    rejected);
+  set('po_sAdjusted',    adjusted);
+  set('po_sTotalValue',  po_fmt(total));
+}
+
+/* FILTERS */
+function po_applyFilters(){ po_boSearch=document.getElementById('po_boSearch').value; po_boPage=1; po_render(); }
+
+function po_setStatus(s, el){
+  po_boStatus = s;
+  document.querySelectorAll('.po-pill').forEach(function(p){
+    p.style.background='#fff'; p.style.color='var(--text-muted)'; p.style.borderColor='var(--border)';
+  });
+  el.style.background='var(--gold)'; el.style.color='#fff'; el.style.borderColor='var(--gold)';
+  po_boPage=1; po_render();
+}
+
+function po_toggleQR(btn){
+  var dd = document.getElementById('po_qrDd');
+  var isOpen = dd.style.display !== 'none';
+  dd.style.display = isOpen ? 'none' : 'block';
+}
+
+function po_setRange(r, el){
+  po_boRange = r; po_boHasCustom = false;
+  var lbl = {'7d':'Last 7 Days','30d':'Last 30 Days','90d':'Last 90 Days','year':'This Year','all':'All Time'};
+  var ql = document.getElementById('po_qrLabel'); if(ql) ql.textContent = lbl[r]||'All Time';
+  document.getElementById('po_qrDd').style.display = 'none';
+  po_boPage=1; po_render();
+}
+
+/* VIEW ORDER */
+function po_viewOrder(id){
+  po_viewingOrderId = id;
+  var o = po_ordersData.find(function(x){ return x.id===id; });
+  if(!o) return;
+  var statusNorm = po_normalizeStatus(o.status);
+  var reason = po_getOrderRejectedReason(o);
+
+  // Adjusted panel with checkboxes
+  var adjustedPanel = '';
+  if(statusNorm==='adjusted' && o.adjustments && o.adjustments.length){
+    var initialTotal = o.adjustments.reduce(function(a,adj){ return adj.adjQty===0 ? a : a+adj.adjLineTotal; }, 0);
+    var adjRows = o.adjustments.map(function(adj,idx){
+      var noStock = adj.adjQty===0;
+      var changed = adj.adjQty!==adj.origQty || adj.adjPrice!==adj.origPrice;
+      return '<div style="display:flex;align-items:flex-start;gap:12px;padding:8px 0;border-bottom:1px solid #e8e9e9;">'
+        +'<label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding-top:2px;flex-shrink:0;">'
+          +'<input type="checkbox" id="po_adj_check_'+id+'_'+idx+'" '+(noStock?'disabled':(!noStock?'checked':''))+' style="width:16px;height:16px;accent-color:var(--gold);cursor:'+(noStock?'not-allowed':'pointer')+';" onchange="po_recalcAdjTotal('+id+')">'
+        +'</label>'
+        +'<div style="flex:1;display:flex;justify-content:space-between;align-items:center;">'
+          +'<div>'
+            +'<div style="font-size:13px;font-weight:600;'+(noStock?'color:#9ca3af;text-decoration:line-through;':'')+'">'+adj.name+'</div>'
+            +(adj.note?'<div style="font-size:11px;color:var(--text-muted);margin-top:2px;"><i class="fas fa-info-circle"></i> '+adj.note+'</div>':'')
+          +'</div>'
+          +'<div style="display:flex;align-items:center;gap:8px;font-size:12px;">'
+            +(noStock
+              ? '<span style="color:#dc2626;font-weight:600;"><i class="fas fa-times-circle"></i> Out of stock</span>'
+              : changed
+                ? '<span style="color:#888;text-decoration:line-through;">x'+adj.origQty+' — '+po_fmt(adj.origQty*adj.origPrice)+'</span>'
+                  +'<i class="fas fa-arrow-right" style="font-size:10px;"></i>'
+                  +'<span style="font-weight:700;">x'+adj.adjQty+' — '+po_fmt(adj.adjLineTotal)+'</span>'
+                : '<span style="color:#15803d;font-weight:600;">x'+adj.adjQty+' — '+po_fmt(adj.adjLineTotal)+' ✓</span>')
+          +'</div>'
+        +'</div>'
+      +'</div>';
+    }).join('');
+
+    adjustedPanel = '<div style="background:#f9f9f7;border-radius:10px;padding:16px;margin-bottom:16px;border:1px solid var(--border);">'
+      +'<div style="font-size:12px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px;"><i class="fas fa-sliders-h"></i> Brand Adjustment — Select products you want</div>'
+      +(o.adjustmentNote?'<div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;"><i class="fas fa-comment-alt" style="margin-right:5px;"></i>'+o.adjustmentNote+'</div>':'')
+      +'<div style="font-size:11px;margin-bottom:12px;padding:8px 10px;background:var(--gold-light);border-radius:6px;">'
+        +'<i class="fas fa-info-circle" style="margin-right:5px;"></i>Check the products you want to keep. Unchecked items will be removed.'
+      +'</div>'
+      +adjRows
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">'
+        +'<div>'
+          +'<div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">Selected total</div>'
+          +'<div style="font-size:15px;font-weight:700;color:var(--gold-dark);" id="po_adjLiveTotal_'+id+'">'+po_fmt(initialTotal)+'</div>'
+        +'</div>'
+        +'<button onclick="po_acceptAdjustmentWithSelection('+id+')" style="background:var(--gold);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">'
+          +'<i class="fas fa-check"></i> Accept & Continue'
+        +'</button>'
+      +'</div>'
+    +'</div>';
+  }
+
+  var itemsHtml = (statusNorm==='adjusted' && o.adjustments
+    ? o.adjustments.map(function(adj){
+        var changed = adj.adjQty!==adj.origQty;
+        var noStock = adj.adjQty===0;
+        return '<div style="display:flex;align-items:center;gap:12px;padding:10px;background:#f9f9f7;border-radius:8px;'+(noStock?'opacity:0.4;':changed?'border-left:3px solid var(--gold);':'')+'">'
+          +'<div style="width:36px;height:36px;border-radius:5px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:13px;"><i class="fas fa-spray-can"></i></div>'
+          +'<div style="flex:1;">'
+            +'<div style="font-size:13px;font-weight:600;'+(noStock?'text-decoration:line-through;color:#9ca3af;':'')+'">'+adj.name+'</div>'
+            +'<div style="font-size:11px;color:var(--text-muted);font-family:monospace;">'+adj.sku+'</div>'
+            +(noStock?'<div style="font-size:11px;color:#dc2626;margin-top:2px;"><i class="fas fa-times-circle"></i> Out of stock</div>'
+              :changed?'<div style="font-size:11px;color:var(--text-muted);margin-top:2px;"><i class="fas fa-edit"></i> Qty: '+adj.origQty+' → '+adj.adjQty+'</div>':'')
+          +'</div>'
+          +'<div style="text-align:right;">'
+            +'<div style="font-size:12px;color:var(--text-muted);">QTY: '+adj.adjQty+'</div>'
+            +'<div style="font-size:13px;font-weight:700;color:var(--gold-dark);">'+po_fmt(adj.adjLineTotal)+'</div>'
+          +'</div>'
+        +'</div>';
+      }).join('')
+    : o.lineItems.map(function(it){
+        return '<div style="display:flex;align-items:center;gap:12px;padding:10px;background:#f9f9f7;border-radius:8px;">'
+          +(it.image?'<img src="'+it.image+'" style="width:36px;height:46px;object-fit:cover;border-radius:5px;" onerror="this.style.display=\'none\'">':'')
+          +'<div style="width:36px;height:36px;border-radius:5px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:13px;'+(it.image?'display:none;':'')+'"><i class="fas fa-spray-can"></i></div>'
+          +'<div style="flex:1;">'
+            +'<div style="font-size:13px;font-weight:600;">'+it.name+'</div>'
+            +'<div style="font-size:11px;color:var(--text-muted);font-family:monospace;">'+it.sku+'</div>'
+          +'</div>'
+          +'<div style="text-align:right;">'
+            +'<div style="font-size:12px;color:var(--text-muted);">QTY: '+it.qty+'</div>'
+            +'<div style="font-size:13px;font-weight:700;color:var(--gold-dark);">'+po_fmt(it.lineTotal)+'</div>'
+          +'</div>'
+        +'</div>';
+      }).join('')
+  );
+
+  var displayTotal = (statusNorm==='adjusted'&&o.adjustments)
+    ? o.adjustments.reduce(function(a,adj){ return a+adj.adjLineTotal; }, 0) : o.total;
+
+  document.getElementById('po_viewModalContent').innerHTML =
+    '<div style="margin-bottom:20px;">'
+      +'<div style="font-size:11px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;"><i class="fas fa-info-circle"></i> Order Information</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'
+        +'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">Order #</div><div style="font-size:13px;font-weight:600;font-family:monospace;color:var(--gold);">'+o.orderNum+'</div></div>'
+        +'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">Status</div><div style="font-size:13px;font-weight:600;">'+po_statusBadge(o.status,reason)+'</div></div>'
+        +'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">Order Date</div><div style="font-size:13px;font-weight:600;">'+po_fmtDate(o.orderDate)+'</div></div>'
+        +'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">Brand</div><div style="font-size:13px;font-weight:600;">'+o.brand+'</div></div>'
+        +(o.notes?'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;grid-column:1/-1;"><div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">Notes</div><div style="font-size:13px;font-weight:400;">'+o.notes+'</div></div>':'')
+      +'</div>'
+    +'</div>'
+    +adjustedPanel
+    +'<div style="margin-bottom:20px;">'
+      +'<div style="font-size:11px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;"><i class="fas fa-box"></i> Items Ordered</div>'
+      +'<div style="display:flex;flex-direction:column;gap:8px;">'+itemsHtml+'</div>'
+      +'<div style="display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:12px 14px;background:var(--gold-light);border-radius:8px;border:1px solid var(--gold-border);margin-top:12px;">'
+        +'<span style="font-size:13px;font-weight:600;color:var(--text-muted);">Order Total:</span>'
+        +'<span style="font-size:1.2rem;font-weight:700;color:var(--gold-dark);">'+po_fmt(displayTotal)+'</span>'
+      +'</div>'
+    +'</div>';
+
+  // Show/hide buttons
+  var rjBtn = document.getElementById('po_viewRejectBtn');
+  var edBtn = document.getElementById('po_viewEditBtn');
+  if(statusNorm==='placed'){
+    if(rjBtn) rjBtn.style.display='none';
+    if(edBtn) edBtn.style.display='none';
+  } else if(statusNorm==='approved'){
+    if(rjBtn) rjBtn.style.display='none';
+    if(edBtn) edBtn.style.display='flex';
+  } else {
+    if(rjBtn) rjBtn.style.display='flex';
+    if(edBtn) edBtn.style.display='flex';
+  }
+
+  if(edBtn) edBtn.onclick = function(){ po_closeViewModal(); po_openNewOrder(id); };
+  document.getElementById('po_viewModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function po_recalcAdjTotal(orderId){
+  var o = po_ordersData.find(function(x){ return x.id===orderId; });
+  if(!o||!o.adjustments) return;
+  var total = 0;
+  o.adjustments.forEach(function(adj,idx){
+    var cb = document.getElementById('po_adj_check_'+orderId+'_'+idx);
+    if(cb&&cb.checked) total+=adj.adjLineTotal;
+  });
+  var el = document.getElementById('po_adjLiveTotal_'+orderId);
+  if(el) el.textContent = po_fmt(total);
+}
+
+function po_acceptAdjustmentWithSelection(id){
+  var o = po_ordersData.find(function(x){ return x.id===id; });
+  if(!o||!o.adjustments) return;
+  var selectedAdjs = o.adjustments.filter(function(adj,idx){
+    var cb = document.getElementById('po_adj_check_'+id+'_'+idx);
+    return cb && cb.checked;
+  });
+  if(selectedAdjs.length===0){ po_showToast('Please select at least one product.'); return; }
+  var newLineItems = [];
+  selectedAdjs.forEach(function(adj){
+    var existing = o.lineItems.find(function(it){ return it.sku===adj.sku; });
+    if(existing) newLineItems.push({
+      name:adj.name, sku:adj.sku, qty:adj.adjQty,
+      unitPrice:adj.adjPrice, lineTotal:adj.adjLineTotal,
+      image:existing.image, availableQty:adj.adjQty, available:true, unavailableReason:''
+    });
+  });
+  o.lineItems      = newLineItems;
+  o.total          = newLineItems.reduce(function(a,it){ return a+it.lineTotal; }, 0);
+  o.status         = 'pending';
+  o.adjustments    = null;
+  o.adjustmentNote = '';
+  o.rejectedReason = '';
+  po_closeViewModal();
+  po_render();
+  po_showToast('✓ Adjustment accepted — order is now Pending.');
+}
+
+function po_rejectCurrentOrder(){
+  if(!po_viewingOrderId) return;
+  var o = po_ordersData.find(function(x){ return x.id===po_viewingOrderId; });
+  if(!o) return;
+  var reason = prompt('Reason for rejection (optional):') || '';
+  o.status = 'rejected';
+  o.rejectedReason = reason || po_getOrderRejectedReason(o) || 'Order rejected';
+  po_closeViewModal();
+  po_render();
+  po_showToast('Order marked as rejected.');
+}
+
+function po_closeViewModal(e){
+  if(e&&e.target!==document.getElementById('po_viewModal')) return;
+  document.getElementById('po_viewModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* PLACE ORDER */
+function po_placeOrder(id){
+  var o = po_ordersData.find(function(x){ return x.id===id; });
+  if(!o) return;
+  if(po_normalizeStatus(o.status)!=='approved'){ po_showToast('Only approved orders can be placed.'); return; }
+  po_placingOrderId = id;
+  var itemsHtml = o.lineItems.map(function(it){
+    return '<div style="display:flex;align-items:center;gap:12px;padding:10px;background:#f9f9f7;border-radius:8px;">'
+      +(it.image?'<img src="'+it.image+'" style="width:36px;height:46px;object-fit:cover;border-radius:5px;" onerror="this.style.display=\'none\'">':'')
+      +'<div style="flex:1;"><div style="font-size:13px;font-weight:600;">'+it.name+'</div><div style="font-size:11px;color:var(--text-muted);font-family:monospace;">'+it.sku+'</div></div>'
+      +'<div style="text-align:right;"><div style="font-size:12px;color:var(--text-muted);">QTY: '+it.qty+'</div><div style="font-size:13px;font-weight:700;color:var(--gold-dark);">'+po_fmt(it.lineTotal)+'</div></div>'
+    +'</div>';
+  }).join('');
+  document.getElementById('po_placeModalContent').innerHTML =
+    '<div style="border-radius:10px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px;">'
+      +'<i class="fas fa-play-circle" style="color:var(--gold);font-size:22px;flex-shrink:0;"></i>'
+      +'<div><div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:3px;">Ready to place this order?</div>'
+      +'<div style="font-size:12px;color:var(--text-muted);">Once confirmed, the status changes to <strong>Placed Order</strong> and can no longer be edited.</div></div>'
+    +'</div>'
+    +'<div style="margin-bottom:16px;">'
+      +'<div style="font-size:11px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);">Order Summary</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">'
+        +'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);">ORDER #</div><div style="font-size:13px;font-weight:600;font-family:monospace;color:var(--gold);">'+o.orderNum+'</div></div>'
+        +'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);">BRAND</div><div style="font-size:13px;font-weight:600;">'+o.brand+'</div></div>'
+        +'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);">ORDER DATE</div><div style="font-size:13px;font-weight:600;">'+po_fmtDate(o.orderDate)+'</div></div>'
+        +'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);">DELIVERY</div><div style="font-size:13px;font-weight:600;">'+po_fmtDate(o.deliveryDate||'')+'</div></div>'
+      +'</div>'
+    +'</div>'
+    +'<div style="margin-bottom:16px;">'
+      +'<div style="font-size:11px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);">Items</div>'
+      +'<div style="display:flex;flex-direction:column;gap:8px;">'+itemsHtml+'</div>'
+      +'<div style="display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:12px 14px;background:var(--gold-light);border-radius:8px;border:1px solid var(--gold-border);margin-top:12px;">'
+        +'<span style="font-size:13px;font-weight:600;color:var(--text-muted);">Order Total:</span>'
+        +'<span style="font-size:1.2rem;font-weight:700;color:var(--gold-dark);">'+po_fmt(o.total)+'</span>'
+      +'</div>'
+    +'</div>';
+  document.getElementById('po_placeModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function po_confirmPlaceOrder(){
+  var o = po_ordersData.find(function(x){ return x.id===po_placingOrderId; });
+  if(!o) return;
+  o.status = 'placed';
+  o.placedDate = po_todayISO();
+  po_closePlaceModal();
+  po_boPage=1; po_render();
+  po_showToast('✓ Order '+o.orderNum+' has been placed successfully!');
+}
+
+function po_closePlaceModal(e){
+  if(e&&e.target!==document.getElementById('po_placeModal')) return;
+  document.getElementById('po_placeModal').classList.remove('open');
+  document.body.style.overflow='';
+  po_placingOrderId=null;
+}
+
+/* NEW / EDIT ORDER */
+function po_openNewOrder(id){
+  po_selectedProducts = {};
+  po_selectedProductsState = {};
+  var sel = document.getElementById('po_fBrand');
+  if(sel){
+    sel.innerHTML='<option value="">— Select Brand —</option>';
+    Object.keys(po_BRAND_CATALOG).forEach(function(b){
+      var opt=document.createElement('option'); opt.value=b; opt.textContent=b; sel.appendChild(opt);
+    });
+  }
+  if(id){
+    var o = po_ordersData.find(function(x){ return x.id===id; });
+    if(!o) return;
+    po_editingOrderId = id;
+    po_currentBrand = o.brand;
+    if(sel) sel.value = o.brand;
+    document.getElementById('po_fOrderNum').value = o.orderNum;
+    document.getElementById('po_fOrderDate').value = o.orderDate;
+    document.getElementById('po_fNotes').value = o.notes||'';
+    document.getElementById('po_modalTitle').textContent = 'Edit Order — '+o.orderNum;
+    o.lineItems.forEach(function(it,idx){
+      po_selectedProducts[it.sku] = it.qty;
+      po_selectedProductsState[it.sku] = {available:true, comment:''};
+    });
+  } else {
+    po_editingOrderId = null;
+    var firstBrand = Object.keys(po_BRAND_CATALOG)[0]||'';
+    po_currentBrand = firstBrand;
+    if(sel) sel.value = firstBrand;
+    document.getElementById('po_fOrderNum').value = po_genOrderNum();
+    document.getElementById('po_fOrderDate').value = po_todayISO();
+    document.getElementById('po_fNotes').value = '';
+    document.getElementById('po_modalTitle').textContent = 'New Pre Order';
+  }
+  po_buildProductGrid();
+  po_buildSelectionSummary();
+  document.getElementById('po_orderModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function po_closeOrderModal(e){
+  if(e&&e.target!==document.getElementById('po_orderModal')) return;
+  document.getElementById('po_orderModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function po_onModalBrandChange(){
+  po_currentBrand = document.getElementById('po_fBrand').value;
+  po_selectedProducts = {};
+  po_selectedProductsState = {};
+  po_buildProductGrid();
+  po_buildSelectionSummary();
+}
+
+function po_buildProductGrid(){
+  var catalog = po_BRAND_CATALOG[po_currentBrand]||[];
+  var q = (document.getElementById('po_prodSearch')||{}).value||'';
+  q = q.toLowerCase();
+  var grid = document.getElementById('po_productGrid');
+  if(!grid) return;
+  grid.innerHTML = catalog.filter(function(p){
+    return !q||p.name.toLowerCase().includes(q)||p.sku.toLowerCase().includes(q);
+  }).map(function(p){
+    var sel = !!po_selectedProducts[p.sku];
+    return '<div style="border:2px solid '+(sel?'var(--gold)':'var(--border)')+';border-radius:10px;padding:12px;cursor:pointer;position:relative;background:'+(sel?'var(--gold-light)':'#fff')+';" onclick="po_toggleProduct(\''+p.sku+'\')">'
+      +(sel?'<div style="position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;"><i class="fas fa-check"></i></div>':'')
+      +(p.image?'<img src="'+p.image+'" style="width:100%;height:80px;object-fit:contain;border-radius:6px;margin-bottom:8px;" onerror="this.style.display=\'none\'">':'')
+      +'<div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;">'+p.name+'</div>'
+      +'<div style="font-size:10px;color:var(--text-muted);font-family:monospace;margin-bottom:4px;">'+p.sku+'</div>'
+      +'<div style="font-size:12px;font-weight:700;color:var(--gold-dark);">'+po_fmt(p.price)+'</div>'
+    +'</div>';
+  }).join('');
+  var sc = document.getElementById('po_selectedCount');
+  if(sc) sc.textContent = Object.keys(po_selectedProducts).length+' selected';
+}
+
+function po_toggleProduct(sku){
+  if(po_selectedProducts[sku]){ delete po_selectedProducts[sku]; delete po_selectedProductsState[sku]; }
+  else { po_selectedProducts[sku]=1; po_selectedProductsState[sku]={available:true,comment:''}; }
+  po_buildProductGrid();
+  po_buildSelectionSummary();
+}
+
+function po_buildSelectionSummary(){
+  var catalog = po_BRAND_CATALOG[po_currentBrand]||[];
+  var skus = Object.keys(po_selectedProducts);
+  var sec = document.getElementById('po_selItemsSection');
+  if(!sec) return;
+  if(skus.length===0){ sec.style.display='none'; return; }
+  sec.style.display='block';
+  var total=0, html='';
+  skus.forEach(function(sku){
+    var prod = catalog.find(function(p){ return p.sku===sku; });
+    if(!prod) return;
+    var qty = po_selectedProducts[sku]||1;
+    var lineTotal = prod.price*qty;
+    total+=lineTotal;
+    html+='<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#f9f9f7;border-radius:8px;border:1px solid var(--border);">'
+      +(prod.image?'<img src="'+prod.image+'" style="width:40px;height:52px;object-fit:cover;border-radius:6px;flex-shrink:0;" onerror="this.style.display=\'none\'">':'')
+      +'<div style="flex:1;"><div style="font-size:13px;font-weight:600;">'+prod.name+'</div><div style="font-size:11px;color:var(--text-muted);font-family:monospace;">'+prod.sku+'</div><div style="font-size:12px;color:var(--gold-dark);">'+po_fmt(prod.price)+' / unit</div></div>'
+      +'<div style="display:flex;align-items:center;gap:8px;">'
+        +'<button onclick="po_changeQty(\''+sku+'\',-1)" style="width:28px;height:28px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:14px;">-</button>'
+        +'<input type="number" min="1" value="'+qty+'" onchange="po_setQty(\''+sku+'\',this.value)" style="width:48px;text-align:center;border:1px solid var(--border);border-radius:6px;padding:4px;font-size:13px;font-weight:600;outline:none;">'
+        +'<button onclick="po_changeQty(\''+sku+'\',1)" style="width:28px;height:28px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:14px;">+</button>'
+      +'</div>'
+      +'<div style="font-size:13px;font-weight:700;min-width:70px;text-align:right;">'+po_fmt(lineTotal)+'</div>'
+      +'<button onclick="po_removeProduct(\''+sku+'\')" style="width:26px;height:26px;border:none;background:transparent;cursor:pointer;color:var(--text-muted);font-size:14px;border-radius:6px;"><i class="fas fa-times"></i></button>'
+    +'</div>';
+  });
+  document.getElementById('po_selItemsList').innerHTML = html;
+  var tv = document.getElementById('po_orderTotalVal');
+  if(tv) tv.textContent = po_fmt(total);
+}
+
+function po_changeQty(sku,d){ var q=(po_selectedProducts[sku]||1)+d; if(q<1)q=1; po_selectedProducts[sku]=q; po_buildSelectionSummary(); }
+function po_setQty(sku,v){ var q=parseInt(v)||1; if(q<1)q=1; po_selectedProducts[sku]=q; po_buildSelectionSummary(); }
+function po_removeProduct(sku){ delete po_selectedProducts[sku]; delete po_selectedProductsState[sku]; po_buildProductGrid(); po_buildSelectionSummary(); }
+
+function po_submitOrder(){
+  var orderNum  = document.getElementById('po_fOrderNum').value.trim();
+  var orderDate = document.getElementById('po_fOrderDate').value;
+  var brand     = document.getElementById('po_fBrand').value;
+  if(!orderNum)  { po_showToast('Please enter an order number.'); return; }
+  if(!orderDate) { po_showToast('Please enter the order date.');  return; }
+  if(!brand)     { po_showToast('Please select a brand.');        return; }
+  if(Object.keys(po_selectedProducts).length===0){ po_showToast('Please select at least one product.'); return; }
+
+  var catalog = po_BRAND_CATALOG[brand]||[];
+  var lineItems = Object.keys(po_selectedProducts).map(function(sku){
+    var prod = catalog.find(function(p){ return p.sku===sku; });
+    return { name:prod.name, sku:sku, qty:po_selectedProducts[sku], unitPrice:prod.price, lineTotal:prod.price*po_selectedProducts[sku], image:prod.image, available:true };
+  });
+  var total = lineItems.reduce(function(a,it){ return a+it.lineTotal; }, 0);
+  var order = {
+    id:          po_editingOrderId||Date.now(),
+    orderNum:    orderNum, orderDate:orderDate,
+    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
+    payment:'', currency:'USD', paymentNotes:'', deliveryDate:'',
+    notes:       document.getElementById('po_fNotes').value,
+    lineItems:   lineItems, total:total,
+    status:      'pending', rejectedReason:'', brand:brand
+  };
+
+  if(po_editingOrderId){
+    var idx = po_ordersData.findIndex(function(o){ return o.id===po_editingOrderId; });
+    if(idx>-1) po_ordersData[idx]=order;
+    po_showToast('Order updated — status reset to Pending.');
+  } else {
+    po_ordersData.unshift(order);
+    po_showToast('Pre-order created successfully!');
+  }
+  document.getElementById('po_orderModal').classList.remove('open');
+  document.body.style.overflow='';
+  po_editingOrderId=null; po_boPage=1; po_render();
+}
+
+/* LOG MODAL */
+function po_openLogModal(id){
+  var o = po_ordersData.find(function(x){ return x.id===id; });
+  if(!o) return;
+  var rows = o.lineItems.map(function(it,idx){
+    var requested = it.qty||0;
+    var available = typeof it.availableQty==='number' ? it.availableQty : po_estimateAvailableQty(o,it,idx);
+    var canDeliver = Math.min(requested, available);
+    var tag = available>=requested
+      ? '<span style="background:#f0fdf4;color:#166534;border:1px solid #22c55e;padding:4px 10px;border-radius:14px;font-size:11px;font-weight:600;"><i class="fas fa-check" style="margin-right:4px;"></i>Full stock</span>'
+      : available>0
+        ? '<span style="background:#fff7ed;color:#9a3412;border:1px solid #fb923c;padding:4px 10px;border-radius:14px;font-size:11px;font-weight:600;"><i class="fas fa-exclamation-triangle" style="margin-right:4px;"></i>Partial ('+available+'/'+requested+')</span>'
+        : '<span style="background:#fef2f2;color:#b91c1c;border:1px solid #f87171;padding:4px 10px;border-radius:14px;font-size:11px;font-weight:600;"><i class="fas fa-times" style="margin-right:4px;"></i>Out of stock</span>';
+    return '<tr style="'+(available<requested?'background:#fef9f9;':'')+'">'
+      +'<td style="padding:11px 12px;font-size:12px;border-bottom:1px solid var(--border);">'
+        +'<div style="display:flex;align-items:center;gap:10px;">'
+          +(it.image?'<img src="'+it.image+'" style="width:32px;height:40px;object-fit:cover;border-radius:5px;flex-shrink:0;" onerror="this.style.display=\'none\'">':'')
+          +'<div><div style="font-weight:600;font-size:13px;">'+it.name+'</div><div style="font-size:11px;color:var(--text-muted);font-family:monospace;">'+it.sku+'</div></div>'
+        +'</div>'
+      +'</td>'
+      +'<td style="padding:11px 12px;text-align:center;font-weight:600;font-size:12px;border-bottom:1px solid var(--border);">'+requested+'</td>'
+      +'<td style="padding:11px 12px;text-align:center;font-weight:600;font-size:12px;color:'+(available===0?'#dc2626':available<requested?'#d97706':'#15803d')+';border-bottom:1px solid var(--border);">'+available+'</td>'
+      +'<td style="padding:11px 12px;text-align:center;font-weight:600;font-size:12px;color:'+(canDeliver<requested?'#dc2626':'#15803d')+';border-bottom:1px solid var(--border);">'+canDeliver+'</td>'
+      +'<td style="padding:11px 12px;font-size:12px;border-bottom:1px solid var(--border);">'+tag+'</td>'
+    +'</tr>';
+  }).join('');
+
+  document.getElementById('po_logModalContent').innerHTML =
+    '<div style="margin-bottom:20px;">'
+      +'<div style="font-size:11px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);">Request vs Brand Availability</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">'
+        +'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);">ORDER #</div><div style="font-size:13px;font-weight:600;font-family:monospace;color:var(--gold);">'+o.orderNum+'</div></div>'
+        +'<div style="background:#f9f9f7;border-radius:8px;padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);">STATUS</div><div style="font-size:13px;font-weight:600;">'+po_statusBadge(o.status)+'</div></div>'
+      +'</div>'
+      +'<div style="overflow-x:auto;border:1px solid var(--border);border-radius:10px;">'
+        +'<table style="width:100%;border-collapse:collapse;min-width:500px;">'
+          +'<thead><tr>'
+            +'<th style="background:#f7f6f2;color:var(--gold-dark);font-size:11px;font-weight:700;text-transform:uppercase;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);">Product</th>'
+            +'<th style="background:#f7f6f2;color:var(--gold-dark);font-size:11px;font-weight:700;text-transform:uppercase;padding:10px 12px;text-align:center;border-bottom:1px solid var(--border);">Requested</th>'
+            +'<th style="background:#f7f6f2;color:var(--gold-dark);font-size:11px;font-weight:700;text-transform:uppercase;padding:10px 12px;text-align:center;border-bottom:1px solid var(--border);">Available</th>'
+            +'<th style="background:#f7f6f2;color:var(--gold-dark);font-size:11px;font-weight:700;text-transform:uppercase;padding:10px 12px;text-align:center;border-bottom:1px solid var(--border);">Can Deliver</th>'
+            +'<th style="background:#f7f6f2;color:var(--gold-dark);font-size:11px;font-weight:700;text-transform:uppercase;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);">Response</th>'
+          +'</tr></thead>'
+          +'<tbody>'+rows+'</tbody>'
+        +'</table>'
+      +'</div>'
+    +'</div>';
+
+  document.getElementById('po_logModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function po_closeLogModal(e){
+  if(e&&e.target!==document.getElementById('po_logModal')) return;
+  document.getElementById('po_logModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* EXPORT */
+function po_exportRowExcel(id){
+  var o=po_ordersData.find(function(x){return x.id===id;});if(!o)return;
+  var load=function(cb){if(window.XLSX){cb();return;}var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=cb;document.head.appendChild(s);};
+  load(function(){
+    var rows=[['ORDER #','ORDER DATE','STATUS','PRODUCT','SKU','QTY','UNIT PRICE','LINE TOTAL']];
+    o.lineItems.forEach(function(it){ rows.push([o.orderNum,po_fmtDate(o.orderDate),o.status,it.name,it.sku,it.qty,it.unitPrice,it.lineTotal]); });
+    rows.push(['','','','','','','TOTAL',o.total]);
+    var ws=XLSX.utils.aoa_to_sheet(rows);var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Order');
+    XLSX.writeFile(wb,o.orderNum+'.xlsx');po_showToast('Excel exported!');
+  });
+}
+function po_exportRowPDF(id){
+  var o=po_ordersData.find(function(x){return x.id===id;});if(!o)return;
+  var load=function(src,cb){if(document.querySelector('script[src="'+src+'"]')){cb();return;}var s=document.createElement('script');s.src=src;s.onload=cb;document.head.appendChild(s);};
+  load('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',function(){
+    load('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js',function(){
+      var doc=new window.jspdf.jsPDF();var gold=[171,160,110],dark=[30,34,39];var W=doc.internal.pageSize.getWidth();
+      doc.setFillColor(dark[0],dark[1],dark[2]);doc.rect(0,0,W,28,'F');
+      doc.setFontSize(12);doc.setFont('helvetica','bold');doc.setTextColor(gold[0],gold[1],gold[2]);doc.text(o.orderNum,14,17);
+      var head=[['PRODUCT','SKU','QTY','UNIT PRICE','TOTAL']];
+      var body=o.lineItems.map(function(it){return[it.name,it.sku,it.qty,po_fmt(it.unitPrice),po_fmt(it.lineTotal)];});
+      doc.autoTable({head:head,body:body,startY:36,headStyles:{fillColor:gold,textColor:[255,255,255],fontStyle:'bold',fontSize:9},bodyStyles:{fontSize:9,textColor:dark},theme:'grid',foot:[[{content:'TOTAL',colSpan:4,styles:{halign:'right',fontStyle:'bold'}},{content:po_fmt(o.total),styles:{fontStyle:'bold',textColor:gold}}]],footStyles:{fillColor:[245,243,238]}});
+      doc.save(o.orderNum+'.pdf');po_showToast('PDF exported!');
+    });
+  });
+}
+function po_exportExcel(){
+  var load=function(cb){if(window.XLSX){cb();return;}var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=cb;document.head.appendChild(s);};
+  load(function(){
+    var rows=[['ORDER #','ORDER DATE','STATUS','BRAND','TOTAL']];
+    po_getFiltered().forEach(function(o){rows.push([o.orderNum,po_fmtDate(o.orderDate),o.status,o.brand,o.total]);});
+    var ws=XLSX.utils.aoa_to_sheet(rows);var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Pre Orders');
+    XLSX.writeFile(wb,'pre-orders.xlsx');po_showToast('Excel exported!');
+  });
+}
+function po_exportPDF(){
+  var load=function(src,cb){if(document.querySelector('script[src="'+src+'"]')){cb();return;}var s=document.createElement('script');s.src=src;s.onload=cb;document.head.appendChild(s);};
+  load('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',function(){
+    load('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js',function(){
+      var doc=new window.jspdf.jsPDF('landscape');var W=doc.internal.pageSize.getWidth();var gold=[171,160,110],dark=[30,34,39];
+      doc.setFillColor(dark[0],dark[1],dark[2]);doc.rect(0,0,W,28,'F');
+      doc.setFontSize(14);doc.setFont('helvetica','bold');doc.setTextColor(gold[0],gold[1],gold[2]);doc.text('PRE ORDERS',14,17);
+      var head=[['ORDER #','DATE','BRAND','STATUS','TOTAL']];
+      var body=po_getFiltered().map(function(o){return[o.orderNum,po_fmtDate(o.orderDate),o.brand,o.status,po_fmt(o.total)];});
+      doc.autoTable({head:head,body:body,startY:32,headStyles:{fillColor:gold,textColor:[255,255,255],fontStyle:'bold',fontSize:9},bodyStyles:{fontSize:9,textColor:dark},theme:'grid'});
+      doc.save('pre-orders.pdf');po_showToast('PDF exported!');
+    });
+  });
+}
+
+/* TOAST */
+function po_showToast(msg){
+  var t=document.getElementById('po_toast')||document.getElementById('toast');
+  if(!t) return;
+  var m=t.querySelector('span')||t;
+  m.textContent=msg; t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+
+/* INIT — run when Pre Orders tab is clicked */
+document.addEventListener('DOMContentLoaded', function(){
+  // Render when tab becomes active
+  document.querySelectorAll('.tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if(btn.dataset.tab === 'pre-orders'){
+        setTimeout(po_render, 50);
+      }
+    });
+  });
+});
+</script>
+
+
+<!-- PRE ORDERS MODALS -->
+
+<!-- NEW/EDIT ORDER MODAL -->
+<div class="modal-overlay" id="po_orderModal" onclick="po_closeOrderModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-shopping-cart"></i> <span id="po_modalTitle">New Pre Order</span></h3>
+      <button class="modal-close" onclick="po_closeOrderModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="msec-title"><i class="fas fa-info-circle"></i> Order Information</div>
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label class="form-label">Order # <span class="req">*</span></label>
+            <input type="text" class="form-input" id="po_fOrderNum" placeholder="e.g. PO-2026-001">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Order Date <span class="req">*</span></label>
+            <input type="date" class="form-input" id="po_fOrderDate">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Brand <span class="req">*</span></label>
+            <select class="form-select" id="po_fBrand" onchange="po_onModalBrandChange()">
+              <option value="">— Select Brand —</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="msec-title"><i class="fas fa-th"></i> Select Products</div>
+        <div style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <div class="search-box" style="min-width:200px;">
+            <i class="fas fa-search"></i>
+            <input type="text" id="po_prodSearch" placeholder="Search products..." oninput="po_buildProductGrid()">
+          </div>
+          <span style="font-size:12px;color:var(--text-muted);" id="po_selectedCount">0 selected</span>
+        </div>
+        <div class="product-grid" id="po_productGrid"></div>
+      </div>
+      <div id="po_selItemsSection" style="display:none;">
+        <div class="msec-title"><i class="fas fa-list"></i> Order Summary</div>
+        <div id="po_selItemsList"></div>
+        <div class="order-total-row" style="margin-top:12px;">
+          <span class="order-total-label">Order Total:</span>
+          <span class="order-total-val" id="po_orderTotalVal">$0.00</span>
+        </div>
+      </div>
+      <div>
+        <div class="msec-title"><i class="fas fa-sticky-note"></i> Notes</div>
+        <div class="form-group">
+          <textarea class="form-textarea" id="po_fNotes" placeholder="Special instructions..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="po_closeOrderModal()">Cancel</button>
+      <button class="btn-submit" onclick="po_submitOrder()"><i class="fas fa-paper-plane"></i> Place Order</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW ORDER MODAL -->
+<div class="modal-overlay" id="po_viewModal" onclick="po_closeViewModal(event)">
+  <div class="modal-box view-modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-eye"></i> Order Details</h3>
+      <button class="modal-close" onclick="po_closeViewModal()">✕</button>
+    </div>
+    <div class="modal-body" id="po_viewModalContent" style="max-height:75vh;"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="po_closeViewModal()">Close</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-submit" id="po_viewRejectBtn" style="background:#dc2626;border-color:#dc2626;" onclick="po_rejectCurrentOrder()"><i class="fas fa-times"></i> Reject</button>
+        <button class="btn-submit" id="po_viewEditBtn"><i class="fas fa-pen"></i> Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOG MODAL -->
+<div class="modal-overlay" id="po_logModal" onclick="po_closeLogModal(event)">
+  <div class="modal-box view-modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-clipboard-list"></i> Product Stock Log</h3>
+      <button class="modal-close" onclick="po_closeLogModal()">✕</button>
+    </div>
+    <div class="modal-body" id="po_logModalContent" style="max-height:75vh;"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="po_closeLogModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- PLACE ORDER MODAL -->
+<div class="modal-overlay" id="po_placeModal" onclick="po_closePlaceModal(event)">
+  <div class="modal-box view-modal-box" onclick="event.stopPropagation()" style="max-width:580px;">
+    <div class="modal-header" style="background:#1E2227;">
+      <h3><i class="fas fa-play-circle"></i> Confirm Place Order</h3>
+      <button class="modal-close" onclick="po_closePlaceModal()">✕</button>
+    </div>
+    <div class="modal-body" id="po_placeModalContent" style="max-height:70vh;"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="po_closePlaceModal()">Cancel</button>
+      <button class="btn-submit" style="background:var(--gold);" onclick="po_confirmPlaceOrder()"><i class="fas fa-check-circle"></i> Confirm & Place Order</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
-
-

@@ -869,6 +869,219 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
         min-width:100%;
     }
 }
+
+
+
+.main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.topbar-btn:hover{background:#f0f0f0;}
+.topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.content{padding:28px;flex:1;}
+
+/* PAGE HEADER */
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:14px;}
+.page-title h2{font-size:1.3rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:10px;}
+.page-title h2 i{color:var(--gold);}
+.page-title p{font-size:13px;color:var(--text-muted);margin-top:4px;}
+
+/* STATS */
+.stats-row{display:flex;gap:14px;margin-bottom:22px;flex-wrap:wrap;}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:14px;flex:1;min-width:130px;}
+.stat-icon{width:38px;height:38px;border-radius:9px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;flex-shrink:0;}
+.stat-val{font-size:1.4rem;font-weight:700;color:var(--text);line-height:1;}
+.stat-label{font-size:11px;color:var(--text-muted);margin-top:3px;text-transform:uppercase;letter-spacing:.04em;}
+
+/* FILTER BAR */
+.filter-bar{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:space-between;}
+.filter-left{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.filter-right{display:flex;gap:10px;align-items:center;}
+
+.search-box{display:flex;align-items:center;border:1px solid var(--border);border-radius:8px;background:#fff;padding:0 12px;min-width:220px;transition:border-color .2s;}
+.search-box:focus-within{border-color:var(--gold);}
+.search-box i{color:var(--text-muted);font-size:13px;margin-right:8px;}
+.search-box input{border:none;outline:none;font-size:13px;color:var(--text);padding:9px 0;background:transparent;width:100%;}
+
+.om-btn{display:flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:all .2s;white-space:nowrap;}
+.om-btn:hover{border-color:var(--gold);color:var(--gold);}
+.om-btn-gold{background:var(--gold);color:#fff;border-color:var(--gold);}
+.om-btn-gold:hover{background:var(--gold-dark);border-color:var(--gold-dark);color:#fff;}
+
+.status-pills{display:flex;gap:6px;}
+.status-pill{padding:6px 14px;border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .2s;background:#fff;}
+.status-pill:hover{border-color:var(--gold);color:var(--gold);}
+.status-pill.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* Quick range */
+.qr-wrap{position:relative;}
+.qr-btn{display:flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:all .2s;user-select:none;}
+.qr-btn:hover,.qr-btn.open{border-color:var(--gold);color:var(--gold);}
+.qr-dd{display:none;position:absolute;top:calc(100% + 4px);left:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:300;min-width:160px;overflow:hidden;}
+.qr-dd.show{display:block;}
+.qr-dd div{padding:10px 16px;font-size:13px;cursor:pointer;color:var(--text);}
+.qr-dd div:hover{background:#f5f5f5;}
+.qr-dd div.active-r{background:var(--gold-light);color:var(--gold);}
+
+/* TABLE */
+.table-card{background:#fff;border-radius:12px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.06);overflow:hidden;}
+.bo-table{width:100%;border-collapse:collapse;}
+.bo-table thead th{background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;text-align:left;}
+.bo-table thead th.center{text-align:center;}
+.bo-table thead th.right{text-align:right;}
+.bo-table tbody td{padding:14px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);vertical-align:middle;}
+.bo-table tbody tr:last-child td{border-bottom:none;}
+.bo-table tbody tr:hover{background:#fafafa;}
+
+/* Product thumb stack */
+.thumb-stack{display:flex;align-items:center;}
+.thumb-img{width:44px;height:56px;object-fit:cover;border-radius:6px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.12);}
+.thumb-img+.thumb-img{margin-left:-12px;}
+.thumb-more{width:44px;height:44px;border-radius:6px;background:var(--gold-light);border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold-dark);margin-left:-12px;}
+.thumb-placeholder{width:44px;height:44px;border-radius:6px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;}
+.badge-progress{background:#fff8e6;color:#b45309;border:1px solid #d97706;}
+.badge-received{background:#f0fdf4;color:#15803d;border:1px solid #16a34a;}
+.badge-cancelled{background:#fef2f2;color:#dc2626;border:1px solid #dc2626;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+.order-num{font-family:monospace;font-size:13px;font-weight:600;color:var(--gold);}
+.text-center{text-align:center;}
+.text-right{text-align:right;}
+.font-bold{font-weight:700;}
+.text-muted{color:var(--text-muted);}
+
+/* Action btns */
+.act-btn{width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .18s;}
+.act-view{background:#e8f0fe;color:#1a73e8;}
+.act-view:hover{background:#1a73e8;color:#fff;}
+.act-edit{background:var(--gold-light);color:var(--gold-dark);}
+.act-edit:hover{background:var(--gold);color:#fff;}
+.act-del{background:#fce8e8;color:#d93025;}
+.act-del:hover{background:#d93025;color:#fff;}
+.act-group{display:flex;gap:6px;justify-content:center;}
+
+/* Empty */
+.empty-row td{text-align:center;padding:60px;}
+.empty-row i{font-size:40px;color:#ddd;display:block;margin-bottom:12px;}
+.empty-row p{font-size:14px;color:var(--text-muted);}
+
+/* Pagination */
+.pagination{margin-top:16px;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;}
+.page-btns{display:flex;gap:6px;}
+.page-btns button{padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:13px;transition:all .2s;}
+.page-btns button.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+.page-btns button:hover:not(.active):not(:disabled){border-color:var(--gold);}
+.page-btns button:disabled{opacity:.4;cursor:not-allowed;}
+.page-info{font-size:12px;color:var(--text-muted);}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   NEW ORDER MODAL
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#fff;border-radius:16px;width:100%;max-width:900px;margin:auto;box-shadow:0 24px 64px rgba(0,0,0,.25);display:flex;flex-direction:column;overflow:hidden;}
+
+.modal-header{background:var(--sidebar-bg);color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.modal-header h3{font-size:15px;font-weight:600;display:flex;align-items:center;gap:9px;}
+.modal-header h3 i{color:var(--gold);}
+.modal-close{border:none;background:rgba(255,255,255,.12);color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:rgba(255,255,255,.25);}
+
+.modal-body{padding:24px;overflow-y:auto;max-height:80vh;display:flex;flex-direction:column;gap:24px;}
+
+/* Modal sections */
+.msec-title{font-size:11px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;}
+.form-label .req{color:#dc2626;margin-left:2px;}
+.form-input,.form-select,.form-textarea{padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);outline:none;transition:border-color .2s;background:#fff;width:100%;font-family:inherit;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(171,160,110,.1);}
+.form-textarea{resize:vertical;min-height:72px;}
+
+/* Product grid */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;max-height:360px;overflow-y:auto;padding:4px 2px;}
+.prod-card{border:2px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;position:relative;background:#fff;}
+.prod-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 12px rgba(171,160,110,.2);}
+.prod-card.selected{border-color:var(--gold);background:var(--gold-light);}
+.prod-card-check{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--gold);display:none;align-items:center;justify-content:center;color:#fff;font-size:10px;}
+.prod-card.selected .prod-card-check{display:flex;}
+.prod-card img{width:100%;height:90px;object-fit:contain;border-radius:6px;margin-bottom:8px;}
+.prod-card-img-ph{width:100%;height:90px;background:#f5f5f0;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:#ccc;font-size:24px;}
+.prod-card-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px;line-height:1.3;}
+.prod-card-sku{font-size:10px;color:var(--text-muted);margin-bottom:4px;font-family:monospace;}
+.prod-card-price{font-size:12px;font-weight:700;color:var(--gold-dark);}
+.prod-card-coll{font-size:10px;color:var(--text-muted);margin-top:2px;}
+
+/* Selected items summary */
+.selected-items{display:flex;flex-direction:column;gap:10px;}
+.sel-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#f9f9f7;border-radius:8px;border:1px solid var(--border);}
+.sel-item-img{width:40px;height:52px;object-fit:cover;border-radius:6px;flex-shrink:0;}
+.sel-item-img-ph{width:40px;height:40px;border-radius:6px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:14px;flex-shrink:0;}
+.sel-item-info{flex:1;}
+.sel-item-name{font-size:13px;font-weight:600;color:var(--text);}
+.sel-item-sku{font-size:11px;color:var(--text-muted);font-family:monospace;}
+.sel-item-price{font-size:12px;color:var(--gold-dark);margin-top:2px;}
+.sel-item-qty{display:flex;align-items:center;gap:8px;}
+.qty-btn{width:28px;height:28px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.qty-btn:hover{border-color:var(--gold);color:var(--gold);}
+.qty-input{width:48px;text-align:center;border:1px solid var(--border);border-radius:6px;padding:4px;font-size:13px;font-weight:600;outline:none;}
+.qty-input:focus{border-color:var(--gold);}
+.sel-item-total{font-size:13px;font-weight:700;color:var(--text);min-width:70px;text-align:right;}
+.sel-item-remove{width:26px;height:26px;border:none;background:transparent;cursor:pointer;color:var(--text-muted);font-size:14px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:all .2s;}
+.sel-item-remove:hover{background:#fce8e8;color:#dc2626;}
+
+/* Order total */
+.order-total-row{display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:12px 14px;background:var(--gold-light);border-radius:8px;border:1px solid var(--gold-border);}
+.order-total-label{font-size:13px;font-weight:600;color:var(--text-muted);}
+.order-total-val{font-size:1.2rem;font-weight:700;color:var(--gold-dark);}
+
+/* Empty selection */
+.empty-selection{text-align:center;padding:20px;color:var(--text-muted);font-size:13px;border:1px dashed var(--border);border-radius:8px;}
+.empty-selection i{display:block;font-size:24px;color:#ddd;margin-bottom:8px;}
+
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:#fafafa;flex-shrink:0;}
+.btn-cancel{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-muted);}
+.btn-cancel:hover{border-color:var(--gold);color:var(--gold);}
+.btn-submit{padding:10px 24px;background:var(--gold);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;transition:all .2s;}
+.btn-submit:hover{background:var(--gold-dark);}
+
+/* View modal */
+.view-modal-box{max-width:680px;}
+.view-section{margin-bottom:20px;}
+.view-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.view-item{background:#f9f9f7;border-radius:8px;padding:10px 14px;}
+.view-item.full{grid-column:1/-1;}
+.view-item-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;}
+.view-item-val{font-size:13px;font-weight:600;color:var(--text);}
+.view-items-list{display:flex;flex-direction:column;gap:8px;}
+.view-line{display:flex;align-items:center;gap:12px;padding:10px;background:#f9f9f7;border-radius:8px;}
+.view-line img{width:36px;height:46px;object-fit:cover;border-radius:5px;}
+.view-line-ph{width:36px;height:36px;border-radius:5px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:13px;flex-shrink:0;}
+.view-line-info{flex:1;}
+.view-line-name{font-size:13px;font-weight:600;}
+.view-line-sku{font-size:11px;color:var(--text-muted);font-family:monospace;}
+.view-line-right{text-align:right;}
+.view-line-qty{font-size:12px;color:var(--text-muted);}
+.view-line-price{font-size:13px;font-weight:700;color:var(--gold-dark);}
+
+
+.date-modal-box{max-width:340px;}
+.date-modal-header{background:var(--gold);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}
+.date-modal-header h3{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;}
+
+
+
+
+
+
+
+
     </style>
 <script src="../../js/aside.js"></script>
 </head>
@@ -905,6 +1118,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
     <button class="tab" data-tab="provider">Provider</button>
     <button class="tab" data-tab="pre-orders">Pre Order</button>
     <button class="tab" data-tab="orders">Orders</button>
+    <button class="tab" data-tab="assets"> Assets</button>
+    <button class="tab" data-tab="pricing">Pricing</button>
+    <button class="tab" data-tab="assets">Upcomming Products</button>
+    <button class="tab" data-tab="assets">Score</button>
+    <button class="tab" data-tab="legal">Legal</button>
     <!-- <button class="tab" data-tab="reports">Reports</button> -->
 </div>
 
@@ -1322,6 +1540,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
         <thead>
           <tr>
             <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Photo</th>
+                        <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Provider</th>
             <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Brand</th>
             <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Order #</th>
             <th style="background:var(--gold);color:#fff;padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:left;">Order Date</th>
@@ -1349,7 +1568,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 <!-- ===== TAB: ORDERS ===== -->
 <div class="tab-content" id="orders">
 <div class="card">
-<div class="orders-tabs">
+<!-- <div class="orders-tabs">
 <button class="subtab active">Orders</button>
 <button class="subtab">Items</button>
 </div>
@@ -1407,8 +1626,1188 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 </tr>
 </tbody>
 </table>
+</div> -->
+
+
+
+<div class="page-header">
+      <div class="page-title">
+        <h2><i class="fas fa-shopping-cart"></i> Orders</h2>
+        <!-- <p>Orders placed to the brand â€” B2B procurement management</p> -->
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="om-btn" onclick="exportExcel()"><i class="fas fa-file-excel"></i> Export Excel</button>
+        <button class="om-btn" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+        <!-- <button class="om-btn om-btn-gold" onclick="openNewOrder()">
+          <i class="fas fa-plus"></i> New Order
+        </button> -->
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+        <div><div class="stat-val" id="sTotalOrders"></div><div class="stat-label">Total Orders</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+        <div><div class="stat-val" id="sInProgress"></div><div class="stat-label">In Progress</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+        <div><div class="stat-val" id="sReceived"></div><div class="stat-label">Received</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#f0fdf4;color:#065f46;"><i class="fas fa-truck"></i></div>
+        <div>
+          <div class="stat-val" id="sDelivery"></div>
+          <div class="stat-label">Delivery</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+        <div><div class="stat-val" id="sTotalValue"></div><div class="stat-label">Total Invested</div></div>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filter-bar">
+      <div class="filter-left">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="boSearch" placeholder="Search order # or product..." oninput="applyFilters()">
+        </div>
+        <div class="qr-wrap">
+          <div class="qr-btn" id="qrBtn">
+            <i class="fas fa-calendar-alt"></i>
+            <span id="qrLabel">All Time</span>
+            <i class="fas fa-chevron-down" style="font-size:10px;margin-left:4px;"></i>
+          </div>
+          <div class="qr-dd" id="qrDd">
+            <div onclick="setRange('7d',this)">Last 7 Days</div>
+            <div onclick="setRange('30d',this)">Last 30 Days</div>
+            <div onclick="setRange('90d',this)">Last 90 Days</div>
+            <div onclick="setRange('year',this)">This Year</div>
+            <div onclick="setRange('last-year',this)">Last Year</div>
+            <div class="active-r" onclick="setRange('all',this)">All Time</div>
+          </div>
+        </div>
+        <button class="om-btn" onclick="openDateModal()"><i class="fas fa-sliders-h"></i> Custom Range</button>
+        <!-- <div class="status-pills">
+          <div class="status-pill active" data-s="all" onclick="setStatus('all',this)">All</div>
+          <div class="status-pill" data-s="in progress" onclick="setStatus('in progress',this)">In Progress</div>
+          <div class="status-pill" data-s="received" onclick="setStatus('received',this)">Received</div>
+        </div> -->
+        <div class="status-pills">
+          <div class="status-pill active" data-s="all"         onclick="setStatus('all',this)">All</div>
+          <div class="status-pill"        data-s="in progress" onclick="setStatus('in progress',this)">In Progress</div>
+          <div class="status-pill"        data-s="received"    onclick="setStatus('received',this)">Received</div>
+          <div class="status-pill"        data-s="delivery"    onclick="setStatus('delivery',this)">Delivery</div>
+        </div>
+      </div>
+      <div class="filter-right">
+        <span style="font-size:12px;color:var(--text-muted);"><strong id="resultsCount">â€”</strong> orders</span>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-card">
+      <div style="overflow-x:auto;">
+        <table class="bo-table">
+          <thead>
+            <tr>
+              <th>Products</th>
+              <th>Provider</th>
+              <th>Brand</th>
+              <th>Order #</th>
+              <th>Order Date</th>
+              <!-- <th>Expected Delivery</th> -->
+              <th class="center">Items</th>
+              <th>Shipping To</th>
+              <th class="center">Status</th>
+              <th class="right">Total</th>
+              <th class="center">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="boTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <div class="page-info" id="pageInfo"></div>
+      <div class="page-btns" id="pageBtns"></div>
+    </div>
+
+
+
+    <div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-shopping-cart"></i> <span id="modalTitle">New Purchase Order</span></h3>
+      <button class="modal-close" onclick="closeOrderModal()">•</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- ORDER INFO -->
+      <div>
+        <div class="msec-title"><i class="fas fa-info-circle"></i> Order Information</div>
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label class="form-label">Order # <span class="req">*</span></label>
+            <input type="text" class="form-input" id="fOrderNum" placeholder="e.g. PO-2026-001">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Order Date <span class="req">*</span></label>
+            <input type="date" class="form-input" id="fOrderDate">
+          </div>
+          <!-- <div class="form-group">
+            <label class="form-label">Expected Delivery</label>
+            <input type="date" class="form-input" id="fDeliveryDate">
+          </div> -->
+        </div>
+      </div>
+
+      <!-- SHIPPING INFO -->
+      <!-- <div>
+        <div class="msec-title"><i class="fas fa-truck"></i> Shipping & Contact</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Company Name <span class="req">*</span></label>
+            <input type="text" class="form-input" id="fCompany" placeholder="Your company name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contact Person</label>
+            <input type="text" class="form-input" id="fContact" placeholder="Full name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="fEmail" placeholder="orders@company.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input type="text" class="form-input" id="fPhone" placeholder="+1 (555) 000-0000">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Shipping Address <span class="req">*</span></label>
+            <input type="text" class="form-input" id="fAddress" placeholder="Street address, city, state, ZIP, country">
+          </div>
+        </div>
+      </div> -->
+
+      <!-- PAYMENT -->
+      <!-- <div>
+        <div class="msec-title"><i class="fas fa-credit-card"></i> Payment</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Payment Method</label>
+            <select class="form-select" id="fPayment">
+              <option value="">Select method...</option>
+              <option>Bank Transfer</option>
+              <option>Credit Card</option>
+              <option>Net 30</option>
+              <option>Net 60</option>
+              <option>PayPal</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Currency</label>
+            <select class="form-select" id="fCurrency">
+              <option value="USD">USD â€” US Dollar</option>
+              <option value="EUR">EUR â€” Euro</option>
+              <option value="GBP">GBP â€” British Pound</option>
+              <option value="AED">AED â€” UAE Dirham</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Payment Notes</label>
+            <input type="text" class="form-input" id="fPaymentNotes" placeholder="Reference number, terms, etc.">
+          </div>
+        </div>
+      </div> -->
+
+      <!-- PRODUCT SELECTION -->
+      <div>
+        <div class="msec-title"><i class="fas fa-th"></i> Select Products</div>
+        <div style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <div class="search-box" style="min-width:200px;">
+            <i class="fas fa-search"></i>
+            <input type="text" id="prodSearch" placeholder="Search products..." oninput="filterProducts()">
+          </div>
+          <select class="form-select" id="prodCollFilter" style="max-width:180px;" onchange="filterProducts()">
+            <option value="">All Collections</option>
+          </select>
+          <span style="font-size:12px;color:var(--text-muted);" id="selectedCount">0 selected</span>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+
+      <!-- SELECTED ITEMS -->
+      <div id="selItemsSection" style="display:none;">
+        <div class="msec-title"><i class="fas fa-list"></i> Order Summary</div>
+        <div class="selected-items" id="selItemsList"></div>
+        <div class="order-total-row" style="margin-top:12px;">
+          <span class="order-total-label">Order Total:</span>
+          <span class="order-total-val" id="orderTotalVal">$0.00</span>
+        </div>
+      </div>
+
+      <!-- NOTES -->
+      <div>
+        <div class="msec-title"><i class="fas fa-sticky-note"></i> Notes & Special Instructions</div>
+        <div class="form-group">
+          <textarea class="form-textarea" id="fNotes" placeholder="Special packaging instructions, delivery notes, product customization requests..."></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeOrderModal()">Cancel</button>
+      <button class="btn-submit" onclick="submitOrder()">
+        <i class="fas fa-paper-plane"></i> Place Order
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-overlay" id="editModal" onclick="closeEditModal(event)">
+  <div class="modal-box" style="max-width:420px;" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-pen"></i> Update Order Status</h3>
+      <button class="modal-close" onclick="closeEditModal()">âœ•</button>
+    </div>
+    <div class="modal-body" style="gap:16px;">
+      <div style="background:var(--gold-light);border:1px solid var(--gold-border);border-radius:8px;padding:12px 16px;">
+        <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">Order</div>
+        <div style="font-size:15px;font-weight:700;color:var(--gold-dark);font-family:monospace;" id="editOrderNum">â€”</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Status <span class="req">*</span></label>
+        <div style="display:flex;flex-direction:column;gap:8px;" id="statusOptions">
+          <label style="display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;" class="status-radio-lbl">
+            <input type="radio" name="editStatus" value="In Progress" style="accent-color:var(--gold);">
+            <span class="badge badge-progress"><span class="badge-dot"></span>In Progress</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;" class="status-radio-lbl">
+            <input type="radio" name="editStatus" value="Received" style="accent-color:var(--gold);">
+            <span class="badge badge-received"><span class="badge-dot"></span>Received</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;" class="status-radio-lbl">
+            <input type="radio" name="editStatus" value="Cancelled" style="accent-color:var(--gold);">
+            <span class="badge badge-cancelled"><span class="badge-dot"></span>Cancelled</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Note</label>
+        <textarea class="form-textarea" id="editNote" placeholder="Add a note about this status change..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-submit" onclick="saveStatus()"><i class="fas fa-check"></i> Save</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- â•â•â•â•â•â•â• VIEW ORDER MODAL â•â•â•â•â•â•â• -->
+<div class="modal-overlay" id="viewModal" onclick="closeViewModal(event)">
+  <div class="modal-box view-modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3><i class="fas fa-eye"></i> Order Details</h3>
+      <button class="modal-close" onclick="closeViewModal()">âœ•</button>
+    </div>
+    <div class="modal-body" id="viewModalContent" style="max-height:75vh;"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeViewModal()">Close</button>
+      <button class="btn-submit" id="viewEditBtn" onclick="closeViewModal()">
+        <i class="fas fa-pen"></i> view
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â• DATE MODAL â•â•â•â•â•â•â• -->
+<div class="modal-overlay" id="dateModal" onclick="closeDateModal(event)">
+  <div class="modal-box date-modal-box" onclick="event.stopPropagation()">
+    <div class="date-modal-header">
+      <h3><i class="fas fa-calendar-alt"></i> Custom Date Range</h3>
+      <button class="modal-close" onclick="closeDateModal()">âœ•</button>
+    </div>
+    <div class="modal-body" style="padding:20px;gap:14px;">
+      <div class="form-group">
+        <label class="form-label">From</label>
+        <input type="date" class="form-input" id="dateFrom">
+      </div>
+      <div class="form-group">
+        <label class="form-label">To</label>
+        <input type="date" class="form-input" id="dateTo">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeDateModal()">Cancel</button>
+      <button class="btn-submit" onclick="applyCustomRange()"><i class="fas fa-check"></i> Apply</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<script>
+
+
+function exportRowExcel(id){
+  var o = ordersData.find(function(x){ return x.id === id; });
+  if(!o) return;
+  var load = function(cb){ if(window.XLSX){cb();return;} var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=cb;document.head.appendChild(s); };
+  load(function(){
+    var rows = [['ORDER #','ORDER DATE','STATUS','PRODUCT','SKU','QTY','UNIT PRICE','LINE TOTAL']];
+    o.lineItems.forEach(function(it){
+      rows.push([o.orderNum, fmtDate(o.orderDate), o.status, it.name, it.sku, it.qty, it.unitPrice, it.lineTotal]);
+    });
+    rows.push(['','','','','','','TOTAL', o.total]);
+    var ws = XLSX.utils.aoa_to_sheet(rows);
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Order');
+    XLSX.writeFile(wb, o.orderNum+'.xlsx');
+    showToast('Excel exported!');
+  });
+}
+
+function exportRowPDF(id){
+  var o = ordersData.find(function(x){ return x.id === id; });
+  if(!o) return;
+  var load = function(src,cb){ if(document.querySelector('script[src="'+src+'"]')){cb();return;} var s=document.createElement('script');s.src=src;s.onload=cb;document.head.appendChild(s); };
+  load('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', function(){
+    load('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js', function(){
+      var doc = new window.jspdf.jsPDF();
+      var gold = [171,160,110], dark = [30,34,39];
+      var W = doc.internal.pageSize.getWidth();
+
+      // Header
+      doc.setFillColor(dark[0],dark[1],dark[2]);
+      doc.rect(0,0,W,28,'F');
+      doc.setFontSize(14);doc.setFont('helvetica','bold');
+      doc.setTextColor(gold[0],gold[1],gold[2]);
+      doc.text('',14,17);
+      doc.setFontSize(9);doc.setFont('helvetica','normal');
+      doc.setTextColor(180,180,180);
+      doc.text(o.orderNum,W-14,17,{align:'right'});
+
+      // Info
+      doc.setTextColor(dark[0],dark[1],dark[2]);
+      doc.setFontSize(10);doc.setFont('helvetica','bold');
+      doc.text('Order Date:',14,36); doc.setFont('helvetica','normal'); doc.text(fmtDate(o.orderDate),50,36);
+      doc.setFont('helvetica','bold');
+      doc.text('Status:',14,44);     doc.setFont('helvetica','normal'); doc.text(o.status,50,44);
+      doc.setFont('helvetica','bold');
+      doc.text('Brand:',14,52);      doc.setFont('helvetica','normal'); doc.text(o.brand,50,52);
+      if(o.statusNote){
+        doc.setFont('helvetica','bold');
+        doc.text('Note:',14,60);     doc.setFont('helvetica','normal'); doc.text(o.statusNote,50,60);
+      }
+
+      // Items table
+      var head = [['PRODUCT','SKU','QTY','UNIT PRICE','TOTAL']];
+      var body = o.lineItems.map(function(it){
+        return [it.name, it.sku, it.qty, fmt(it.unitPrice), fmt(it.lineTotal)];
+      });
+      doc.autoTable({
+        head:head, body:body, startY:68,
+        headStyles:{fillColor:gold,textColor:[255,255,255],fontStyle:'bold',fontSize:9},
+        bodyStyles:{fontSize:9,textColor:dark},
+        alternateRowStyles:{fillColor:[250,249,246]},
+        theme:'grid',
+        foot:[[{content:'TOTAL',colSpan:4,styles:{halign:'right',fontStyle:'bold'}},{content:fmt(o.total),styles:{fontStyle:'bold',textColor:gold}}]],
+        footStyles:{fillColor:[245,243,238]}
+      });
+      doc.save(o.orderNum+'.pdf');
+      showToast('PDF exported!');
+    });
+  });
+}
+
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape'){ closeOrderModal(); closeViewModal(); closeDateModal(); closeEditModal(); }
+});
+
+
+    
+var editingStatusId = null;
+
+function openEditModal(id){
+  var o = ordersData.find(function(x){ return x.id === id; });
+  if(!o) return;
+  editingStatusId = id;
+  document.getElementById('editOrderNum').textContent = o.orderNum;
+  document.getElementById('editNote').value = o.statusNote || '';
+  document.querySelectorAll('input[name="editStatus"]').forEach(function(r){
+    r.checked = r.value === o.status;
+  });
+  document.getElementById('editModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeEditModal(e){
+  if(e && e.target !== document.getElementById('editModal')) return;
+  document.getElementById('editModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function saveStatus(){
+  var status = document.querySelector('input[name="editStatus"]:checked');
+  if(!status){ showToast('Please select a status.'); return; }
+  var idx = ordersData.findIndex(function(o){ return o.id === editingStatusId; });
+  if(idx > -1){
+    ordersData[idx].status     = status.value;
+    ordersData[idx].statusNote = document.getElementById('editNote').value;
+  }
+  closeEditModal();
+  render();
+  showToast('Status updated successfully!');
+}
+/* 
+   BRAND CATALOG */
+const BRAND_CATALOG = {
+  'Brand Demo': [
+    { sku:'07F-0067F-PARF-100ML', name:'Demo1',  collection:'Modern Oudh',           price:210.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067G-PARF-100ML', name:'Demo2',       collection:'Arcana',                price:175.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00682-PARF-100ML', name:'Madam Oudh',    collection:'Modern Oudh',           price:190.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00683-PARF-100ML', name:'Demon3',        collection:'Ancient Spirits',       price:185.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00684-PARF-100ML', name:'Incense Oudh',  collection:'Modern Oudh',           price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0068D-PARF-100ML', name:'Sphinx',        collection:'Ancient Spirits',       price:200.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0068C-PARF-100ML', name:'Sangal',        collection:'Ancient Spirits',       price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00689-PARF-100ML', name:'Gamayun',       collection:'Ancient Spirits',       price:200.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0068A-PARF-100ML', name:'Gugulanna',     collection:'Ancient Spirits',       price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067Y-PARF-100ML', name:'Divina',        collection:'Arcana',                price:190.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00685-PARF-100ML', name:'Molecule Oudh', collection:'Modern Oudh',           price:185.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0068B-PARF-100ML', name:'HÅ«ma',          collection:'Ancient Spirits',       price:200.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00688-PARF-100ML', name:'Fenrir',        collection:'Ancient Spirits',       price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00686-PARF-100ML', name:'Prajna',        collection:'Arcana',                price:180.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00687-PARF-100ML', name:'Amali',         collection:'Modern Oudh',           price:175.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00681-PARF-100ML', name:'Amiyah Oudh',   collection:'Modern Oudh',           price:185.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-00680-PARF-100ML', name:'Aurum',         collection:'Arcana',                price:195.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067X-PARF-100ML', name:'Ruhun',         collection:'Ancient Spirits',       price:190.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067W-PARF-100ML', name:'Capi',          collection:'Mandarine Orientale Italy', price:200.00, image:'../../img/Brand_Demo.webp' },
+    { sku:'07F-0067V-PARF-100ML', name:'Curve',         collection:'Mandarine Orientale Italy', price:195.00, image:'../../img/Brand_Demo.webp' },
+  ],
+  'La Sabia Madrid': [
+    { sku:'07H-0067E-EDP-100ML',      name:'Verdanza',   collection:'Artisan Collection', price:171.95, image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067F-EDP-100ML',      name:'Poderio',    collection:'Artisan Collection', price:171.95, image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067G-EDP-100ML',      name:'Dos Besos',  collection:'Artisan Collection', price:171.95, image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067G-EDP-100ML-TKTOK',name:'Dos Besos (TikTok Ed.)', collection:'Artisan Collection', price:10.00, image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067G-EDP-100ML-TST',  name:'Dos Besos Tester',       collection:'Artisan Collection', price:94.00, image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067D-EDP-100ML',      name:'Normal',     collection:'Artisan Collection', price:100.00, image:'../../img/LaSabiaMadrid.webp' },
+    { sku:'07H-0067D-EDP-100ML-2',    name:'Campagna',   collection:'Artisan Collection', price:100.00, image:'../../img/LaSabiaMadrid.webp' },
+  ],
+};
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   ORDERS DATA
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+// var ordersData = [];
+var ordersData = [
+
+  {
+    id: 7,
+    orderNum: 'PO-2026-010',
+    orderDate: '2026-02-10',
+    deliveryDate: '2026-02-28',
+    company: '8Motiv',
+    contact: 'Francis Sánchez',
+    email: 'orders@niche305.com',
+    phone: '+1 (305) 555-0100',
+    address: '1200 Brickell Ave, Miami, FL 33131, USA',
+    payment: 'Bank Transfer',
+    currency: 'USD',
+    paymentNotes: 'REF-2026-010',
+    notes: 'Express delivery requested.',
+    status: 'Delivery',
+    brand: 'Brand Demo',
+    lineItems: [
+      { name:'Fenrir',        sku:'07F-00688-PARF-100ML', qty:10, unitPrice:195.00, lineTotal:1950.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Prajna',        sku:'07F-00686-PARF-100ML', qty:8,  unitPrice:180.00, lineTotal:1440.00, image:'../../img/Brand_Demo.webp' },
+      { name:'Molecule Oudh', sku:'07F-00685-PARF-100ML', qty:6,  unitPrice:185.00, lineTotal:1110.00, image:'../../img/Brand_Demo.webp' },
+    ],
+    total: 4500.00
+  },
+  {
+    id: 8,
+    orderNum: 'PO-2026-011',
+    orderDate: '2026-01-28',
+    deliveryDate: '2026-02-14',
+    company: '8Motiv',
+    contact: 'Francis Sánchez',
+    email: 'orders@niche305.com',
+    phone: '+1 (305) 555-0100',
+    address: '1200 Brickell Ave, Miami, FL 33131, USA',
+    payment: 'Net 30',
+    currency: 'EUR',
+    paymentNotes: 'Invoice #INV-2026-008',
+    notes: "Valentine's Day special order.",
+    status: 'Delivery',
+    brand: 'La Sabia Madrid',
+    lineItems: [
+      { name:'Verdanza',  sku:'07H-0067E-EDP-100ML', qty:15, unitPrice:171.95, lineTotal:2579.25, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Dos Besos', sku:'07H-0067G-EDP-100ML', qty:10, unitPrice:171.95, lineTotal:1719.50, image:'../../img/LaSabiaMadrid.webp' },
+      { name:'Poderio',   sku:'07H-0067F-EDP-100ML', qty:8,  unitPrice:171.95, lineTotal:1375.60, image:'../../img/LaSabiaMadrid.webp' },
+    ],
+    total: 5674.35
+  },
+];
+var nextOrderId = 7;
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   STATE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+var currentBrand  = 'Brand Demo';
+var boSearch      = '';
+var boRange       = 'all';
+var boCustomFrom  = '';
+var boCustomTo    = '';
+var boHasCustom   = false;
+var boStatus      = 'all';
+var boPage        = 1;
+var BO_PER_PAGE   = 10;
+var editingOrderId = null;
+
+// Product selection in modal
+var selectedProducts = {}; // { sku: qty }
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   HELPERS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function fmt(n){ return '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtDate(d){
+  if(!d) return 'â€”';
+  var p=d.split('-'), m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return m[parseInt(p[1])-1]+' '+parseInt(p[2])+', '+p[0];
+}
+function inRange(dateStr){
+  if(!dateStr) return true;
+  var date=new Date(dateStr), now=new Date();
+  if(boHasCustom){
+    if(boCustomFrom && date < new Date(boCustomFrom)) return false;
+    if(boCustomTo   && date > new Date(boCustomTo))   return false;
+    return true;
+  }
+  switch(boRange){
+    case '7d':        return (now-date)<=7*864e5;
+    case '30d':       return (now-date)<=30*864e5;
+    case '90d':       return (now-date)<=90*864e5;
+    case 'year':      return date.getFullYear()===now.getFullYear();
+    case 'last-year': return date.getFullYear()===(now.getFullYear()-1);
+    default:          return true;
+  }
+}
+// function statusBadge(s){
+//   s=(s||'').toLowerCase();
+//   if(s==='received')    return '<span class="badge badge-received"><span class="badge-dot"></span>Received</span>';
+//   if(s==='cancelled')   return '<span class="badge badge-cancelled"><span class="badge-dot"></span>Cancelled</span>';
+//   return '<span class="badge badge-progress"><span class="badge-dot"></span>In Progress</span>';
+// }
+
+function statusBadge(s){
+  s = (s||'').toLowerCase();
+  if(s === 'received')  return '<span class="badge badge-received"><span class="badge-dot"></span>Received</span>';
+  if(s === 'cancelled') return '<span class="badge badge-cancelled"><span class="badge-dot"></span>Cancelled</span>';
+  if(s === 'delivery')  return '<span class="badge" style="background:#f0fdf4;color:#065f46;border:1px solid #6ee7b7;"><span class="badge-dot"></span>Delivery</span>';
+  return '<span class="badge badge-progress"><span class="badge-dot"></span>In Progress</span>';
+}
+function genOrderNum(){
+  var now=new Date();
+  return 'PO-'+now.getFullYear()+'-'+String(nextOrderId++).padStart(3,'0');
+}
+function todayISO(){
+  return new Date().toISOString().split('T')[0];
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   FILTER & RENDER TABLE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+// function getFiltered(){
+//   return ordersData.filter(function(o){
+//     var q=boSearch.toLowerCase();
+//     var matchBrand = o.brand === currentBrand; 
+//     var matchQ = !q || o.orderNum.toLowerCase().includes(q) ||
+//       o.lineItems.some(function(it){ return it.name.toLowerCase().includes(q); });
+//     var matchS = boStatus==='all' || (o.status||'').toLowerCase()===boStatus;
+//     var matchR = inRange(o.orderDate);
+//    return matchBrand && matchQ && matchS && matchR; 
+//   });
+// }
+
+function getFiltered(){
+  return ordersData.filter(function(o){
+    var q = boSearch.toLowerCase();
+    var matchQ = !q || o.orderNum.toLowerCase().includes(q) ||
+      (o.brand||'').toLowerCase().includes(q) ||
+      o.lineItems.some(function(it){ return it.name.toLowerCase().includes(q); });
+    var matchS = boStatus === 'all' || (o.status||'').toLowerCase() === boStatus;
+    var matchR = inRange(o.orderDate);
+    return matchQ && matchS && matchR;
+  });
+}
+
+function render(){
+  var filtered=getFiltered();
+  var total=Math.ceil(filtered.length/BO_PER_PAGE);
+  var paged=filtered.slice((boPage-1)*BO_PER_PAGE, boPage*BO_PER_PAGE);
+  var tbody=document.getElementById('boTbody');
+
+  updateStats(filtered);
+  document.getElementById('resultsCount').textContent=filtered.length;
+
+  if(paged.length===0){
+    tbody.innerHTML='<tr class="empty-row"><td colspan="11"><i class="fas fa-shopping-cart"></i><p>No purchase orders found. Click <strong>New Order</strong> to create one.</p></td></tr>';
+    document.getElementById('pageBtns').innerHTML='';
+    document.getElementById('pageInfo').textContent='';
+    return;
+  }
+
+  var html='';
+  paged.forEach(function(o){
+    var imgs='';
+    var shown=o.lineItems.slice(0,3);
+    shown.forEach(function(it){
+      imgs += it.image
+        ? '<img src="'+it.image+'" class="thumb-img" onerror="this.style.display=\'none\'">'
+        : '<div class="thumb-placeholder"><i class="fas fa-spray-can"></i></div>';
+    });
+    if(o.lineItems.length>3) imgs+='<div class="thumb-more">+'+( o.lineItems.length-3)+'</div>';
+    var totalItems=o.lineItems.reduce(function(a,it){return a+it.qty;},0);
+
+    html+='<tr>'
+      +'<td><div class="thumb-stack">'+imgs+'</div></td>'
+      +'<td><span class="order-num">'+(o.company||'—')+'</span></td>'
+      +'<td><span class="order-num">'+(o.brand||'—')+'</span></td>'
+      +'<td><span class="order-num">'+o.orderNum+'</span></td>'
+      +'<td style="white-space:nowrap;">'+fmtDate(o.orderDate)+'</td>'
+    //   +'<td style="white-space:nowrap;">'+fmtDate(o.deliveryDate)+'</td>'
+      +'<td class="text-center">'+totalItems+'</td>'
+      +'<td style="font-size:12px;color:var(--text-muted);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+o.address+'">'+( o.address||'â€”')+'</td>'
+      +'<td class="text-center">'+statusBadge(o.status)+'</td>'
+      +'<td class="text-right font-bold">'+fmt(o.total)+'</td>'
+      +'<td><div class="act-group">'
+        +'<button class="act-btn act-view" onclick="viewOrder('+o.id+')" title="View"><i class="fas fa-eye"></i></button>'
+        // +'<button class="act-btn act-edit" onclick="editOrder('+o.id+')" title="Edit"><i class="fas fa-pen"></i></button>'
+        // +'<button class="act-btn act-edit" onclick="openNewOrder('+o.id+')" title="Edit Status"><i class="fas fa-pen"></i></button>'
+          +'<button class="act-btn" style="background:#e8f5e9;color:#2e7d32;" onclick="exportRowExcel('+o.id+')" title="Export Excel"><i class="fas fa-file-excel"></i></button>'
+  +'<button class="act-btn" style="background:#fce4e4;color:#c62828;" onclick="exportRowPDF('+o.id+')" title="Export PDF"><i class="fas fa-file-pdf"></i></button>'
+        // +'<button class="act-btn act-del"  onclick="deleteOrder('+o.id+')" title="Delete"><i class="fas fa-trash"></i></button>'
+      +'</div></td>'
+      +'</tr>';
+  });
+  tbody.innerHTML=html;
+
+  // Pagination
+  document.getElementById('pageInfo').textContent=
+    'Showing '+(((boPage-1)*BO_PER_PAGE)+1)+'-'+Math.min(boPage*BO_PER_PAGE,filtered.length)+' of '+filtered.length;
+  var btns='';
+  btns+='<button '+(boPage===1?'disabled':'')+' onclick="goPage('+(boPage-1)+')">â€¹</button>';
+  for(var i=1;i<=total;i++){
+    if(total>7&&i>2&&i<total-1&&Math.abs(i-boPage)>1){if(i===3||i===total-2)btns+='<button disabled>â€¦</button>';continue;}
+    btns+='<button class="'+(i===boPage?'active':'')+'" onclick="goPage('+i+')">'+i+'</button>';
+  }
+  btns+='<button '+(boPage===total?'disabled':'')+' onclick="goPage('+(boPage+1)+')">â€º</button>';
+  document.getElementById('pageBtns').innerHTML=btns;
+}
+
+function goPage(p){boPage=p;render();}
+
+// function updateStats(filtered){
+//   var inProg=filtered.filter(function(o){return (o.status||'').toLowerCase()==='in progress';}).length;
+//   var recv=filtered.filter(function(o){return (o.status||'').toLowerCase()==='received';}).length;
+//   var total=filtered.reduce(function(a,o){return a+o.total;},0);
+//   document.getElementById('sTotalOrders').textContent=filtered.length;
+//   document.getElementById('sInProgress').textContent=inProg;
+//   document.getElementById('sReceived').textContent=recv;
+// //   document.getElementById('sTotalValue').textContent=total>=1000?'$'+(total/1000).toFixed(1)+'k':fmt(total);
+//   document.getElementById('sTotalValue').textContent = fmt(total);
+// }
+
+function updateStats(filtered){
+  var inProg    = filtered.filter(function(o){ return (o.status||'').toLowerCase() === 'in progress'; }).length;
+  var recv      = filtered.filter(function(o){ return (o.status||'').toLowerCase() === 'received';    }).length;
+  var delivery  = filtered.filter(function(o){ return (o.status||'').toLowerCase() === 'delivery';   }).length;
+  var total     = filtered.reduce(function(a,o){ return a + o.total; }, 0);
+
+  document.getElementById('sTotalOrders').textContent = filtered.length;
+  document.getElementById('sInProgress').textContent  = inProg;
+  document.getElementById('sReceived').textContent    = recv;
+  document.getElementById('sTotalValue').textContent  = fmt(total);
+
+  var delEl = document.getElementById('sDelivery');
+  if(delEl) delEl.textContent = delivery;
+}
+
+/* 
+   FILTERS
+*/
+function applyFilters(){boSearch=document.getElementById('boSearch').value;boPage=1;render();}
+function setStatus(s,el){
+  boStatus=s;
+  document.querySelectorAll('.status-pill').forEach(function(p){p.classList.remove('active');});
+  el.classList.add('active');boPage=1;render();
+}
+function setRange(r,el){
+  boRange=r;boHasCustom=false;
+  document.querySelectorAll('.qr-dd div').forEach(function(d){d.classList.remove('active-r');});
+  el.classList.add('active-r');
+  var lbl={'7d':'Last 7 Days','30d':'Last 30 Days','90d':'Last 90 Days','year':'This Year','last-year':'Last Year','all':'All Time'};
+  document.getElementById('qrLabel').textContent=lbl[r]||'All Time';
+  document.getElementById('qrDd').classList.remove('show');
+  document.getElementById('qrBtn').classList.remove('open');
+  boPage=1;render();
+}
+function applyCustomRange(){
+  boCustomFrom=document.getElementById('dateFrom').value;
+  boCustomTo=document.getElementById('dateTo').value;
+  boHasCustom=!!(boCustomFrom||boCustomTo);
+  boRange='all';
+  document.getElementById('qrLabel').textContent=boHasCustom?'Custom Range':'All Time';
+  closeDateModal();boPage=1;render();
+}
+
+/* 
+   PRODUCT GRID IN MODAL
+ */
+function buildProductGrid(){
+  var catalog=BRAND_CATALOG[currentBrand]||[];
+  var q=document.getElementById('prodSearch').value.toLowerCase();
+  var collF=document.getElementById('prodCollFilter').value;
+
+  // Populate collection filter
+  var colls=[...new Set(catalog.map(function(p){return p.collection;}))].sort();
+  var collSel=document.getElementById('prodCollFilter');
+  collSel.innerHTML='<option value="">All Collections</option>';
+  colls.forEach(function(c){
+    var o=document.createElement('option');o.value=c;o.textContent=c;
+    if(c===collF)o.selected=true;
+    collSel.appendChild(o);
+  });
+
+  var filtered=catalog.filter(function(p){
+    return (!q||p.name.toLowerCase().includes(q)||p.sku.toLowerCase().includes(q))&&
+           (!collF||p.collection===collF);
+  });
+
+  var grid=document.getElementById('productGrid');
+  grid.innerHTML=filtered.map(function(p){
+    var sel=!!selectedProducts[p.sku];
+    return '<div class="prod-card'+(sel?' selected':'')+'" onclick="toggleProduct(\''+p.sku+'\',this)" data-sku="'+p.sku+'">'
+      +'<div class="prod-card-check"><i class="fas fa-check"></i></div>'
+      +(p.image?'<img src="'+p.image+'" onerror="this.outerHTML=\'<div class=prod-card-img-ph><i class=fas fa-spray-can></i></div>\'">'
+               :'<div class="prod-card-img-ph"><i class="fas fa-spray-can"></i></div>')
+      +'<div class="prod-card-name">'+p.name+'</div>'
+      +'<div class="prod-card-sku">'+p.sku+'</div>'
+      +'<div class="prod-card-price">'+fmt(p.price)+'</div>'
+      +'<div class="prod-card-coll">'+p.collection+'</div>'
+      +'</div>';
+  }).join('');
+
+  document.getElementById('selectedCount').textContent=Object.keys(selectedProducts).length+' selected';
+}
+
+function filterProducts(){buildProductGrid();}
+
+function toggleProduct(sku){
+  if(selectedProducts[sku]){
+    delete selectedProducts[sku];
+  } else {
+    selectedProducts[sku]=1;
+  }
+  buildProductGrid();
+  buildSelectionSummary();
+}
+
+function buildSelectionSummary(){
+  var catalog=BRAND_CATALOG[currentBrand]||[];
+  var skus=Object.keys(selectedProducts);
+  var sec=document.getElementById('selItemsSection');
+  var list=document.getElementById('selItemsList');
+
+  if(skus.length===0){sec.style.display='none';return;}
+  sec.style.display='block';
+
+  var html='';
+  var total=0;
+  skus.forEach(function(sku){
+    var prod=catalog.find(function(p){return p.sku===sku;});
+    if(!prod)return;
+    var qty=selectedProducts[sku]||1;
+    var lineTotal=prod.price*qty;
+    total+=lineTotal;
+    html+='<div class="sel-item">'
+      +(prod.image?'<img src="'+prod.image+'" class="sel-item-img" onerror="this.style.display=\'none\'">':'')
+      +'<div class="sel-item-img-ph" style="'+(prod.image?'display:none':'')+'"><i class="fas fa-spray-can"></i></div>'
+      +'<div class="sel-item-info">'
+        +'<div class="sel-item-name">'+prod.name+'</div>'
+        +'<div class="sel-item-sku">'+prod.sku+'</div>'
+        +'<div class="sel-item-price">'+fmt(prod.price)+' / unit</div>'
+      +'</div>'
+      +'<div class="sel-item-qty">'
+        +'<button class="qty-btn" onclick="changeQty(\''+sku+'\',-1)">âˆ’</button>'
+        +'<input class="qty-input" type="number" min="1" value="'+qty+'" onchange="setQty(\''+sku+'\',this.value)">'
+        +'<button class="qty-btn" onclick="changeQty(\''+sku+'\',1)">+</button>'
+      +'</div>'
+      +'<div class="sel-item-total">'+fmt(lineTotal)+'</div>'
+      +'<button class="sel-item-remove" onclick="removeProduct(\''+sku+'\')"><i class="fas fa-times"></i></button>'
+      +'</div>';
+  });
+  list.innerHTML=html;
+  document.getElementById('orderTotalVal').textContent=fmt(total);
+}
+
+function changeQty(sku,delta){
+  var q=(selectedProducts[sku]||1)+delta;
+  if(q<1)q=1;
+  selectedProducts[sku]=q;
+  buildSelectionSummary();
+}
+function setQty(sku,val){
+  var q=parseInt(val)||1;
+  if(q<1)q=1;
+  selectedProducts[sku]=q;
+  buildSelectionSummary();
+}
+function removeProduct(sku){
+  delete selectedProducts[sku];
+  buildProductGrid();
+  buildSelectionSummary();
+}
+
+/* 
+   NEW ORDER MODAL
+*/
+function openNewOrder(){
+  editingOrderId=null;
+  selectedProducts={};
+  clearOrderForm();
+  document.getElementById('modalTitle').textContent='New Purchase Order';
+  document.getElementById('fOrderNum').value=genOrderNum();
+  document.getElementById('fOrderDate').value=todayISO();
+  buildProductGrid();
+  buildSelectionSummary();
+  document.getElementById('orderModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function clearOrderForm(){
+  ['fOrderNum','fOrderDate','fDeliveryDate',
+//   'fCompany','fContact','fEmail',
+//    'fPhone','fAddress','fPayment','fPaymentNotes',
+   'fNotes'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.value='';
+  });
+//   document.getElementById('fCurrency').value='USD';
+  document.getElementById('prodSearch').value='';
+  document.getElementById('selItemsSection').style.display='none';
+}
+
+function closeOrderModal(e){
+  if(e&&e.target!==document.getElementById('orderModal'))return;
+  document.getElementById('orderModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function submitOrder(){
+  var orderNum=document.getElementById('fOrderNum').value.trim();
+  var orderDate=document.getElementById('fOrderDate').value;
+//   var company=document.getElementById('fCompany').value.trim();
+//   var address=document.getElementById('fAddress').value.trim();
+
+  if(!orderNum){showToast('Please enter an order number.');return;}
+  if(!orderDate){showToast('Please enter the order date.');return;}
+//   if(!company){showToast('Please enter the company name.');return;}
+//   if(!address){showToast('Please enter the shipping address.');return;}
+  if(Object.keys(selectedProducts).length===0){showToast('Please select at least one product.');return;}
+
+  var catalog=BRAND_CATALOG[currentBrand]||[];
+  var lineItems=Object.keys(selectedProducts).map(function(sku){
+    var prod=catalog.find(function(p){return p.sku===sku;});
+    return {name:prod.name,sku:sku,qty:selectedProducts[sku],unitPrice:prod.price,lineTotal:prod.price*selectedProducts[sku],image:prod.image};
+  });
+  var total=lineItems.reduce(function(a,it){return a+it.lineTotal;},0);
+
+  var order={
+    id: editingOrderId || Date.now(),
+    orderNum: orderNum,
+    orderDate: orderDate,
+    deliveryDate: document.getElementById('fDeliveryDate').value,
+    // company: company,
+    company: '',
+    contact: '',
+    email: '',
+    phone: '',
+    address: '',    
+    payment: '',
+    // contact: document.getElementById('fContact').value,
+    // email: document.getElementById('fEmail').value,
+    // phone: document.getElementById('fPhone').value,
+    // address: address,
+    // payment: document.getElementById('fPayment').value,
+    currency: document.getElementById('fCurrency').value,
+    paymentNotes: document.getElementById('fPaymentNotes').value,
+    notes: document.getElementById('fNotes').value,
+    lineItems: lineItems,
+    total: total,
+    status: 'In Progress',
+    brand: currentBrand
+  };
+
+  if(editingOrderId){
+    var idx=ordersData.findIndex(function(o){return o.id===editingOrderId;});
+    if(idx>-1){order.status=ordersData[idx].status;ordersData[idx]=order;}
+    showToast('Order updated successfully!');
+  } else {
+    ordersData.unshift(order);
+    showToast('Order placed successfully!');
+  }
+
+  closeOrderModal();
+  boPage=1;render();
+}
+
+/* 
+   VIEW ORDER
+ */
+function viewOrder(id){
+  var o=ordersData.find(function(x){return x.id===id;});
+  if(!o)return;
+
+  var itemsHtml=o.lineItems.map(function(it){
+    return '<div class="view-line">'
+      +(it.image?'<img src="'+it.image+'" onerror="this.style.display=\'none\'">':'')
+      +'<div class="view-line-ph" style="'+(it.image?'display:none':'')+'"><i class="fas fa-spray-can"></i></div>'
+      +'<div class="view-line-info"><div class="view-line-name">'+it.name+'</div><div class="view-line-sku">'+it.sku+'</div></div>'
+      +'<div class="view-line-right"><div class="view-line-qty">QTY: '+ it.qty+' '+" "+'</div><div class="view-line-price">'+fmt(it.lineTotal)+'</div></div>'
+      +'</div>';
+  }).join('');
+
+  document.getElementById('viewModalContent').innerHTML=
+    '<div class="view-section">'
+      +'<div class="msec-title"><i class="fas fa-info-circle"></i> Order Information</div>'
+      +'<div class="view-grid">'
+        +'<div class="view-item"><div class="view-item-label">Order #</div><div class="view-item-val" style="font-family:monospace;color:var(--gold);">'+o.orderNum+'</div></div>'
+        +'<div class="view-item"><div class="view-item-label">Status</div><div class="view-item-val">'+statusBadge(o.status)+'</div></div>'
+        +'<div class="view-item"><div class="view-item-label">Order Date</div><div class="view-item-val">'+fmtDate(o.orderDate)+'</div></div>'
+        +'<div class="view-item"><div class="view-item-label">Expected Delivery</div><div class="view-item-val">'+fmtDate(o.deliveryDate)+'</div></div>'
+        +'<div class="view-item"><div class="view-item-label">Company</div><div class="view-item-val">'+o.company+'</div></div>'
+        +'<div class="view-item"><div class="view-item-label">Contact</div><div class="view-item-val">'+(o.contact||'â€”')+'</div></div>'
+        +'<div class="view-item full"><div class="view-item-label">Shipping Address</div><div class="view-item-val">'+(o.address||'â€”')+'</div></div>'
+        +'<div class="view-item"><div class="view-item-label">Payment</div><div class="view-item-val">'+(o.payment||'â€”')+'</div></div>'
+        +'<div class="view-item"><div class="view-item-label">Currency</div><div class="view-item-val">'+(o.currency||'USD')+'</div></div>'
+        +(o.notes?'<div class="view-item full"><div class="view-item-label">Notes</div><div class="view-item-val" style="font-weight:400;">'+o.notes+'</div></div>':'')
+      +'</div>'
+    +'</div>'
+    +'<div class="view-section">'
+      +'<div class="msec-title"><i class="fas fa-box"></i> Items Ordered</div>'
+      +'<div class="view-items-list">'+itemsHtml+'</div>'
+      +'<div class="order-total-row" style="margin-top:12px;">'
+        +'<span class="order-total-label">Order Total:</span>'
+        +'<span class="order-total-val">'+fmt(o.total)+'</span>'
+      +'</div>'
+    +'</div>';
+
+  document.getElementById('viewEditBtn').onclick=function(){closeViewModal();editOrder(id);};
+  document.getElementById('viewModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeViewModal(e){
+  if(e&&e.target!==document.getElementById('viewModal'))return;
+  document.getElementById('viewModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/*
+   EDIT ORDER
+ */
+function editOrder(id){
+  var o=ordersData.find(function(x){return x.id===id;});
+  if(!o)return;
+  editingOrderId=id;
+  selectedProducts={};
+  o.lineItems.forEach(function(it){selectedProducts[it.sku]=it.qty;});
+
+  clearOrderForm();
+  document.getElementById('modalTitle').textContent='Edit Order â€” '+o.orderNum;
+  document.getElementById('fOrderNum').value=o.orderNum;
+  document.getElementById('fOrderDate').value=o.orderDate;
+  document.getElementById('fDeliveryDate').value=o.deliveryDate||'';
+//   document.getElementById('fCompany').value=o.company||'';
+//   document.getElementById('fContact').value=o.contact||'';
+//   document.getElementById('fEmail').value=o.email||'';
+//   document.getElementById('fPhone').value=o.phone||'';
+//   document.getElementById('fAddress').value=o.address||'';
+//   document.getElementById('fPayment').value=o.payment||'';
+//   document.getElementById('fCurrency').value=o.currency||'USD';
+//   document.getElementById('fPaymentNotes').value=o.paymentNotes||'';
+  document.getElementById('fNotes').value=o.notes||'';
+
+  buildProductGrid();
+  buildSelectionSummary();
+  document.getElementById('orderModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+/*
+   DELETE ORDER
+*/
+function deleteOrder(id){
+  if(!confirm('Delete this purchase order?'))return;
+  ordersData=ordersData.filter(function(o){return o.id!==id;});
+  render();showToast('Order deleted.');
+}
+
+/* 
+   DATE MODAL
+*/
+function openDateModal(){document.getElementById('dateModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeDateModal(e){
+  if(e&&e.target!==document.getElementById('dateModal'))return;
+  document.getElementById('dateModal').classList.remove('open');document.body.style.overflow='';
+}
+
+/* 
+   EXPORT
+*/
+function exportExcel(){
+  var load=function(cb){if(window.XLSX){cb();return;}var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=cb;document.head.appendChild(s);};
+  load(function(){
+    var rows=[['ORDER #','ORDER DATE','DELIVERY DATE','COMPANY','ADDRESS','PAYMENT','STATUS','TOTAL']];
+    getFiltered().forEach(function(o){
+      rows.push([o.orderNum,fmtDate(o.orderDate),fmtDate(o.deliveryDate),o.company,o.address,o.payment,o.status,o.total]);
+    });
+    var ws=XLSX.utils.aoa_to_sheet(rows);
+    var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Purchase Orders');
+    XLSX.writeFile(wb,'purchase-orders.xlsx');
+    showToast('Excel exported!');
+  });
+}
+function exportPDF(){
+  var load=function(src,cb){if(document.querySelector('script[src="'+src+'"]')){cb();return;}var s=document.createElement('script');s.src=src;s.onload=cb;document.head.appendChild(s);};
+  load('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',function(){
+    load('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js',function(){
+      var doc=new window.jspdf.jsPDF('landscape');
+      var W=doc.internal.pageSize.getWidth();
+      var gold=[171,160,110],dark=[30,34,39];
+      doc.setFillColor(dark[0],dark[1],dark[2]);doc.rect(0,0,W,28,'F');
+      doc.setFontSize(15);doc.setFont('helvetica','bold');doc.setTextColor(gold[0],gold[1],gold[2]);
+      doc.text('BRAND PURCHASE ORDERS',14,17);
+      doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(180,180,180);
+      doc.text('Generated: '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),W-14,17,{align:'right'});
+      var head=[['ORDER #','DATE','DELIVERY','COMPANY','ADDRESS','PAYMENT','STATUS','TOTAL']];
+      var body=getFiltered().map(function(o){
+        return [o.orderNum,fmtDate(o.orderDate),fmtDate(o.deliveryDate),o.company,o.address||'â€”',o.payment||'â€”',o.status,fmt(o.total)];
+      });
+      doc.autoTable({head:head,body:body,startY:32,headStyles:{fillColor:gold,textColor:[255,255,255],fontStyle:'bold',fontSize:9},bodyStyles:{fontSize:9,textColor:dark},alternateRowStyles:{fillColor:[250,249,246]},theme:'grid'});
+      doc.save('purchase-orders.pdf');
+      showToast('PDF exported!');
+    });
+  });
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   TOAST
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function showToast(msg){
+  var t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;
+  t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   BRAND CHANGE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+document.addEventListener('niche3ds:brandChanged',function(e){
+  currentBrand=e.detail.brand;
+  // document.getElementById('brandTitle').textContent=currentBrand;
+  // localStorage.setItem('selectedBrand',currentBrand);
+  // boPage=1;render();
+});
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   QUICK RANGE DROPDOWN
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+document.getElementById('qrBtn').addEventListener('click',function(e){
+  e.stopPropagation();
+  document.getElementById('qrDd').classList.toggle('show');
+  this.classList.toggle('open');
+});
+document.addEventListener('click',function(){
+  document.getElementById('qrDd').classList.remove('show');
+  document.getElementById('qrBtn').classList.remove('open');
+});
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   NAV
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+function toggleGroup(id){
+  var grp=document.getElementById(id),wasOpen=grp.classList.contains('open');
+  document.querySelectorAll('.nav-group').forEach(function(g){if(g.id!==id&&!g.querySelector('.active'))g.classList.remove('open');});
+  if(wasOpen&&!grp.querySelector('.active'))grp.classList.remove('open');else grp.classList.add('open');
+}
+function toggleSubGroup(id){
+  var body=document.getElementById(id),arrow=document.getElementById('arrow-'+id);
+  var isOpen=body.style.display!=='none';
+  if(isOpen&&!body.querySelector('.active')){body.style.display='none';if(arrow)arrow.classList.remove('open');}
+  else{body.style.display='block';if(arrow)arrow.classList.add('open');}
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeOrderModal();closeViewModal();closeDateModal();}});
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   INIT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+document.addEventListener('DOMContentLoaded',function(){
+  // var savedBrand=localStorage.getItem('selectedBrand');
+  // if(savedBrand&&BRAND_CATALOG[savedBrand]){
+  //   currentBrand=savedBrand;
+  //   document.getElementById('brandTitle').textContent=savedBrand;
+  // }
+
+  // // Nav link activo
+  // var currentPage=window.location.pathname.split('/').pop();
+  // var activeLink=document.querySelector('a[href*="'+currentPage+'"]');
+  // if(activeLink){
+  //   document.querySelectorAll('.nav-sub-item,.nav-sub-sub-item,.nav-item-standalone').forEach(function(i){i.classList.remove('active');});
+  //   activeLink.classList.add('active');
+  //   var grp=activeLink.closest('.nav-group');if(grp)grp.classList.add('open');
+  //   var subBody=activeLink.closest('.nav-sub-group-body');
+  //   if(subBody){subBody.style.display='block';var header=subBody.previousElementSibling;
+  //     if(header){var arrow=header.querySelector('.nav-sub-arrow');if(arrow)arrow.classList.add('open');}}
+  // }
+
+  render();
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 </div>
+
+
+
+<div class="tab-content" id="assets">
+    <div class="card">
+        
+
+    </div>
 </div>
 
 <!-- ===== TAB: REPORTS ===== -->
@@ -2402,7 +3801,7 @@ var po_BRAND_CATALOG = {
 var po_ordersData = [
   {
     id:4, orderNum:'PO-2026-004', orderDate:'2026-03-12', deliveryDate:'2026-03-28',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    company:'8motiv', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Bank Transfer', currency:'EUR', paymentNotes:'REF-2026-004',
     notes:'First order with La Sabia Madrid.',
@@ -2415,7 +3814,7 @@ var po_ordersData = [
   },
   {
     id:5, orderNum:'PO-2026-005', orderDate:'2026-02-08', deliveryDate:'2026-02-25',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    company:'8motiv', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Net 30', currency:'EUR', paymentNotes:'Invoice #INV-2026-021',
     notes:'', status:'approved', brand:'La Sabia Madrid',
@@ -2426,7 +3825,7 @@ var po_ordersData = [
   },
   {
     id:9, orderNum:'PO-2026-009', orderDate:'2026-03-18', deliveryDate:'2026-04-05',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    company:'8motiv', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-009',
     notes:'', status:'adjusted',
@@ -2445,7 +3844,7 @@ var po_ordersData = [
   },
   {
     id:12, orderNum:'PO-2026-010', orderDate:'2026-02-10', deliveryDate:'2026-02-28',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    company:'8motiv', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Bank Transfer', currency:'USD', paymentNotes:'REF-2026-010',
     notes:'Express delivery requested.',
@@ -2458,7 +3857,7 @@ var po_ordersData = [
   },
   {
     id:13, orderNum:'PO-2026-011', orderDate:'2026-01-28', deliveryDate:'2026-02-14',
-    company:'Niche305 LLC', contact:'Francis Sánchez', email:'orders@niche305.com',
+    company:'8motiv', contact:'Francis Sánchez', email:'orders@niche305.com',
     phone:'+1 (305) 555-0100', address:'1200 Brickell Ave, Miami, FL 33131, USA',
     payment:'Net 30', currency:'EUR', paymentNotes:'Invoice #INV-2026-008',
     notes:"Valentine's Day special order.",
@@ -2606,7 +4005,7 @@ function po_render(){
   po_updateStats(filtered);
 
   if(paged.length===0){
-    tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:60px;color:var(--text-muted);"><i class="fas fa-shopping-cart" style="font-size:36px;color:#ddd;display:block;margin-bottom:12px;"></i><p>No pre-orders found.</p></td></tr>';
+    tbody.innerHTML='<tr><td colspan="11" style="text-align:center;padding:60px;color:var(--text-muted);"><i class="fas fa-shopping-cart" style="font-size:36px;color:#ddd;display:block;margin-bottom:12px;"></i><p>No pre-orders found.</p></td></tr>';
     document.getElementById('po_pageBtns').innerHTML='';
     document.getElementById('po_pageInfo').textContent='';
     return;
@@ -2620,6 +4019,7 @@ function po_render(){
       ? '<img src="'+imgSrc+'" style="width:44px;height:56px;object-fit:cover;border-radius:8px;border:2px solid var(--border);" onerror="this.style.display=\'none\'">'
       : '<div style="width:44px;height:44px;border-radius:8px;background:var(--gold-light);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:18px;"><i class="fas fa-spray-can"></i></div>';
 
+    var providerBadge = '<span class="order-num">'+(o.company || '—')+'</span>';
     var brandBadge = '<span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;background:var(--gold-light);color:var(--gold-dark);border:1px solid var(--gold-border);">'+o.brand+'</span>';
 
     var totalItems = o.lineItems.reduce(function(a,it){ return a+it.qty; }, 0);
@@ -2636,6 +4036,7 @@ function po_render(){
 
     html += '<tr'+(isPlaced?' style="opacity:0.65;background:#f9fafb;"':'')+'>'+
       '<td style="padding:14px 16px;border-bottom:1px solid var(--border);width:60px;">'+photoCell+'</td>'+
+      '<td style="padding:14px 16px;border-bottom:1px solid var(--border);">'+providerBadge+'</td>'+ 
       '<td style="padding:14px 16px;border-bottom:1px solid var(--border);">'+brandBadge+'</td>'+
       '<td style="padding:14px 16px;border-bottom:1px solid var(--border);font-family:monospace;font-size:13px;font-weight:600;color:var(--gold);">'+o.orderNum+'</td>'+
       '<td style="padding:14px 16px;border-bottom:1px solid var(--border);white-space:nowrap;font-size:13px;">'+po_fmtDate(o.orderDate)+'</td>'+

@@ -181,17 +181,17 @@
       // },
 
       /* ── LEGAL ── */
-      {
-        id: "grp-legal",
-        label: "Legal",
-        directItems: [
-          { href: "/page/legal/business-plan.html", label: "Business Plan", key: "legal-business-plan" },
-          // { href: "/page/brand/Legal-documentation.html", label: "Legal documentation", key: "brand-legal" },
-          { href: "/page/legal/distribution-agreement.html", label: "Distribution Agreement", key: "legal-distribution-agreement" },
-          { href: "#", label: "FDA and MoCRA Approval", key: "legal-fda-mocra-approval" },
-          { href: "/page/legal/distribution-coefficient.html", label: "Distribution Coefficient", key: "legal-distribution-coefficient" }
-        ]
-      },
+      // {
+      //   id: "grp-legal",
+      //   label: "Legal",
+      //   directItems: [
+      //     { href: "/page/legal/business-plan.html", label: "Business Plan", key: "legal-business-plan" },
+      //     // { href: "/page/brand/Legal-documentation.html", label: "Legal documentation", key: "brand-legal" },
+      //     { href: "/page/legal/distribution-agreement.html", label: "Distribution Agreement", key: "legal-distribution-agreement" },
+      //     { href: "#", label: "FDA and MoCRA Approval", key: "legal-fda-mocra-approval" },
+      //     { href: "/page/legal/distribution-coefficient.html", label: "Distribution Coefficient", key: "legal-distribution-coefficient" }
+      //   ]
+      // },
 
       /* ── PROFILE ── */
       {

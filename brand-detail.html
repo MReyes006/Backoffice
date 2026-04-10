@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +6,8 @@
     <title>Motiv Perfumes Ã¢â‚¬â€œ By Product</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
 /* â”€â”€ RESET & BASE â”€â”€ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -1121,6 +1123,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 .assets-mini-panel{display:none;padding:16px;border:1px dashed var(--border);border-radius:10px;background:#fafafa;color:var(--text);font-size:14px;}
 .assets-mini-panel.active{display:block;}
 
+.pricing-mini-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.pricing-mini-tab{border:1px solid var(--border);background:#fff;color:var(--text);padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;}
+.pricing-mini-tab:hover{border-color:var(--gold);color:var(--gold);}
+.pricing-mini-tab.active{background:var(--gold);border-color:var(--gold);color:#fff;}
+.pricing-mini-panel{display:none;padding:16px;border:1px dashed var(--border);border-radius:10px;background:#fafafa;color:var(--text);font-size:14px;}
+.pricing-mini-panel.active{display:block;}
+
 /* Badges */
 .type-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
 .type-video{background:#e8f0fe;color:#1a73e8;}
@@ -1138,7 +1147,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 .btn-view:hover{background:#1a73e8;color:#fff;}
 .btn-download{background:#e6f4ea;color:#1e8e3e;}
 .btn-download:hover{background:#1e8e3e;color:#fff;}
-.btn-edit{background:var(--gold-light);color:var(--gold);}
+.btn-edit{
+    /* background:var(--gold-light); */
+    color:var(--gold);}
 .btn-edit:hover{background:var(--gold);color:#fff;}
 .btn-delete-row{background:#fce8e8;color:#d93025;}
 .btn-delete-row:hover{background:#d93025;color:#fff;}
@@ -4162,6 +4173,19 @@ function switchAssetsQuickTab(tabName) {
   }
 }
 
+function switchPricingTab(tabName) {
+  var tabs = document.querySelectorAll('.pricing-mini-tab');
+  var panels = document.querySelectorAll('.pricing-mini-panel');
+
+  tabs.forEach(function(tab) {
+    tab.classList.toggle('active', tab.getAttribute('data-tab') === tabName);
+  });
+
+  panels.forEach(function(panel) {
+    panel.classList.toggle('active', panel.getAttribute('data-panel') === tabName);
+  });
+}
+
 /* ════════ NAV ════════ */
 function toggleGroup(id) {
   var grp = document.getElementById(id);
@@ -6331,6 +6355,3026 @@ document.addEventListener('keydown', function(e) {
 
 </div>
 </div>
+
+<div class="tab-content" id="legal">
+    <div class="card">
+    <h3 style="margin-bottom:14px;"><i class="fas fa-tags"></i> Legal Information</h3>
+
+    <div class="pricing-mini-tabs">
+      <button type="button" class="pricing-mini-tab active" data-tab="business-plan" onclick="switchPricingTab('business-plan')">Business Plan</button>
+      <button type="button" class="pricing-mini-tab" data-tab="distribution-agreement" onclick="switchPricingTab('distribution-agreement')">Distribution Agreement</button>
+      <button type="button" class="pricing-mini-tab" data-tab="fda-mocra" onclick="switchPricingTab('fda-mocra')">FDA and MoCRA Approval</button>
+      <button type="button" class="pricing-mini-tab" data-tab="distribution-coefficient" onclick="switchPricingTab('distribution-coefficient')">Distribution Coefficient</button>
+    </div>
+
+    <div class="pricing-mini-panel active" data-panel="business-plan">
+
+        <style>
+            
+            /* â”€â”€ MODAL â”€â”€ */
+            .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
+            .modal-overlay.open{display:flex;}
+            .product-modal{background:#fff;border-radius:16px;width:100%;max-width:680px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.28);}
+            .product-modal-header{background:var(--gold);color:#fff;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;}
+            .product-modal-header h3{font-size:15px;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;}
+            .modal-close-btn{width:30px;height:30px;border:none;background:rgba(255,255,255,.2);border-radius:50%;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+            .modal-close-btn:hover{background:rgba(255,255,255,.35);}
+            .product-modal-body{padding:24px;overflow-y:auto;flex:1;}
+
+            /* Modal layout */
+            .modal-product-layout{display:grid;grid-template-columns:200px 1fr;gap:24px;}
+            .modal-photos{display:flex;flex-direction:column;gap:10px;}
+            .modal-main-photo{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--border);background:#f5f5f5;}
+            .modal-main-photo-placeholder{width:100%;aspect-ratio:1;border-radius:10px;background:var(--gold-light);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;}
+            .modal-main-photo-placeholder i{font-size:40px;color:var(--gold);}
+            .modal-thumbs{display:flex;gap:6px;}
+            .modal-thumb{width:44px;height:44px;border-radius:7px;object-fit:cover;border:2px solid transparent;cursor:pointer;transition:border-color .2s;}
+            .modal-thumb.active,.modal-thumb:hover{border-color:var(--gold);}
+
+            .modal-product-name{font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+            .modal-product-sub{font-size:13px;color:var(--text-muted);margin-bottom:14px;}
+            .modal-price{font-size:1.4rem;font-weight:700;color:var(--gold);margin-bottom:16px;}
+            .modal-description{font-size:13px;color:#444;line-height:1.6;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+
+            .modal-notes{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+            .note-row{display:flex;gap:6px;margin-bottom:6px;font-size:12px;}
+            .note-label{font-weight:700;color:var(--text);min-width:90px;}
+            .note-value{color:#555;}
+
+            .modal-specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+            .spec-item{background:#f9f9f9;border-radius:8px;padding:10px 13px;}
+            .spec-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;}
+            .spec-value{font-size:13px;font-weight:600;color:var(--text);}
+
+            .modal-guidelines{background:var(--gold-light);border-radius:8px;padding:14px 16px;}
+            .modal-guidelines-title{font-size:12px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;}
+            .guideline-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;}
+            .guideline-label{color:var(--text-muted);}
+            .guideline-value{font-weight:600;color:var(--text);}
+
+            /* Toast */
+            .toast{position:fixed;bottom:24px;right:24px;z-index:3000;background:#1E2227;color:#fff;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;box-shadow:0 6px 20px rgba(0,0,0,.22);transform:translateY(60px);opacity:0;transition:all .28s ease;}
+            .toast.show{transform:translateY(0);opacity:1;}
+            .toast i{color:var(--gold);}
+
+            @media(max-width:620px){
+            .modal-product-layout{grid-template-columns:1fr;}
+            .modal-photos{flex-direction:row;align-items:flex-start;}
+            .modal-main-photo,.modal-main-photo-placeholder{width:120px;flex-shrink:0;}
+            .modal-specs-grid{grid-template-columns:1fr;}
+            }
+
+            /* En el <style> */
+            .btn-download-product{width:30px;height:30px;border:none;border-radius:7px;cursor:pointer;background:#fff;color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .18s;margin:0 auto;}
+            .btn-download-product:hover{background:var(--gold);color:#fff;}
+            .products-table thead th select option {
+            background: #1E2227;
+            color: #fff;
+            }
+            .products-table thead th {
+            vertical-align: top;
+            }
+
+
+            .btn-add-doc{display:flex;align-items:center;gap:8px;padding:10px 22px;background:var(--gold);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;box-shadow:0 2px 8px rgba(171,160,110,.35);}
+            .btn-add-doc:hover{background:var(--gold-dark);transform:translateY(-1px);}
+
+            .restriction-badge{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:600;}
+            .restriction-confidential{background:#fce8e8;color:#d93025;}
+            .restriction-internal{background:#fff3e0;color:#e65100;}
+            .restriction-public{background:#e6f4ea;color:#1e8e3e;}
+
+            .doc-status{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+            .doc-active{background:#e6f4ea;color:#1e8e3e;}
+            .doc-expired{background:#fce8e8;color:#d93025;}
+            .doc-expiring{background:#fff3e0;color:#e65100;}
+
+            /* Form modal */
+            .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;}
+            .modal-overlay.open{display:flex;}
+            .doc-modal{background:#fff;border-radius:16px;width:100%;max-width:540px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.28);}
+            .doc-modal-header{background:var(--gold);color:#fff;padding:16px 22px;display:flex;justify-content:space-between;align-items:center;}
+            .doc-modal-header h3{font-size:15px;font-weight:600;margin:0;display:flex;align-items:center;gap:8px;}
+            .modal-close-btn{width:30px;height:30px;border:none;background:rgba(255,255,255,.2);border-radius:50%;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+            .modal-close-btn:hover{background:rgba(255,255,255,.35);}
+            .doc-modal-body{padding:24px;overflow-y:auto;flex:1;}
+            .doc-modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
+
+            .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+            .form-group{display:flex;flex-direction:column;gap:6px;}
+            .form-group.full{grid-column:1/-1;}
+            .form-label{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;}
+            .form-input,.form-select,.form-textarea{padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);outline:none;transition:border-color .2s;font-family:inherit;background:#fff;}
+            .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
+            .form-textarea{resize:vertical;min-height:72px;}
+
+            .file-upload-area{border:2px dashed var(--gold-border);border-radius:10px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;background:var(--gold-light);}
+            .file-upload-area:hover{border-color:var(--gold);background:rgba(171,160,110,.18);}
+            .file-upload-area i{font-size:24px;color:var(--gold);margin-bottom:6px;display:block;}
+            .file-upload-area p{font-size:12px;color:var(--text-muted);margin:0 0 4px;}
+            .file-name-display{font-size:12px;color:var(--gold);font-weight:600;word-break:break-all;}
+            .file-upload-area.has-file{border-color:var(--gold);background:rgba(171,160,110,.15);}
+
+            .btn-cancel{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-muted);transition:all .2s;}
+            .btn-cancel:hover{border-color:var(--gold);color:var(--gold);}
+            .btn-save{padding:9px 22px;background:var(--gold);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;}
+            .btn-save:hover{background:var(--gold-dark);}
+
+            /* View modal */
+            .view-doc-modal{max-width:520px;}
+            .doc-view-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+            .doc-view-item{background:#f9f9f9;border-radius:8px;padding:11px 14px;}
+            .doc-view-item.full{grid-column:1/-1;}
+            .doc-view-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+            .doc-view-value{font-size:13px;font-weight:600;color:var(--text);}
+        </style>
+
+           <div class="page-header">
+        <div class="page-title-section">
+            <h2><i class="fas fa-file-contract"></i> Business Documents</h2>
+        </div>
+        <button class="btn-add-doc" onclick="openDocAddModal()">
+            <i class="fas fa-plus"></i> Add Document
+        </button>
+    </div>
+
+    <div class="table-card">
+        <div class="table-filter-row">
+            <input type="text" id="fSearch" oninput="renderDocs()" placeholder="ðŸ” Search name..." class="col-filter" style="min-width:200px;">
+             <select class="col-filter" id="fRestriction" onchange="renderDocs()">
+                <option value="">All Restrictions</option>
+                <option value="Confidential">Confidential</option>
+                <option value="Internal Use">Internal Use</option>
+                <option value="Public">Public</option>
+            </select>
+            
+            <select class="col-filter" id="fStatus" onchange="renderDocs()">
+                <option value="">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Expired">Expired</option>
+                <option value="Expiring Soon">Expiring Soon</option>
+            </select>
+           
+            <span class="results-count" id="resultsCount">â€” documents</span>
+        </div>
+
+        <div style="overflow-x:auto;">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th onclick="sortDocs('name')">NAME <i class="fas fa-sort sort-icon"></i></th>
+                        <th onclick="sortDocs('description')">DESCRIPTION <i class="fas fa-sort sort-icon"></i></th>
+                        <th onclick="sortDocs('createdAt')">CREATED DATE <i class="fas fa-sort sort-icon"></i></th>
+                        <th onclick="sortDocs('expiresAt')">EXPIRATION DATE <i class="fas fa-sort sort-icon"></i></th>
+                        <th onclick="sortDocs('restriction')">RESTRICTION <i class="fas fa-sort sort-icon"></i></th>
+                        <th style="text-align:center;cursor:default;">STATUS</th>
+                        <th style="text-align:center;cursor:default;">VIEW</th>
+                        <th style="text-align:center;cursor:default;">DOWNLOAD</th>
+                    </tr>
+                </thead>
+                <tbody id="docsTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+        <!-- ADD / EDIT MODAL -->
+    <div class="modal-overlay" id="docFormModal" onclick="closeDocFormModal(event)">
+        <div class="doc-modal" onclick="event.stopPropagation()">
+            <div class="doc-modal-header">
+          <h3 id="docFormModalTitle"><i class="fas fa-plus-circle"></i> Add Legal Document</h3>
+          <button class="modal-close-btn" onclick="closeDocFormModal()">âœ•</button>
+            </div>
+            <div class="doc-modal-body">
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label class="form-label">Upload File</label>
+                        <div class="file-upload-area" id="docUploadArea" onclick="document.getElementById('docFileInput').click()">
+                            <i class="fas fa-cloud-upload-alt" id="docUploadIcon"></i>
+                            <p id="docUploadPrompt">Click to upload or drag and drop</p>
+                            <span class="file-name-display" id="docFileSelectedName">No file selected</span>
+                        </div>
+                        <input type="file" id="docFileInput" style="display:none;" onchange="handleDocFileSelect(this)">
+                    </div>
+                    <div class="form-group full">
+                        <label class="form-label">Document Name *</label>
+                        <input type="text" class="form-input" id="fieldDocName" placeholder="e.g. Distribution Agreement 2026">
+                    </div>
+                    <div class="form-group full">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" id="fieldDocDesc" placeholder="Brief description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Created Date</label>
+                        <input type="date" class="form-input" id="fieldDocCreated">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Expiration Date</label>
+                        <input type="date" class="form-input" id="fieldDocExpires">
+                    </div>
+                    <div class="form-group full">
+                        <label class="form-label">Restriction</label>
+                        <select class="form-select" id="fieldDocRestriction">
+                            <option value="">Select restriction...</option>
+                            <option value="Confidential">Confidential</option>
+                            <option value="Internal Use">Internal Use</option>
+                            <option value="Public">Public</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="doc-modal-footer">
+              <button class="btn-cancel" onclick="closeDocFormModal()">Cancel</button>
+              <button class="btn-save" onclick="saveDoc()"><i class="fas fa-save" style="margin-right:6px;"></i>Save Document</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW MODAL -->
+        <div class="modal-overlay" id="docViewModal" onclick="closeDocViewModal(event)">
+        <div class="doc-modal view-doc-modal" onclick="event.stopPropagation()">
+            <div class="doc-modal-header">
+                <h3><i class="fas fa-file-contract"></i> Document Details</h3>
+              <button class="modal-close-btn" onclick="closeDocViewModal()">x</button>
+            </div>
+            <div class="doc-modal-body" id="docViewDocContent"></div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+        <div class="toast" id="docToast"><i class="fas fa-check-circle"></i><span id="docToastMsg"></span></div>
+
+
+
+        <script>
+
+            var docs = [
+        //   { id:1, name:"Distribution Agreement 2026", description:"Master distribution agreement for US partners", createdAt:"2026-01-15", expiresAt:"2027-01-15", restriction:"Confidential", file:"distribution-agreement-2026.pdf", url:"#" },
+        { id:2, name:"Business Plan 2026", description:"Annual strategic business plan with sales goals, channel strategy, and budget allocation", createdAt:"2026-02-01", expiresAt:"2027-02-01", restriction:"Internal Use", file:"business-plan-2026.pdf", url:"#" },
+        { id:3, name:"Business Plan Executive Summary", description:"Executive summary for investors and key distributors", createdAt:"2026-02-10", expiresAt:"2026-12-31", restriction:"Confidential", file:"business-plan-executive-summary.pdf", url:"#" },
+        { id:4, name:"Business Plan Public Overview", description:"Public-facing overview of brand growth strategy and market roadmap", createdAt:"2026-03-01", expiresAt:"2027-03-01", restriction:"Public", file:"business-plan-public-overview.pdf", url:"#" },
+        //   { id:2, name:"Brand Usage Guidelines", description:"Guidelines for proper brand logo and asset usage", createdAt:"2025-06-01", expiresAt:"2026-06-01", restriction:"Internal Use", file:"brand-guidelines.pdf", url:"#" },
+        //   { id:3, name:"Non-Disclosure Agreement", description:"Standard NDA for new retail partners", createdAt:"2026-02-10", expiresAt:"2026-04-10", restriction:"Confidential", file:"nda-template.pdf", url:"#" },
+        //   { id:4, name:"Product Pricing Policy", description:"Wholesale pricing policy and terms", createdAt:"2026-03-01", expiresAt:"2027-03-01", restriction:"Internal Use", file:"pricing-policy.pdf", url:"#" },
+        //   { id:5, name:"Return Policy Document", description:"Official return and refund policy for retailers", createdAt:"2025-09-15", expiresAt:"2026-09-15", restriction:"Public", file:"return-policy.pdf", url:"#" }
+        ];
+
+        var nextDocId = 6;
+        var sortCol = null;
+        var sortDir = 1;
+        var editingDocId = null;
+        var viewingDoc = null;
+        var selectedFile = null;
+
+        /* â•â•â•â•â•â•â•â• HELPERS â•â•â•â•â•â•â•â• */
+        function formatDate(d) {
+        if (!d) return 'â€”';
+        var p = d.split('-');
+        var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return m[parseInt(p[1])-1]+' '+parseInt(p[2])+', '+p[0];
+        }
+
+        function getStatus(expiresAt) {
+        if (!expiresAt) return { label:'Active', cls:'doc-active' };
+        var now = new Date();
+        var exp = new Date(expiresAt);
+        var diff = (exp - now) / (1000*60*60*24);
+        if (diff < 0)  return { label:'Expired',       cls:'doc-expired' };
+        if (diff < 30) return { label:'Expiring Soon', cls:'doc-expiring' };
+        return { label:'Active', cls:'doc-active' };
+        }
+
+        function getRestrictionClass(r) {
+        if (r === 'Confidential')  return 'restriction-confidential';
+        if (r === 'Internal Use')  return 'restriction-internal';
+        return 'restriction-public';
+        }
+
+        /* â•â•â•â•â•â•â•â• RENDER TABLE â•â•â•â•â•â•â•â• */
+        function renderDocs() {
+        var tbody = document.getElementById('docsTableBody');
+        var fSearch      = document.getElementById('fSearch').value.toLowerCase();
+        var fStatus      = document.getElementById('fStatus').value;
+        var fRestriction = document.getElementById('fRestriction').value;
+
+        var filtered = docs.filter(function(d) {
+            var st = getStatus(d.expiresAt);
+            return (d.name.toLowerCase().includes(fSearch) || (d.description||'').toLowerCase().includes(fSearch))
+            && (!fStatus      || st.label === fStatus)
+            && (!fRestriction || d.restriction === fRestriction);
+        });
+
+        if (sortCol) {
+            filtered.sort(function(a,b) {
+            var av = a[sortCol]||'', bv = b[sortCol]||'';
+            if (typeof av === 'string') av = av.toLowerCase();
+            if (typeof bv === 'string') bv = bv.toLowerCase();
+            return av < bv ? -sortDir : av > bv ? sortDir : 0;
+            });
+        }
+
+        document.getElementById('resultsCount').textContent = filtered.length + ' document' + (filtered.length!==1?'s':'');
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr class="empty-row"><td colspan="8"><i class="fas fa-file-alt"></i><p>No documents found.</p></td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(function(d) {
+            var st = getStatus(d.expiresAt);
+            var rc = getRestrictionClass(d.restriction);
+            var expColor = d.expiresAt && new Date(d.expiresAt) < new Date() ? 'color:#d93025;' : new Date(d.expiresAt) - new Date() < 30*24*60*60*1000 ? 'color:#e65100;' : '';
+            return '<tr>' +
+            '<td style="font-weight:600;font-size:13px;"><i class="fas fa-file-pdf" style="color:var(--gold);margin-right:7px;"></i>'+d.name+'</td>' +
+            '<td style="font-size:12px;color:var(--text-muted);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+d.description+'">'+d.description+'</td>' +
+            '<td style="font-size:12px;white-space:nowrap;">'+formatDate(d.createdAt)+'</td>' +
+            '<td style="font-size:12px;white-space:nowrap;'+expColor+'">'+formatDate(d.expiresAt)+'</td>' +
+            '<td><span class="restriction-badge '+rc+'">'+d.restriction+'</span></td>' +
+            '<td style="text-align:center;"><span class="doc-status '+st.cls+'">'+st.label+'</span></td>' +
+            '<td style="text-align:center;"><button class="btn-view-product" onclick="openDocViewModal('+d.id+')" title="View"><i class="fas fa-eye"></i></button></td>' +
+            '<td style="text-align:center;"><button class="btn-download-product" onclick="downloadDoc('+d.id+')" title="Download"><i class="fas fa-download"></i></button></td>' +
+            '</tr>';
+        }).join('');
+        }
+
+        function sortDocs(col) {
+        if (sortCol === col) sortDir *= -1;
+        else { sortCol = col; sortDir = 1; }
+        renderDocs();
+        }
+
+        /* â•â•â•â•â•â•â•â• ADD / EDIT MODAL â•â•â•â•â•â•â•â• */
+        function openDocAddModal() {
+        editingDocId = null;
+        selectedFile = null;
+        document.getElementById('docFormModalTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add Legal Document';
+        clearDocForm();
+        document.getElementById('docFormModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        }
+
+        function openDocEditModal(id) {
+        editingDocId = id;
+        selectedFile = null;
+        var d = docs.find(function(x){ return x.id===id; });
+        if (!d) return;
+        document.getElementById('docFormModalTitle').innerHTML = '<i class="fas fa-pen"></i> Edit Document';
+        document.getElementById('fieldDocName').value = d.name;
+        document.getElementById('fieldDocDesc').value = d.description||'';
+        document.getElementById('fieldDocCreated').value = d.createdAt||'';
+        document.getElementById('fieldDocExpires').value = d.expiresAt||'';
+        document.getElementById('fieldDocRestriction').value = d.restriction||'';
+        if (d.file) {
+            var area = document.getElementById('docUploadArea');
+            area.classList.add('has-file');
+            document.getElementById('docUploadIcon').className = 'fas fa-check-circle';
+            document.getElementById('docUploadPrompt').textContent = 'File attached â€” click to replace';
+            document.getElementById('docFileSelectedName').textContent = d.file;
+        }
+        document.getElementById('docFormModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        }
+
+        function clearDocForm() {
+        document.getElementById('fieldDocName').value = '';
+        document.getElementById('fieldDocDesc').value = '';
+        document.getElementById('fieldDocCreated').value = new Date().toISOString().split('T')[0];
+        document.getElementById('fieldDocExpires').value = '';
+        document.getElementById('fieldDocRestriction').value = '';
+        document.getElementById('docFileInput').value = '';
+        var area = document.getElementById('docUploadArea');
+        area.classList.remove('has-file');
+        document.getElementById('docUploadIcon').className = 'fas fa-cloud-upload-alt';
+        document.getElementById('docUploadPrompt').textContent = 'Click to upload or drag and drop';
+        document.getElementById('docFileSelectedName').textContent = 'No file selected';
+        }
+
+        function handleDocFileSelect(input) {
+        if (!input.files || !input.files[0]) return;
+        selectedFile = input.files[0];
+        var area = document.getElementById('docUploadArea');
+        area.classList.add('has-file');
+        document.getElementById('docUploadIcon').className = 'fas fa-check-circle';
+        document.getElementById('docUploadPrompt').textContent = 'File selected â€” click to change';
+        document.getElementById('docFileSelectedName').textContent = selectedFile.name;
+        if (!document.getElementById('fieldDocName').value) {
+            document.getElementById('fieldDocName').value = selectedFile.name.replace(/\.[^/.]+$/,'').replace(/[-_]/g,' ');
+        }
+        }
+
+        function saveDoc() {
+        var name = document.getElementById('fieldDocName').value.trim();
+        if (!name) { showDocToast('Please enter a document name.', true); return; }
+        var doc = {
+            name: name,
+            description: document.getElementById('fieldDocDesc').value.trim(),
+            createdAt: document.getElementById('fieldDocCreated').value,
+            expiresAt: document.getElementById('fieldDocExpires').value,
+            restriction: document.getElementById('fieldDocRestriction').value || 'Internal Use',
+            file: selectedFile ? selectedFile.name : (editingDocId ? (docs.find(function(x){return x.id===editingDocId;})||{}).file||'' : ''),
+            url: selectedFile ? URL.createObjectURL(selectedFile) : (editingDocId ? (docs.find(function(x){return x.id===editingDocId;})||{}).url||'#' : '#')
+        };
+        if (editingDocId) {
+            var idx = docs.findIndex(function(x){ return x.id===editingDocId; });
+            if (idx>-1){ doc.id=editingDocId; docs[idx]=doc; }
+            showDocToast('Document updated!');
+        } else {
+            doc.id = nextDocId++;
+            docs.push(doc);
+            showDocToast('Document added!');
+        }
+          closeDocFormModal();
+        renderDocs();
+        }
+
+          function closeDocFormModal(e) {
+          if (e && e.target !== document.getElementById('docFormModal')) return;
+          document.getElementById('docFormModal').classList.remove('open');
+        document.body.style.overflow = '';
+        }
+
+        /* â•â•â•â•â•â•â•â• VIEW MODAL â•â•â•â•â•â•â•â• */
+          function openDocViewModal(id) {
+        viewingDoc = docs.find(function(d){ return d.id===id; });
+        if (!viewingDoc) return;
+        var d = viewingDoc;
+        var st = getStatus(d.expiresAt);
+        var rc = getRestrictionClass(d.restriction);
+          document.getElementById('docViewDocContent').innerHTML =
+            '<div class="doc-view-grid">' +
+            '<div class="doc-view-item full"><div class="doc-view-label">Document Name</div><div class="doc-view-value"><i class="fas fa-file-pdf" style="color:var(--gold);margin-right:6px;"></i>'+d.name+'</div></div>' +
+            '<div class="doc-view-item full"><div class="doc-view-label">Description</div><div class="doc-view-value" style="font-weight:400;font-size:13px;color:#555;">'+( d.description||'â€”')+'</div></div>' +
+            '<div class="doc-view-item"><div class="doc-view-label">Created Date</div><div class="doc-view-value">'+formatDate(d.createdAt)+'</div></div>' +
+            '<div class="doc-view-item"><div class="doc-view-label">Expiration Date</div><div class="doc-view-value">'+formatDate(d.expiresAt)+'</div></div>' +
+            '<div class="doc-view-item"><div class="doc-view-label">Restriction</div><div class="doc-view-value"><span class="restriction-badge '+rc+'">'+d.restriction+'</span></div></div>' +
+            '<div class="doc-view-item"><div class="doc-view-label">Status</div><div class="doc-view-value"><span class="doc-status '+st.cls+'">'+st.label+'</span></div></div>' +
+            '<div class="doc-view-item full"><div class="doc-view-label">File</div><div class="doc-view-value" style="font-size:12px;font-family:monospace;">'+(d.file||'â€”')+'</div></div>' +
+            '</div>' +
+            '<div style="display:flex;gap:10px;">' +
+            '<button class="btn-save" onclick="downloadDoc('+d.id+')" style="flex:1;"><i class="fas fa-download" style="margin-right:7px;"></i>Download</button>' +
+            '<button class="btn-cancel" onclick="closeDocViewModal();openDocEditModal('+d.id+')" style="flex:1;"><i class="fas fa-pen" style="margin-right:7px;"></i>Edit</button>' +
+            '</div>';
+          document.getElementById('docViewModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        }
+
+          function closeDocViewModal(e) {
+          if (e && e.target !== document.getElementById('docViewModal')) return;
+          document.getElementById('docViewModal').classList.remove('open');
+        document.body.style.overflow = '';
+        }
+
+
+        function downloadDoc(id) {
+        var d = docs.find(function(x){ return x.id===id; });
+        if (!d) return;
+        if (d.url && d.url !== '#') { window.open(d.url,'_blank'); return; }
+        var content = ['Document: '+d.name,'Description: '+(d.description||'â€”'),'Created: '+formatDate(d.createdAt),'Expires: '+formatDate(d.expiresAt),'Restriction: '+d.restriction,'File: '+(d.file||'â€”')].join('\n');
+        var blob = new Blob([content], {type:'text/plain'});
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = (d.file || d.name.replace(/ /g,'_')+'.txt');
+        a.click();
+        }
+
+
+        function showDocToast(msg, isError) {
+        var toast = document.getElementById('docToast');
+        document.getElementById('docToastMsg').textContent = msg;
+        toast.querySelector('i').style.color = isError ? '#ff6b6b' : 'var(--gold)';
+        toast.classList.add('show');
+        setTimeout(function(){ toast.classList.remove('show'); }, 3000);
+        }
+
+
+        function toggleGroup(id) {
+        var grp = document.getElementById(id);
+        var wasOpen = grp.classList.contains('open');
+        document.querySelectorAll('.nav-group').forEach(function(g){
+            if (g.id!==id && !g.querySelector('.active')) g.classList.remove('open');
+        });
+        if (wasOpen && !grp.querySelector('.active')) grp.classList.remove('open');
+        else grp.classList.add('open');
+        }
+
+        function toggleSubGroup(id) {
+        var body = document.getElementById(id);
+        var arrow = document.getElementById('arrow-'+id);
+        var isOpen = body.style.display !== 'none';
+        if (isOpen && !body.querySelector('.active')) {
+            body.style.display='none';
+            if(arrow) arrow.classList.remove('open');
+        } else {
+            body.style.display='block';
+            if(arrow) arrow.classList.add('open');
+        }
+        }
+
+        document.addEventListener('keydown', function(e) {
+        if (e.key==='Escape') {
+          closeDocFormModal(); closeDocViewModal();
+        }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+        renderDocs();
+        var salesBody = document.getElementById('grp-sales');
+        var salesArrow = document.getElementById('arrow-grp-sales');
+        if (salesBody) salesBody.style.display = 'block';
+        if (salesArrow) salesArrow.classList.add('open');
+        });
+        </script>
+
+
+
+
+
+    </div>
+
+
+    <div class="pricing-mini-panel" data-panel="distribution-agreement">
+
+
+        <div class="page-header">
+        <div class="page-title-section">
+            <h2><i class="fas fa-file-contract"></i>Agreement Documents</h2>
+        </div>
+        <button class="btn-add-doc" onclick="openAgreementAddModal()">
+            <i class="fas fa-plus"></i> Add Document
+        </button>
+    </div>
+
+    <div class="table-card">
+        <div class="table-filter-row">
+            <input type="text" id="agreementSearch" oninput="renderAgreementDocs()" placeholder="ðŸ” Search name..." class="col-filter" style="min-width:200px;">
+             <select class="col-filter" id="agreementRestriction" onchange="renderAgreementDocs()">
+                <option value="">All Restrictions</option>
+                <option value="Confidential">Confidential</option>
+                <option value="Internal Use">Internal Use</option>
+                <option value="Public">Public</option>
+            </select>
+            
+            <select class="col-filter" id="agreementStatus" onchange="renderAgreementDocs()">
+                <option value="">All Status</option>
+                <option value="Active">Active</option>
+                <option value="Expired">Expired</option>
+                <option value="Expiring Soon">Expiring Soon</option>
+            </select>
+           
+            <span class="results-count" id="agreementResultsCount">â€” documents</span>
+        </div>
+
+        <div style="overflow-x:auto;">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th onclick="sortAgreementDocs('name')">NAME <i class="fas fa-sort sort-icon"></i></th>
+                        <th onclick="sortAgreementDocs('description')">DESCRIPTION <i class="fas fa-sort sort-icon"></i></th>
+                        <th onclick="sortAgreementDocs('createdAt')">CREATED DATE <i class="fas fa-sort sort-icon"></i></th>
+                        <th onclick="sortAgreementDocs('expiresAt')">EXPIRATION DATE <i class="fas fa-sort sort-icon"></i></th>
+                        <th onclick="sortAgreementDocs('restriction')">RESTRICTION <i class="fas fa-sort sort-icon"></i></th>
+                        <th style="text-align:center;cursor:default;">STATUS</th>
+                        <th style="text-align:center;cursor:default;">VIEW</th>
+                        <th style="text-align:center;cursor:default;">DOWNLOAD</th>
+                    </tr>
+                </thead>
+                <tbody id="agreementDocsTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ADD / EDIT MODAL -->
+          <div class="modal-overlay" id="agreementFormModal" onclick="closeAgreementFormModal(event)">
+        <div class="doc-modal" onclick="event.stopPropagation()">
+            <div class="doc-modal-header">
+                <h3 id="agreementFormModalTitle"><i class="fas fa-plus-circle"></i> Add Legal Document</h3>
+                <button class="modal-close-btn" onclick="closeAgreementFormModal()">âœ•</button>
+            </div>
+            <div class="doc-modal-body">
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label class="form-label">Upload File</label>
+                    <div class="file-upload-area" id="agreementDocUploadArea" onclick="document.getElementById('agreementDocFileInput').click()">
+                      <i class="fas fa-cloud-upload-alt" id="agreementDocUploadIcon"></i>
+                      <p id="agreementDocUploadPrompt">Click to upload or drag and drop</p>
+                      <span class="file-name-display" id="agreementDocFileSelectedName">No file selected</span>
+                        </div>
+                    <input type="file" id="agreementDocFileInput" style="display:none;" onchange="handleAgreementDocFileSelect(this)">
+                    </div>
+                    <div class="form-group full">
+                        <label class="form-label">Document Name *</label>
+                    <input type="text" class="form-input" id="agreementFieldDocName" placeholder="e.g. Distribution Agreement 2026">
+                    </div>
+                    <div class="form-group full">
+                        <label class="form-label">Description</label>
+                    <textarea class="form-textarea" id="agreementFieldDocDesc" placeholder="Brief description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Created Date</label>
+                    <input type="date" class="form-input" id="agreementFieldDocCreated">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Expiration Date</label>
+                    <input type="date" class="form-input" id="agreementFieldDocExpires">
+                    </div>
+                    <div class="form-group full">
+                        <label class="form-label">Restriction</label>
+                    <select class="form-select" id="agreementFieldDocRestriction">
+                            <option value="">Select restriction...</option>
+                            <option value="Confidential">Confidential</option>
+                            <option value="Internal Use">Internal Use</option>
+                            <option value="Public">Public</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="doc-modal-footer">
+              <button class="btn-cancel" onclick="closeAgreementFormModal()">Cancel</button>
+              <button class="btn-save" onclick="saveAgreementDoc()"><i class="fas fa-save" style="margin-right:6px;"></i>Save Document</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW MODAL -->
+        <div class="modal-overlay" id="agreementViewModal" onclick="closeAgreementViewModal(event)">
+        <div class="doc-modal view-doc-modal" onclick="event.stopPropagation()">
+            <div class="doc-modal-header">
+                <h3><i class="fas fa-file-contract"></i> Document Details</h3>
+              <button class="modal-close-btn" onclick="closeAgreementViewModal()">x</button>
+            </div>
+            <div class="doc-modal-body" id="agreementViewDocContent"></div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+        <div class="toast" id="agreementToast"><i class="fas fa-check-circle"></i><span id="agreementToastMsg"></span></div>
+
+
+
+    <script>
+
+        var agreementDocs = [
+    { id:1, name:"Distribution Agreement 2026", description:"Master distribution agreement for US partners", createdAt:"2026-01-15", expiresAt:"2027-01-15", restriction:"Confidential", file:"distribution-agreement-2026.pdf", url:"#" },
+    { id:2, name:"Distribution Agreement LATAM 2026", description:"Regional distribution agreement for LATAM wholesale partners", createdAt:"2026-02-05", expiresAt:"2027-02-05", restriction:"Confidential", file:"distribution-agreement-latam-2026.pdf", url:"#" },
+    { id:3, name:"Distribution Agreement EU Renewal", description:"Renewal terms and territory clauses for EU distributors", createdAt:"2026-03-12", expiresAt:"2027-03-12", restriction:"Internal Use", file:"distribution-agreement-eu-renewal.pdf", url:"#" },
+    { id:4, name:"Distribution Agreement Standard Template", description:"Standard agreement template for onboarding new distribution partners", createdAt:"2026-01-20", expiresAt:"2028-01-20", restriction:"Public", file:"distribution-agreement-standard-template.pdf", url:"#" },
+    //   { id:2, name:"Brand Usage Guidelines", description:"Guidelines for proper brand logo and asset usage", createdAt:"2025-06-01", expiresAt:"2026-06-01", restriction:"Internal Use", file:"brand-guidelines.pdf", url:"#" },
+    //   { id:3, name:"Non-Disclosure Agreement", description:"Standard NDA for new retail partners", createdAt:"2026-02-10", expiresAt:"2026-04-10", restriction:"Confidential", file:"nda-template.pdf", url:"#" },
+    //   { id:4, name:"Product Pricing Policy", description:"Wholesale pricing policy and terms", createdAt:"2026-03-01", expiresAt:"2027-03-01", restriction:"Internal Use", file:"pricing-policy.pdf", url:"#" },
+    //   { id:5, name:"Return Policy Document", description:"Official return and refund policy for retailers", createdAt:"2025-09-15", expiresAt:"2026-09-15", restriction:"Public", file:"return-policy.pdf", url:"#" }
+    ];
+
+    var agreementNextDocId = 6;
+    var agreementSortCol = null;
+    var agreementSortDir = 1;
+    var agreementEditingDocId = null;
+    var agreementViewingDoc = null;
+    var agreementSelectedFile = null;
+
+    /* â•â•â•â•â•â•â•â• HELPERS â•â•â•â•â•â•â•â• */
+    function formatAgreementDate(d) {
+    if (!d) return 'â€”';
+    var p = d.split('-');
+    var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return m[parseInt(p[1])-1]+' '+parseInt(p[2])+', '+p[0];
+    }
+
+    function getAgreementStatus(expiresAt) {
+    if (!expiresAt) return { label:'Active', cls:'doc-active' };
+    var now = new Date();
+    var exp = new Date(expiresAt);
+    var diff = (exp - now) / (1000*60*60*24);
+    if (diff < 0)  return { label:'Expired',       cls:'doc-expired' };
+    if (diff < 30) return { label:'Expiring Soon', cls:'doc-expiring' };
+    return { label:'Active', cls:'doc-active' };
+    }
+
+    function getAgreementRestrictionClass(r) {
+    if (r === 'Confidential')  return 'restriction-confidential';
+    if (r === 'Internal Use')  return 'restriction-internal';
+    return 'restriction-public';
+    }
+
+    /* â•â•â•â•â•â•â•â• RENDER TABLE â•â•â•â•â•â•â•â• */
+    function renderAgreementDocs() {
+    var tbody = document.getElementById('agreementDocsTableBody');
+    var fSearch      = document.getElementById('agreementSearch').value.toLowerCase();
+    var fStatus      = document.getElementById('agreementStatus').value;
+    var fRestriction = document.getElementById('agreementRestriction').value;
+
+    var filtered = agreementDocs.filter(function(d) {
+      var st = getAgreementStatus(d.expiresAt);
+        return (d.name.toLowerCase().includes(fSearch) || (d.description||'').toLowerCase().includes(fSearch))
+        && (!fStatus      || st.label === fStatus)
+        && (!fRestriction || d.restriction === fRestriction);
+    });
+
+    if (agreementSortCol) {
+        filtered.sort(function(a,b) {
+      var av = a[agreementSortCol]||'', bv = b[agreementSortCol]||'';
+        if (typeof av === 'string') av = av.toLowerCase();
+        if (typeof bv === 'string') bv = bv.toLowerCase();
+      return av < bv ? -agreementSortDir : av > bv ? agreementSortDir : 0;
+        });
+    }
+
+    document.getElementById('agreementResultsCount').textContent = filtered.length + ' document' + (filtered.length!==1?'s':'');
+
+    if (filtered.length === 0) {
+        tbody.innerHTML = '<tr class="empty-row"><td colspan="8"><i class="fas fa-file-alt"></i><p>No documents found.</p></td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = filtered.map(function(d) {
+      var st = getAgreementStatus(d.expiresAt);
+      var rc = getAgreementRestrictionClass(d.restriction);
+        var expColor = d.expiresAt && new Date(d.expiresAt) < new Date() ? 'color:#d93025;' : new Date(d.expiresAt) - new Date() < 30*24*60*60*1000 ? 'color:#e65100;' : '';
+        return '<tr>' +
+        '<td style="font-weight:600;font-size:13px;"><i class="fas fa-file-pdf" style="color:var(--gold);margin-right:7px;"></i>'+d.name+'</td>' +
+        '<td style="font-size:12px;color:var(--text-muted);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+d.description+'">'+d.description+'</td>' +
+      '<td style="font-size:12px;white-space:nowrap;">'+formatAgreementDate(d.createdAt)+'</td>' +
+      '<td style="font-size:12px;white-space:nowrap;'+expColor+'">'+formatAgreementDate(d.expiresAt)+'</td>' +
+        '<td><span class="restriction-badge '+rc+'">'+d.restriction+'</span></td>' +
+        '<td style="text-align:center;"><span class="doc-status '+st.cls+'">'+st.label+'</span></td>' +
+      '<td style="text-align:center;"><button class="btn-view-product" onclick="openAgreementViewModal('+d.id+')" title="View"><i class="fas fa-eye"></i></button></td>' +
+      '<td style="text-align:center;"><button class="btn-download-product" onclick="downloadAgreementDoc('+d.id+')" title="Download"><i class="fas fa-download"></i></button></td>' +
+        '</tr>';
+    }).join('');
+    }
+
+    function sortAgreementDocs(col) {
+    if (agreementSortCol === col) agreementSortDir *= -1;
+    else { agreementSortCol = col; agreementSortDir = 1; }
+    renderAgreementDocs();
+    }
+
+    /* â•â•â•â•â•â•â•â• ADD / EDIT MODAL â•â•â•â•â•â•â•â• */
+    function openAgreementAddModal() {
+    agreementEditingDocId = null;
+    agreementSelectedFile = null;
+    document.getElementById('agreementFormModalTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add Legal Document';
+    clearAgreementDocForm();
+    document.getElementById('agreementFormModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    }
+
+    function openAgreementEditModal(id) {
+    agreementEditingDocId = id;
+    agreementSelectedFile = null;
+    var d = agreementDocs.find(function(x){ return x.id===id; });
+    if (!d) return;
+    document.getElementById('agreementFormModalTitle').innerHTML = '<i class="fas fa-pen"></i> Edit Document';
+    document.getElementById('agreementFieldDocName').value = d.name;
+    document.getElementById('agreementFieldDocDesc').value = d.description||'';
+    document.getElementById('agreementFieldDocCreated').value = d.createdAt||'';
+    document.getElementById('agreementFieldDocExpires').value = d.expiresAt||'';
+    document.getElementById('agreementFieldDocRestriction').value = d.restriction||'';
+    if (d.file) {
+      var area = document.getElementById('agreementDocUploadArea');
+        area.classList.add('has-file');
+      document.getElementById('agreementDocUploadIcon').className = 'fas fa-check-circle';
+      document.getElementById('agreementDocUploadPrompt').textContent = 'File attached â€” click to replace';
+      document.getElementById('agreementDocFileSelectedName').textContent = d.file;
+    }
+    document.getElementById('agreementFormModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    }
+
+    function clearAgreementDocForm() {
+    document.getElementById('agreementFieldDocName').value = '';
+    document.getElementById('agreementFieldDocDesc').value = '';
+    document.getElementById('agreementFieldDocCreated').value = new Date().toISOString().split('T')[0];
+    document.getElementById('agreementFieldDocExpires').value = '';
+    document.getElementById('agreementFieldDocRestriction').value = '';
+    document.getElementById('agreementDocFileInput').value = '';
+    var area = document.getElementById('agreementDocUploadArea');
+    area.classList.remove('has-file');
+    document.getElementById('agreementDocUploadIcon').className = 'fas fa-cloud-upload-alt';
+    document.getElementById('agreementDocUploadPrompt').textContent = 'Click to upload or drag and drop';
+    document.getElementById('agreementDocFileSelectedName').textContent = 'No file selected';
+    }
+
+    function handleAgreementDocFileSelect(input) {
+    if (!input.files || !input.files[0]) return;
+    agreementSelectedFile = input.files[0];
+    var area = document.getElementById('agreementDocUploadArea');
+    area.classList.add('has-file');
+    document.getElementById('agreementDocUploadIcon').className = 'fas fa-check-circle';
+    document.getElementById('agreementDocUploadPrompt').textContent = 'File selected â€” click to change';
+    document.getElementById('agreementDocFileSelectedName').textContent = agreementSelectedFile.name;
+    if (!document.getElementById('agreementFieldDocName').value) {
+      document.getElementById('agreementFieldDocName').value = agreementSelectedFile.name.replace(/\.[^/.]+$/,'').replace(/[-_]/g,' ');
+    }
+    }
+
+    function saveAgreementDoc() {
+    var name = document.getElementById('agreementFieldDocName').value.trim();
+    if (!name) { showAgreementToast('Please enter a document name.', true); return; }
+    var doc = {
+        name: name,
+      description: document.getElementById('agreementFieldDocDesc').value.trim(),
+      createdAt: document.getElementById('agreementFieldDocCreated').value,
+      expiresAt: document.getElementById('agreementFieldDocExpires').value,
+      restriction: document.getElementById('agreementFieldDocRestriction').value || 'Internal Use',
+      file: agreementSelectedFile ? agreementSelectedFile.name : (agreementEditingDocId ? (agreementDocs.find(function(x){return x.id===agreementEditingDocId;})||{}).file||'' : ''),
+      url: agreementSelectedFile ? URL.createObjectURL(agreementSelectedFile) : (agreementEditingDocId ? (agreementDocs.find(function(x){return x.id===agreementEditingDocId;})||{}).url||'#' : '#')
+    };
+    if (agreementEditingDocId) {
+      var idx = agreementDocs.findIndex(function(x){ return x.id===agreementEditingDocId; });
+      if (idx>-1){ doc.id=agreementEditingDocId; agreementDocs[idx]=doc; }
+      showAgreementToast('Document updated!');
+    } else {
+      doc.id = agreementNextDocId++;
+      agreementDocs.push(doc);
+      showAgreementToast('Document added!');
+    }
+    closeAgreementFormModal();
+    renderAgreementDocs();
+    }
+
+    function closeAgreementFormModal(e) {
+    if (e && e.target !== document.getElementById('agreementFormModal')) return;
+    document.getElementById('agreementFormModal').classList.remove('open');
+    document.body.style.overflow = '';
+    }
+
+    /* â•â•â•â•â•â•â•â• VIEW MODAL â•â•â•â•â•â•â•â• */
+    function openAgreementViewModal(id) {
+    agreementViewingDoc = agreementDocs.find(function(d){ return d.id===id; });
+    if (!agreementViewingDoc) return;
+    var d = agreementViewingDoc;
+    var st = getAgreementStatus(d.expiresAt);
+    var rc = getAgreementRestrictionClass(d.restriction);
+    document.getElementById('agreementViewDocContent').innerHTML =
+        '<div class="doc-view-grid">' +
+        '<div class="doc-view-item full"><div class="doc-view-label">Document Name</div><div class="doc-view-value"><i class="fas fa-file-pdf" style="color:var(--gold);margin-right:6px;"></i>'+d.name+'</div></div>' +
+        '<div class="doc-view-item full"><div class="doc-view-label">Description</div><div class="doc-view-value" style="font-weight:400;font-size:13px;color:#555;">'+( d.description||'â€”')+'</div></div>' +
+      '<div class="doc-view-item"><div class="doc-view-label">Created Date</div><div class="doc-view-value">'+formatAgreementDate(d.createdAt)+'</div></div>' +
+      '<div class="doc-view-item"><div class="doc-view-label">Expiration Date</div><div class="doc-view-value">'+formatAgreementDate(d.expiresAt)+'</div></div>' +
+        '<div class="doc-view-item"><div class="doc-view-label">Restriction</div><div class="doc-view-value"><span class="restriction-badge '+rc+'">'+d.restriction+'</span></div></div>' +
+        '<div class="doc-view-item"><div class="doc-view-label">Status</div><div class="doc-view-value"><span class="doc-status '+st.cls+'">'+st.label+'</span></div></div>' +
+        '<div class="doc-view-item full"><div class="doc-view-label">File</div><div class="doc-view-value" style="font-size:12px;font-family:monospace;">'+(d.file||'â€”')+'</div></div>' +
+        '</div>' +
+        '<div style="display:flex;gap:10px;">' +
+      '<button class="btn-save" onclick="downloadAgreementDoc('+d.id+')" style="flex:1;"><i class="fas fa-download" style="margin-right:7px;"></i>Download</button>' +
+      '<button class="btn-cancel" onclick="closeAgreementViewModal();openAgreementEditModal('+d.id+')" style="flex:1;"><i class="fas fa-pen" style="margin-right:7px;"></i>Edit</button>' +
+        '</div>';
+    document.getElementById('agreementViewModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    }
+
+    function closeAgreementViewModal(e) {
+    if (e && e.target !== document.getElementById('agreementViewModal')) return;
+    document.getElementById('agreementViewModal').classList.remove('open');
+    document.body.style.overflow = '';
+    }
+
+
+    function downloadAgreementDoc(id) {
+    var d = agreementDocs.find(function(x){ return x.id===id; });
+    if (!d) return;
+    if (d.url && d.url !== '#') { window.open(d.url,'_blank'); return; }
+    var content = ['Document: '+d.name,'Description: '+(d.description||'â€”'),'Created: '+formatAgreementDate(d.createdAt),'Expires: '+formatAgreementDate(d.expiresAt),'Restriction: '+d.restriction,'File: '+(d.file||'â€”')].join('\n');
+    var blob = new Blob([content], {type:'text/plain'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = (d.file || d.name.replace(/ /g,'_')+'.txt');
+    a.click();
+    }
+
+
+    function showAgreementToast(msg, isError) {
+    var toast = document.getElementById('agreementToast');
+    document.getElementById('agreementToastMsg').textContent = msg;
+    toast.querySelector('i').style.color = isError ? '#ff6b6b' : 'var(--gold)';
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 3000);
+    }
+
+
+    function toggleGroup(id) {
+    var grp = document.getElementById(id);
+    var wasOpen = grp.classList.contains('open');
+    document.querySelectorAll('.nav-group').forEach(function(g){
+        if (g.id!==id && !g.querySelector('.active')) g.classList.remove('open');
+    });
+    if (wasOpen && !grp.querySelector('.active')) grp.classList.remove('open');
+    else grp.classList.add('open');
+    }
+
+    function toggleSubGroup(id) {
+    var body = document.getElementById(id);
+    var arrow = document.getElementById('arrow-'+id);
+    var isOpen = body.style.display !== 'none';
+    if (isOpen && !body.querySelector('.active')) {
+        body.style.display='none';
+        if(arrow) arrow.classList.remove('open');
+    } else {
+        body.style.display='block';
+        if(arrow) arrow.classList.add('open');
+    }
+    }
+
+    document.addEventListener('keydown', function(e) {
+    if (e.key==='Escape') {
+      closeAgreementFormModal(); closeAgreementViewModal();
+    }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+    renderAgreementDocs();
+    var salesBody = document.getElementById('grp-sales');
+    var salesArrow = document.getElementById('arrow-grp-sales');
+    if (salesBody) salesBody.style.display = 'block';
+    if (salesArrow) salesArrow.classList.add('open');
+    });
+    </script>
+
+
+
+
+
+    
+
+
+    </div>
+
+
+
+
+    <div class="pricing-mini-panel" data-panel="fda-mocra">FDA and MoCRA Approval</div>
+    
+    <div class="pricing-mini-panel" data-panel="distribution-coefficient">
+
+      <div class="page-header">
+        <div class="page-title-section">
+          <h2><i class="fas fa-file-contract"></i> Coefficient Documents</h2>
+        </div>
+        <button class="btn-add-doc" onclick="openCoefficientAddModal()">
+          <i class="fas fa-plus"></i> Add Document
+        </button>
+      </div>
+
+      <div class="table-card">
+        <div class="table-filter-row">
+          <input type="text" id="coefficientSearch" oninput="renderCoefficientDocs()" placeholder="ðŸ” Search name..." class="col-filter" style="min-width:200px;">
+          <select class="col-filter" id="coefficientRestriction" onchange="renderCoefficientDocs()">
+            <option value="">All Restrictions</option>
+            <option value="Confidential">Confidential</option>
+            <option value="Internal Use">Internal Use</option>
+            <option value="Public">Public</option>
+          </select>
+          <select class="col-filter" id="coefficientStatus" onchange="renderCoefficientDocs()">
+            <option value="">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Expired">Expired</option>
+            <option value="Expiring Soon">Expiring Soon</option>
+          </select>
+          <span class="results-count" id="coefficientResultsCount">â€” documents</span>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="products-table">
+            <thead>
+              <tr>
+                <th onclick="sortCoefficientDocs('name')">NAME <i class="fas fa-sort sort-icon"></i></th>
+                <th onclick="sortCoefficientDocs('description')">DESCRIPTION <i class="fas fa-sort sort-icon"></i></th>
+                <th onclick="sortCoefficientDocs('createdAt')">CREATED DATE <i class="fas fa-sort sort-icon"></i></th>
+                <th onclick="sortCoefficientDocs('expiresAt')">EXPIRATION DATE <i class="fas fa-sort sort-icon"></i></th>
+                <th onclick="sortCoefficientDocs('restriction')">RESTRICTION <i class="fas fa-sort sort-icon"></i></th>
+                <th style="text-align:center;cursor:default;">STATUS</th>
+                <th style="text-align:center;cursor:default;">VIEW</th>
+                <th style="text-align:center;cursor:default;">DOWNLOAD</th>
+              </tr>
+            </thead>
+            <tbody id="coefficientDocsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ADD / EDIT MODAL -->
+      <div class="modal-overlay" id="coefficientFormModal" onclick="closeCoefficientFormModal(event)">
+        <div class="doc-modal" onclick="event.stopPropagation()">
+          <div class="doc-modal-header">
+            <h3 id="coefficientFormModalTitle"><i class="fas fa-plus-circle"></i> Add Coefficient Document</h3>
+            <button class="modal-close-btn" onclick="closeCoefficientFormModal()">âœ•</button>
+          </div>
+          <div class="doc-modal-body">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label class="form-label">Upload File</label>
+                <div class="file-upload-area" id="coefficientDocUploadArea" onclick="document.getElementById('coefficientDocFileInput').click()">
+                  <i class="fas fa-cloud-upload-alt" id="coefficientDocUploadIcon"></i>
+                  <p id="coefficientDocUploadPrompt">Click to upload or drag and drop</p>
+                  <span class="file-name-display" id="coefficientDocFileSelectedName">No file selected</span>
+                </div>
+                <input type="file" id="coefficientDocFileInput" style="display:none;" onchange="handleCoefficientDocFileSelect(this)">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Document Name *</label>
+                <input type="text" class="form-input" id="coefficientFieldDocName" placeholder="e.g. Distribution Coefficient Matrix 2026">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Description</label>
+                <textarea class="form-textarea" id="coefficientFieldDocDesc" placeholder="Brief description..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Created Date</label>
+                <input type="date" class="form-input" id="coefficientFieldDocCreated">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Expiration Date</label>
+                <input type="date" class="form-input" id="coefficientFieldDocExpires">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Restriction</label>
+                <select class="form-select" id="coefficientFieldDocRestriction">
+                  <option value="">Select restriction...</option>
+                  <option value="Confidential">Confidential</option>
+                  <option value="Internal Use">Internal Use</option>
+                  <option value="Public">Public</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="doc-modal-footer">
+            <button class="btn-cancel" onclick="closeCoefficientFormModal()">Cancel</button>
+            <button class="btn-save" onclick="saveCoefficientDoc()"><i class="fas fa-save" style="margin-right:6px;"></i>Save Document</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW MODAL -->
+      <div class="modal-overlay" id="coefficientViewModal" onclick="closeCoefficientViewModal(event)">
+        <div class="doc-modal view-doc-modal" onclick="event.stopPropagation()">
+          <div class="doc-modal-header">
+            <h3><i class="fas fa-file-contract"></i> Document Details</h3>
+            <button class="modal-close-btn" onclick="closeCoefficientViewModal()">x</button>
+          </div>
+          <div class="doc-modal-body" id="coefficientViewDocContent"></div>
+        </div>
+      </div>
+
+      <!-- Toast -->
+      <div class="toast" id="coefficientToast"><i class="fas fa-check-circle"></i><span id="coefficientToastMsg"></span></div>
+
+      <script>
+      var coefficientDocs = [
+        { id:2, name:"Distribution Coefficient Matrix 2026", description:"Coefficient matrix by region and channel for 2026 distribution planning", createdAt:"2026-01-25", expiresAt:"2027-01-25", restriction:"Internal Use", file:"distribution-coefficient-matrix-2026.pdf", url:"#" },
+        { id:3, name:"Distribution Coefficient Adjustment Q2", description:"Q2 adjustment factors based on sell-through and inventory rotation", createdAt:"2026-04-01", expiresAt:"2026-12-31", restriction:"Confidential", file:"distribution-coefficient-adjustment-q2.pdf", url:"#" },
+        { id:4, name:"Distribution Coefficient Methodology", description:"Methodology document for calculating and validating distribution coefficients", createdAt:"2026-02-10", expiresAt:"2028-02-10", restriction:"Public", file:"distribution-coefficient-methodology.pdf", url:"#" }
+      ];
+
+      var coefficientNextDocId = 6;
+      var coefficientSortCol = null;
+      var coefficientSortDir = 1;
+      var coefficientEditingDocId = null;
+      var coefficientViewingDoc = null;
+      var coefficientSelectedFile = null;
+
+      function formatCoefficientDate(d) {
+        if (!d) return 'â€”';
+        var p = d.split('-');
+        var m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return m[parseInt(p[1], 10)-1]+' '+parseInt(p[2], 10)+', '+p[0];
+      }
+
+      function getCoefficientStatus(expiresAt) {
+        if (!expiresAt) return { label:'Active', cls:'doc-active' };
+        var now = new Date();
+        var exp = new Date(expiresAt);
+        var diff = (exp - now) / (1000*60*60*24);
+        if (diff < 0) return { label:'Expired', cls:'doc-expired' };
+        if (diff < 30) return { label:'Expiring Soon', cls:'doc-expiring' };
+        return { label:'Active', cls:'doc-active' };
+      }
+
+      function getCoefficientRestrictionClass(r) {
+        if (r === 'Confidential') return 'restriction-confidential';
+        if (r === 'Internal Use') return 'restriction-internal';
+        return 'restriction-public';
+      }
+
+      function renderCoefficientDocs() {
+        var tbody = document.getElementById('coefficientDocsTableBody');
+        var fSearch = document.getElementById('coefficientSearch').value.toLowerCase();
+        var fStatus = document.getElementById('coefficientStatus').value;
+        var fRestriction = document.getElementById('coefficientRestriction').value;
+
+        var filtered = coefficientDocs.filter(function(d) {
+          var st = getCoefficientStatus(d.expiresAt);
+          return (d.name.toLowerCase().includes(fSearch) || (d.description||'').toLowerCase().includes(fSearch))
+            && (!fStatus || st.label === fStatus)
+            && (!fRestriction || d.restriction === fRestriction);
+        });
+
+        if (coefficientSortCol) {
+          filtered.sort(function(a, b) {
+            var av = a[coefficientSortCol] || '';
+            var bv = b[coefficientSortCol] || '';
+            if (typeof av === 'string') av = av.toLowerCase();
+            if (typeof bv === 'string') bv = bv.toLowerCase();
+            return av < bv ? -coefficientSortDir : av > bv ? coefficientSortDir : 0;
+          });
+        }
+
+        document.getElementById('coefficientResultsCount').textContent = filtered.length + ' document' + (filtered.length!==1?'s':'');
+
+        if (!filtered.length) {
+          tbody.innerHTML = '<tr class="empty-row"><td colspan="8"><i class="fas fa-file-alt"></i><p>No documents found.</p></td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = filtered.map(function(d) {
+          var st = getCoefficientStatus(d.expiresAt);
+          var rc = getCoefficientRestrictionClass(d.restriction);
+          var expColor = d.expiresAt && new Date(d.expiresAt) < new Date() ? 'color:#d93025;' : new Date(d.expiresAt) - new Date() < 30*24*60*60*1000 ? 'color:#e65100;' : '';
+          return '<tr>' +
+            '<td style="font-weight:600;font-size:13px;"><i class="fas fa-file-pdf" style="color:var(--gold);margin-right:7px;"></i>'+d.name+'</td>' +
+            '<td style="font-size:12px;color:var(--text-muted);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="'+d.description+'">'+d.description+'</td>' +
+            '<td style="font-size:12px;white-space:nowrap;">'+formatCoefficientDate(d.createdAt)+'</td>' +
+            '<td style="font-size:12px;white-space:nowrap;'+expColor+'">'+formatCoefficientDate(d.expiresAt)+'</td>' +
+            '<td><span class="restriction-badge '+rc+'">'+d.restriction+'</span></td>' +
+            '<td style="text-align:center;"><span class="doc-status '+st.cls+'">'+st.label+'</span></td>' +
+            '<td style="text-align:center;"><button class="btn-view-product" onclick="openCoefficientViewModal('+d.id+')" title="View"><i class="fas fa-eye"></i></button></td>' +
+            '<td style="text-align:center;"><button class="btn-download-product" onclick="downloadCoefficientDoc('+d.id+')" title="Download"><i class="fas fa-download"></i></button></td>' +
+          '</tr>';
+        }).join('');
+      }
+
+      function sortCoefficientDocs(col) {
+        if (coefficientSortCol === col) coefficientSortDir *= -1;
+        else { coefficientSortCol = col; coefficientSortDir = 1; }
+        renderCoefficientDocs();
+      }
+
+      function openCoefficientAddModal() {
+        coefficientEditingDocId = null;
+        coefficientSelectedFile = null;
+        document.getElementById('coefficientFormModalTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add Coefficient Document';
+        clearCoefficientDocForm();
+        document.getElementById('coefficientFormModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function openCoefficientEditModal(id) {
+        coefficientEditingDocId = id;
+        coefficientSelectedFile = null;
+        var d = coefficientDocs.find(function(x){ return x.id===id; });
+        if (!d) return;
+        document.getElementById('coefficientFormModalTitle').innerHTML = '<i class="fas fa-pen"></i> Edit Document';
+        document.getElementById('coefficientFieldDocName').value = d.name;
+        document.getElementById('coefficientFieldDocDesc').value = d.description || '';
+        document.getElementById('coefficientFieldDocCreated').value = d.createdAt || '';
+        document.getElementById('coefficientFieldDocExpires').value = d.expiresAt || '';
+        document.getElementById('coefficientFieldDocRestriction').value = d.restriction || '';
+        if (d.file) {
+          var area = document.getElementById('coefficientDocUploadArea');
+          area.classList.add('has-file');
+          document.getElementById('coefficientDocUploadIcon').className = 'fas fa-check-circle';
+          document.getElementById('coefficientDocUploadPrompt').textContent = 'File attached â€” click to replace';
+          document.getElementById('coefficientDocFileSelectedName').textContent = d.file;
+        }
+        document.getElementById('coefficientFormModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function clearCoefficientDocForm() {
+        document.getElementById('coefficientFieldDocName').value = '';
+        document.getElementById('coefficientFieldDocDesc').value = '';
+        document.getElementById('coefficientFieldDocCreated').value = new Date().toISOString().split('T')[0];
+        document.getElementById('coefficientFieldDocExpires').value = '';
+        document.getElementById('coefficientFieldDocRestriction').value = '';
+        document.getElementById('coefficientDocFileInput').value = '';
+        var area = document.getElementById('coefficientDocUploadArea');
+        area.classList.remove('has-file');
+        document.getElementById('coefficientDocUploadIcon').className = 'fas fa-cloud-upload-alt';
+        document.getElementById('coefficientDocUploadPrompt').textContent = 'Click to upload or drag and drop';
+        document.getElementById('coefficientDocFileSelectedName').textContent = 'No file selected';
+      }
+
+      function handleCoefficientDocFileSelect(input) {
+        if (!input.files || !input.files[0]) return;
+        coefficientSelectedFile = input.files[0];
+        var area = document.getElementById('coefficientDocUploadArea');
+        area.classList.add('has-file');
+        document.getElementById('coefficientDocUploadIcon').className = 'fas fa-check-circle';
+        document.getElementById('coefficientDocUploadPrompt').textContent = 'File selected â€” click to change';
+        document.getElementById('coefficientDocFileSelectedName').textContent = coefficientSelectedFile.name;
+        if (!document.getElementById('coefficientFieldDocName').value) {
+          document.getElementById('coefficientFieldDocName').value = coefficientSelectedFile.name.replace(/\.[^/.]+$/,'').replace(/[-_]/g,' ');
+        }
+      }
+
+      function saveCoefficientDoc() {
+        var name = document.getElementById('coefficientFieldDocName').value.trim();
+        if (!name) { showCoefficientToast('Please enter a document name.', true); return; }
+
+        var doc = {
+          name: name,
+          description: document.getElementById('coefficientFieldDocDesc').value.trim(),
+          createdAt: document.getElementById('coefficientFieldDocCreated').value,
+          expiresAt: document.getElementById('coefficientFieldDocExpires').value,
+          restriction: document.getElementById('coefficientFieldDocRestriction').value || 'Internal Use',
+          file: coefficientSelectedFile ? coefficientSelectedFile.name : (coefficientEditingDocId ? (coefficientDocs.find(function(x){ return x.id===coefficientEditingDocId; })||{}).file||'' : ''),
+          url: coefficientSelectedFile ? URL.createObjectURL(coefficientSelectedFile) : (coefficientEditingDocId ? (coefficientDocs.find(function(x){ return x.id===coefficientEditingDocId; })||{}).url||'#' : '#')
+        };
+
+        if (coefficientEditingDocId) {
+          var idx = coefficientDocs.findIndex(function(x){ return x.id===coefficientEditingDocId; });
+          if (idx > -1) { doc.id = coefficientEditingDocId; coefficientDocs[idx] = doc; }
+          showCoefficientToast('Document updated!');
+        } else {
+          doc.id = coefficientNextDocId++;
+          coefficientDocs.push(doc);
+          showCoefficientToast('Document added!');
+        }
+
+        closeCoefficientFormModal();
+        renderCoefficientDocs();
+      }
+
+      function closeCoefficientFormModal(e) {
+        if (e && e.target !== document.getElementById('coefficientFormModal')) return;
+        document.getElementById('coefficientFormModal').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      function openCoefficientViewModal(id) {
+        coefficientViewingDoc = coefficientDocs.find(function(d){ return d.id===id; });
+        if (!coefficientViewingDoc) return;
+
+        var d = coefficientViewingDoc;
+        var st = getCoefficientStatus(d.expiresAt);
+        var rc = getCoefficientRestrictionClass(d.restriction);
+
+        document.getElementById('coefficientViewDocContent').innerHTML =
+          '<div class="doc-view-grid">' +
+          '<div class="doc-view-item full"><div class="doc-view-label">Document Name</div><div class="doc-view-value"><i class="fas fa-file-pdf" style="color:var(--gold);margin-right:6px;"></i>'+d.name+'</div></div>' +
+          '<div class="doc-view-item full"><div class="doc-view-label">Description</div><div class="doc-view-value" style="font-weight:400;font-size:13px;color:#555;">'+(d.description||'â€”')+'</div></div>' +
+          '<div class="doc-view-item"><div class="doc-view-label">Created Date</div><div class="doc-view-value">'+formatCoefficientDate(d.createdAt)+'</div></div>' +
+          '<div class="doc-view-item"><div class="doc-view-label">Expiration Date</div><div class="doc-view-value">'+formatCoefficientDate(d.expiresAt)+'</div></div>' +
+          '<div class="doc-view-item"><div class="doc-view-label">Restriction</div><div class="doc-view-value"><span class="restriction-badge '+rc+'">'+d.restriction+'</span></div></div>' +
+          '<div class="doc-view-item"><div class="doc-view-label">Status</div><div class="doc-view-value"><span class="doc-status '+st.cls+'">'+st.label+'</span></div></div>' +
+          '<div class="doc-view-item full"><div class="doc-view-label">File</div><div class="doc-view-value" style="font-size:12px;font-family:monospace;">'+(d.file||'â€”')+'</div></div>' +
+          '</div>' +
+          '<div style="display:flex;gap:10px;">' +
+          '<button class="btn-save" onclick="downloadCoefficientDoc('+d.id+')" style="flex:1;"><i class="fas fa-download" style="margin-right:7px;"></i>Download</button>' +
+          '<button class="btn-cancel" onclick="closeCoefficientViewModal();openCoefficientEditModal('+d.id+')" style="flex:1;"><i class="fas fa-pen" style="margin-right:7px;"></i>Edit</button>' +
+          '</div>';
+
+        document.getElementById('coefficientViewModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeCoefficientViewModal(e) {
+        if (e && e.target !== document.getElementById('coefficientViewModal')) return;
+        document.getElementById('coefficientViewModal').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      function downloadCoefficientDoc(id) {
+        var d = coefficientDocs.find(function(x){ return x.id===id; });
+        if (!d) return;
+        if (d.url && d.url !== '#') { window.open(d.url,'_blank'); return; }
+        var content = ['Document: '+d.name,'Description: '+(d.description||'â€”'),'Created: '+formatCoefficientDate(d.createdAt),'Expires: '+formatCoefficientDate(d.expiresAt),'Restriction: '+d.restriction,'File: '+(d.file||'â€”')].join('\n');
+        var blob = new Blob([content], { type:'text/plain' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = (d.file || d.name.replace(/ /g,'_')+'.txt');
+        a.click();
+      }
+
+      function showCoefficientToast(msg, isError) {
+        var toast = document.getElementById('coefficientToast');
+        document.getElementById('coefficientToastMsg').textContent = msg;
+        toast.querySelector('i').style.color = isError ? '#ff6b6b' : 'var(--gold)';
+        toast.classList.add('show');
+        setTimeout(function(){ toast.classList.remove('show'); }, 3000);
+      }
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeCoefficientFormModal();
+          closeCoefficientViewModal();
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        renderCoefficientDocs();
+      });
+      </script>
+
+    </div>
+
+    </div>
+</div>
+
+
+<div class="tab-content" id="score">
+
+    <style>
+    #score .th-content{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      line-height:1.05;
+      gap:2px;
+      min-width:64px;
+      text-align:center;
+    }
+    #score .th-month{
+      display:block;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.08em;
+    }
+    #score .th-year,
+    #score .th-year-header{
+      display:block;
+      font-size:11px;
+      font-weight:700;
+      opacity:.95;
+      letter-spacing:.05em;
+    }
+    #score .responsive-table tbody td{
+      font-size:15px;
+      font-weight:600;
+      color: #000;
+    }
+    #score .score-high,
+    #score .score-mid,
+    #score .score-low{
+      font-size:15px;
+      font-weight:600;
+      color:#000;
+      
+    }
+
+    .brand-name-cell{
+        color:#000;
+    }
+    </style>
+
+
+    <div class="card">
+         <div class="filters-row">
+        <div class="filter-container" id="perfFilters">
+          <button class="filter-btn" data-filter="yearly"       onclick="applyPricingPerfFilter('yearly')">Yearly</button>
+          <button class="filter-btn active" data-filter="lastYear" onclick="applyPricingPerfFilter('lastYear')">Last 13 months</button>
+          <button class="filter-btn" data-filter="currentMonth" onclick="applyPricingPerfFilter('currentMonth')">Current Month</button>
+        </div>
+        <!-- <div class="view-selector-wrap">
+          <span class="view-selector-label">View As</span>
+          <button class="view-selector-btn" id="perfViewBtn" onclick="togglePricingPerfViewDropdown()">
+            <span><i class="fas fa-star" style="margin-right:6px;font-size:12px;"></i><span id="perfViewText">Artistic Score</span></span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="view-dropdown" id="perfViewDropdown">
+            <div class="view-option active" data-view="marketing"   onclick="changePerfView('marketing')">  <i class="fas fa-star"></i>        Artistic Score</div>
+            <div class="view-option"        data-view="commercial"  onclick="changePerfView('commercial')"> <i class="fas fa-chart-line"></i>   Commercial Score</div>
+            <div class="view-option"        data-view="combined"    onclick="changePerfView('combined')">   <i class="fas fa-layer-group"></i>  Combined Score</div>
+          </div>
+        </div> -->
+      </div>
+
+      <h3 class="section-title"><i class="fas fa-star-half-alt"></i> Scores</h3>
+      <div class="table-wrapper">
+        <table class="responsive-table">
+          <thead id="perfumeryTableHead"></thead>
+          <tbody id="perfumeryTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="chart-container" style="background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+          <h4 style="margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-chart-area" style="color:var(--gold);"></i>
+            <span id="perfChartTitle">Marketing Score</span>
+          </h4>
+          <div style="display:flex;gap:5px;background:#f5f5f5;padding:4px;border-radius:8px;">
+            <button class="chart-type-btn active" data-type="bar" onclick="changePerfChartType('bar')"
+              style="padding:7px 14px;border:none;background:white;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--gold);box-shadow:0 2px 4px rgba(0,0,0,.1);display:flex;align-items:center;gap:5px;">
+              <i class="fas fa-chart-bar"></i> Bar
+            </button>
+            <button class="chart-type-btn" data-type="line" onclick="changePerfChartType('line')"
+              style="padding:7px 14px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:#535255;display:flex;align-items:center;gap:5px;">
+              <i class="fas fa-chart-line"></i> Line
+            </button>
+          </div>
+        </div>
+        <div style="position:relative;height:320px;width:100%;"><canvas id="perfChart"></canvas></div>
+        <div id="perfChartLegend" style="display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--border);"></div>
+      </div>
+    </div>
+
+    <div id="view-placeholder" style="display:none;">
+      <div class="welcome-bar"><div><h2 id="placeholderTitle">Section</h2><p>Content coming soon.</p></div></div>
+      <div class="empty-state"><i class="fas fa-tools"></i><p>This section is under construction.</p></div>
+    </div>
+
+    <script>
+    function toggleSubGroup(id){
+    var body=document.getElementById(id),arrow=document.getElementById('arrow-'+id),isOpen=body.style.display!=='none';
+    body.style.display=isOpen?'none':'block';arrow.classList.toggle('open',!isOpen);
+    }
+
+    /* ── GLOBALS ── */
+    var perfCurrentFilter = "lastYear";
+    var perfCurrentView   = "marketing";
+    var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+    var dayNames   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+    var perfChart = null, perfChartType = "bar", perfHiddenSeries = [];
+    var perfColors = [
+    'rgb(171,160,110)','rgb(102,126,153)','rgb(153,102,102)',
+    'rgb(102,153,126)','rgb(153,126,102)','rgb(126,102,153)',
+    'rgb(102,153,153)','rgb(153,153,102)'
+    ];
+
+    /* ── DATA — 3 scores por producto (marketing, commercial, combined) del 1 al 10 ── */
+    var perfumeryData = [];
+
+    /* ── Datos por marca ── */
+    const BRAND_PERFUMERY_DATA = {
+    // 'Brand Demo': [
+    //   { perfumery:"Brand Demo", product:"Demo1",   sku:"AUR-001", date:"2026-03-12", marketing:8.5, commercial:7.2, combined:7.9, orderId:9011 },
+    //   { perfumery:"Brand Demo", product:"Demo2",        sku:"AUR-002", date:"2026-03-07", marketing:6.3, commercial:9.1, combined:7.7, orderId:9012 },
+    //   { perfumery:"Brand Demo", product:"Madam Oudh 100ml",     sku:"AUR-003", date:"2026-03-10", marketing:7.8, commercial:6.5, combined:7.2, orderId:9013 },
+    //   { perfumery:"Brand Demo", product:"Arcana 100ml",         sku:"AUR-004", date:"2026-03-11", marketing:5.4, commercial:8.3, combined:6.9, orderId:9014 },
+    //   { perfumery:"Brand Demo", product:"Ancient Spirits 100ml",sku:"AUR-005", date:"2026-03-12", marketing:9.2, commercial:7.8, combined:8.5, orderId:9015 },
+    //   { perfumery:"Brand Demo", product:"Curve 100ml",          sku:"AUR-015", date:"2026-02-22", marketing:5.2, commercial:8.9, combined:7.1, orderId:9025 },
+    //   { perfumery:"Brand Demo", product:"Capi 100ml",           sku:"AUR-016", date:"2026-02-23", marketing:8.3, commercial:7.5, combined:7.9, orderId:9026 },
+    //   { perfumery:"Brand Demo", product:"Ruhun 100ml",          sku:"AUR-017", date:"2026-01-24", marketing:6.9, commercial:5.4, combined:6.2, orderId:9027 },
+    //   { perfumery:"Brand Demo", product:"Aurum 100ml",          sku:"AUR-018", date:"2026-01-25", marketing:7.7, commercial:8.8, combined:8.3, orderId:9028 },
+    //   { perfumery:"Brand Demo", product:"Demo1",   sku:"AUR-001", date:"2025-12-15", marketing:8.1, commercial:7.0, combined:7.6, orderId:8901 },
+    //   { perfumery:"Brand Demo", product:"Demo2",        sku:"AUR-002", date:"2025-12-10", marketing:6.0, commercial:8.9, combined:7.5, orderId:8902 },
+    //   { perfumery:"Brand Demo", product:"Madam Oudh 100ml",     sku:"AUR-003", date:"2025-11-12", marketing:7.5, commercial:6.2, combined:6.9, orderId:8891 },
+    //   { perfumery:"Brand Demo", product:"Arcana 100ml",         sku:"AUR-004", date:"2025-11-08", marketing:5.2, commercial:8.0, combined:6.6, orderId:8892 },
+    //   { perfumery:"Brand Demo", product:"Ancient Spirits 100ml",sku:"AUR-005", date:"2025-10-14", marketing:9.0, commercial:7.5, combined:8.2, orderId:8881 },
+    //   { perfumery:"Brand Demo", product:"Malikat Oudh 100ml",   sku:"AUR-006", date:"2025-10-09", marketing:6.5, commercial:5.7, combined:6.1, orderId:8882 },
+    //   { perfumery:"Brand Demo", product:"Incense Oudh 100ml",   sku:"AUR-007", date:"2025-09-18", marketing:7.0, commercial:8.4, combined:7.7, orderId:8871 },
+    //   { perfumery:"Brand Demo", product:"Xyphos 100ml",         sku:"AUR-008", date:"2025-09-11", marketing:4.6, commercial:6.0, combined:5.3, orderId:8872 },
+    //   { perfumery:"Brand Demo", product:"Sungul 100ml",         sku:"AUR-009", date:"2025-08-20", marketing:8.7, commercial:7.1, combined:7.9, orderId:8861 },
+    //   { perfumery:"Brand Demo", product:"Mitra 100ml",          sku:"AUR-010", date:"2025-08-13", marketing:5.4, commercial:9.0, combined:7.2, orderId:8862 },
+    //   { perfumery:"Brand Demo", product:"Gugguluma 100ml",      sku:"AUR-011", date:"2025-07-22", marketing:7.1, commercial:6.5, combined:6.8, orderId:8851 },
+    //   { perfumery:"Brand Demo", product:"Cinnamom 100ml",       sku:"AUR-012", date:"2025-07-15", marketing:5.9, commercial:7.4, combined:6.7, orderId:8852 },
+    //   { perfumery:"Brand Demo", product:"Prajna 100ml",         sku:"AUR-013", date:"2025-06-17", marketing:9.1, commercial:7.8, combined:8.5, orderId:8841 },
+    //   { perfumery:"Brand Demo", product:"Divina 100ml",         sku:"AUR-014", date:"2025-06-10", marketing:7.3, commercial:6.0, combined:6.7, orderId:8842 },
+    //   { perfumery:"Brand Demo", product:"Curve 100ml",          sku:"AUR-015", date:"2025-05-19", marketing:5.0, commercial:8.6, combined:6.8, orderId:8831 },
+    //   { perfumery:"Brand Demo", product:"Capi 100ml",           sku:"AUR-016", date:"2025-05-12", marketing:8.0, commercial:7.2, combined:7.6, orderId:8832 },
+    //   { perfumery:"Brand Demo", product:"Ruhun 100ml",          sku:"AUR-017", date:"2025-04-21", marketing:6.7, commercial:5.2, combined:6.0, orderId:8821 },
+    //   { perfumery:"Brand Demo", product:"Aurum 100ml",          sku:"AUR-018", date:"2025-04-14", marketing:7.5, commercial:8.5, combined:8.0, orderId:8822 },
+    //   { perfumery:"Brand Demo", product:"Amiyah Oudh 100ml",    sku:"AUR-019", date:"2025-03-18", marketing:4.3, commercial:6.5, combined:5.4, orderId:8811 },
+    //   { perfumery:"Brand Demo", product:"Amali 100ml",          sku:"AUR-020", date:"2025-03-10", marketing:7.9, commercial:7.6, combined:7.8, orderId:8812 },
+    // ],
+    'Brand Demo': [
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-04-5", marketing:85, commercial:72, combined:79, orderId:9011 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-03-12", marketing:85, commercial:72, combined:79, orderId:9011 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-002", date:"2026-03-07", marketing:63, commercial:91, combined:77, orderId:9012 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-003", date:"2026-03-10", marketing:78, commercial:65, combined:72, orderId:9013 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-004", date:"2026-03-11", marketing:54, commercial:83, combined:69, orderId:9014 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-005", date:"2026-03-12", marketing:92, commercial:78, combined:85, orderId:9015 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-015", date:"2026-02-22", marketing:52, commercial:89, combined:71, orderId:9025 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-016", date:"2026-02-23", marketing:83, commercial:75, combined:79, orderId:9026 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-017", date:"2026-01-24", marketing:69, commercial:54, combined:62, orderId:9027 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-018", date:"2026-01-25", marketing:77, commercial:88, combined:83, orderId:9028 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-12-15", marketing:81, commercial:70, combined:76, orderId:8901 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-002", date:"2025-12-10", marketing:60, commercial:89, combined:75, orderId:8902 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-003", date:"2025-11-12", marketing:75, commercial:62, combined:69, orderId:8891 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-004", date:"2025-11-08", marketing:52, commercial:80, combined:66, orderId:8892 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-005", date:"2025-10-14", marketing:90, commercial:75, combined:82, orderId:8881 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-006", date:"2025-10-09", marketing:65, commercial:57, combined:61, orderId:8882 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-007", date:"2025-09-18", marketing:70, commercial:84, combined:77, orderId:8871 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-008", date:"2025-09-11", marketing:46, commercial:60, combined:53, orderId:8872 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-009", date:"2025-08-20", marketing:87, commercial:71, combined:79, orderId:8861 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-010", date:"2025-08-13", marketing:54, commercial:90, combined:72, orderId:8862 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-011", date:"2025-07-22", marketing:71, commercial:65, combined:68, orderId:8851 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-012", date:"2025-07-15", marketing:59, commercial:74, combined:67, orderId:8852 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-013", date:"2025-06-17", marketing:91, commercial:78, combined:85, orderId:8841 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-014", date:"2025-06-10", marketing:73, commercial:60, combined:67, orderId:8842 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-015", date:"2025-05-19", marketing:50, commercial:86, combined:68, orderId:8831 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-016", date:"2025-05-12", marketing:80, commercial:72, combined:76, orderId:8832 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-017", date:"2025-04-21", marketing:67, commercial:52, combined:60, orderId:8821 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-018", date:"2025-04-14", marketing:75, commercial:85, combined:80, orderId:8822 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-019", date:"2025-03-18", marketing:43, commercial:65, combined:54, orderId:8811 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-020", date:"2025-03-10", marketing:79, commercial:76, combined:78, orderId:8812 },
+    ],
+
+    'Demo': [
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2026-04-05", marketing:80, commercial:76, combined:78, orderId:7101 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2026-04-05", marketing:68, commercial:84, combined:76, orderId:7102 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2026-04-05", marketing:74, commercial:70, combined:72, orderId:7103 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2026-03-05", marketing:79, commercial:75, combined:77, orderId:7111 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2026-03-05", marketing:69, commercial:86, combined:78, orderId:7112 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2026-03-05", marketing:72, commercial:69, combined:70, orderId:7113 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2026-02-05", marketing:77, commercial:72, combined:74, orderId:7121 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2026-02-05", marketing:67, commercial:83, combined:75, orderId:7122 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2026-02-05", marketing:73, commercial:71, combined:72, orderId:7123 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2026-01-05", marketing:76, commercial:71, combined:73, orderId:7131 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2026-01-05", marketing:66, commercial:81, combined:74, orderId:7132 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2026-01-05", marketing:71, commercial:68, combined:69, orderId:7133 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2025-12-05", marketing:78, commercial:70, combined:74, orderId:7141 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2025-12-05", marketing:65, commercial:80, combined:73, orderId:7142 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2025-12-05", marketing:70, commercial:67, combined:68, orderId:7143 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2025-11-05", marketing:75, commercial:69, combined:72, orderId:7151 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2025-11-05", marketing:64, commercial:79, combined:71, orderId:7152 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2025-11-05", marketing:69, commercial:66, combined:67, orderId:7153 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2025-10-05", marketing:74, commercial:72, combined:73, orderId:7161 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2025-10-05", marketing:63, commercial:78, combined:70, orderId:7162 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2025-10-05", marketing:74, commercial:68, combined:71, orderId:7163 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2025-09-05", marketing:73, commercial:74, combined:74, orderId:7171 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2025-09-05", marketing:62, commercial:76, combined:69, orderId:7172 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2025-09-05", marketing:75, commercial:70, combined:72, orderId:7173 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2025-08-05", marketing:72, commercial:73, combined:73, orderId:7181 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2025-08-05", marketing:61, commercial:75, combined:68, orderId:7182 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2025-08-05", marketing:76, commercial:71, combined:73, orderId:7183 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2025-07-05", marketing:71, commercial:72, combined:72, orderId:7191 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2025-07-05", marketing:60, commercial:74, combined:67, orderId:7192 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2025-07-05", marketing:74, commercial:70, combined:72, orderId:7193 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2025-06-05", marketing:70, commercial:71, combined:71, orderId:7201 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2025-06-05", marketing:59, commercial:73, combined:66, orderId:7202 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2025-06-05", marketing:73, commercial:69, combined:71, orderId:7203 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2025-05-05", marketing:69, commercial:70, combined:70, orderId:7211 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2025-05-05", marketing:58, commercial:72, combined:65, orderId:7212 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2025-05-05", marketing:72, commercial:68, combined:70, orderId:7213 },
+
+    { perfumery:"Demo", product:"Demo1", sku:"LSM-001", date:"2025-04-05", marketing:68, commercial:69, combined:69, orderId:7221 },
+    { perfumery:"Demo", product:"Demo2",  sku:"LSM-002", date:"2025-04-05", marketing:57, commercial:71, combined:64, orderId:7222 },
+    { perfumery:"Demo", product:"Demo3", sku:"LSM-003", date:"2025-04-05", marketing:71, commercial:67, combined:69, orderId:7223 },
+    ],
+    }
+
+    function setScoreBrandTitle(brand) {
+    var brandTitleEl = document.getElementById('brandHeaderTitle') || document.getElementById('brandTitle');
+    if (brandTitleEl) brandTitleEl.textContent = brand;
+    }
+
+    /* ── Escucha el cambio de marca ── */
+    document.addEventListener('niche3ds:brandChanged', function(e) {
+    const brand = e.detail.brand;
+    setScoreBrandTitle(brand);
+    localStorage.setItem('selectedBrand', brand);
+    applyScoreBrand(brand);
+    });
+
+    /* ── Función principal ── */
+    function applyScoreBrand(brand) {
+    var requested = (brand || '').trim();
+    var resolvedKey = BRAND_PERFUMERY_DATA[requested]
+      ? requested
+      : (BRAND_PERFUMERY_DATA['Demo'] ? 'Demo' : (BRAND_PERFUMERY_DATA['Brand Demo'] ? 'Brand Demo' : ''));
+
+    perfumeryData = resolvedKey ? BRAND_PERFUMERY_DATA[resolvedKey] : [];
+    if (resolvedKey) setScoreBrandTitle(resolvedKey);
+    renderPerfumeryTable(perfCurrentFilter);
+    }
+
+    /* ── HELPERS ── */
+    function generateLast13Months(){
+    var months=[],now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
+    for(var i=0;i<=12;i++){var m=cm-i,y=cy;while(m<=0){m+=12;y--;}months.push({year:y,month:m,key:y+"-"+String(m).padStart(2,"0")});}
+    return months;
+    }
+    function generateCurrentMonthDays(){
+    var days=[],now=new Date(),cd=now.getDate();
+    for(var i=0;i<cd;i++){
+        var d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i);
+        days.push({year:d.getFullYear(),month:d.getMonth()+1,day:d.getDate(),
+        dayName:dayNames[d.getDay()],monthName:monthNames[d.getMonth()],
+        key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),
+        isToday:i===0});
+    }
+    return days;
+    }
+
+    /* ── FILTER ── */
+    function filterPerfByDate(data,filterType){
+    var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1,cd=now.getDate();
+    return data.filter(function(item){
+        var p=item.date.split('-'),iY=parseInt(p[0]),iM=parseInt(p[1]),iD=parseInt(p[2]);
+        if(filterType==="yearly")       return iY===cy||iY===(cy-1);
+        if(filterType==="currentMonth") return iY===cy&&iM===cm&&iD<=cd;
+        if(filterType==="lastYear"){var lm=cm-13,ly=cy;while(lm<=0){lm+=12;ly--;}return new Date(iY,iM-1,1)>=new Date(ly,lm-1,1);}
+        return true;
+    });
+    }
+
+    /* ── GROUP ── */
+    function groupByPerfumery(data,keyType){
+    var result={};
+    data.forEach(function(item){
+        var p=item.date.split('-'),iY=parseInt(p[0]),iM=parseInt(p[1]),iD=parseInt(p[2]);
+        var key=keyType==="day"  ? iY+"-"+String(iM).padStart(2,"0")+"-"+String(iD).padStart(2,"0")
+            :keyType==="year" ? String(iY)
+            : iY+"-"+String(iM).padStart(2,"0");
+
+        if(!result[item.perfumery])
+        result[item.perfumery]={products:{},marketing:{},commercial:{},combined:{},counts:{}};
+
+        var pf=result[item.perfumery];
+
+        if(!pf.products[item.product])
+        pf.products[item.product]={name:item.product,sku:item.sku,marketing:{},commercial:{},combined:{}};
+
+        var pr=pf.products[item.product];
+        pr.marketing[key]  = item.marketing;
+        pr.commercial[key] = item.commercial;
+        pr.combined[key]   = item.combined;
+
+        if(!pf.counts[key]) pf.counts[key]=0;
+        pf.counts[key]++;
+        pf.marketing[key]  = ((pf.marketing[key]||0)  * (pf.counts[key]-1) + item.marketing)  / pf.counts[key];
+        pf.commercial[key] = ((pf.commercial[key]||0) * (pf.counts[key]-1) + item.commercial) / pf.counts[key];
+        pf.combined[key]   = ((pf.combined[key]||0)   * (pf.counts[key]-1) + item.combined)   / pf.counts[key];
+    });
+    return result;
+    }
+
+
+    function avgScore(obj, scoreKey){
+    var vals=Object.values(obj[scoreKey]||{});
+    if(!vals.length) return 0;
+    return vals.reduce(function(a,b){return a+b;},0)/vals.length;
+    }
+
+
+    function fmtVal(v){
+    if(!v && v!==0) return "-";
+    var n=parseFloat(v);
+    if(!n) return "-";
+    var cls = n>=7.5?"score-high":n>=5?"score-mid":"score-low";
+    return '<span class="'+cls+'">'+n.toFixed(1)+'</span>';
+    }
+    function fmtAvg(v){
+    if(!v && v!==0) return "-";
+    var n=parseFloat(v);
+    if(!n) return "-";
+    return n.toFixed(1);
+    }
+
+    /* ── RENDER TABLE ── */
+    function renderPerfumeryTable(filterType){
+    var head=document.getElementById("perfumeryTableHead");
+    var body=document.getElementById("perfumeryTableBody");
+    if(!head||!body)return;
+
+    var now=new Date(),cy=now.getFullYear(),cm=now.getMonth()+1;
+    var keyType=filterType==="currentMonth"?"day":filterType==="yearly"?"year":"month";
+
+    var filtered=filterPerfByDate(perfumeryData,filterType);
+    var grouped=groupByPerfumery(filtered,keyType);
+
+    var cols=[];
+    if(filterType==="yearly"){
+        cols=[{key:String(cy),label:String(cy)},{key:String(cy-1),label:String(cy-1)}];
+    } else if(filterType==="lastYear"){
+        cols=generateLast13Months();
+    } else {
+        cols=generateCurrentMonthDays();
+    }
+
+    var hr="<tr><th style='min-width:260px;'>PRODUCT</th>";
+    cols.forEach(function(col){
+        if(filterType==="currentMonth"){
+        var lbl=col.isToday?"TODAY":col.dayName;
+        hr+='<th><div class="th-content"><span class="th-month">'+lbl+'</span><span class="th-year">'+col.monthName+' '+col.day+'</span></div></th>';
+        } else if(filterType==="yearly"){
+        hr+='<th><div class="th-content"><span class="th-year-header">'+col.label+'</span></div></th>';
+        } else {
+        hr+='<th><div class="th-content"><span class="th-month">'+monthNames[col.month-1]+'</span><span class="th-year">'+col.year+'</span></div></th>';
+        }
+    });
+    hr+="</tr>";
+    head.innerHTML=hr;
+
+    if(Object.keys(grouped).length===0){
+        body.innerHTML='<tr><td colspan="'+(2+cols.length)+'"><div class="no-results"><i class="fas fa-search"></i><p>No results found</p></div></td></tr>';
+        return;
+    }
+
+    var html="";
+    var scoreKey=perfCurrentView;
+
+    Object.keys(grouped).sort().forEach(function(pName){
+        var pf=grouped[pName];
+        var pAvg=avgScore(pf,scoreKey);
+
+        html+='<tr class="brand-row" data-perf="'+pName+'">';
+        html+='<td><div class="brand-cell" onclick="togglePerfRows(\''+pName.replace(/'/g,"\\'")+'\')">'+
+            '<div class="brand-name-cell"><span style="margin-right: 5px;" class="toggle-icon" id="icon_'+btoa(pName).replace(/=/g,'')+'">&#9654;</span>'+ pName +'</div></div></td>';
+        cols.forEach(function(col){
+        var v=pf[scoreKey][col.key]||0;
+        html+='<td>'+fmtVal(v)+'</td>';
+        });
+        html+='</tr>';
+
+        Object.keys(pf.products).sort().forEach(function(prodKey){
+        var pr=pf.products[prodKey];
+        var prAvg=avgScore(pr,scoreKey);
+
+        html+='<tr class="product-row" data-perf="'+pName+'" style="display:none;">';
+        html+='<td class="product-cell">';
+        html+='<div class="product-image-placeholder"><i class="fas fa-spray-can"></i></div>';
+        html+='<div class="product-info"><span class="product-name">'+pr.name+'</span>';
+        if(pr.sku) html+='<span class="product-sku">SKU: '+pr.sku+'</span>';
+        html+='</div></td>';
+        cols.forEach(function(col){
+            var v=pr[scoreKey][col.key]||0;
+            html+='<td>'+fmtVal(v)+'</td>';
+        });
+        html+='</tr>';
+        });
+    });
+
+    html+='<tr class="total-row"><td><strong></strong></td>';
+    cols.forEach(function(col){
+        var colVals=[];
+        Object.keys(grouped).forEach(function(pName){var v=grouped[pName][scoreKey][col.key];if(v)colVals.push(v);});
+        var avg=colVals.length?colVals.reduce(function(a,b){return a+b;},0)/colVals.length:0;
+        html+='<td><strong>'+''+'</strong></td>';
+    });
+    html+='</tr>';
+
+    body.innerHTML=html;
+    renderPerfChart(filterType,grouped,cols);
+    }
+
+
+    function togglePerfRows(pName){
+    var rows=document.querySelectorAll('.product-row[data-perf="'+pName+'"]');
+    var iconId="icon_"+btoa(pName).replace(/=/g,'');
+    var icon=document.getElementById(iconId);
+    var collapsed = icon && icon.textContent === "▶";
+    rows.forEach(function(r){r.style.display=collapsed?"table-row":"none";});
+    if (icon) icon.textContent = collapsed ? "▼" : "▶";
+    }
+
+
+    function applyPerfFilter(filterType){
+    perfCurrentFilter=filterType;
+    document.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){b.classList.toggle('active',b.dataset.filter===filterType);});
+    renderPerfumeryTable(filterType);
+    }
+
+    /* ── VIEW CONTROLS ── */
+    function togglePerfViewDropdown(){
+    document.getElementById("perfViewDropdown").classList.toggle("open");
+    document.getElementById("perfViewBtn").classList.toggle("open");
+    }
+    function changePerfView(viewType){
+    perfCurrentView=viewType;
+    var labels={marketing:"Artistic Score",commercial:"Commercial Score",combined:"Combined Score"};
+    var perfViewTextEl = document.getElementById("perfViewText");
+    if (perfViewTextEl) perfViewTextEl.textContent=labels[viewType];
+    document.querySelectorAll('#perfViewDropdown .view-option').forEach(function(o){o.classList.toggle('active',o.dataset.view===viewType);});
+    var perfViewDropdownEl = document.getElementById("perfViewDropdown");
+    if (perfViewDropdownEl) perfViewDropdownEl.classList.remove("open");
+    var perfViewBtnEl = document.getElementById("perfViewBtn");
+    if (perfViewBtnEl) perfViewBtnEl.classList.remove("open");
+    renderPerfumeryTable(perfCurrentFilter);
+    }
+    document.addEventListener("click",function(e){
+    var wrap=document.querySelector(".view-selector-wrap");
+    if(wrap&&!wrap.contains(e.target)){
+      var perfViewDropdownEl = document.getElementById("perfViewDropdown");
+      if (perfViewDropdownEl) perfViewDropdownEl.classList.remove("open");
+      var perfViewBtnEl = document.getElementById("perfViewBtn");
+      if (perfViewBtnEl) perfViewBtnEl.classList.remove("open");
+    }
+    });
+
+    function rerenderScoreTab() {
+    renderPerfumeryTable(perfCurrentFilter);
+    }
+
+    function setupScoreTabActivationRender() {
+    var scoreTab = document.getElementById('score');
+    if (!scoreTab) return;
+
+    var observer = new MutationObserver(function() {
+      if (scoreTab.classList.contains('active')) {
+      setTimeout(rerenderScoreTab, 30);
+      }
+    });
+    observer.observe(scoreTab, { attributes: true, attributeFilter: ['class'] });
+
+    document.addEventListener('click', function(e) {
+      var scoreBtn = e.target.closest('.tab[data-tab="score"]');
+      if (scoreBtn) setTimeout(rerenderScoreTab, 30);
+    });
+    }
+
+    /* ── CHART ── */
+    function renderPerfChart(filterType,grouped,cols){
+    var ctx=document.getElementById('perfChart');
+    if(!ctx)return;
+    if(perfChart)perfChart.destroy();
+
+    var labels=cols.map(function(col){
+        if(filterType==="currentMonth") return (col.isToday?"TODAY":col.dayName)+"\n"+col.monthName+" "+col.day;
+        if(filterType==="yearly") return col.label;
+        return monthNames[col.month-1]+"\n"+col.year;
+    });
+
+    var scoreKey=perfCurrentView;
+    var datasets=[];
+    Object.keys(grouped).sort().forEach(function(pName,index){
+        var pf=grouped[pName];
+        var color=perfColors[index%perfColors.length];
+        var vals=cols.map(function(col){return pf[scoreKey][col.key]||0;});
+        datasets.push({
+        label:pName,data:vals,
+        backgroundColor:perfChartType==="bar"?color.replace('rgb','rgba').replace(')',',0.7)'):color.replace('rgb','rgba').replace(')',',0.1)'),
+        borderColor:color,borderWidth:2,borderRadius:perfChartType==="bar"?4:0,
+        fill:perfChartType==="line",tension:0.4,
+        pointBackgroundColor:color,pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:3,pointHoverRadius:5,
+        hidden:perfHiddenSeries.includes(pName)
+        });
+    });
+
+    perfChart=new Chart(ctx,{
+        type:perfChartType,
+        data:{labels:labels,datasets:datasets},
+        options:{
+        responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},
+        plugins:{
+            legend:{display:false},
+            tooltip:{
+            backgroundColor:'rgba(30,34,39,0.95)',titleColor:'#fff',bodyColor:'#fff',
+            borderColor:'rgb(171,160,110)',borderWidth:1,cornerRadius:8,padding:12,
+            callbacks:{label:function(c){return c.dataset.label+": "+c.parsed.y.toFixed(0)+"/100";}}
+            }
+        },
+        scales:{
+            x:{grid:{display:false},ticks:{color:'#888',font:{size:10},maxRotation:45}},
+            y:{
+            min:0,max:100,
+            grid:{color:'rgba(0,0,0,0.05)'},
+            ticks:{color:'#888',font:{size:11},stepSize:20,callback:function(v){return v+"/100";}}
+            }
+        }
+        }
+    });
+
+    var titleMap={marketing:"Marketing Score",commercial:"Commercial Score",combined:"Combined Score"};
+    document.getElementById("perfChartTitle").textContent=titleMap[perfCurrentView];
+
+    var lc=document.getElementById("perfChartLegend");
+    lc.innerHTML=Object.keys(grouped).sort().map(function(pName,i){
+        var color=perfColors[i%perfColors.length];
+        var disabled=perfHiddenSeries.includes(pName)?'opacity:0.4;':'';
+        return '<div onclick="togglePerfChartSeries(\''+pName.replace(/'/g,"\\'")+'\') " '+
+        'style="display:flex;align-items:center;gap:6px;font-size:12px;color:#535255;cursor:pointer;padding:4px 8px;border-radius:6px;'+disabled+'">'+
+        '<span style="width:12px;height:12px;border-radius:3px;background:'+color+';display:inline-block;"></span>'+pName+'</div>';
+    }).join('');
+    }
+
+    function togglePerfChartSeries(pName){
+    var idx=perfHiddenSeries.indexOf(pName);
+    if(idx>-1)perfHiddenSeries.splice(idx,1);else perfHiddenSeries.push(pName);
+    if(perfChart){
+        var di=perfChart.data.datasets.findIndex(function(d){return d.label===pName;});
+        if(di>-1){perfChart.data.datasets[di].hidden=perfHiddenSeries.includes(pName);perfChart.update();}
+    }
+    document.getElementById("perfChartLegend").querySelectorAll('div').forEach(function(el){
+        el.style.opacity=perfHiddenSeries.includes(el.textContent.trim())?'0.4':'1';
+    });
+    }
+
+    function changePerfChartType(type){
+    perfChartType=type;
+    document.querySelectorAll('.chart-type-btn').forEach(function(b){
+        var a=b.dataset.type===type;
+        b.style.background=a?'white':'transparent';b.style.color=a?'var(--gold)':'#535255';
+        b.style.boxShadow=a?'0 2px 4px rgba(0,0,0,.1)':'none';
+    });
+    renderPerfumeryTable(perfCurrentFilter);
+    }
+
+    /* ── BRAND LOAD ── */
+    document.addEventListener('DOMContentLoaded', function() {
+    const defaultBrand = BRAND_PERFUMERY_DATA['Demo'] ? 'Demo' : 'Brand Demo';
+    const savedBrand = localStorage.getItem('selectedBrand');
+    const initialBrand = savedBrand && BRAND_PERFUMERY_DATA[savedBrand] ? savedBrand : defaultBrand;
+    setScoreBrandTitle(initialBrand);
+    localStorage.setItem('selectedBrand', initialBrand);
+    setupScoreTabActivationRender();
+    applyScoreBrand(initialBrand);
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const savedView = localStorage.getItem('scoreView');
+    
+    if (savedView && ['marketing', 'commercial', 'combined'].includes(savedView)) {
+        setTimeout(function() {
+        if (typeof changePerfView === 'function') {
+            changePerfView(savedView);
+            console.log('✅ Vista aplicada desde localStorage:', savedView);
+        }
+        // Limpiar para la próxima vez
+        localStorage.removeItem('scoreView');
+        }, 150);
+    }
+    });
+    </script>
+
+
+
+    </div>
+
+</div>
+
+
+
+<div class="tab-content" id="pricing">
+    <div class="card">
+
+
+        <style>
+            .main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+            .topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+            .topbar-actions{display:flex;align-items:center;gap:10px;}
+            .topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+            .topbar-btn:hover{background:#f0f0f0;}
+            .topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+            .content{padding:28px;flex:1;}
+            .welcome-bar{background:var(--card-bg);border-radius:var(--radius);padding:22px 26px;margin-bottom:28px;border:1px solid var(--border);}
+            .welcome-bar h2{font-size:1.5rem;font-weight:700;color:var(--text);}
+            .welcome-bar h2 span{color:var(--gold);}
+            .welcome-bar p{color:var(--text-muted);font-size:13px;margin-top:4px;}
+            .filters-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+            .filter-container{display:flex;gap:8px;flex-wrap:wrap;}
+            .filter-btn{padding:9px 18px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;transition:all .25s;}
+            .filter-btn:hover{border-color:var(--gold);color:var(--gold);}
+            .filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+            .view-selector-wrap{position:relative;display:flex;align-items:center;gap:8px;}
+            .view-selector-label{font-size:13px;color:var(--text-muted);white-space:nowrap;}
+            .view-selector-btn{padding:9px 14px;border:1px solid var(--border);background:#fff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#535255;display:flex;align-items:center;gap:8px;min-width:180px;justify-content:space-between;transition:border-color .2s;}
+            .view-selector-btn:hover,.view-selector-btn.open{border-color:var(--gold);}
+            .view-selector-btn .chevron{font-size:10px;transition:transform .2s;}
+            .view-selector-btn.open .chevron{transform:rotate(180deg);}
+            .view-dropdown{position:absolute;top:calc(100% + 5px);right:0;background:#fff;border:1px solid var(--border);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.12);z-index:200;min-width:200px;display:none;flex-direction:column;overflow:hidden;}
+            .view-dropdown.open{display:flex;}
+            .view-option{padding:11px 15px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:9px;transition:background .15s;}
+            .view-option:hover{background:#f5f5f5;}
+            .view-option.active{background:var(--gold-light);color:var(--gold);}
+            .view-option i{font-size:13px;width:16px;}
+            .section-title{color:var(--gold);font-size:1.1rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:9px;}
+            .table-wrapper{overflow-x:auto;border-radius:12px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+            .responsive-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;}
+            .responsive-table thead th{background:var(--gold);color:#fff;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;text-transform:uppercase;white-space:nowrap;}
+            .responsive-table thead th:not(:first-child){text-align:center;}
+            .responsive-table tbody td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text);vertical-align:middle;text-align:center;}
+            .responsive-table tbody td:first-child{text-align:left;}
+            .responsive-table tbody tr:last-child td{border-bottom:none;}
+            .responsive-table tbody tr:hover{background:#fafafa;}
+            .th-content{display:flex;flex-direction:column;align-items:center;gap:1px;}
+            .th-month{font-size:13px;font-weight:600;}
+            .th-year{font-size:11px;font-weight:400;opacity:.8;}
+            .th-year-header{font-size:13px;font-weight:600;}
+
+            /* NIVEL 1 – Producto */
+            .brand-row{background:rgba(171,160,110,.08);transition:background .15s;}
+            .brand-row:hover{background:rgba(171,160,110,.15);}
+            .brand-cell{display:flex;align-items:center;gap:10px;cursor:pointer;}
+            .brand-name-cell{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;}
+            .toggle-icon{color:var(--gold);font-size:10px;display:inline-block;}
+
+            /* NIVEL 2 – Sub-filas (scores + precio) */
+            .product-row{background:#fff;}
+            .product-row:hover{background:#f9f9f9;}
+            .product-cell{display:flex;align-items:center;gap:12px;padding-left:28px !important;}
+            .product-image-placeholder{width:36px;height:36px;border-radius:8px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);flex-shrink:0;}
+            .product-image-placeholder i{color:#ccc;font-size:14px;}
+            .product-info{display:flex;flex-direction:column;gap:2px;}
+            .product-name{font-weight:500;font-size:14px;}
+            .product-sku{font-size:12px;color:var(--text-muted);}
+            /* Fila de precio – estilo diferenciado */
+            .price-row{background:rgba(102,153,126,.05);}
+            .price-row:hover{background:rgba(102,153,126,.10);}
+            .price-cell{display:flex;align-items:center;gap:10px;padding-left:28px !important;}
+            .price-icon{width:36px;height:36px;border-radius:8px;background:rgba(102,153,126,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+            .price-icon i{color:rgb(72,133,96);font-size:14px;}
+            .price-label{font-weight:500;font-size:14px;color:var(--text);}
+            .price-val{color:rgb(72,133,96);font-weight:600;}
+            .price-val-empty{color:#ccc;}
+
+            .score-high{font-weight:600;}
+            .score-mid{font-weight:600;}
+            .score-low{font-weight:600;}
+            .no-results{text-align:center;padding:40px;color:var(--text-muted);}
+            .no-results i{font-size:40px;color:#ddd;margin-bottom:12px;display:block;}
+       </style>
+
+
+      <h3 style="margin-bottom:14px;"><i class="fas fa-tags"></i> Pricing Information</h3>
+
+      <div class="pricing-inner-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+        <button type="button" class="pricing-inner-tab active" data-tab="msrp-pricing-policy" onclick="switchPricingInnerTab('msrp-pricing-policy')" style="border:1px solid var(--border);background:var(--gold);border-color:var(--gold);color:#fff;padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;">MSRP/Pricing Policy</button>
+        <button type="button" class="pricing-inner-tab" data-tab="price-compliance" onclick="switchPricingInnerTab('price-compliance')" style="border:1px solid var(--border);background:#fff;color:var(--text);padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;">Price Compliance</button>
+      </div>
+
+      <div class="pricing-inner-panel active" data-panel="msrp-pricing-policy" style="display:block;padding:16px;border:1px dashed var(--border);border-radius:10px;background:#fafafa;color:var(--text);font-size:14px;">
+       
+
+        <div class="filters-row">
+        <div class="filter-container" id="perfFilters">
+          <button class="filter-btn" data-filter="yearly"       onclick="applyPerfFilter('yearly')">Yearly</button>
+          <button class="filter-btn active" data-filter="lastYear" onclick="applyPerfFilter('lastYear')">Last 13 months</button>
+          <button class="filter-btn" data-filter="currentMonth" onclick="applyPerfFilter('currentMonth')">Current Month</button>
+        </div>
+        <div class="view-selector-wrap">
+          <span class="view-selector-label">View As</span>
+          <button class="view-selector-btn" id="perfViewBtn" onclick="togglePerfViewDropdown()">
+            <span><i class="fas fa-star" style="margin-right:6px;font-size:12px;"></i><span id="perfViewText">Artistic Score</span></span>
+            <i class="fas fa-chevron-down chevron"></i>
+          </button>
+          <div class="view-dropdown" id="perfViewDropdown">
+            <div class="view-option active" data-view="marketing"  onclick="changePricingPerfView('marketing')"> <i class="fas fa-star"></i>       Artistic Score</div>
+            <div class="view-option"        data-view="commercial" onclick="changePricingPerfView('commercial')"><i class="fas fa-chart-line"></i>  Commercial Score</div>
+            <div class="view-option"        data-view="combined"   onclick="changePricingPerfView('combined')">  <i class="fas fa-layer-group"></i> Combined Score</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-title"><i class="fas fa-star-half-alt"></i> MSRP</h3>
+      <div class="table-wrapper">
+        <table class="responsive-table">
+          <thead id="perfumeryTableHead"></thead>
+          <tbody id="perfumeryTableBody"></tbody>
+        </table>
+      </div>
+
+      <div style="background:#fff;border-radius:12px;padding:25px;margin-top:20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.07);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+          <h4 style="margin:0;font-size:16px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-chart-area" style="color:var(--gold);"></i>
+            <span id="perfChartTitle">Artistic Score</span>
+          </h4>
+          <div style="display:flex;gap:5px;background:#f5f5f5;padding:4px;border-radius:8px;">
+            <button class="chart-type-btn active" data-type="bar" onclick="changePricingPerfChartType('bar')"
+              style="padding:7px 14px;border:none;background:white;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--gold);box-shadow:0 2px 4px rgba(0,0,0,.1);display:flex;align-items:center;gap:5px;">
+              <i class="fas fa-chart-bar"></i> Bar
+            </button>
+            <button class="chart-type-btn" data-type="line" onclick="changePricingPerfChartType('line')"
+              style="padding:7px 14px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:#535255;display:flex;align-items:center;gap:5px;">
+              <i class="fas fa-chart-line"></i> Line
+            </button>
+          </div>
+        </div>
+        <div style="position:relative;height:320px;width:100%;"><canvas id="perfChart"></canvas></div>
+        <div id="perfChartLegend" style="display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--border);"></div>
+      </div>
+
+      <script>
+      (function(){
+      function pricingRoot(){
+        return document.getElementById('pricing');
+      }
+/* ── GLOBALS ── */
+var perfCurrentFilter = "lastYear";
+var perfCurrentView   = "marketing";
+var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+var dayNames   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+var perfChart = null, perfChartType = "bar", perfHiddenSeries = [];
+var perfColors = [
+  'rgb(171,160,110)','rgb(102,126,153)','rgb(153,102,102)',
+  'rgb(102,153,126)','rgb(153,126,102)','rgb(126,102,153)',
+  'rgb(102,153,153)','rgb(153,153,102)'
+];
+
+/* ── DATA
+   Campos: perfumery, product, sku, date, marketing, commercial, combined, price, orderId
+   · price  = precio de venta del producto ese mes (en USD)
+   · Un registro por producto por mes (o por evento si hay variación en el mes)
+── */
+var perfumeryData = [];
+
+const BRAND_PERFUMERY_DATA = {
+
+  'Brand Demo': [
+    // product: "Perfume Demo 100ml"  –  precio varía mes a mes
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-03-01", marketing:85, commercial:72, combined:79, price:95.00,  orderId:9011 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-02-01", marketing:83, commercial:75, combined:79, price:95.00,  orderId:9025 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-01-01", marketing:77, commercial:88, combined:83, price:90.00,  orderId:9028 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-12-01", marketing:81, commercial:70, combined:76, price:89.00,  orderId:8901 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-11-01", marketing:75, commercial:62, combined:69, price:85.00,  orderId:8891 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-10-01", marketing:90, commercial:75, combined:82, price:85.00,  orderId:8881 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-09-01", marketing:70, commercial:84, combined:77, price:82.00,  orderId:8871 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-08-01", marketing:87, commercial:71, combined:79, price:80.00,  orderId:8861 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-07-01", marketing:71, commercial:65, combined:68, price:80.00,  orderId:8851 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-06-01", marketing:91, commercial:78, combined:85, price:78.00,  orderId:8841 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-05-01", marketing:50, commercial:86, combined:68, price:75.00,  orderId:8831 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-04-01", marketing:67, commercial:52, combined:60, price:75.00,  orderId:8821 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-03-01", marketing:43, commercial:65, combined:54, price:72.00,  orderId:8811 },
+  ],
+
+  'La Sabia Madrid': [
+    // product: "Verdanza 100ml"
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-01", marketing:80, commercial:75, combined:78, price:120.00, orderId:7001 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-02-01", marketing:78, commercial:70, combined:74, price:120.00, orderId:7004 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-01-01", marketing:75, commercial:65, combined:70, price:115.00, orderId:7010 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-12-01", marketing:78, commercial:70, combined:74, price:115.00, orderId:7004 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-11-01", marketing:62, commercial:85, combined:74, price:110.00, orderId:7005 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-10-01", marketing:85, commercial:72, combined:79, price:110.00, orderId:7006 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-09-01", marketing:70, commercial:80, combined:75, price:105.00, orderId:7007 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-08-01", marketing:58, commercial:75, combined:67, price:105.00, orderId:7008 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-07-01", marketing:61, commercial:73, combined:67, price:103.00, orderId:7023 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-06-01", marketing:64, commercial:76, combined:70, price:102.00, orderId:7024 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-05-01", marketing:90, commercial:78, combined:84, price:100.00, orderId:7009 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-04-01", marketing:75, commercial:65, combined:70, price:100.00, orderId:7010 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-03-01", marketing:72, commercial:63, combined:68, price:98.00, orderId:7025 },
+
+    // product: "Poderio 100ml"
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-03-01", marketing:65, commercial:88, combined:77, price:135.00, orderId:7002 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-02-01", marketing:68, commercial:84, combined:76, price:135.00, orderId:7011 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-01-01", marketing:70, commercial:80, combined:75, price:130.00, orderId:7012 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-12-01", marketing:66, commercial:82, combined:74, price:130.00, orderId:7013 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-11-01", marketing:62, commercial:85, combined:74, price:125.00, orderId:7005 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-10-01", marketing:60, commercial:78, combined:69, price:125.00, orderId:7014 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-09-01", marketing:55, commercial:76, combined:66, price:120.00, orderId:7015 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-08-01", marketing:58, commercial:75, combined:67, price:120.00, orderId:7008 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-07-01", marketing:57, commercial:74, combined:66, price:118.00, orderId:7026 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-06-01", marketing:56, commercial:72, combined:64, price:118.00, orderId:7027 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-05-01", marketing:59, commercial:75, combined:67, price:115.00, orderId:7028 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-04-01", marketing:54, commercial:70, combined:62, price:115.00, orderId:7029 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-03-01", marketing:52, commercial:68, combined:60, price:112.00, orderId:7030 },
+
+    // product: "Dos Besos 100ml"
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-03-01", marketing:72, commercial:68, combined:70, price:98.00,  orderId:7003 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-02-01", marketing:74, commercial:70, combined:72, price:98.00,  orderId:7016 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-01-01", marketing:76, commercial:72, combined:74, price:95.00,  orderId:7017 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-12-01", marketing:73, commercial:69, combined:71, price:95.00,  orderId:7018 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-11-01", marketing:70, commercial:66, combined:68, price:90.00,  orderId:7019 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-10-01", marketing:85, commercial:72, combined:79, price:90.00,  orderId:7006 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-09-01", marketing:80, commercial:68, combined:74, price:88.00,  orderId:7020 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-08-01", marketing:78, commercial:65, combined:72, price:88.00,  orderId:7021 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-07-01", marketing:76, commercial:64, combined:70, price:86.00,  orderId:7031 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-06-01", marketing:79, commercial:67, combined:73, price:86.00,  orderId:7032 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-05-01", marketing:90, commercial:78, combined:84, price:85.00,  orderId:7009 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-04-01", marketing:82, commercial:74, combined:78, price:85.00,  orderId:7022 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-03-01", marketing:77, commercial:69, combined:73, price:82.00,  orderId:7033 },
+  ],
+};
+
+/* ── BRAND EVENTS ── */
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  var brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyScoreBrand(brand);
+});
+
+function applyScoreBrand(brand) {
+  if (BRAND_PERFUMERY_DATA[brand]) {
+    perfumeryData = BRAND_PERFUMERY_DATA[brand];
+    renderPerfumeryTable(perfCurrentFilter);
+  }
+}
+
+/* ── HELPERS ── */
+function generateLast13Months() {
+  var months=[], now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1;
+  for (var i=0; i<=12; i++) {
+    var m=cm-i, y=cy;
+    while (m<=0){m+=12;y--;}
+    months.push({year:y, month:m, key:y+"-"+String(m).padStart(2,"0")});
+  }
+  return months;
+}
+function generateCurrentMonthDays() {
+  var days=[], now=new Date(), cd=now.getDate();
+  for (var i=0; i<cd; i++) {
+    var d=new Date(now.getFullYear(), now.getMonth(), now.getDate()-i);
+    days.push({
+      year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(),
+      dayName:dayNames[d.getDay()], monthName:monthNames[d.getMonth()],
+      key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),
+      isToday:i===0
+    });
+  }
+  return days;
+}
+function safeId(s){ return btoa(encodeURIComponent(s)).replace(/[^a-zA-Z0-9]/g,'').substring(0,20); }
+
+/* ── FILTER ── */
+function filterPerfByDate(data, filterType) {
+  var now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1, cd=now.getDate();
+  return data.filter(function(item){
+    var p=item.date.split('-'), iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+    if (filterType==="yearly")       return iY===cy || iY===(cy-1);
+    if (filterType==="currentMonth") return iY===cy && iM===cm && iD<=cd;
+    if (filterType==="lastYear"){
+      var lm=cm-13, ly=cy;
+      while(lm<=0){lm+=12;ly--;}
+      return new Date(iY,iM-1,1) >= new Date(ly,lm-1,1);
+    }
+    return true;
+  });
+}
+
+/* ── GROUP
+   result[perfumery][product] = {
+     name, sku,
+     marketing:  { "2026-03": 80, ... },
+     commercial: { ... },
+     combined:   { ... },
+     price:      { "2026-03": 120.00, ... }   ← NUEVO
+   }
+── */
+function groupByPerfumery(data, keyType) {
+  var result = {};
+  data.forEach(function(item){
+    var p=item.date.split('-'), iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+    var key = keyType==="day"  ? iY+"-"+String(iM).padStart(2,"0")+"-"+String(iD).padStart(2,"0")
+            : keyType==="year" ? String(iY)
+            : iY+"-"+String(iM).padStart(2,"0");
+
+    if (!result[item.perfumery]) result[item.perfumery] = { products:{} };
+
+    var pf = result[item.perfumery];
+    if (!pf.products[item.product])
+      pf.products[item.product] = {
+        name:item.product, sku:item.sku,
+        marketing:{}, commercial:{}, combined:{}, price:{}
+      };
+
+    var pr = pf.products[item.product];
+    pr.marketing[key]  = item.marketing;
+    pr.commercial[key] = item.commercial;
+    pr.combined[key]   = item.combined;
+    pr.price[key]      = item.price;      // precio histórico del mes
+  });
+  return result;
+}
+
+/* ── FORMAT ── */
+function fmtScore(v) {
+  if (!v) return '<span style="color:#ccc;">—</span>';
+  var n = parseFloat(v);
+  if (!n) return '<span style="color:#ccc;">—</span>';
+  return '<span style="font-weight:600;">'+n.toFixed(0)+'</span>';
+}
+function fmtPrice(v) {
+  if (!v) return '<span style="color:#ccc;">—</span>';
+  return '<span style="font-weight:600;color:var(--text);">'+parseFloat(v).toFixed(2)+'</span>';
+}
+
+/* ── RENDER TABLE ── */
+function renderPerfumeryTable(filterType) {
+  var root = pricingRoot();
+  var head = root ? root.querySelector("#perfumeryTableHead") : null;
+  var body = root ? root.querySelector("#perfumeryTableBody") : null;
+  if (!head || !body) return;
+
+  var now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1;
+  var keyType = filterType==="currentMonth"?"day": filterType==="yearly"?"year":"month";
+
+  var filtered = filterPerfByDate(perfumeryData, filterType);
+  var grouped  = groupByPerfumery(filtered, keyType);
+
+  var cols = [];
+  if (filterType==="yearly")        cols = [{key:String(cy),label:String(cy)},{key:String(cy-1),label:String(cy-1)}];
+  else if (filterType==="lastYear") cols = generateLast13Months();
+  else                               cols = generateCurrentMonthDays();
+
+  /* ── Header ── */
+  var hr = "<tr><th style='min-width:260px;'>PRODUCT</th>";
+  cols.forEach(function(col){
+    if (filterType==="currentMonth"){
+      var lbl = col.isToday?"TODAY":col.dayName;
+      hr += '<th><div class="th-content"><span class="th-month">'+lbl+'</span><span class="th-year">'+col.monthName+' '+col.day+'</span></div></th>';
+    } else if (filterType==="yearly"){
+      hr += '<th><div class="th-content"><span class="th-year-header">'+col.label+'</span></div></th>';
+    } else {
+      hr += '<th><div class="th-content"><span class="th-month">'+monthNames[col.month-1]+'</span><span class="th-year">'+col.year+'</span></div></th>';
+    }
+  });
+  hr += "</tr>";
+  head.innerHTML = hr;
+
+  if (Object.keys(grouped).length === 0) {
+    body.innerHTML = '<tr><td colspan="'+(1+cols.length)+'"><div class="no-results"><i class="fas fa-search"></i><p>No results found</p></div></td></tr>';
+    return;
+  }
+
+  var scoreKey = perfCurrentView;
+  var html = "";
+
+  Object.keys(grouped).sort().forEach(function(pName){
+    var pf = grouped[pName];
+    Object.keys(pf.products).sort().forEach(function(prodKey){
+      var pr = pf.products[prodKey];
+
+      /* Fila única: nombre del perfume + precio por mes */
+      html += '<tr class="brand-row">';
+      html += '<td>';
+      html += '<div style="display:flex;align-items:center;gap:10px;">';
+      html += '<i class="fas fa-spray-can" style="color:var(--gold);font-size:13px;flex-shrink:0;"></i>';
+      html += '<div>';
+      html += '<div style="font-size:15px;font-weight:600;color:var(--text);">'+pr.name+'</div>';
+      if (pr.sku) html += '<div style="font-size:12px;color:var(--text-muted);">SKU: '+pr.sku+'</div>';
+      html += '</div>';
+      html += '</div>';
+      html += '</td>';
+      cols.forEach(function(col){
+        html += '<td>'+fmtPrice(pr.price[col.key])+'</td>';
+      });
+      html += '</tr>';
+    });
+  });
+
+  body.innerHTML = html;
+  renderPerfChart(filterType, grouped, cols);
+}
+
+/* ── TOGGLE ── */
+function toggleProductRows(pid) {
+  var rows  = document.querySelectorAll('[data-pid="'+pid+'"]');
+  var icon  = document.getElementById('icon_'+pid);
+  var open  = icon && icon.textContent === "▶";
+  rows.forEach(function(r){ r.style.display = open ? "table-row" : "none"; });
+  if (icon) icon.textContent = open ? "▼" : "▶";
+}
+
+/* ── FILTER / VIEW ── */
+function applyPerfFilter(filterType){
+  perfCurrentFilter = filterType;
+  var root = pricingRoot();
+  if (!root) return;
+  root.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){
+    b.classList.toggle('active', b.dataset.filter===filterType);
+  });
+  renderPerfumeryTable(filterType);
+}
+function togglePerfViewDropdown(){
+  var root = pricingRoot();
+  if (!root) return;
+  var dropdown = root.querySelector("#perfViewDropdown");
+  var btn = root.querySelector("#perfViewBtn");
+  if (!dropdown || !btn) return;
+  dropdown.classList.toggle("open");
+  btn.classList.toggle("open");
+}
+function changePerfView(viewType){
+  perfCurrentView = viewType;
+  var labels = {marketing:"Artistic Score", commercial:"Commercial Score", combined:"Combined Score"};
+  var root = pricingRoot();
+  if (!root) return;
+  var viewText = root.querySelector("#perfViewText");
+  var dropdown = root.querySelector("#perfViewDropdown");
+  var btn = root.querySelector("#perfViewBtn");
+  if (viewText) viewText.textContent = labels[viewType];
+  root.querySelectorAll('#perfViewDropdown .view-option').forEach(function(o){
+    o.classList.toggle('active', o.dataset.view===viewType);
+  });
+  if (dropdown) dropdown.classList.remove("open");
+  if (btn) btn.classList.remove("open");
+  renderPerfumeryTable(perfCurrentFilter);
+}
+document.addEventListener("click", function(e){
+  var root = pricingRoot();
+  if (!root) return;
+  var wrap = root.querySelector(".view-selector-wrap");
+  if (wrap && !wrap.contains(e.target)){
+    var dropdown = root.querySelector("#perfViewDropdown");
+    var btn = root.querySelector("#perfViewBtn");
+    if (dropdown) dropdown.classList.remove("open");
+    if (btn) btn.classList.remove("open");
+  }
+});
+
+/* ── CHART ── */
+function renderPerfChart(filterType, grouped, cols){
+  var root = pricingRoot();
+  var ctx = root ? root.querySelector('#perfChart') : null;
+  if (!ctx) return;
+  if (perfChart) perfChart.destroy();
+
+  var labels = cols.map(function(col){
+    if (filterType==="currentMonth") return (col.isToday?"TODAY":col.dayName)+"\n"+col.monthName+" "+col.day;
+    if (filterType==="yearly")       return col.label;
+    return monthNames[col.month-1]+"\n"+col.year;
+  });
+
+  var scoreKey = perfCurrentView;
+  var datasets = [];
+  var colorIdx = 0;
+
+  Object.keys(grouped).sort().forEach(function(pName){
+    Object.keys(grouped[pName].products).sort().forEach(function(prodKey){
+      var pr    = grouped[pName].products[prodKey];
+      var color = perfColors[colorIdx++ % perfColors.length];
+      var vals  = cols.map(function(col){ return pr[scoreKey][col.key] || 0; });
+      datasets.push({
+        label: pr.name,
+        data: vals,
+        backgroundColor: perfChartType==="bar" ? color.replace('rgb','rgba').replace(')',',0.7)') : color.replace('rgb','rgba').replace(')',',0.1)'),
+        borderColor: color, borderWidth:2,
+        borderRadius: perfChartType==="bar"?4:0,
+        fill: perfChartType==="line", tension:0.4,
+        pointBackgroundColor:color, pointBorderColor:'#fff', pointBorderWidth:2, pointRadius:3, pointHoverRadius:5,
+        hidden: perfHiddenSeries.includes(pr.name)
+      });
+    });
+  });
+
+  perfChart = new Chart(ctx, {
+    type: perfChartType,
+    data: { labels:labels, datasets:datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ intersect:false, mode:'index' },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          backgroundColor:'rgba(30,34,39,0.95)', titleColor:'#fff', bodyColor:'#fff',
+          borderColor:'rgb(171,160,110)', borderWidth:1, cornerRadius:8, padding:12,
+          callbacks:{ label:function(c){ return c.dataset.label+": "+c.parsed.y.toFixed(0); } }
+        }
+      },
+      scales:{
+        x:{ grid:{display:false}, ticks:{color:'#888',font:{size:10},maxRotation:45} },
+        y:{ min:0, max:100,
+            grid:{color:'rgba(0,0,0,0.05)'},
+            ticks:{color:'#888',font:{size:11},stepSize:20,callback:function(v){return v;}}
+          }
+      }
+    }
+  });
+
+  var titleMap = {marketing:"Artistic Score",commercial:"Commercial Score",combined:"Combined Score"};
+  var titleEl = root ? root.querySelector("#perfChartTitle") : null;
+  if (titleEl) titleEl.textContent = titleMap[perfCurrentView];
+
+  var lc = root ? root.querySelector("#perfChartLegend") : null;
+  if (!lc) return;
+  var idx = 0;
+  lc.innerHTML = Object.keys(grouped).sort().map(function(pName){
+    return Object.keys(grouped[pName].products).sort().map(function(prodKey){
+      var pr    = grouped[pName].products[prodKey];
+      var color = perfColors[idx++ % perfColors.length];
+      var dis   = perfHiddenSeries.includes(pr.name)?'opacity:0.4;':'';
+      return '<div onclick="togglePerfChartSeries(\''+pr.name.replace(/'/g,"\\'")+'\') " '+
+        'style="display:flex;align-items:center;gap:6px;font-size:12px;color:#535255;cursor:pointer;padding:4px 8px;border-radius:6px;'+dis+'">'+
+        '<span style="width:12px;height:12px;border-radius:3px;background:'+color+';display:inline-block;"></span>'+pr.name+'</div>';
+    }).join('');
+  }).join('');
+}
+
+function togglePerfChartSeries(pName){
+  var idx = perfHiddenSeries.indexOf(pName);
+  if (idx>-1) perfHiddenSeries.splice(idx,1); else perfHiddenSeries.push(pName);
+  if (perfChart){
+    var di = perfChart.data.datasets.findIndex(function(d){return d.label===pName;});
+    if (di>-1){perfChart.data.datasets[di].hidden=perfHiddenSeries.includes(pName);perfChart.update();}
+  }
+  var root = pricingRoot();
+  var legend = root ? root.querySelector("#perfChartLegend") : null;
+  if (legend) {
+    legend.querySelectorAll('div').forEach(function(el){
+      el.style.opacity = perfHiddenSeries.includes(el.textContent.trim())?'0.4':'1';
+    });
+  }
+}
+
+function changePerfChartType(type){
+  perfChartType = type;
+  document.querySelectorAll('.chart-type-btn').forEach(function(b){
+    var a = b.dataset.type===type;
+    b.style.background=a?'white':'transparent';
+    b.style.color=a?'var(--gold)':'#535255';
+    b.style.boxShadow=a?'0 2px 4px rgba(0,0,0,.1)':'none';
+  });
+  renderPerfumeryTable(perfCurrentFilter);
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', function(){
+  var defaultBrand = 'La Sabia Madrid';
+  var savedBrand   = localStorage.getItem('selectedBrand');
+  var initialBrand = (savedBrand && BRAND_PERFUMERY_DATA[savedBrand]) ? savedBrand : defaultBrand;
+  var brandTitle = document.getElementById('brandTitle');
+  if (brandTitle) brandTitle.textContent = initialBrand;
+  localStorage.setItem('selectedBrand', initialBrand);
+  applyScoreBrand(initialBrand);
+
+  var savedView = localStorage.getItem('scoreView');
+  if (savedView && ['marketing','commercial','combined'].includes(savedView)){
+    setTimeout(function(){
+      changePerfView(savedView);
+      localStorage.removeItem('scoreView');
+    }, 150);
+  }
+
+  // Active nav link
+  var currentPage = window.location.pathname.split('/').pop();
+  var activeLink  = document.querySelector('a[href*="'+currentPage+'"]');
+  if (activeLink){
+    document.querySelectorAll('.nav-sub-item,.nav-sub-sub-item,.nav-item-standalone').forEach(function(i){i.classList.remove('active');});
+    activeLink.classList.add('active');
+    var grp = activeLink.closest('.nav-group');
+    if (grp) grp.classList.add('open');
+    var subBody = activeLink.closest('.nav-sub-group-body');
+    if (subBody){
+      subBody.style.display='block';
+      var header = subBody.previousElementSibling;
+      if (header){var arrow=header.querySelector('.nav-sub-arrow');if(arrow)arrow.classList.add('open');}
+    }
+  }
+});
+window.applyPricingPerfFilter = applyPerfFilter;
+window.togglePricingPerfViewDropdown = togglePerfViewDropdown;
+window.changePricingPerfView = changePerfView;
+window.changePricingPerfChartType = changePerfChartType;
+})();
+      </script>
+
+
+
+      </div>
+
+      <script type="text/plain">
+/* ── GLOBALS ── */
+var perfCurrentFilter = "lastYear";
+var perfCurrentView   = "marketing";
+var monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+var dayNames   = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+var perfChart = null, perfChartType = "bar", perfHiddenSeries = [];
+var perfColors = [
+  'rgb(171,160,110)','rgb(102,126,153)','rgb(153,102,102)',
+  'rgb(102,153,126)','rgb(153,126,102)','rgb(126,102,153)',
+  'rgb(102,153,153)','rgb(153,153,102)'
+];
+
+/* ── DATA
+   Campos: perfumery, product, sku, date, marketing, commercial, combined, price, orderId
+   · price  = precio de venta del producto ese mes (en USD)
+   · Un registro por producto por mes (o por evento si hay variación en el mes)
+── */
+var perfumeryData = [];
+
+const BRAND_PERFUMERY_DATA = {
+
+  'Brand Demo': [
+    // product: "Perfume Demo 100ml"  –  precio varía mes a mes
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-03-01", marketing:85, commercial:72, combined:79, price:95.00,  orderId:9011 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-02-01", marketing:83, commercial:75, combined:79, price:95.00,  orderId:9025 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2026-01-01", marketing:77, commercial:88, combined:83, price:90.00,  orderId:9028 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-12-01", marketing:81, commercial:70, combined:76, price:89.00,  orderId:8901 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-11-01", marketing:75, commercial:62, combined:69, price:85.00,  orderId:8891 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-10-01", marketing:90, commercial:75, combined:82, price:85.00,  orderId:8881 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-09-01", marketing:70, commercial:84, combined:77, price:82.00,  orderId:8871 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-08-01", marketing:87, commercial:71, combined:79, price:80.00,  orderId:8861 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-07-01", marketing:71, commercial:65, combined:68, price:80.00,  orderId:8851 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-06-01", marketing:91, commercial:78, combined:85, price:78.00,  orderId:8841 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-05-01", marketing:50, commercial:86, combined:68, price:75.00,  orderId:8831 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-04-01", marketing:67, commercial:52, combined:60, price:75.00,  orderId:8821 },
+    { perfumery:"Brand Demo", product:"Perfume Demo 100ml", sku:"AUR-001", date:"2025-03-01", marketing:43, commercial:65, combined:54, price:72.00,  orderId:8811 },
+  ],
+
+  'La Sabia Madrid': [
+    // product: "Verdanza 100ml"
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-03-01", marketing:80, commercial:75, combined:78, price:120.00, orderId:7001 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-02-01", marketing:78, commercial:70, combined:74, price:120.00, orderId:7004 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2026-01-01", marketing:75, commercial:65, combined:70, price:115.00, orderId:7010 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-12-01", marketing:78, commercial:70, combined:74, price:115.00, orderId:7004 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-11-01", marketing:62, commercial:85, combined:74, price:110.00, orderId:7005 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-10-01", marketing:85, commercial:72, combined:79, price:110.00, orderId:7006 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-09-01", marketing:70, commercial:80, combined:75, price:105.00, orderId:7007 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-08-01", marketing:58, commercial:75, combined:67, price:105.00, orderId:7008 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-07-01", marketing:61, commercial:73, combined:67, price:103.00, orderId:7023 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-06-01", marketing:64, commercial:76, combined:70, price:102.00, orderId:7024 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-05-01", marketing:90, commercial:78, combined:84, price:100.00, orderId:7009 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-04-01", marketing:75, commercial:65, combined:70, price:100.00, orderId:7010 },
+    { perfumery:"La Sabia Madrid", product:"Verdanza 100ml",  sku:"LSM-001", date:"2025-03-01", marketing:72, commercial:63, combined:68, price:98.00, orderId:7025 },
+
+    // product: "Poderio 100ml"
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-03-01", marketing:65, commercial:88, combined:77, price:135.00, orderId:7002 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-02-01", marketing:68, commercial:84, combined:76, price:135.00, orderId:7011 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2026-01-01", marketing:70, commercial:80, combined:75, price:130.00, orderId:7012 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-12-01", marketing:66, commercial:82, combined:74, price:130.00, orderId:7013 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-11-01", marketing:62, commercial:85, combined:74, price:125.00, orderId:7005 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-10-01", marketing:60, commercial:78, combined:69, price:125.00, orderId:7014 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-09-01", marketing:55, commercial:76, combined:66, price:120.00, orderId:7015 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-08-01", marketing:58, commercial:75, combined:67, price:120.00, orderId:7008 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-07-01", marketing:57, commercial:74, combined:66, price:118.00, orderId:7026 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-06-01", marketing:56, commercial:72, combined:64, price:118.00, orderId:7027 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-05-01", marketing:59, commercial:75, combined:67, price:115.00, orderId:7028 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-04-01", marketing:54, commercial:70, combined:62, price:115.00, orderId:7029 },
+    { perfumery:"La Sabia Madrid", product:"Poderio 100ml",   sku:"LSM-002", date:"2025-03-01", marketing:52, commercial:68, combined:60, price:112.00, orderId:7030 },
+
+    // product: "Dos Besos 100ml"
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-03-01", marketing:72, commercial:68, combined:70, price:98.00,  orderId:7003 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-02-01", marketing:74, commercial:70, combined:72, price:98.00,  orderId:7016 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2026-01-01", marketing:76, commercial:72, combined:74, price:95.00,  orderId:7017 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-12-01", marketing:73, commercial:69, combined:71, price:95.00,  orderId:7018 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-11-01", marketing:70, commercial:66, combined:68, price:90.00,  orderId:7019 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-10-01", marketing:85, commercial:72, combined:79, price:90.00,  orderId:7006 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-09-01", marketing:80, commercial:68, combined:74, price:88.00,  orderId:7020 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-08-01", marketing:78, commercial:65, combined:72, price:88.00,  orderId:7021 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-07-01", marketing:76, commercial:64, combined:70, price:86.00,  orderId:7031 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-06-01", marketing:79, commercial:67, combined:73, price:86.00,  orderId:7032 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-05-01", marketing:90, commercial:78, combined:84, price:85.00,  orderId:7009 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-04-01", marketing:82, commercial:74, combined:78, price:85.00,  orderId:7022 },
+    { perfumery:"La Sabia Madrid", product:"Dos Besos 100ml", sku:"LSM-003", date:"2025-03-01", marketing:77, commercial:69, combined:73, price:82.00,  orderId:7033 },
+  ],
+};
+
+/* ── BRAND EVENTS ── */
+document.addEventListener('niche3ds:brandChanged', function(e) {
+  var brand = e.detail.brand;
+  document.getElementById('brandTitle').textContent = brand;
+  localStorage.setItem('selectedBrand', brand);
+  applyScoreBrand(brand);
+});
+
+function applyScoreBrand(brand) {
+  if (BRAND_PERFUMERY_DATA[brand]) {
+    perfumeryData = BRAND_PERFUMERY_DATA[brand];
+    renderPerfumeryTable(perfCurrentFilter);
+  }
+}
+
+/* ── HELPERS ── */
+function generateLast13Months() {
+  var months=[], now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1;
+  for (var i=0; i<=12; i++) {
+    var m=cm-i, y=cy;
+    while (m<=0){m+=12;y--;}
+    months.push({year:y, month:m, key:y+"-"+String(m).padStart(2,"0")});
+  }
+  return months;
+}
+function generateCurrentMonthDays() {
+  var days=[], now=new Date(), cd=now.getDate();
+  for (var i=0; i<cd; i++) {
+    var d=new Date(now.getFullYear(), now.getMonth(), now.getDate()-i);
+    days.push({
+      year:d.getFullYear(), month:d.getMonth()+1, day:d.getDate(),
+      dayName:dayNames[d.getDay()], monthName:monthNames[d.getMonth()],
+      key:d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),
+      isToday:i===0
+    });
+  }
+  return days;
+}
+function safeId(s){ return btoa(encodeURIComponent(s)).replace(/[^a-zA-Z0-9]/g,'').substring(0,20); }
+
+/* ── FILTER ── */
+function filterPerfByDate(data, filterType) {
+  var now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1, cd=now.getDate();
+  return data.filter(function(item){
+    var p=item.date.split('-'), iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+    if (filterType==="yearly")       return iY===cy || iY===(cy-1);
+    if (filterType==="currentMonth") return iY===cy && iM===cm && iD<=cd;
+    if (filterType==="lastYear"){
+      var lm=cm-13, ly=cy;
+      while(lm<=0){lm+=12;ly--;}
+      return new Date(iY,iM-1,1) >= new Date(ly,lm-1,1);
+    }
+    return true;
+  });
+}
+
+/* ── GROUP
+   result[perfumery][product] = {
+     name, sku,
+     marketing:  { "2026-03": 80, ... },
+     commercial: { ... },
+     combined:   { ... },
+     price:      { "2026-03": 120.00, ... }   ← NUEVO
+   }
+── */
+function groupByPerfumery(data, keyType) {
+  var result = {};
+  data.forEach(function(item){
+    var p=item.date.split('-'), iY=parseInt(p[0]), iM=parseInt(p[1]), iD=parseInt(p[2]);
+    var key = keyType==="day"  ? iY+"-"+String(iM).padStart(2,"0")+"-"+String(iD).padStart(2,"0")
+            : keyType==="year" ? String(iY)
+            : iY+"-"+String(iM).padStart(2,"0");
+
+    if (!result[item.perfumery]) result[item.perfumery] = { products:{} };
+
+    var pf = result[item.perfumery];
+    if (!pf.products[item.product])
+      pf.products[item.product] = {
+        name:item.product, sku:item.sku,
+        marketing:{}, commercial:{}, combined:{}, price:{}
+      };
+
+    var pr = pf.products[item.product];
+    pr.marketing[key]  = item.marketing;
+    pr.commercial[key] = item.commercial;
+    pr.combined[key]   = item.combined;
+    pr.price[key]      = item.price;      // precio histórico del mes
+  });
+  return result;
+}
+
+/* ── FORMAT ── */
+function fmtScore(v) {
+  if (!v) return '<span style="color:#ccc;">—</span>';
+  var n = parseFloat(v);
+  if (!n) return '<span style="color:#ccc;">—</span>';
+  return '<span style="font-weight:600;">'+n.toFixed(0)+'</span>';
+}
+function fmtPrice(v) {
+  if (!v) return '<span style="color:#ccc;">—</span>';
+  return '<span style="font-weight:600;color:var(--text);">'+parseFloat(v).toFixed(2)+'</span>';
+}
+
+/* ── RENDER TABLE ── */
+function renderPerfumeryTable(filterType) {
+  var head = document.getElementById("perfumeryTableHead");
+  var body = document.getElementById("perfumeryTableBody");
+  if (!head || !body) return;
+
+  var now=new Date(), cy=now.getFullYear(), cm=now.getMonth()+1;
+  var keyType = filterType==="currentMonth"?"day": filterType==="yearly"?"year":"month";
+
+  var filtered = filterPerfByDate(perfumeryData, filterType);
+  var grouped  = groupByPerfumery(filtered, keyType);
+
+  var cols = [];
+  if (filterType==="yearly")        cols = [{key:String(cy),label:String(cy)},{key:String(cy-1),label:String(cy-1)}];
+  else if (filterType==="lastYear") cols = generateLast13Months();
+  else                               cols = generateCurrentMonthDays();
+
+  /* ── Header ── */
+  var hr = "<tr><th style='min-width:260px;'>PRODUCT</th>";
+  cols.forEach(function(col){
+    if (filterType==="currentMonth"){
+      var lbl = col.isToday?"TODAY":col.dayName;
+      hr += '<th><div class="th-content"><span class="th-month">'+lbl+'</span><span class="th-year">'+col.monthName+' '+col.day+'</span></div></th>';
+    } else if (filterType==="yearly"){
+      hr += '<th><div class="th-content"><span class="th-year-header">'+col.label+'</span></div></th>';
+    } else {
+      hr += '<th><div class="th-content"><span class="th-month">'+monthNames[col.month-1]+'</span><span class="th-year">'+col.year+'</span></div></th>';
+    }
+  });
+  hr += "</tr>";
+  head.innerHTML = hr;
+
+  if (Object.keys(grouped).length === 0) {
+    body.innerHTML = '<tr><td colspan="'+(1+cols.length)+'"><div class="no-results"><i class="fas fa-search"></i><p>No results found</p></div></td></tr>';
+    return;
+  }
+
+  var scoreKey = perfCurrentView;
+  var html = "";
+
+  Object.keys(grouped).sort().forEach(function(pName){
+    var pf = grouped[pName];
+    Object.keys(pf.products).sort().forEach(function(prodKey){
+      var pr = pf.products[prodKey];
+
+      /* Fila única: nombre del perfume + precio por mes */
+      html += '<tr class="brand-row">';
+      html += '<td>';
+      html += '<div style="display:flex;align-items:center;gap:10px;">';
+      html += '<i class="fas fa-spray-can" style="color:var(--gold);font-size:13px;flex-shrink:0;"></i>';
+      html += '<div>';
+      html += '<div style="font-size:15px;font-weight:600;color:var(--text);">'+pr.name+'</div>';
+      if (pr.sku) html += '<div style="font-size:12px;color:var(--text-muted);">SKU: '+pr.sku+'</div>';
+      html += '</div>';
+      html += '</div>';
+      html += '</td>';
+      cols.forEach(function(col){
+        html += '<td>'+fmtPrice(pr.price[col.key])+'</td>';
+      });
+      html += '</tr>';
+    });
+  });
+
+  body.innerHTML = html;
+  renderPerfChart(filterType, grouped, cols);
+}
+
+/* ── TOGGLE ── */
+function toggleProductRows(pid) {
+  var rows  = document.querySelectorAll('[data-pid="'+pid+'"]');
+  var icon  = document.getElementById('icon_'+pid);
+  var open  = icon && icon.textContent === "▶";
+  rows.forEach(function(r){ r.style.display = open ? "table-row" : "none"; });
+  if (icon) icon.textContent = open ? "▼" : "▶";
+}
+
+/* ── FILTER / VIEW ── */
+function applyPerfFilter(filterType){
+  perfCurrentFilter = filterType;
+  document.querySelectorAll('#perfFilters .filter-btn').forEach(function(b){
+    b.classList.toggle('active', b.dataset.filter===filterType);
+  });
+  renderPerfumeryTable(filterType);
+}
+function togglePerfViewDropdown(){
+  document.getElementById("perfViewDropdown").classList.toggle("open");
+  document.getElementById("perfViewBtn").classList.toggle("open");
+}
+function changePerfView(viewType){
+  perfCurrentView = viewType;
+  var labels = {marketing:"Artistic Score", commercial:"Commercial Score", combined:"Combined Score"};
+  document.getElementById("perfViewText").textContent = labels[viewType];
+  document.querySelectorAll('#perfViewDropdown .view-option').forEach(function(o){
+    o.classList.toggle('active', o.dataset.view===viewType);
+  });
+  document.getElementById("perfViewDropdown").classList.remove("open");
+  document.getElementById("perfViewBtn").classList.remove("open");
+  renderPerfumeryTable(perfCurrentFilter);
+}
+document.addEventListener("click", function(e){
+  var wrap = document.querySelector(".view-selector-wrap");
+  if (wrap && !wrap.contains(e.target)){
+    document.getElementById("perfViewDropdown").classList.remove("open");
+    document.getElementById("perfViewBtn").classList.remove("open");
+  }
+});
+
+/* ── CHART ── */
+function renderPerfChart(filterType, grouped, cols){
+  var ctx = document.getElementById('perfChart');
+  if (!ctx) return;
+  if (perfChart) perfChart.destroy();
+
+  var labels = cols.map(function(col){
+    if (filterType==="currentMonth") return (col.isToday?"TODAY":col.dayName)+"\n"+col.monthName+" "+col.day;
+    if (filterType==="yearly")       return col.label;
+    return monthNames[col.month-1]+"\n"+col.year;
+  });
+
+  var scoreKey = perfCurrentView;
+  var datasets = [];
+  var colorIdx = 0;
+
+  Object.keys(grouped).sort().forEach(function(pName){
+    Object.keys(grouped[pName].products).sort().forEach(function(prodKey){
+      var pr    = grouped[pName].products[prodKey];
+      var color = perfColors[colorIdx++ % perfColors.length];
+      var vals  = cols.map(function(col){ return pr[scoreKey][col.key] || 0; });
+      datasets.push({
+        label: pr.name,
+        data: vals,
+        backgroundColor: perfChartType==="bar" ? color.replace('rgb','rgba').replace(')',',0.7)') : color.replace('rgb','rgba').replace(')',',0.1)'),
+        borderColor: color, borderWidth:2,
+        borderRadius: perfChartType==="bar"?4:0,
+        fill: perfChartType==="line", tension:0.4,
+        pointBackgroundColor:color, pointBorderColor:'#fff', pointBorderWidth:2, pointRadius:3, pointHoverRadius:5,
+        hidden: perfHiddenSeries.includes(pr.name)
+      });
+    });
+  });
+
+  perfChart = new Chart(ctx, {
+    type: perfChartType,
+    data: { labels:labels, datasets:datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ intersect:false, mode:'index' },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          backgroundColor:'rgba(30,34,39,0.95)', titleColor:'#fff', bodyColor:'#fff',
+          borderColor:'rgb(171,160,110)', borderWidth:1, cornerRadius:8, padding:12,
+          callbacks:{ label:function(c){ return c.dataset.label+": "+c.parsed.y.toFixed(0); } }
+        }
+      },
+      scales:{
+        x:{ grid:{display:false}, ticks:{color:'#888',font:{size:10},maxRotation:45} },
+        y:{ min:0, max:100,
+            grid:{color:'rgba(0,0,0,0.05)'},
+            ticks:{color:'#888',font:{size:11},stepSize:20,callback:function(v){return v;}}
+          }
+      }
+    }
+  });
+
+  var titleMap = {marketing:"Artistic Score",commercial:"Commercial Score",combined:"Combined Score"};
+  document.getElementById("perfChartTitle").textContent = titleMap[perfCurrentView];
+
+  var lc = document.getElementById("perfChartLegend");
+  var idx = 0;
+  lc.innerHTML = Object.keys(grouped).sort().map(function(pName){
+    return Object.keys(grouped[pName].products).sort().map(function(prodKey){
+      var pr    = grouped[pName].products[prodKey];
+      var color = perfColors[idx++ % perfColors.length];
+      var dis   = perfHiddenSeries.includes(pr.name)?'opacity:0.4;':'';
+      return '<div onclick="togglePerfChartSeries(\''+pr.name.replace(/'/g,"\\'")+'\') " '+
+        'style="display:flex;align-items:center;gap:6px;font-size:12px;color:#535255;cursor:pointer;padding:4px 8px;border-radius:6px;'+dis+'">'+
+        '<span style="width:12px;height:12px;border-radius:3px;background:'+color+';display:inline-block;"></span>'+pr.name+'</div>';
+    }).join('');
+  }).join('');
+}
+
+function togglePerfChartSeries(pName){
+  var idx = perfHiddenSeries.indexOf(pName);
+  if (idx>-1) perfHiddenSeries.splice(idx,1); else perfHiddenSeries.push(pName);
+  if (perfChart){
+    var di = perfChart.data.datasets.findIndex(function(d){return d.label===pName;});
+    if (di>-1){perfChart.data.datasets[di].hidden=perfHiddenSeries.includes(pName);perfChart.update();}
+  }
+  document.getElementById("perfChartLegend").querySelectorAll('div').forEach(function(el){
+    el.style.opacity = perfHiddenSeries.includes(el.textContent.trim())?'0.4':'1';
+  });
+}
+
+function changePerfChartType(type){
+  perfChartType = type;
+  document.querySelectorAll('.chart-type-btn').forEach(function(b){
+    var a = b.dataset.type===type;
+    b.style.background=a?'white':'transparent';
+    b.style.color=a?'var(--gold)':'#535255';
+    b.style.boxShadow=a?'0 2px 4px rgba(0,0,0,.1)':'none';
+  });
+  renderPerfumeryTable(perfCurrentFilter);
+}
+
+/* ── INIT ── */
+document.addEventListener('DOMContentLoaded', function(){
+  var defaultBrand = 'La Sabia Madrid';
+  var savedBrand   = localStorage.getItem('selectedBrand');
+  var initialBrand = (savedBrand && BRAND_PERFUMERY_DATA[savedBrand]) ? savedBrand : defaultBrand;
+  document.getElementById('brandTitle').textContent = initialBrand;
+  localStorage.setItem('selectedBrand', initialBrand);
+  applyScoreBrand(initialBrand);
+
+  var savedView = localStorage.getItem('scoreView');
+  if (savedView && ['marketing','commercial','combined'].includes(savedView)){
+    setTimeout(function(){
+      changePerfView(savedView);
+      localStorage.removeItem('scoreView');
+    }, 150);
+  }
+
+  // Active nav link
+  var currentPage = window.location.pathname.split('/').pop();
+  var activeLink  = document.querySelector('a[href*="'+currentPage+'"]');
+  if (activeLink){
+    document.querySelectorAll('.nav-sub-item,.nav-sub-sub-item,.nav-item-standalone').forEach(function(i){i.classList.remove('active');});
+    activeLink.classList.add('active');
+    var grp = activeLink.closest('.nav-group');
+    if (grp) grp.classList.add('open');
+    var subBody = activeLink.closest('.nav-sub-group-body');
+    if (subBody){
+      subBody.style.display='block';
+      var header = subBody.previousElementSibling;
+      if (header){var arrow=header.querySelector('.nav-sub-arrow');if(arrow)arrow.classList.add('open');}
+    }
+  }
+});
+      </script>
+
+      <div class="pricing-inner-panel" data-panel="price-compliance" style="display:none;padding:16px;border:1px dashed var(--border);border-radius:10px;background:#fafafa;color:var(--text);font-size:14px;">
+        <div class="table-card">
+          Price Complice
+        </div>
+      </div>
+
+      <script>
+      function switchPricingInnerTab(tabName) {
+        var root = document.getElementById('pricing');
+        if (!root) return;
+        var tabs = root.querySelectorAll('.pricing-inner-tab');
+        var panels = root.querySelectorAll('.pricing-inner-panel');
+
+        tabs.forEach(function(tab) {
+          var active = tab.getAttribute('data-tab') === tabName;
+          tab.classList.toggle('active', active);
+          tab.style.background = active ? 'var(--gold)' : '#fff';
+          tab.style.borderColor = active ? 'var(--gold)' : 'var(--border)';
+          tab.style.color = active ? '#fff' : 'var(--text)';
+        });
+
+        panels.forEach(function(panel) {
+          var active = panel.getAttribute('data-panel') === tabName;
+          panel.classList.toggle('active', active);
+          panel.style.display = active ? 'block' : 'none';
+        });
+      }
+      </script>
+
+      
+
+
+    </div>
+</div>
+
+
+
+
+
 
 <!-- ===== TAB: REPORTS ===== -->
 <div class="tab-content" id="reports">

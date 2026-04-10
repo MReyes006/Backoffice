@@ -12,22 +12,22 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-    /* OpciÃ³n A: Si usas el atributo disabled en el HTML */
+   
     .nav-sub-item[disabled] {
         color: #999 !important;
         opacity: 0.6;
-        cursor: default !important;    /* â† Cursor normal (flecha), no mano */
-        pointer-events: none !important; /* â† Bloquea clics */
+        cursor: default !important;    
+        pointer-events: none !important;
         text-decoration: none !important;
     }
     
-    /* Evitar que el hover cambie el estilo */
+
     .nav-sub-item[disabled]:hover {
         color: #999 !important;
         text-decoration: none !important;
     }
 
-    /* OpciÃ³n B: Si prefieres usar la clase "disabled" (mÃ¡s compatible) */
+  
     .nav-sub-item.disabled {
         color: #999 !important;
         opacity: 0.6;
@@ -281,6 +281,98 @@
                 </div> -->
             </div>
 
+            <h3 style="margin:6px 0 10px 0;font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;"><i class="fas fa-cart-shopping" style="color:var(--gold);"></i> Orders</h3>
+            <div class="stats-grid" style="margin-bottom:18px;">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Received</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-truck-fast"></i></div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Delivery</div>
+                </div>
+            </div>
+
+            <h3 style="margin:6px 0 10px 0;font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;"><i class="fas fa-clipboard-list" style="color:var(--gold);"></i> Pre Orders</h3>
+            <div class="stats-grid" style="margin-bottom:18px;">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Total Pre Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Pending Pre Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Approved Pre Orders</div>
+                </div>
+            </div>
+
+            <h3 style="margin:6px 0 10px 0;font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;"><i class="fas fa-building" style="color:var(--gold);"></i> Brand</h3>
+            <div class="stats-grid" style="margin-bottom:18px;">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="stat-value">358</div>
+                    <div class="stat-label">Total Brands</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="stat-value">150</div>
+                    <div class="stat-label">Total Brands Contracted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-file-circle-xmark"></i></div>
+                    <div class="stat-value">300</div>
+                    <div class="stat-label">Total Brands No Contracted</div>
+                </div>
+            </div>
+
+            <div class="snapshot-card" style="margin-bottom:18px;">
+                <div class="snapshot-header">
+                    <h3>User Management</h3>
+                    <span style="font-size:12px;color:var(--text-muted);font-weight:500;">Manage team members, assign roles and passwords within your company</span>
+                </div>
+            </div>
+
+            <div class="stats-grid" style="margin-bottom:18px;">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#e8f0fe;color:#1a73e8;"><i class="fas fa-users"></i></div>
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#e6f4ea;color:#34a853;"><i class="fas fa-user-check"></i></div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Active</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#f2f1ed;color:#ab9a6e;"><i class="fas fa-user-shield"></i></div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Administrators</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#fce8e8;color:#ea4335;"><i class="fas fa-user-clock"></i></div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+            </div>
+
             <!-- Executive Snapshot + Quick Insights -->
             <div class="snapshot-card">
                 <div class="snapshot-header">
@@ -516,9 +608,12 @@
 
             <!-- KPI Row 1 -->
           <!-- KPI CARD MULTI-PERIOD -->
-            <div class="kpi-grid-multi">
+          
 
-            <!-- Revenue Card -->
+
+
+            <!-- <div class="kpi-grid-multi">
+
             <div class="kpi-card-multi">
                 <div class="kpi-card-multi-header">Revenue</div>
                 <div class="kpi-card-multi-row">
@@ -547,7 +642,6 @@
                 </div>
             </div>
 
-            <!-- Perfumeria Afiliada Card -->
             <div class="kpi-card-multi">
                 <div class="kpi-card-multi-header">Affiliated Perfumery</div>
                 <div class="kpi-card-multi-row">
@@ -576,7 +670,7 @@
                 </div>
             </div>
 
-            <!-- Perfumeria con Venta Card -->
+          
             <div class="kpi-card-multi">
                 <div class="kpi-card-multi-header">Perfumery with Sales</div>
                 <div class="kpi-card-multi-row">
@@ -605,7 +699,7 @@
                 </div>
             </div>
 
-            <!-- Perfumes Vendidos Card -->
+            
             <div class="kpi-card-multi">
                 <div class="kpi-card-multi-header">Perfumes Sold</div>
                 <div class="kpi-card-multi-row">
@@ -635,6 +729,9 @@
             </div>
 
             </div>
+ -->
+
+
 
             <!-- KPI Row 2 -->
             <div class="kpi-grid" style="margin-bottom:18px;">
@@ -664,6 +761,94 @@
                     <div class="kpi-value" style="color:var(--navy);">Miami</div>
                     <div class="kpi-sub">Highest monthly revenue</div>
                 </div> -->
+            </div>
+
+
+            
+            <h3 style="margin:6px 0 10px 0;font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;"><i class="fas fa-cart-shopping" style="color:var(--gold);"></i> Orders</h3>
+            <div class="stats-grid" style="margin-bottom:18px;">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Received</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-truck-fast"></i></div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Delivery</div>
+                </div>
+            </div>
+
+            <h3 style="margin:6px 0 10px 0;font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;"><i class="fas fa-clipboard-list" style="color:var(--gold);"></i> Pre Orders</h3>
+            <div class="stats-grid" style="margin-bottom:18px;">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+                    <div class="stat-value">9</div>
+                    <div class="stat-label">Total Pre Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Pending Pre Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Approved Pre Orders</div>
+                </div>
+            </div>
+
+            <h3 style="margin:6px 0 10px 0;font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;"><i class="fas fa-building" style="color:var(--gold);"></i> Brand</h3>
+            <div class="stats-grid" style="margin-bottom:18px;">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="stat-value">358</div>
+                    <div class="stat-label">Total Brands</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="stat-value">150</div>
+                    <div class="stat-label">Total Brands Contracted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-file-circle-xmark"></i></div>
+                    <div class="stat-value">300</div>
+                    <div class="stat-label">Total Brands No Contracted</div>
+                </div>
+            </div>
+
+
+            <div class="stats-grid" style="margin-bottom:18px;">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#e8f0fe;color:#1a73e8;"><i class="fas fa-users"></i></div>
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#e6f4ea;color:#34a853;"><i class="fas fa-user-check"></i></div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Active</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#f2f1ed;color:#ab9a6e;"><i class="fas fa-user-shield"></i></div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Administrators</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#fce8e8;color:#ea4335;"><i class="fas fa-user-clock"></i></div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Pending</div>
+                </div>
             </div>
 
             <!-- Executive Snapshot + Quick Insights -->
@@ -744,6 +929,7 @@
 
                 </div>
             </div>
+            
             <div class="overview-bottom">
 
                 <!-- <div class="insights-card">

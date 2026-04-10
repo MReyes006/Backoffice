@@ -157,7 +157,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 .premium-body{padding:24px 28px;font-size:14px;color:var(--text);line-height:1.8;}
 
 /* â”€â”€ PREMIUM INNER BLOCKS â”€â”€ */
-.premium-inner-block{background:#FAF7F0;border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px;}
+.premium-inner-block{background:#FAF7F0;border:1px solid var(--border);border-radius:10px;padding:20px;}
 .premium-inner-block:last-child{margin-bottom:0;}
 .premium-inner-icon-title{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
 .premium-inner-icon-title i{color:var(--gold);font-size:18px;}
@@ -1552,6 +1552,31 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 <div class="tab-content" id="perfumes">
 <div class="card">
 
+  <!-- Inventory KPI dashboard (Products tab only) -->
+  <div class="inv-dashboard card" style="margin-bottom:18px;">
+    <div class="inv-grid" style="grid-template-columns:repeat(4,1fr);gap:12px;">
+      <div class="premium-inner-block" style="text-align:center;">
+        <div class="inv-label">Total Inventory</div>
+        <div class="inv-value" id="invTotalInventory">0</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Sum of units in stock</div>
+      </div>
+      <div class="premium-inner-block" style="text-align:center;">
+        <div class="inv-label">Top Sellers</div>
+        <div class="inv-value" id="invBestSellers">—</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Top 3 SKUs</div>
+      </div>
+      <div class="premium-inner-block" style="text-align:center;">
+        <div class="inv-label">In Transit</div>
+        <div class="inv-value" id="invInTransit">0</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Units pending arrival</div>
+      </div>
+      <div class="premium-inner-block" style="text-align:center;">
+        <div class="inv-label">Available Stock</div>
+        <div class="inv-value" id="invAvailableStock">0</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Stock minus reservations</div>
+      </div>
+    </div>
+  </div>
 
 
      <div class="page-header">
@@ -1561,7 +1586,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
             </div>
         </div>
 
-        <div class="table-card">
+
+            <div class="table-card">
             <!-- Column filters -->
             <div class="table-filter-row">
                 <div></div>
@@ -1889,6 +1915,10 @@ function renderProducts() {
   }
 
   document.getElementById('resultsCount').textContent = filtered.length + ' product' + (filtered.length!==1?'s':'');
+  try { if (typeof updateProductKPIs === 'function') updateProductKPIs(filtered); } catch(e){console.warn('KPIs update failed',e);} 
+
+  // update KPIs for the Products tab
+  try { if (typeof updateProductKPIs === 'function') updateProductKPIs(filtered); } catch(e){console.warn('KPIs update failed',e);} 
 
   if (filtered.length === 0) {
     tbody.innerHTML = '<tr class="empty-row"><td colspan="10"><i class="fas fa-search"></i><p>No products match the selected filters.</p></td></tr>';
@@ -1925,6 +1955,26 @@ function renderProducts() {
       '<td style="text-align:center;"><button class="btn-download-product" onclick="downloadProduct('+p.id+')" title="Download info"><i class="fas fa-download"></i></button></td>' +
     '</tr>';
   }).join('');
+}
+
+// Helper: update the KPI cards inside Products tab
+function updateProductKPIs(filtered) {
+  try {
+    var totalInventory = filtered.reduce(function(s,p){ return s + (Number(p.stock)||0); }, 0);
+    var totalInTransit = filtered.reduce(function(s,p){ return s + (Number(p.inTransit)||Number(p.transit)||Number(p.in_transit)||0); }, 0);
+    var totalReserved = filtered.reduce(function(s,p){ return s + (Number(p.reserved)||0); }, 0);
+    var availableStock = Math.max(0, totalInventory - totalReserved);
+    var sellers = filtered.slice();
+    var hasSold = sellers.some(function(p){ return typeof p.sold !== 'undefined' && p.sold !== null; });
+    if (hasSold) sellers.sort(function(a,b){ return (Number(b.sold)||0) - (Number(a.sold)||0); });
+    else sellers.sort(function(a,b){ return (Number(b.wholesale)||0) - (Number(a.wholesale)||0); });
+    var topSkus = sellers.slice(0,3).map(function(p){ return p.sku || p.perfume || '—'; }).filter(Boolean);
+
+    document.getElementById('invTotalInventory') && (document.getElementById('invTotalInventory').textContent = totalInventory);
+    document.getElementById('invInTransit') && (document.getElementById('invInTransit').textContent = totalInTransit);
+    document.getElementById('invAvailableStock') && (document.getElementById('invAvailableStock').textContent = availableStock);
+    document.getElementById('invBestSellers') && (document.getElementById('invBestSellers').textContent = topSkus.length ? topSkus.join(', ') : '—');
+  } catch(e){ console.warn('updateProductKPIs error', e); }
 }
 /* â•â•â•â•â•â•â•â• SORT â•â•â•â•â•â•â•â• */
 function sortProducts(col) {
@@ -2125,7 +2175,7 @@ function downloadProduct(id) {
     <h3><i class="fas fa-people-carry"></i> Providers</h3>
     <div class="table-responsive">
       <table class="simple-table full" id="provListTable">
-        <thead style="background:#b5aa79;"><tr><th>Provider</th><th>Type</th><th>Country</th><th>Primary Contact</th><th style="text-align:center;">Orders</th><th style="text-align:center;">Order status</th><th style="text-align:center;">Actions</th></tr></thead>
+        <thead style="background:#b5aa79;"><tr><th>Provider</th><th>Type</th><th>Country</th><th>Primary Contact</th><th style="text-align:center;">Orders</th><th style="text-align:center;"> Order Status</th><th style="text-align:center;">Actions</th></tr></thead>
         <tbody id="provListBody"><tr><td colspan="7" style="text-align:center;color:var(--text-muted);">No providers loaded.</td></tr></tbody>
       </table>
     </div>

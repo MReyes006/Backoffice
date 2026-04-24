@@ -4,1168 +4,380 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NICHE305 Backoffice Portal</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.min.js"></script>
-<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="./css/dashboard.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  /* @import url('https://cdn.fontsource.org/inter/400.css');
-  @import url('https://cdn.fontsource.org/inter/500.css');
-  @import url('https://cdn.fontsource.org/inter/600.css');
-  @import url('https://cdn.fontsource.org/inter/700.css');
-  @import url('https://cdn.fontsource.org/inter/800.css');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: #F5F0E8;
-    color: #1A2332;
-    min-height: 100vh;
-  } */
-
-  .app-container { display: flex; min-height: 100vh; width: 100%; }
-
-  /* Sidebar */
-  .sidebar {
-    width: 260px;
-    background-color: #1A2332;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    height: 100vh;
-    z-index: 100;
-    box-shadow: 4px 0 20px rgba(0,0,0,0.1);
-    overflow-y: auto;
-  }
-
-  .sidebar-logo {
-    padding: 24px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    text-align: center;
-  }
-
-  .sidebar-logo img {
-    width: 100%;
-    border-radius: 12px;
-    margin-bottom: 16px;
-  }
-
-  .sidebar-logo h1 {
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: #C9A96E;
-    margin: 0 0 4px 0;
-  }
-
-  .sidebar-logo p {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: rgba(255,255,255,0.5);
-    margin: 0;
-  }
-
-  .sidebar-user {
-    padding: 16px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .user-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: linear-gradient(135deg, #C9A96E, #A88B4A);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 700; color: #1A2332;
-    flex-shrink: 0;
-  }
-
-  .user-info p { margin: 0; }
-  .user-name { font-size: 13px; font-weight: 600; color: #fff; }
-  .user-status {
-    font-size: 11px; margin: 0; color: #68B87A;
-    display: flex; align-items: center; gap: 4px;
-  }
-  .user-status .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background-color: #68B87A; display: inline-block;
-  }
-  .user-member { font-size: 10px; margin: 2px 0 0 0; color: rgba(255,255,255,0.4); }
-
-  .sidebar-nav { flex: 1; padding: 12px 0; }
-
-  .nav-label {
-    font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
-    color: rgba(255,255,255,0.3); padding: 8px 24px; margin: 0;
-  }
-
-  .nav-item {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 24px; background: transparent; border: none;
-    color: rgba(255,255,255,0.7); cursor: pointer; font-size: 13px;
-    width: 100%; text-align: left; transition: all 0.2s;
-    border-left: 3px solid transparent;
-    font-family: inherit;
-  }
-
-  .nav-item:hover {
-    background: rgba(201,169,110,0.1);
-    color: #C9A96E;
-  }
-
-  .nav-item.active {
-    background: rgba(201,169,110,0.15);
-    color: #C9A96E;
-    border-left: 3px solid #C9A96E;
-  }
-
-  .nav-item-left { display: flex; align-items: center; gap: 12px; }
-
-  .submenu { padding-left: 20px; overflow: hidden; transition: max-height 0.3s ease; }
-  .submenu.collapsed { max-height: 0; }
-  .submenu.expanded { max-height: 200px; }
-
-  .submenu-item {
-    width: 100%; text-align: left; padding: 8px 24px 8px 48px;
-    background: transparent; border: none; color: rgba(255,255,255,0.5);
-    cursor: pointer; font-size: 12px; transition: color 0.2s;
-    font-family: inherit;
-  }
-
-  .submenu-item:hover { color: #C9A96E; }
-
-  .sidebar-footer {
-    padding: 16px 20px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .logout-btn {
-    width: 100%; display: flex; align-items: center; gap: 10px;
-    padding: 10px 16px; background: rgba(224,122,95,0.1);
-    border: 1px solid rgba(224,122,95,0.2); border-radius: 8px;
-    color: #E07A5F; cursor: pointer; font-size: 13px; font-weight: 500;
-    font-family: inherit;
-  }
-
-  .logout-btn:hover { background: rgba(224,122,95,0.2); }
-
-  /* Main Content */
-  .main-content {
-    margin-left: 240px;
-    flex: 1;
-    padding: 0;
-  }
-
-  /* Top Bar */
-  .topbar {
-    background-color: #fff;
-    padding: 12px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #E8E0D4;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-
-  .topbar-left h2 {
-    font-size: 18px; font-weight: 700; color: #1A2332; margin: 0 0 2px 0;
-  }
-
-  .topbar-left p {
-    font-size: 12px; color: #888; margin: 0;
-  }
-
-  .topbar-right { display: flex; align-items: center; gap: 12px; }
-
-  .date-range-selector {
-    display: flex; align-items: center; gap: 8px;
-    padding: 6px 12px; background-color: #F5F0E8; border-radius: 8px;
-  }
-
-  .date-range-selector select {
-    background: transparent; border: none; font-size: 12px;
-    color: #1A2332; font-weight: 500; cursor: pointer; outline: none;
-    font-family: inherit;
-  }
-
-  .search-container { position: relative; }
-
-  .search-input {
-    padding: 8px 12px 8px 36px; border-radius: 8px;
-    border: 1px solid #E8E0D4; font-size: 12px; width: 200px;
-    outline: none; background-color: #F9F7F3; transition: all 0.2s;
-    font-family: inherit;
-  }
-
-  .search-input:focus {
-    border-color: #C9A96E;
-    width: 260px;
-  }
-
-  .search-icon {
-    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-    color: #888;
-  }
-
-  .icon-btn {
-    width: 36px; height: 36px; border-radius: 8px;
-    border: 1px solid #E8E0D4; background: #F9F7F3;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; position: relative;
-  }
-
-  .icon-btn .badge {
-    position: absolute; top: 6px; right: 6px;
-    width: 8px; height: 8px; border-radius: 50%;
-    background-color: #E07A5F; border: 2px solid #fff;
-  }
-
-  .avatar-btn {
-    width: 36px; height: 36px; border-radius: 8px;
-    background: linear-gradient(135deg, #C9A96E, #A88B4A);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; border: none; color: #fff; font-weight: 700;
-    font-size: 13px;
-  }
-
-  /* Dashboard */
-  .dashboard { padding: 24px 28px; }
-
-  /* Cards */
-  .card {
-    background-color: #fff;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-    border: 1px solid #E8E0D4;
-  }
-
-  .card-header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 20px;
-  }
-
-  .card-title {
-    font-size: 15px; font-weight: 700; color: #1A2332; margin: 0 0 4px 0;
-  }
-
-  .card-subtitle {
-    font-size: 12px; color: #888; margin: 0;
-  }
-
-  .card-small-title {
-    font-size: 14px; font-weight: 700; color: #1A2332; margin: 0 0 4px 0;
-  }
-
-  .card-small-subtitle {
-    font-size: 11px; color: #888; margin: 0 0 16px 0;
-  }
-
-  /* Legend */
-  .legend { display: flex; gap: 16px; }
-
-  .legend-item {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12px; color: #666;
-  }
-
-  .legend-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-  }
-
-  /* Grid layouts */
-  .grid-2 { display: grid; grid-template-columns: 1fr 280px; gap: 20px; margin-bottom: 20px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-  .grid-3-2 { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
-
-  /* KPI Card */
-  .kpi-card {
-    background-color: #fff;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-    border: 1px solid #E8E0D4;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .kpi-header {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    margin-bottom: 12px;
-  }
-
-  .kpi-icon {
-    width: 42px; height: 42px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .kpi-trend {
-    font-size: 11px; font-weight: 600;
-    padding: 3px 8px; border-radius: 6px;
-  }
-
-  .kpi-value {
-    font-size: 28px; font-weight: 800; color: #1A2332; margin: 0 0 4px 0;
-  }
-
-  .kpi-label {
-    font-size: 12px; font-weight: 600; color: #666; margin: 0 0 4px 0;
-  }
-
-  .kpi-subtitle {
-    font-size: 11px; color: #aaa; margin: 0;
-  }
-
-  /* Donut container */
-  .donut-container {
-    display: flex; flex-direction: column; align-items: center;
-  }
-
-  .donut-stats {
-    display: flex; justify-content: center; gap: 20px; margin-top: 8px;
-  }
-
-  .donut-stat { text-align: center; }
-  .donut-stat-label { font-size: 11px; color: #888; margin: 0 0 2px 0; }
-  .donut-stat-value { font-size: 18px; font-weight: 700; margin: 0; }
-
-  .donut-total {
-    margin-top: 12px; padding: 10px; background-color: #F9F7F3;
-    border-radius: 8px; text-align: center;
-  }
-
-  .donut-total-label { font-size: 10px; color: #888; margin: 0 0 2px 0; }
-  .donut-total-value { font-size: 22px; font-weight: 800; color: #1A2332; margin: 0; }
-
-  /* Pie list */
-  .pie-list { display: flex; flex-direction: column; gap: 8px; }
-
-  .pie-list-item {
-    display: flex; align-items: center; justify-content: space-between;
-  }
-
-  .pie-list-label {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px; color: #666;
-  }
-
-  .pie-list-dot {
-    width: 10px; height: 10px; border-radius: 3px;
-  }
-
-  .pie-list-value {
-    font-size: 13px; font-weight: 700; color: #1A2332;
-  }
-
-  /* Snapshot */
-  .snapshot-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-  }
-
-  .snapshot-card {
-    padding: 20px; background-color: #F9F7F3;
-    border-radius: 12px; border: 1px solid #E8E0D4;
-  }
-
-  .snapshot-card-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 12px;
-  }
-
-  .snapshot-label {
-    font-size: 10px; font-weight: 600; color: #888;
-    letter-spacing: 1px; text-transform: uppercase;
-  }
-
-  .snapshot-value {
-    font-size: 24px; font-weight: 800; margin: 0 0 4px 0;
-  }
-
-  .snapshot-desc {
-    font-size: 11px; color: #888; margin: 0;
-  }
-
-  .snapshot-icon-wrap {
-    display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
-  }
-
-  .snapshot-center {
-    display: flex; flex-direction: column; align-items: center;
-  }
-
-  /* Products list */
-  .product-item {
-    display: flex; align-items: center; padding: 12px 14px;
-    border-radius: 10px; transition: all 0.2s; cursor: pointer;
-    margin-bottom: 12px;
-  }
-
-  .product-item:hover { transform: translateX(4px); }
-
-  .product-item.first {
-    background-color: rgba(201,169,110,0.08);
-    border: 1px solid rgba(201,169,110,0.2);
-  }
-
-  .product-item.other {
-    background-color: #F9F7F3;
-    border: 1px solid transparent;
-  }
-
-  .product-rank {
-    width: 28px; height: 28px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 800; margin-right: 12px;
-  }
-
-  .product-rank.gold { background-color: #C9A96E; color: #fff; }
-  .product-rank.silver { background-color: #E8E0D4; color: #888; }
-  .product-rank.bronze { background-color: #F0EBE3; color: #888; }
-
-  .product-info { flex: 1; }
-  .product-name { font-size: 13px; font-weight: 600; color: #1A2332; margin: 0 0 2px 0; }
-  .product-units { font-size: 11px; color: #888; margin: 0; }
-  .product-right { text-align: right; }
-  .product-revenue { font-size: 13px; font-weight: 700; color: #1A2332; margin: 0 0 2px 0; }
-  .product-trend { font-size: 11px; color: #68B87A; margin: 0; font-weight: 600; }
-
-  /* Table */
-  .table-container { overflow-x: auto; }
-
-  table { width: 100%; border-collapse: collapse; }
-
-  th {
-    padding: 10px 12px; text-align: left;
-    font-size: 10px; font-weight: 600; color: #888;
-    letter-spacing: 0.5px; text-transform: uppercase;
-    border-bottom: 2px solid #E8E0D4;
-  }
-
-  td {
-    padding: 12px; font-size: 12px;
-    border-bottom: 1px solid #F0EBE3;
-  }
-
-  .order-id { font-weight: 600; color: #C9A96E; }
-  .order-customer { font-weight: 500; color: #1A2332; }
-  .order-product { color: #666; }
-  .order-date { color: #888; }
-  .order-amount { font-weight: 600; color: #1A2332; }
-
-  .status-badge {
-    padding: 4px 10px; border-radius: 6px;
-    font-size: 11px; font-weight: 600;
-  }
-
-  .status-delivered {
-    background-color: rgba(104,184,122,0.1);
-    color: #68B87A;
-  }
-
-  .status-approved {
-    background-color: rgba(201,169,110,0.1);
-    color: #C9A96E;
-  }
-
-  .status-pending {
-    background-color: rgba(244,164,96,0.1);
-    color: #F4A460;
-  }
-
-  /* Buttons */
-  .btn-secondary {
-    padding: 6px 14px; border-radius: 6px;
-    border: 1px solid #E8E0D4; background: #F9F7F3;
-    font-size: 11px; color: #666; cursor: pointer;
-    font-family: inherit;
-  }
-
-  .btn-primary {
-    padding: 6px 14px; border-radius: 6px;
-    border: none; background: #C9A96E;
-    font-size: 11px; color: #fff; cursor: pointer;
-    font-weight: 600; font-family: inherit;
-  }
-
-  .btn-outline {
-    padding: 6px 14px; border-radius: 6px;
-    border: 1px solid #C9A96E; background: transparent;
-    font-size: 11px; color: #C9A96E; cursor: pointer;
-    font-weight: 600; font-family: inherit;
-  }
-
-  .btn-group { display: flex; gap: 8px; }
-
-  /* Footer */
-  .dashboard-footer {
-    margin-top: 24px; padding: 16px 0;
-    border-top: 1px solid #E8E0D4;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-
-  .footer-text { font-size: 11px; color: #aaa; margin: 0; }
-
-  /* Chart containers */
-  .chart-wrapper { position: relative; width: 100%; }
-
-  /* Responsive */
-  @media (max-width: 1400px) {
-    .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width: 1200px) {
-    .grid-2 { grid-template-columns: 1fr; }
-    .grid-3 { grid-template-columns: 1fr; }
-    .grid-3-2 { grid-template-columns: 1fr; }
-    .snapshot-grid { grid-template-columns: repeat(2, 1fr); }
-  }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F5F0E8;color:#1A2332;}
+.dash{padding:20px;background:#F5F0E8;}
+
+/* Topbar */
+ .main-wrap{margin-left:240px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+    .topbar{height:58px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;}
+    /* .topbar-title{font-size:15px;font-weight:600;color:var(--text);}
+    .topbar-title span{color:var(--text-muted);font-weight:400;} */
+    .topbar-actions{display:flex;align-items:center;gap:10px;}
+    .topbar-btn{width:34px;height:34px;border:none;background:transparent;cursor:pointer;border-radius:8px;color:var(--text-muted);font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+    .topbar-btn:hover{background:#f0f0f0;}
+    .topbar-avatar{width:34px;height:34px;border-radius:50%;background:var(--gold);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+/* KPI tabla original */
+.kpi-table{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:20px;}
+.kpi-col{background:#fff;border-radius:12px;border:1px solid #E8E0D4;overflow:hidden;}
+.kpi-col-header{background:#B8A86A;padding:10px 16px;text-align:center;font-size:14px;font-weight:700;letter-spacing:1.5px;color:#fff;}
+.kpi-row{padding:14px 16px;text-align:center;border-bottom:1px solid #F0EBE3;}
+.kpi-row:last-child{border-bottom:none;}
+.kpi-big{font-size:24px;font-weight:700;color:#1A2332;display:block;}
+.kpi-period{font-size:13px;font-weight:600;letter-spacing:1px;color:#aaa;margin-top:3px;}
+
+/* Cards */
+.card{background:#fff;border-radius:14px;padding:18px;border:1px solid #E8E0D4;margin-bottom:16px;}
+.card-title{font-size:17px;font-weight:700;color:#1A2332;margin-bottom:2px;}
+.card-sub{font-size:14px;color:#999;margin-bottom:14px;}
+
+/* Grids */
+.g2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px;margin-bottom:16px;}
+.g2b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:12px;margin-bottom:16px;}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px;}
+
+/* Legend */
+.legend-row{display:flex;gap:14px;margin-bottom:10px;}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:14px;color:#888;}
+.leg-sq{width:9px;height:9px;border-radius:2px;}
+
+/* Top productos */
+.prod-item{display:flex;align-items:center;padding:10px 12px;border-radius:10px;margin-bottom:8px;transition:transform 0.15s;cursor:pointer;}
+.prod-item:hover{transform:translateX(3px);}
+.prod-first{background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.2);}
+.prod-other{background:#F9F7F3;border:1px solid transparent;}
+.rank{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;margin-right:10px;flex-shrink:0;}
+.rk1{background:#C9A96E;color:#fff;}
+.rk2{background:#D4C8B8;color:#666;}
+.rk3{background:#E8E4DE;color:#888;}
+.rk4,.rk5{background:#F0EDE8;color:#999;}
+.pname{font-size:15px;font-weight:600;color:#1A2332;margin-bottom:1px;}
+.punits{font-size:13px;color:#aaa;}
+.prev{font-size:15px;font-weight:700;color:#1A2332;}
+.ptrend{font-size:13px;color:#68B87A;font-weight:600;}
+
+/* Table */
+.tbl{width:100%;border-collapse:collapse;}
+.tbl th{padding:8px 10px;text-align:left;font-size:13px;font-weight:600;color:#999;letter-spacing:0.5px;border-bottom:2px solid #E8E0D4;}
+.tbl td{padding:10px;font-size:14px;border-bottom:1px solid #F0EBE3;}
+.oid{font-weight:600;color:#C9A96E;}
+.sbadge{padding:3px 8px;border-radius:5px;font-size:12px;font-weight:600;}
+.sdel{background:rgba(104,184,122,0.1);color:#3B7A4E;}
+.sappr{background:rgba(201,169,110,0.1);color:#8B6A2E;}
+.spend{background:rgba(244,164,96,0.1);color:#C97A20;}
+.sadj{background:rgba(91,141,238,0.1);color:#2E5EA8;}
+
+/* Funnel */
+.funnel-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.funnel-lbl{font-size:13px;color:#888;width:120px;flex-shrink:0;}
+.funnel-bar{height:18px;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:12px;font-weight:600;}
+
+/* Alerts */
+.alert-box{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:14px;}
+.alert-w{background:#FAEEDA;color:#633806;}
+.alert-i{background:#E6F1FB;color:#0C447C;}
+.alert-g{background:#EAF3DE;color:#27500A;}
+.alrt-dot{width:6px;height:6px;border-radius:50%;margin-top:3px;flex-shrink:0;}
+
+/* Score bars */
+.score-bar-wrap{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.score-lbl{font-size:12px;color:#666;width:90px;}
+.score-track{flex:1;height:8px;background:#F0EBE3;border-radius:4px;overflow:hidden;}
+.score-fill{height:100%;border-radius:4px;}
+.score-num{font-size:13px;font-weight:700;width:30px;text-align:right;}
+
+/* Footer */
+.dash-footer{padding:12px 0;border-top:1px solid #E8E0D4;display:flex;justify-content:space-between;align-items:center;}
+.footer-txt{font-size:13px;color:#bbb;}
+
+@media(max-width:1100px){
+  .g2,.g2b{grid-template-columns:1fr;}
+  .g3{grid-template-columns:1fr;}
+  .kpi-table{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:600px){
+  .kpi-table{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
-
-<!-- <div class="app-container"> -->
-  <div id="aside-root"></div>
-
-  <!-- Main Content -->
- <div class="main-wrap">
+<div id="aside-root"></div>
+<div class="main-wrap">
+    <!-- Topbar -->
     <header class="topbar">
-       <div class="topbar-title" id="topbarTitle"> <span>BACKOFFICE PORTAL</span></div>
-        <div class="topbar-actions">
-            <button class="topbar-btn"><i class="fas fa-bell"></i></button>
-            <button class="topbar-btn"><i class="fas fa-search"></i></button>
-            <div class="topbar-avatar">FS</div>
-        </div>
+      <div class="topbar-title" id="topbarTitle"><span>BACKOFFICE PORTAL</span></div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" title="Notifications"><i class="fas fa-bell"></i></button>
+        <button class="topbar-btn" title="Search"><i class="fas fa-search"></i></button>
+        <div class="topbar-avatar">FS</div>
+      </div>
     </header>
+<div class="dash">
 
-    <!-- Dashboard -->
-    <div class="dashboard">
 
-      <!-- Row 1: Main Chart + Donut -->
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h3 class="card-title">Orders & Brands Overview</h3>
-              <p class="card-subtitle">Monthly performance tracking</p>
-            </div>
-            <div class="legend">
-              <span class="legend-item"><span class="legend-dot" style="background:#C9A96E;"></span> Orders</span>
-              <span class="legend-item"><span class="legend-dot" style="background:#68B87A;"></span> Pre-Orders</span>
-              <span class="legend-item"><span class="legend-dot" style="background:#E07A5F;"></span> Brands</span>
-            </div>
-          </div>
-          <div class="chart-wrapper" style="height:220px;">
-            <canvas id="mainAreaChart"></canvas>
-          </div>
-        </div>
+  <!-- KPI Tabla original -->
+  <div class="kpi-table">
+    <div class="kpi-col">
+      <div class="kpi-col-header">REVENUE</div>
+      <div class="kpi-row"><span class="kpi-big">$2,500</span><span class="kpi-period">MONTH TO DAY</span></div>
+      <div class="kpi-row"><span class="kpi-big">$3,500</span><span class="kpi-period">LAST MONTH</span></div>
+      <div class="kpi-row"><span class="kpi-big">$7,500</span><span class="kpi-period">YEAR TO DATE</span></div>
+      <div class="kpi-row"><span class="kpi-big">$36,500</span><span class="kpi-period">LAST YEAR</span></div>
+    </div>
+    <div class="kpi-col">
+      <div class="kpi-col-header">PERFUMES SOLD</div>
+      <div class="kpi-row"><span class="kpi-big">30</span><span class="kpi-period">MONTH TO DAY</span></div>
+      <div class="kpi-row"><span class="kpi-big">45</span><span class="kpi-period">LAST MONTH</span></div>
+      <div class="kpi-row"><span class="kpi-big">100</span><span class="kpi-period">YEAR TO DATE</span></div>
+      <div class="kpi-row"><span class="kpi-big">550</span><span class="kpi-period">LAST YEAR</span></div>
+    </div>
+    <div class="kpi-col">
+      <div class="kpi-col-header">AFFILIATED PERFUMERY</div>
+      <div class="kpi-row"><span class="kpi-big">17</span><span class="kpi-period">MONTH TO DAY</span></div>
+      <div class="kpi-row"><span class="kpi-big">15</span><span class="kpi-period">LAST MONTH</span></div>
+      <div class="kpi-row"><span class="kpi-big">79</span><span class="kpi-period">YEAR TO DATE</span></div>
+      <div class="kpi-row"><span class="kpi-big">73</span><span class="kpi-period">LAST YEAR</span></div>
+    </div>
+    <div class="kpi-col">
+      <div class="kpi-col-header">PERFUMERY WITH SALES</div>
+      <div class="kpi-row"><span class="kpi-big">12</span><span class="kpi-period">MONTH TO DAY</span></div>
+      <div class="kpi-row"><span class="kpi-big">7</span><span class="kpi-period">LAST MONTH</span></div>
+      <div class="kpi-row"><span class="kpi-big">57</span><span class="kpi-period">YEAR TO DATE</span></div>
+      <div class="kpi-row"><span class="kpi-big">48</span><span class="kpi-period">LAST YEAR</span></div>
+    </div>
+  </div>
 
-        <div class="card donut-container">
-          <h3 class="card-small-title">Brand Status</h3>
-          <p class="card-small-subtitle">Contracted vs Non-Contracted</p>
-          <div style="width:100%;height:160px;">
-            <canvas id="brandDonutChart"></canvas>
-          </div>
-          <div class="donut-stats">
-            <div class="donut-stat">
-              <p class="donut-stat-label">Contracted</p>
-              <p class="donut-stat-value" style="color:#C9A96E;">150</p>
-            </div>
-            <div class="donut-stat">
-              <p class="donut-stat-label">No Contract</p>
-              <p class="donut-stat-value" style="color:#D4C8B8;">300</p>
-            </div>
-          </div>
-          <div class="donut-total">
-            <p class="donut-total-label">Total Brands</p>
-            <p class="donut-total-value">358</p>
-          </div>
-        </div>
+  <!-- Revenue chart + Donut -->
+  <div class="g2">
+    <div class="card">
+      <div class="card-title">Monthly revenue - last 6 months</div>
+      <div class="card-sub">Accumulated YTD trend</div>
+      <div class="legend-row">
+        <span class="leg-item"><span class="leg-sq" style="background:#C9A96E;"></span>Revenue</span>
+        <span class="leg-item"><span class="leg-sq" style="background:#68B87A;border-radius:50%;"></span>Units</span>
       </div>
-
-      <!-- Row 2: KPI Cards -->
-      <div class="grid-4">
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-icon" style="background:rgba(201,169,110,0.1);">
-              <i data-lucide="shopping-cart" style="width:20px;height:20px;color:#C9A96E;"></i>
-            </div>
-            <span class="kpi-trend" style="color:#68B87A;background:rgba(104,184,122,0.1);">+100%</span>
-          </div>
-          <p class="kpi-value">2</p>
-          <p class="kpi-label">Total Orders</p>
-          <p class="kpi-subtitle">0 in progress • 2 delivered</p>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-icon" style="background:rgba(104,184,122,0.1);">
-              <i data-lucide="package" style="width:20px;height:20px;color:#68B87A;"></i>
-            </div>
-            <span class="kpi-trend" style="color:#68B87A;background:rgba(104,184,122,0.1);">+25%</span>
-          </div>
-          <p class="kpi-value">9</p>
-          <p class="kpi-label">Pre Orders</p>
-          <p class="kpi-subtitle">2 pending • 1 approved</p>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-icon" style="background:rgba(91,141,238,0.1);">
-              <i data-lucide="users" style="width:20px;height:20px;color:#5B8DEE;"></i>
-            </div>
-            <span class="kpi-trend" style="color:#68B87A;background:rgba(104,184,122,0.1);">+33%</span>
-          </div>
-          <p class="kpi-value">4</p>
-          <p class="kpi-label">Total Users</p>
-          <p class="kpi-subtitle">3 active • 1 admin</p>
-        </div>
-
-        <div class="kpi-card">
-          <div class="kpi-header">
-            <div class="kpi-icon" style="background:rgba(224,122,95,0.1);">
-              <i data-lucide="globe" style="width:20px;height:20px;color:#E07A5F;"></i>
-            </div>
-            <span class="kpi-trend" style="color:#68B87A;background:rgba(104,184,122,0.1);">+15%</span>
-          </div>
-          <p class="kpi-value">65</p>
-          <p class="kpi-label">Geographic Reach</p>
-          <p class="kpi-subtitle">cities across 20 states</p>
-        </div>
-      </div>
-
-      <!-- Row 3: Bar Chart + Pre-Orders + Users -->
-      <div class="grid-3">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h3 class="card-small-title">Geographic Footprint</h3>
-              <p class="card-small-subtitle">Product sales by city year to date</p>
-            </div>
-            <span style="padding:4px 10px;border-radius:6px;background:rgba(201,169,110,0.1);color:#C9A96E;font-size:12px;font-weight:600;">65 Cities</span>
-          </div>
-          <div style="height:200px;">
-            <canvas id="geoBarChart"></canvas>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 class="card-small-title">Pre-Orders Status</h3>
-          <p class="card-small-subtitle">Current pipeline overview</p>
-          <div style="display:flex;align-items:center;justify-content:center;">
-            <div style="width:100%;height:140px;">
-              <canvas id="preOrderPieChart"></canvas>
-            </div>
-          </div>
-          <div class="pie-list" style="margin-top:12px;">
-            <div class="pie-list-item">
-              <span class="pie-list-label"><span class="pie-list-dot" style="background:#F4A460;"></span> Pending</span>
-              <span class="pie-list-value">2</span>
-            </div>
-            <div class="pie-list-item">
-              <span class="pie-list-label"><span class="pie-list-dot" style="background:#68B87A;"></span> Approved</span>
-              <span class="pie-list-value">1</span>
-            </div>
-            <div class="pie-list-item">
-              <span class="pie-list-label"><span class="pie-list-dot" style="background:#D4C8B8;"></span> Others</span>
-              <span class="pie-list-value">6</span>
-            </div>
-          </div>
-          <div class="donut-total" style="margin-top:16px;">
-            <p class="donut-total-label">Total Pre-Orders</p>
-            <p class="donut-total-value">9</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 class="card-small-title">Users Distribution</h3>
-          <p class="card-small-subtitle">Portal access levels</p>
-          <div style="display:flex;align-items:center;justify-content:center;">
-            <div style="width:100%;height:140px;">
-              <canvas id="userPieChart"></canvas>
-            </div>
-          </div>
-          <div class="pie-list" style="margin-top:12px;">
-            <div class="pie-list-item">
-              <span class="pie-list-label"><span class="pie-list-dot" style="background:#68B87A;"></span> Active</span>
-              <span class="pie-list-value">3</span>
-            </div>
-            <div class="pie-list-item">
-              <span class="pie-list-label"><span class="pie-list-dot" style="background:#C9A96E;"></span> Admin</span>
-              <span class="pie-list-value">1</span>
-            </div>
-            <div class="pie-list-item">
-              <span class="pie-list-label"><span class="pie-list-dot" style="background:#E07A5F;"></span> Pending</span>
-              <span class="pie-list-value">1</span>
-            </div>
-          </div>
-          <div class="donut-total" style="margin-top:16px;">
-            <p class="donut-total-label">Total Users</p>
-            <p class="donut-total-value">4</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Row 4: Executive Snapshot -->
-      <div class="card" style="margin-bottom:20px;">
-        <div class="card-header">
-          <div>
-            <h3 class="card-title">Executive Snapshot</h3>
-            <p class="card-subtitle">Performance scores & key metrics</p>
-          </div>
-          <div class="btn-group">
-            <button class="btn-secondary">Export</button>
-            <button class="btn-primary">Refresh</button>
-          </div>
-        </div>
-
-        <div class="snapshot-grid">
-          <div class="snapshot-card">
-            <div class="snapshot-icon-wrap">
-              <div class="snapshot-card-icon" style="background:rgba(201,169,110,0.15);">
-                <i data-lucide="globe" style="width:18px;height:18px;color:#C9A96E;"></i>
-              </div>
-              <span class="snapshot-label">Geographic Footprint</span>
-            </div>
-            <p class="snapshot-value" style="color:#1A2332;">65 Cities</p>
-            <p class="snapshot-desc">Product sales by city year to date</p>
-          </div>
-
-          <div class="snapshot-card">
-            <div class="snapshot-icon-wrap">
-              <div class="snapshot-card-icon" style="background:rgba(201,169,110,0.15);">
-                <i data-lucide="globe" style="width:18px;height:18px;color:#C9A96E;"></i>
-              </div>
-              <span class="snapshot-label">Geographic Footprint</span>
-            </div>
-            <p class="snapshot-value" style="color:#1A2332;">20 States</p>
-            <p class="snapshot-desc">Product sales by states year to date</p>
-          </div>
-
-          <div class="snapshot-card">
-            <div class="snapshot-icon-wrap">
-              <div class="snapshot-card-icon" style="background:rgba(201,169,110,0.15);">
-                <i data-lucide="award" style="width:18px;height:18px;color:#C9A96E;"></i>
-              </div>
-              <span class="snapshot-label">Combined Score</span>
-            </div>
-            <p class="snapshot-value" style="color:#C9A96E;">75</p>
-            <p class="snapshot-desc">Overall brand performance index</p>
-          </div>
-
-          <div class="snapshot-card">
-            <div class="snapshot-icon-wrap">
-              <div class="snapshot-card-icon" style="background:rgba(104,184,122,0.15);">
-                <i data-lucide="trending-up" style="width:18px;height:18px;color:#68B87A;"></i>
-              </div>
-              <span class="snapshot-label">Commercial Score</span>
-            </div>
-            <p class="snapshot-value" style="color:#68B87A;">80</p>
-            <p class="snapshot-desc">Revenue & sales performance</p>
-          </div>
-
-          <div class="snapshot-card">
-            <div class="snapshot-icon-wrap">
-              <div class="snapshot-card-icon" style="background:rgba(224,122,95,0.15);">
-                <i data-lucide="award" style="width:18px;height:18px;color:#E07A5F;"></i>
-              </div>
-              <span class="snapshot-label">Artistic Score</span>
-            </div>
-            <p class="snapshot-value" style="color:#E07A5F;">65</p>
-            <p class="snapshot-desc">Brand creative & presentation</p>
-          </div>
-
-          <div class="snapshot-card snapshot-center">
-            <span class="snapshot-label" style="margin-bottom:8px;">Score Breakdown</span>
-            <div style="width:100%;height:100px;">
-              <canvas id="scoreRadialChart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Row 5: Top Products + Recent Orders -->
-      <div class="grid-3-2">
-        <div class="card">
-          <h3 class="card-small-title">Best Selling Products</h3>
-          <p class="card-small-subtitle">Top products by units sold</p>
-
-          <div class="product-item first">
-            <div class="product-rank gold">1</div>
-            <div class="product-info">
-              <p class="product-name">Verdanza</p>
-              <p class="product-units">250 units sold</p>
-            </div>
-            <div class="product-right">
-              <p class="product-revenue">$12,500</p>
-              <p class="product-trend">+12%</p>
-            </div>
-          </div>
-
-          <div class="product-item other">
-            <div class="product-rank silver">2</div>
-            <div class="product-info">
-              <p class="product-name">Poderio</p>
-              <p class="product-units">180 units sold</p>
-            </div>
-            <div class="product-right">
-              <p class="product-revenue">$9,200</p>
-              <p class="product-trend">+8%</p>
-            </div>
-          </div>
-
-          <div class="product-item other">
-            <div class="product-rank bronze">3</div>
-            <div class="product-info">
-              <p class="product-name">Dos Besos</p>
-              <p class="product-units">145 units sold</p>
-            </div>
-            <div class="product-right">
-              <p class="product-revenue">$7,800</p>
-              <p class="product-trend">+5%</p>
-            </div>
-          </div>
-
-          <div class="product-item other">
-            <div class="product-rank bronze">4</div>
-            <div class="product-info">
-              <p class="product-name">Éclat</p>
-              <p class="product-units">120 units sold</p>
-            </div>
-            <div class="product-right">
-              <p class="product-revenue">$6,400</p>
-              <p class="product-trend">+15%</p>
-            </div>
-          </div>
-
-          <div class="product-item other">
-            <div class="product-rank bronze">5</div>
-            <div class="product-info">
-              <p class="product-name">Nuit Dorée</p>
-              <p class="product-units">98 units sold</p>
-            </div>
-            <div class="product-right">
-              <p class="product-revenue">$5,100</p>
-              <p class="product-trend">+3%</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h3 class="card-small-title">Recent Orders & Pre-Orders</h3>
-              <p class="card-small-subtitle">Latest transactions and pipeline</p>
-            </div>
-            <button class="btn-outline">View All</button>
-          </div>
-
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Customer</th>
-                  <th>Product</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th>Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="order-id">#ORD-001</td>
-                  <td class="order-customer">Boutique Luxe</td>
-                  <td class="order-product">Verdanza</td>
-                  <td><span class="status-badge status-delivered">Delivered</span></td>
-                  <td class="order-date">Apr 10, 2026</td>
-                  <td class="order-amount">$2,500</td>
-                </tr>
-                <tr>
-                  <td class="order-id">#ORD-002</td>
-                  <td class="order-customer">Perfume House</td>
-                  <td class="order-product">Poderio</td>
-                  <td><span class="status-badge status-delivered">Delivered</span></td>
-                  <td class="order-date">Apr 8, 2026</td>
-                  <td class="order-amount">$1,800</td>
-                </tr>
-                <tr>
-                  <td class="order-id">#PRE-001</td>
-                  <td class="order-customer">Fragrance Co</td>
-                  <td class="order-product">Dos Besos</td>
-                  <td><span class="status-badge status-pending">Pending</span></td>
-                  <td class="order-date">Apr 9, 2026</td>
-                  <td class="order-amount">$3,200</td>
-                </tr>
-                <tr>
-                  <td class="order-id">#PRE-002</td>
-                  <td class="order-customer">Scent Gallery</td>
-                  <td class="order-product">Éclat</td>
-                  <td><span class="status-badge status-approved">Approved</span></td>
-                  <td class="order-date">Apr 11, 2026</td>
-                  <td class="order-amount">$1,500</td>
-                </tr>
-                <tr>
-                  <td class="order-id">#PRE-003</td>
-                  <td class="order-customer">Aroma Shop</td>
-                  <td class="order-product">Nuit Dorée</td>
-                  <td><span class="status-badge status-pending">Pending</span></td>
-                  <td class="order-date">Apr 11, 2026</td>
-                  <td class="order-amount">$2,100</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <div class="dashboard-footer">
-        <p class="footer-text">© 2026 NICHE305 Perfumes. All rights reserved.</p>
-        <p class="footer-text">Backoffice Portal v2.4.1</p>
+      <div style="position:relative;height:180px;">
+        <canvas id="revChart"></canvas>
       </div>
     </div>
-  </main>
+    <div class="card">
+      <div class="card-title">Brand status</div>
+      <div class="card-sub">Contracted vs non-contracted</div>
+      <div style="position:relative;height:130px;">
+        <canvas id="donutChart"></canvas>
+      </div>
+      <div style="display:flex;justify-content:center;gap:20px;margin-top:10px;">
+        <div style="text-align:center;"><div style="font-size:20px;font-weight:800;color:#C9A96E;">150</div><div style="font-size:12px;color:#aaa;">Contracted</div></div>
+        <div style="text-align:center;"><div style="font-size:20px;font-weight:800;color:#D4C8B8;">208</div><div style="font-size:12px;color:#aaa;">No contract</div></div>
+        <div style="text-align:center;"><div style="font-size:20px;font-weight:800;color:#1A2332;">358</div><div style="font-size:12px;color:#aaa;">Total</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top productos + Órdenes -->
+  <div class="g2b">
+    <div class="card">
+      <div class="card-title">Top 5 products - units sold YTD</div>
+      <div class="card-sub">Ranking by volume and revenue</div>
+      <div class="prod-item prod-first">
+        <div class="rank rk1">1</div>
+        <div style="flex:1;"><div class="pname">Verdanza</div><div class="punits">250 units</div></div>
+        <div style="text-align:right;"><div class="prev">$12,500</div><div class="ptrend">+12%</div></div>
+      </div>
+      <div class="prod-item prod-other">
+        <div class="rank rk2">2</div>
+        <div style="flex:1;"><div class="pname">Poderio</div><div class="punits">180 units</div></div>
+        <div style="text-align:right;"><div class="prev">$9,200</div><div class="ptrend">+8%</div></div>
+      </div>
+      <div class="prod-item prod-other">
+        <div class="rank rk3">3</div>
+        <div style="flex:1;"><div class="pname">Dos Besos</div><div class="punits">145 units</div></div>
+        <div style="text-align:right;"><div class="prev">$7,800</div><div class="ptrend">+5%</div></div>
+      </div>
+      <div class="prod-item prod-other">
+        <div class="rank rk4">4</div>
+        <div style="flex:1;"><div class="pname">Eclat</div><div class="punits">120 units</div></div>
+        <div style="text-align:right;"><div class="prev">$6,400</div><div class="ptrend" style="color:#E07A5F;">+15%</div></div>
+      </div>
+      <div class="prod-item prod-other">
+        <div class="rank rk5">5</div>
+        <div style="flex:1;"><div class="pname">Nuit Doree</div><div class="punits">98 units</div></div>
+        <div style="text-align:right;"><div class="prev">$5,100</div><div class="ptrend">+3%</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Recent orders</div>
+      <div class="card-sub">Active pre-orders and purchase orders</div>
+      <div style="overflow-x:auto;">
+        <table class="tbl">
+          <thead>
+            <tr><th>ID</th><th>Customer</th><th>Product</th><th>Status</th><th>Total</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="oid">PO-2026-005</td><td style="font-weight:500;">Boutique Luxe</td><td style="color:#888;">Verdanza</td><td><span class="sbadge sappr">Approved</span></td><td style="font-weight:600;">$2,439</td></tr>
+            <tr><td class="oid">PO-2026-004</td><td style="font-weight:500;">Fragrance Co</td><td style="color:#888;">Poderio</td><td><span class="sbadge spend">Pending</span></td><td style="font-weight:600;">$4,127</td></tr>
+            <tr><td class="oid">PO-2026-011</td><td style="font-weight:500;">Scent Gallery</td><td style="color:#888;">Dos Besos</td><td><span class="sbadge sdel">Delivery</span></td><td style="font-weight:600;">$5,674</td></tr>
+            <tr><td class="oid">PO-2026-010</td><td style="font-weight:500;">Aroma Shop</td><td style="color:#888;">Éclat</td><td><span class="sbadge sdel">Delivery</span></td><td style="font-weight:600;">$4,500</td></tr>
+            <tr><td class="oid">PO-2026-009</td><td style="font-weight:500;">Parfums NY</td><td style="color:#888;">Nuit Dorée</td><td><span class="sbadge sadj">Adjustments</span></td><td style="font-weight:600;">$4,500</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pipeline + Alertas + Scores -->
+  <div class="g3">
+    <div class="card">
+      <div class="card-title">Pre-orders</div>
+      <div class="card-sub">Current status funnel</div>
+      <div class="funnel-row"><span class="funnel-lbl">Created (7)</span><div class="funnel-bar" style="width:100%;background:#C9A96E;color:#6B4E1A;">7 orders</div></div>
+      <div class="funnel-row"><span class="funnel-lbl">Adjusted (3)</span><div class="funnel-bar" style="width:57%;background:#D4B87A;color:#5A3E10;">3 orders</div></div>
+      <div class="funnel-row"><span class="funnel-lbl">Approved (1)</span><div class="funnel-bar" style="width:28%;background:#E8D4A8;color:#7A5C28;">1 order</div></div>
+      <div class="funnel-row"><span class="funnel-lbl">Placed (1)</span><div class="funnel-bar" style="width:14%;background:#F0E8D0;color:#8B6A3A;">1 order</div></div>
+      <div style="margin-top:14px;padding:10px;background:#F9F7F3;border-radius:8px;text-align:center;">
+        <div style="font-size:12px;color:#aaa;">Total invested in pre-orders</div>
+        <div style="font-size:20px;font-weight:800;color:#1A2332;">$25,880</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Operational alerts</div>
+      <div class="card-sub">Require attention</div>
+      <div class="alert-box alert-w"><div class="alrt-dot" style="background:#EF9F27;"></div><div><strong>Low stock</strong> - Verdanza: only 12 units in inventory</div></div>
+      <div class="alert-box alert-w"><div class="alrt-dot" style="background:#EF9F27;"></div><div><strong>Pre-order without action</strong> - PO-2026-004 pending for 32 days</div></div>
+      <div class="alert-box alert-i"><div class="alrt-dot" style="background:#378ADD;"></div><div><strong>Suppliers</strong> - 4 orders currently in Pending status</div></div>
+      <div class="alert-box alert-g"><div class="alrt-dot" style="background:#68B87A;"></div><div><strong>Commercial score</strong> - 80/100, above network average</div></div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <div class="card-title" id="topMarketsTitle">Top North America Markets</div>
+        <select id="marketRegionFilter" onchange="renderTopMarkets(this.value)" style="border:1px solid #E8E0D4;border-radius:8px;padding:6px 10px;font-size:13px;background:#fff;color:#1A2332;outline:none;">
+          <option value="north">North America</option>
+          <option value="south">South America</option>
+        </select>
+      </div>
+      <div class="card-sub">Top 1 perfume by highest sales</div>
+      <div id="topMarketsList" style="display:flex;flex-direction:column;gap:10px;margin-top:6px;"></div>
+    </div>
+  </div>
+
+  <div class="dash-footer">
+    <span class="footer-txt">© 2026 NICHE305 Perfumes. Backoffice Portal v2.4.1</span>
+    <span class="footer-txt">Member since Mar 11, 2026</span>
+  </div>
+
+</div>
+
 </div>
 
 <script>
-  // Initialize Lucide icons
-  lucide.createIcons();
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#888';
 
-  function updateDateRange() {
-    var val = document.getElementById('dateRange').value;
-    document.querySelector('.topbar-left p').textContent = 'Backoffice Portal • ' + val;
+new Chart(document.getElementById('revChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Oct','Nov','Dec','Jan','Feb','Mar'],
+    datasets: [
+      {
+        label: 'Revenue',
+        data: [28000,31000,36500,22000,18000,3500],
+        backgroundColor: ['#D4C8B0','#D4C8B0','#C9A96E','#D4C8B0','#D4C8B0','#E07A5F'],
+        borderRadius: 5,
+        yAxisID: 'y'
+      },
+      {
+        label: 'Units',
+        data: [120,145,180,95,75,30],
+        type: 'line',
+        borderColor: '#68B87A',
+        backgroundColor: 'rgba(104,184,122,0.08)',
+        fill: true,
+        tension: 0.4,
+        borderWidth: 2,
+        pointRadius: 3,
+        pointBackgroundColor: '#68B87A',
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    scales: {
+      x: { grid: { display: false }, border: { display: false } },
+      y: {
+        grid: { color: '#F0EBE3' },
+        border: { display: false },
+        ticks: { callback: v => '$' + Math.round(v / 1000) + 'k' }
+      },
+      y1: {
+        position: 'right',
+        grid: { display: false },
+        border: { display: false },
+        ticks: { callback: v => v + 'u' }
+      }
+    },
+    plugins: { legend: { display: false } }
   }
+});
 
-  // Chart.js defaults
-  Chart.defaults.font.family = "'Inter', sans-serif";
-  Chart.defaults.font.size = 11;
-  Chart.defaults.color = '#888';
-  Chart.defaults.plugins.tooltip.backgroundColor = '#1A2332';
-  Chart.defaults.plugins.tooltip.titleColor = '#C9A96E';
-  Chart.defaults.plugins.tooltip.bodyColor = '#fff';
-  Chart.defaults.plugins.tooltip.cornerRadius = 8;
-  Chart.defaults.plugins.tooltip.padding = 12;
-  Chart.defaults.plugins.tooltip.titleFont = { size: 12, weight: '600' };
-  Chart.defaults.plugins.tooltip.bodyFont = { size: 12 };
+new Chart(document.getElementById('donutChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Contracted', 'No contract'],
+    datasets: [{ data: [150, 208], backgroundColor: ['#C9A96E','#E8E0D4'], borderWidth: 0, hoverOffset: 6 }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { display: false } } }
+});
 
-  // 1. Main Area Chart
-  new Chart(document.getElementById('mainAreaChart'), {
-    type: 'line',
-    data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-      datasets: [
-        {
-          label: 'Orders',
-          data: [1,2,1,3,2,4,2,5,3,6,4,2],
-          borderColor: '#C9A96E',
-          backgroundColor: 'rgba(201,169,110,0.15)',
-          fill: true,
-          tension: 0.4,
-          borderWidth: 2,
-          pointRadius: 0,
-          pointHoverRadius: 5
-        },
-        {
-          label: 'Pre-Orders',
-          data: [3,5,4,6,7,8,7,7,6,8,9,9],
-          borderColor: '#68B87A',
-          backgroundColor: 'rgba(104,184,122,0.1)',
-          fill: true,
-          tension: 0.4,
-          borderWidth: 2,
-          pointRadius: 0,
-          pointHoverRadius: 5
-        },
-        {
-          label: 'Brands',
-          data: [45,62,78,95,120,145,168,192,215,248,290,358],
-          borderColor: '#E07A5F',
-          backgroundColor: 'rgba(224,122,95,0.1)',
-          fill: true,
-          tension: 0.4,
-          borderWidth: 2,
-          pointRadius: 0,
-          pointHoverRadius: 5,
-          yAxisID: 'y1'
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      scales: {
-        x: {
-          grid: { display: false },
-          border: { display: false },
-          ticks: { font: { size: 10 } }
-        },
-        y: {
-          grid: { color: '#F0EBE3', drawBorder: false },
-          border: { display: false },
-          ticks: { font: { size: 10 } }
-        },
-        y1: {
-          position: 'right',
-          grid: { display: false },
-          border: { display: false },
-          ticks: { font: { size: 10 } }
-        }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            title: function(items) { return items[0].label; }
-          }
-        }
-      }
-    }
-  });
+var topMarketsData = {
+  north: {
+    title: 'Top North America Markets',
+    items: [
+      { country: 'United States', perfume: 'Verdanza', units: 2140, color: '#C9A96E' },
+      { country: 'Canada', perfume: 'Poderio', units: 1320, color: '#68B87A' },
+      { country: 'Mexico', perfume: 'Dos Besos', units: 980, color: '#E07A5F' }
+    ]
+  },
+  south: {
+    title: 'Top South America Markets',
+    items: [
+      { country: 'Brazil', perfume: 'Nuit Doree', units: 1710, color: '#C9A96E' },
+      { country: 'Argentina', perfume: 'Eclat', units: 1240, color: '#68B87A' },
+      { country: 'Colombia', perfume: 'Verdanza', units: 1105, color: '#E07A5F' }
+    ]
+  }
+};
 
-  // 2. Brand Donut Chart
-  new Chart(document.getElementById('brandDonutChart'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Contracted', 'No Contracted'],
-      datasets: [{
-        data: [150, 300],
-        backgroundColor: ['#C9A96E', '#E8E0D4'],
-        borderWidth: 0,
-        hoverOffset: 8
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: '65%',
-      plugins: {
-        legend: { display: false }
-      }
-    }
-  });
+function renderTopMarkets(region) {
+  var key = topMarketsData[region] ? region : 'north';
+  var titleEl = document.getElementById('topMarketsTitle');
+  var listEl = document.getElementById('topMarketsList');
+  if (!titleEl || !listEl) return;
 
-  // 3. Geographic Bar Chart
-  new Chart(document.getElementById('geoBarChart'), {
-    type: 'bar',
-    data: {
-      labels: ['NY','CA','TX','FL','IL','PA','OH','GA','NC','WA','AZ','CO','OR','NV','MA','VA','MI','MN','WI','MD'],
-      datasets: [{
-        label: 'Cities',
-        data: [12,8,7,6,5,4,4,5,4,5,3,3,2,1,3,2,2,2,1,2],
-        backgroundColor: '#C9A96E',
-        borderRadius: 4,
-        barPercentage: 0.7
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: {
-          grid: { display: false },
-          border: { display: false },
-          ticks: { font: { size: 9 } }
-        },
-        y: {
-          grid: { color: '#F0EBE3', drawBorder: false },
-          border: { display: false },
-          ticks: { font: { size: 10 } }
-        }
-      },
-      plugins: {
-        legend: { display: false }
-      }
-    }
-  });
+  titleEl.textContent = topMarketsData[key].title;
+  listEl.innerHTML = topMarketsData[key].items.map(function(it) {
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid #F0EBE3;border-radius:9px;background:#FAF9F7;">'
+      + '<div>'
+      + '<div style="font-size:13px;color:#888;">' + it.country + '</div>'
+      + '<div style="font-size:15px;font-weight:700;color:#1A2332;">' + it.perfume + '</div>'
+      + '</div>'
+      + '<div style="text-align:right;">'
+      + '<div style="font-size:12px;color:#888;">Units Sold</div>'
+      + '<div style="font-size:16px;font-weight:800;color:' + it.color + ';">' + it.units.toLocaleString() + '</div>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
 
-  // 4. Pre-Orders Pie Chart
-  new Chart(document.getElementById('preOrderPieChart'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Pending', 'Approved', 'Others'],
-      datasets: [{
-        data: [2, 1, 6],
-        backgroundColor: ['#F4A460', '#68B87A', '#D4C8B8'],
-        borderWidth: 0,
-        hoverOffset: 6
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: '65%',
-      plugins: {
-        legend: { display: false }
-      }
-    }
-  });
-
-  // 5. Users Pie Chart
-  new Chart(document.getElementById('userPieChart'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Active', 'Admin', 'Pending'],
-      datasets: [{
-        data: [3, 1, 1],
-        backgroundColor: ['#68B87A', '#C9A96E', '#E07A5F'],
-        borderWidth: 0,
-        hoverOffset: 6
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: '65%',
-      plugins: {
-        legend: { display: false }
-      }
-    }
-  });
-
-  // 6. Score Radial Chart (horizontal bar)
-  new Chart(document.getElementById('scoreRadialChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Combined', 'Commercial', 'Artistic'],
-      datasets: [{
-        data: [75, 80, 65],
-        backgroundColor: ['#C9A96E', '#68B87A', '#E07A5F'],
-        borderRadius: 4,
-        barThickness: 16
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: {
-          max: 100,
-          grid: { color: '#F0EBE3', drawBorder: false },
-          border: { display: false },
-          ticks: { font: { size: 9 }, stepSize: 25 }
-        },
-        y: {
-          grid: { display: false },
-          border: { display: false },
-          ticks: { font: { size: 10 } }
-        }
-      },
-      plugins: {
-        legend: { display: false }
-      }
-    }
-  });
+renderTopMarkets('north');
 </script>
 <script src="./js/aside.js"></script>
-
 </body>
 </html>
-

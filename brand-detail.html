@@ -993,6 +993,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 .modal-header h3 i{color:var(--gold);}
 .modal-close{border:none;background:rgba(255,255,255,.12);color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
 .modal-close:hover{background:rgba(255,255,255,.25);}
+#orderModal .modal-header{background:var(--gold);}
+#orderModal .modal-header h3 i{color:#fff;}
 
 .modal-body{padding:24px;overflow-y:auto;max-height:80vh;display:flex;flex-direction:column;gap:24px;}
 
@@ -1020,6 +1022,16 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#F8F6F0;color:#1E222
 #po_productGrid tbody tr:hover{background:#faf5e4;}
 #po_productGrid tbody td{padding:7px 10px;vertical-align:middle;border-right:1px solid #f0ede8;}
 #po_productGrid tbody td:last-child{border-right:none;}
+#productGrid{display:block;max-height:440px;overflow:auto;padding:0;}
+#productGrid table{width:100%;border-collapse:collapse;font-size:12px;}
+#productGrid thead{position:sticky;top:0;z-index:2;}
+#productGrid thead th{background:#2d3039;color:#fff;padding:8px 10px;white-space:nowrap;font-size:11px;font-weight:700;letter-spacing:.03em;border-right:1px solid rgba(255,255,255,.1);}
+#productGrid thead th:last-child{border-right:none;}
+#productGrid tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
+#productGrid tbody tr:nth-child(even){background:#fafaf8;}
+#productGrid tbody tr:hover{background:#faf5e4;}
+#productGrid tbody td{padding:7px 10px;vertical-align:middle;border-right:1px solid #f0ede8;}
+#productGrid tbody td:last-child{border-right:none;}
 .po-qty-btn{width:26px;height:26px;border:1px solid var(--border);border-radius:50%;background:#fff;cursor:pointer;font-size:15px;line-height:1;display:inline-flex;align-items:center;justify-content:center;}
 .po-qty-btn:hover{background:var(--gold-light);border-color:var(--gold);}
 .po-qty-input{width:44px;text-align:center;border:1px solid var(--border);border-radius:6px;padding:3px;font-size:13px;font-weight:600;outline:none;}
@@ -2584,9 +2596,9 @@ function downloadProduct(id) {
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
         <button class="om-btn" onclick="exportExcel()"><i class="fas fa-file-excel"></i> Export Excel</button>
         <button class="om-btn" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Export PDF</button>
-        <!-- <button class="om-btn om-btn-gold" onclick="openNewOrder()">
-          <i class="fas fa-plus"></i> New Order
-        </button> -->
+        <button class="om-btn om-btn-gold" onclick="openNewOrder()">
+          <i class="fas fa-plus"></i> New Purchase Order
+        </button>
       </div>
     </div>
 
@@ -2689,10 +2701,10 @@ function downloadProduct(id) {
 
 
     <div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
-  <div class="modal-box" onclick="event.stopPropagation()">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:1200px;">
     <div class="modal-header">
       <h3><i class="fas fa-shopping-cart"></i> <span id="modalTitle">New Purchase Order</span></h3>
-      <button class="modal-close" onclick="closeOrderModal()">x</button>
+      <button class="modal-close" onclick="closeOrderModal()">✕</button>
     </div>
     <div class="modal-body">
 
@@ -2780,14 +2792,11 @@ function downloadProduct(id) {
         <div style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
           <div class="search-box" style="min-width:200px;">
             <i class="fas fa-search"></i>
-            <input type="text" id="prodSearch" placeholder="Search products..." oninput="filterProducts()">
+            <input type="text" id="prodSearch" placeholder="Search products..." oninput="buildProductGrid()">
           </div>
-          <select class="form-select" id="prodCollFilter" style="max-width:180px;" onchange="filterProducts()">
-            <option value="">All Collections</option>
-          </select>
           <span style="font-size:12px;color:var(--text-muted);" id="selectedCount">0 selected</span>
         </div>
-        <div class="product-grid" id="productGrid"></div>
+        <div id="productGrid" style="overflow-x:auto;"></div>
       </div>
 
       <!-- SELECTED ITEMS -->
@@ -3123,6 +3132,7 @@ var editingOrderId = null;
 
 // Product selection in modal
 var selectedProducts = {}; // { sku: qty }
+var om_sortCol = null, om_sortDir = 1;
 
 /* Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
    HELPERS
@@ -3324,52 +3334,104 @@ function applyCustomRange(){
  */
 function buildProductGrid(){
   var catalog=BRAND_CATALOG[currentBrand]||[];
-  var q=document.getElementById('prodSearch').value.toLowerCase();
-  var collF=document.getElementById('prodCollFilter').value;
-
-  // Populate collection filter
-  var colls=[...new Set(catalog.map(function(p){return p.collection;}))].sort();
-  var collSel=document.getElementById('prodCollFilter');
-  collSel.innerHTML='<option value="">All Collections</option>';
-  colls.forEach(function(c){
-    var o=document.createElement('option');o.value=c;o.textContent=c;
-    if(c===collF)o.selected=true;
-    collSel.appendChild(o);
-  });
+  var q=(document.getElementById('prodSearch')||{value:''}).value.toLowerCase();
+  var grid=document.getElementById('productGrid');
+  if(!grid) return;
 
   var filtered=catalog.filter(function(p){
-    return (!q||p.name.toLowerCase().includes(q)||p.sku.toLowerCase().includes(q))&&
-           (!collF||p.collection===collF);
+    return !q||p.name.toLowerCase().includes(q)||p.sku.toLowerCase().includes(q)||(p.collection||'').toLowerCase().includes(q);
   });
 
-  var grid=document.getElementById('productGrid');
-  grid.innerHTML=filtered.map(function(p){
-    var sel=!!selectedProducts[p.sku];
-    return '<div class="prod-card'+(sel?' selected':'')+'" onclick="toggleProduct(\''+p.sku+'\',this)" data-sku="'+p.sku+'">'
-      +'<div class="prod-card-check"><i class="fas fa-check"></i></div>'
-      +(p.image?'<img src="'+p.image+'" onerror="this.outerHTML=\'<div class=prod-card-img-ph><i class=fas fa-spray-can></i></div>\'">'
-               :'<div class="prod-card-img-ph"><i class="fas fa-spray-can"></i></div>')
-      +'<div class="prod-card-name">'+p.name+'</div>'
-      +'<div class="prod-card-sku">'+p.sku+'</div>'
-      +'<div class="prod-card-price">'+fmt(p.price)+'</div>'
-      +'<div class="prod-card-coll">'+p.collection+'</div>'
-      +'</div>';
+  if(om_sortCol){
+    filtered.sort(function(a,b){
+      var av=a[om_sortCol], bv=b[om_sortCol];
+      if(av===undefined||av===null) av=''; if(bv===undefined||bv===null) bv='';
+      if(typeof av==='number'&&typeof bv==='number') return (av-bv)*om_sortDir;
+      return String(av).localeCompare(String(bv))*om_sortDir;
+    });
+  }
+
+  var cols=[
+    {key:'image',            label:'',                       sortable:false, align:'center'},
+    {key:'name',             label:'Perfume',                sortable:true,  align:'left'},
+    {key:'collection',       label:'Collection',             sortable:true,  align:'left'},
+    {key:'size',             label:'Size',                   sortable:false, align:'center'},
+    {key:'stock',            label:'Actual Stock',           sortable:true,  align:'center'},
+    {key:'price',            label:'Wholesale price',        sortable:true,  align:'right'},
+    {key:'coefficient',      label:'Coefficient',            sortable:true,  align:'center'},
+    {key:'msrp',             label:'MSRP',                   sortable:true,  align:'right'},
+    {key:'ordenesPasadas',   label:'Number of past orders',  sortable:true,  align:'center'},
+    {key:'avgSold3M',        label:'Avg Sold 3M Q',          sortable:true,  align:'center'},
+    {key:'soldCurrentMonth', label:'Sold Current Month',     sortable:true,  align:'center'},
+    {key:'qty',              label:'Order Quantity',         sortable:false, align:'center'},
+  ];
+
+  var headerHtml='<tr>'+cols.map(function(col){
+    var arrow='';
+    if(col.sortable){
+      if(om_sortCol===col.key) arrow='&nbsp;'+(om_sortDir===1?'&#8593;':'&#8595;');
+      else arrow='&nbsp;<span style="opacity:.3;font-size:9px;">&#8597;</span>';
+    }
+    var click=col.sortable?'onclick="om_sortProdGrid(\''+col.key+'\')" style="cursor:pointer;"':'';
+    return '<th '+click+'>'+col.label+arrow+'</th>';
+  }).join('')+'</tr>';
+
+  var rowsHtml=filtered.map(function(p){
+    var qty=selectedProducts[p.sku]||0;
+    var rowBg=qty>0?'background:#fffbef;':'';
+    return '<tr style="'+rowBg+'">'
+      +'<td style="text-align:center;">'+(p.image?'<img src="'+p.image+'" style="width:34px;height:44px;object-fit:contain;" onerror="this.style.display=\'none\'">':'—')+'</td>'
+      +'<td style="font-weight:600;">'+p.name+'</td>'
+      +'<td>'+(p.collection||'—')+'</td>'
+      +'<td style="text-align:center;">'+(p.size||'100 ml')+'</td>'
+      +'<td style="text-align:center;font-weight:700;">'+(p.stock!==undefined?p.stock:'—')+'</td>'
+      +'<td style="text-align:right;">'+fmt(p.price)+'</td>'
+      +'<td style="text-align:center;">'+(p.coefficient!==undefined?p.coefficient:'—')+'</td>'
+      +'<td style="text-align:right;">'+(p.msrp!==undefined?fmt(p.msrp):'—')+'</td>'
+      +'<td style="text-align:center;">'+(p.ordenesPasadas!==undefined?p.ordenesPasadas:'—')+'</td>'
+      +'<td style="text-align:center;">'+(p.avgSold3M!==undefined?p.avgSold3M:'—')+'</td>'
+      +'<td style="text-align:center;font-weight:700;">'+(p.soldCurrentMonth!==undefined?p.soldCurrentMonth:'—')+'</td>'
+      +'<td style="text-align:center;">'
+        +'<div style="display:flex;align-items:center;justify-content:center;gap:4px;">'
+          +'<button class="po-qty-btn" onclick="om_decQty(\''+p.sku+'\')">-</button>'
+          +'<input type="number" class="po-qty-input" min="0" value="'+qty+'" onchange="om_setQtyDirect(\''+p.sku+'\',this.value)">'
+          +'<button class="po-qty-btn" onclick="om_incQty(\''+p.sku+'\')">+</button>'
+        +'</div>'
+      +'</td>'
+    +'</tr>';
   }).join('');
 
-  document.getElementById('selectedCount').textContent=Object.keys(selectedProducts).length+' selected';
+  if(!rowsHtml) rowsHtml='<tr><td colspan="12" style="text-align:center;padding:30px;color:var(--text-muted);">No products found.</td></tr>';
+
+  grid.innerHTML='<table><thead>'+headerHtml+'</thead><tbody>'+rowsHtml+'</tbody></table>';
+  var sc=document.getElementById('selectedCount');
+  if(sc) sc.textContent=Object.keys(selectedProducts).length+' selected';
+}
+
+function om_sortProdGrid(col){
+  if(om_sortCol===col) om_sortDir=-om_sortDir;
+  else { om_sortCol=col; om_sortDir=1; }
+  buildProductGrid();
+}
+
+function om_decQty(sku){
+  var q=(selectedProducts[sku]||0)-1;
+  if(q<=0) delete selectedProducts[sku]; else selectedProducts[sku]=q;
+  buildProductGrid(); buildSelectionSummary();
+}
+
+function om_incQty(sku){
+  selectedProducts[sku]=(selectedProducts[sku]||0)+1;
+  buildProductGrid(); buildSelectionSummary();
+}
+
+function om_setQtyDirect(sku,val){
+  var q=parseInt(val)||0;
+  if(q<=0) delete selectedProducts[sku]; else selectedProducts[sku]=q;
+  buildProductGrid(); buildSelectionSummary();
 }
 
 function filterProducts(){buildProductGrid();}
-
-function toggleProduct(sku){
-  if(selectedProducts[sku]){
-    delete selectedProducts[sku];
-  } else {
-    selectedProducts[sku]=1;
-  }
-  buildProductGrid();
-  buildSelectionSummary();
-}
 
 function buildSelectionSummary(){
   var catalog=BRAND_CATALOG[currentBrand]||[];
@@ -3413,13 +3475,13 @@ function changeQty(sku,delta){
   var q=(selectedProducts[sku]||1)+delta;
   if(q<1)q=1;
   selectedProducts[sku]=q;
-  buildSelectionSummary();
+  buildProductGrid(); buildSelectionSummary();
 }
 function setQty(sku,val){
   var q=parseInt(val)||1;
   if(q<1)q=1;
   selectedProducts[sku]=q;
-  buildSelectionSummary();
+  buildProductGrid(); buildSelectionSummary();
 }
 function removeProduct(sku){
   delete selectedProducts[sku];
@@ -3433,6 +3495,7 @@ function removeProduct(sku){
 function openNewOrder(){
   editingOrderId=null;
   selectedProducts={};
+  om_sortCol=null; om_sortDir=1;
   clearOrderForm();
   document.getElementById('modalTitle').textContent='New Purchase Order';
   document.getElementById('fOrderNum').value=genOrderNum();
@@ -9183,74 +9246,6 @@ window.changePricingPerfChartType = changePerfChartType;
 
 </div>
 </main>
-</div>
-
-<!-- NEW / EDIT ORDER MODAL -->
-<div class="modal-overlay" id="orderModal" onclick="closeOrderModal(event)">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <h3><i class="fas fa-shopping-cart"></i> <span id="modalTitle">New Purchase Order</span></h3>
-      <button class="modal-close" onclick="closeOrderModal()">âœ•</button>
-    </div>
-    <div class="modal-body">
-      <div>
-  <div class="msec-title"><i class="fas fa-info-circle"></i> Order Information</div>
-  <div class="form-grid-3">
-    <div class="form-group">
-      <label class="form-label">Order # <span class="req">*</span></label>
-      <input type="text" class="form-input" id="fOrderNum" placeholder="e.g. PO-2026-001">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Order Date <span class="req">*</span></label>
-      <input type="date" class="form-input" id="fOrderDate">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Brand <span class="req">*</span></label>
-      <select class="form-select" id="fBrand" onchange="onModalBrandChange()">
-        <option value="">â€” Select Brand â€”</option>
-      </select>
-    </div>
-  </div>
-</div>
-
-      <div>
-        <div class="msec-title"><i class="fas fa-th"></i> Select Products</div>
-        <div style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <div class="search-box" style="min-width:200px;">
-            <i class="fas fa-search"></i>
-            <input type="text" id="prodSearch" placeholder="Search products..." oninput="filterProducts()">
-          </div>
-          <select class="form-select" id="prodCollFilter" style="max-width:180px;" onchange="filterProducts()">
-            <option value="">All Collections</option>
-          </select>
-          <span style="font-size:12px;color:var(--text-muted);" id="selectedCount">0 selected</span>
-        </div>
-        <div class="product-grid" id="productGrid"></div>
-      </div>
-
-      <div id="selItemsSection" style="display:none;">
-        <div class="msec-title"><i class="fas fa-list"></i> Order Summary</div>
-        <div class="selected-items" id="selItemsList"></div>
-        <div class="order-total-row" style="margin-top:12px;">
-          <span class="order-total-label">Order Total:</span>
-          <span class="order-total-val" id="orderTotalVal">$0.00</span>
-        </div>
-      </div>
-
-      <div>
-        <div class="msec-title"><i class="fas fa-sticky-note"></i> Notes & Special Instructions</div>
-        <div class="form-group">
-          <textarea class="form-textarea" id="fNotes" placeholder="Special packaging instructions, delivery notes..."></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeOrderModal()">Cancel</button>
-      <button class="btn-submit" onclick="submitOrder()">
-        <i class="fas fa-paper-plane"></i> Place Order
-      </button>
-    </div>
-  </div>
 </div>
 
 <!-- VIEW ORDER MODAL -->

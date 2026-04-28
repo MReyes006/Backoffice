@@ -8969,12 +8969,157 @@ window.changePricingPerfChartType = changePerfChartType;
       </script>
 
       <div class="pricing-inner-panel" data-panel="price-compliance" style="display:none;padding:16px;border:1px dashed var(--border);border-radius:10px;background:#fafafa;color:var(--text);font-size:14px;">
-        <div class="table-card">
-          Price Complice
+        <div class="table-wrapper">
+          <table class="price-compliance-table responsive-table">
+            <thead>
+              <tr style="background:var(--gold);color:#fff;border-bottom:2px solid var(--border);">
+                <th style="padding:12px;text-align:left;font-weight:600;width:40%;cursor:pointer;" onclick="toggleStoreRows(this)">
+                  <i class="fas fa-chevron-down" style="margin-right:8px;"></i> Store
+                </th>
+                <th style="padding:12px;text-align:center;font-weight:600;width:20%;">MSRP</th>
+                <th style="padding:12px;text-align:center;font-weight:600;width:20%;">Store Price</th>
+                <th style="padding:12px;text-align:center;font-weight:600;width:20%;">Diff</th>
+              </tr>
+            </thead>
+            <tbody id="priceComplianceBody">
+              <!-- Store Row 1 -->
+              <tr class="store-row" data-store="store-one" style="background:#fff;border-bottom:1px solid var(--border);">
+                <td style="padding:12px;font-weight:600;cursor:pointer;" onclick="toggleStore(this)">
+                  <i class="fas fa-chevron-right store-arrow" style="margin-right:8px;color:var(--gold);"></i> Store One
+                </td>
+                <td colspan="3" style="padding:0;"></td>
+              </tr>
+              <tr class="product-row product-row-store-one" style="display:none;background:#fafafa;border-bottom:1px solid #e8e8e8;">
+                <td style="padding:12px 12px 12px 50px;">Product A</td>
+                <td style="padding:12px;text-align:center;">10</td>
+                <td style="padding:12px;text-align:center;">11</td>
+                <td style="padding:12px;text-align:center;color:#d9534f;">1</td>
+              </tr>
+              <tr class="product-row product-row-store-one" style="display:none;background:#fafafa;border-bottom:1px solid #e8e8e8;">
+                <td style="padding:12px 12px 12px 50px;">Product B</td>
+                <td style="padding:12px;text-align:center;">9</td>
+                <td style="padding:12px;text-align:center;">12</td>
+                <td style="padding:12px;text-align:center;color:#d9534f;">3</td>
+              </tr>
+              <tr class="product-row product-row-store-one" style="display:none;background:#fafafa;border-bottom:1px solid #e8e8e8;">
+                <td style="padding:12px 12px 12px 50px;">Product C</td>
+                <td style="padding:12px;text-align:center;">7</td>
+                <td style="padding:12px;text-align:center;">6</td>
+                <td style="padding:12px;text-align:center;color:#5cb85c;">-1</td>
+              </tr>
+
+              <!-- Store Row 2 -->
+              <tr class="store-row" data-store="store-two" style="background:#fff;border-bottom:1px solid var(--border);">
+                <td style="padding:12px;font-weight:600;cursor:pointer;" onclick="toggleStore(this)">
+                  <i class="fas fa-chevron-right store-arrow" style="margin-right:8px;color:var(--gold);"></i> Store Two
+                </td>
+                <td colspan="3" style="padding:0;"></td>
+              </tr>
+              <tr class="product-row product-row-store-two" style="display:none;background:#fafafa;border-bottom:1px solid #e8e8e8;">
+                <td style="padding:12px 12px 12px 50px;">Product A</td>
+                <td style="padding:12px;text-align:center;">10</td>
+                <td style="padding:12px;text-align:center;">10</td>
+                <td style="padding:12px;text-align:center;color:#5cb85c;">0</td>
+              </tr>
+              <tr class="product-row product-row-store-two" style="display:none;background:#fafafa;border-bottom:1px solid #e8e8e8;">
+                <td style="padding:12px 12px 12px 50px;">Product B</td>
+                <td style="padding:12px;text-align:center;">9</td>
+                <td style="padding:12px;text-align:center;">8</td>
+                <td style="padding:12px;text-align:center;color:#5cb85c;">-1</td>
+              </tr>
+
+              <!-- Store Row 3 -->
+              <tr class="store-row" data-store="store-three" style="background:#fff;border-bottom:1px solid var(--border);">
+                <td style="padding:12px;font-weight:600;cursor:pointer;" onclick="toggleStore(this)">
+                  <i class="fas fa-chevron-right store-arrow" style="margin-right:8px;color:var(--gold);"></i> Store Three
+                </td>
+                <td colspan="3" style="padding:0;"></td>
+              </tr>
+              <tr class="product-row product-row-store-three" style="display:none;background:#fafafa;border-bottom:1px solid #e8e8e8;">
+                <td style="padding:12px 12px 12px 50px;">Product X</td>
+                <td style="padding:12px;text-align:center;">15</td>
+                <td style="padding:12px;text-align:center;">14</td>
+                <td style="padding:12px;text-align:center;color:#5cb85c;">-1</td>
+              </tr>
+              <tr class="product-row product-row-store-three" style="display:none;background:#fafafa;border-bottom:1px solid #e8e8e8;">
+                <td style="padding:12px 12px 12px 50px;">Product Y</td>
+                <td style="padding:12px;text-align:center;">20</td>
+                <td style="padding:12px;text-align:center;">22</td>
+                <td style="padding:12px;text-align:center;color:#d9534f;">2</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <style>
+          .price-compliance-table tr:hover {
+            background-color: #f9f9f9 !important;
+          }
+          .product-row:hover {
+            background-color: #f0f0f0 !important;
+          }
+        </style>
       </div>
 
       <script>
+      // Price Compliance Table Functions
+      function toggleStore(clickElement) {
+        var storeRow = clickElement.closest('.store-row');
+        if (!storeRow) return;
+        
+        var storeId = storeRow.getAttribute('data-store');
+        var arrow = clickElement.querySelector('.store-arrow');
+        var productRows = document.querySelectorAll('.product-row-' + storeId);
+        
+        var isOpen = arrow.classList.contains('fa-chevron-down');
+        
+        if (isOpen) {
+          arrow.classList.remove('fa-chevron-down');
+          arrow.classList.add('fa-chevron-right');
+          productRows.forEach(function(row) {
+            row.style.display = 'none';
+          });
+        } else {
+          arrow.classList.remove('fa-chevron-right');
+          arrow.classList.add('fa-chevron-down');
+          productRows.forEach(function(row) {
+            row.style.display = 'table-row';
+          });
+        }
+      }
+      
+      function toggleStoreRows(headerElement) {
+        var table = headerElement.closest('.price-compliance-table');
+        if (!table) return;
+        
+        var allArrows = table.querySelectorAll('.store-arrow');
+        var allProductRows = table.querySelectorAll('.product-row');
+        
+        // Check if all are open
+        var allOpen = Array.from(allArrows).every(function(arrow) {
+          return arrow.classList.contains('fa-chevron-down');
+        });
+        
+        if (allOpen) {
+          // Close all
+          allArrows.forEach(function(arrow) {
+            arrow.classList.remove('fa-chevron-down');
+            arrow.classList.add('fa-chevron-right');
+          });
+          allProductRows.forEach(function(row) {
+            row.style.display = 'none';
+          });
+        } else {
+          // Open all
+          allArrows.forEach(function(arrow) {
+            arrow.classList.remove('fa-chevron-right');
+            arrow.classList.add('fa-chevron-down');
+          });
+          allProductRows.forEach(function(row) {
+            row.style.display = 'table-row';
+          });
+        }
+      }
+
       function switchPricingInnerTab(tabName) {
         var root = document.getElementById('pricing');
         if (!root) return;
